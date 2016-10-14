@@ -4,13 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TalentShow;
+using TalentShow.Repos;
+using TalentShowDataStorage;
 
 namespace TalentShowConsoleUI
 {
     class Program
     {
+        //This is just for testing and playing around with ideas
         static void Main(string[] args)
         {
+            //Judge Repo
+            IJudgeRepo judgeRepo = new JudgeRepo();
+
             //Talent Show
             var show = new Show("Talent Show");
 
@@ -32,6 +38,9 @@ namespace TalentShowConsoleUI
             //Dance Judges
             var bobJudge = new Judge(new PersonName("Bob", "Hill"), "LMNOP");
             var billJudge = new Judge(new PersonName("Billy", "Bob"), "EFG");
+
+            judgeRepo.Add(bobJudge);
+            judgeRepo.Add(billJudge);
 
             danceContest.Judges.Add(bobJudge);
             danceContest.Judges.Add(billJudge);
@@ -61,6 +70,9 @@ namespace TalentShowConsoleUI
 
             vocalContest.Judges.Add(tomJudge);
             vocalContest.Judges.Add(timJudge);
+
+            judgeRepo.Add(tomJudge);
+            judgeRepo.Add(timJudge);
 
             vocalContest.ScoreCriteria.Add(new ScoreCriterion("Sang on pitch.", new ScoreRange(0, 10)));
 
@@ -108,6 +120,13 @@ namespace TalentShowConsoleUI
                         }
                     }
                 }
+            }
+
+            Console.WriteLine();
+
+            foreach (Judge judge in judgeRepo.GetAll())
+            {
+                Console.WriteLine(judge.Name.ToString());
             }
 
             Console.ReadLine();

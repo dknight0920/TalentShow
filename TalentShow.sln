@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentShow.Tests", "TalentS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentShowConsoleUI", "TalentShowConsoleUI\TalentShowConsoleUI.csproj", "{55B94BE3-21C8-4F37-A570-844B21E47F04}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentShowDataStorage", "TalentShowDataStorage\TalentShowDataStorage.csproj", "{4293FDBE-9698-4569-B515-9D2E639D9565}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{55B94BE3-21C8-4F37-A570-844B21E47F04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55B94BE3-21C8-4F37-A570-844B21E47F04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55B94BE3-21C8-4F37-A570-844B21E47F04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4293FDBE-9698-4569-B515-9D2E639D9565}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4293FDBE-9698-4569-B515-9D2E639D9565}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4293FDBE-9698-4569-B515-9D2E639D9565}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4293FDBE-9698-4569-B515-9D2E639D9565}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -12,5 +12,23 @@ namespace TalentShow.Helpers
         {
             return collection == null || !collection.Any();
         }
+
+        public static string GetCommaDelimitedListOfString(this ICollection<string> stringValues)
+        {
+            bool firstTime = true;
+            string result = "";
+
+            foreach (var value in stringValues)
+            {
+                if (!firstTime)
+                    result += ",";
+
+                result += value;
+
+                firstTime = false;
+            }
+
+            return result;
+        }
     }
 }
