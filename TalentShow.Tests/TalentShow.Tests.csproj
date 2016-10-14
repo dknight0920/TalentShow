@@ -57,7 +57,10 @@
     <Compile Include="PersonNameTests.cs" />
     <Compile Include="PerformerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScorableCriterionTests.cs" />
+    <Compile Include="ScoreCardTests.cs" />
     <Compile Include="ScoreCriterionTests.cs" />
+    <Compile Include="ScoreRangeTests.cs" />
     <Compile Include="ShowTests.cs" />
   </ItemGroup>
   <ItemGroup>
