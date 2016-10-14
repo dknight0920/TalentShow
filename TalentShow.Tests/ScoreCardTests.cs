@@ -10,7 +10,7 @@ namespace TalentShow.Tests
     public class ScoreCardTests
     {
         [TestMethod]
-        public void CreateScorableCriterion()
+        public void CreateScoreCard()
         {
             ScoreRange scoreRange = new ScoreRange(0, 100);
             ScoreCriterion scoreCriterion = new ScoreCriterion("This is a description.", scoreRange);
