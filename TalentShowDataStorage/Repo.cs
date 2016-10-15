@@ -9,11 +9,13 @@ namespace TalentShowDataStorage
     {
         protected const string ID = "id";
 
-        public void Add(T item)
+        public abstract void Add(T item);
+
+        protected int AddItem(T item)
         {
             var fieldNamesAndValues = GetFieldNamesAndValuesForInsertOrUpdate(item);
-            SqlCommand command = SqlServerCommandHelper.GetInsertCommand(GetTableName(), fieldNamesAndValues);
-            SqlServerCommandHelper.ExecuteSqlCommand(command);
+            SqlCommand command = SqlServerCommandHelper.GetInsertCommand(GetTableName(), fieldNamesAndValues, ID);
+            return SqlServerCommandHelper.ExecuteSqlCommand(command, outputIdValue: true);
         }
 
         protected abstract string GetTableName();

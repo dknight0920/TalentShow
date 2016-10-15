@@ -24,6 +24,11 @@ namespace TalentShow
             Init(0, name, affiliation);
         }
 
+        public void SetId(int id)
+        {
+            Id = id;
+        }
+
         private void Init(int id, PersonName name, string affiliation)
         {
             Id = id;

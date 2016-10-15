@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -10,11 +11,14 @@ namespace TalentShowDataStorage.Helpers
     {
         private static string connectionString = @"Server=.\SQLEXPRESS;Database=TalentShow;User Id=TalentShowUser;Password=TalentShowPassword;";
 
-        public static int ExecuteSqlCommand(SqlCommand command)
+        public static int ExecuteSqlCommand(SqlCommand command, bool outputIdValue = false)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SetupCommandAndOpenConnection(command, connection);
+
+                if(outputIdValue)
+                    return (int)command.ExecuteScalar();
                 return command.ExecuteNonQuery();
             }
         }
@@ -42,7 +46,7 @@ namespace TalentShowDataStorage.Helpers
             connection.Open();
         }
 
-        public static SqlCommand GetInsertCommand(string fileName, IDictionary<string, object> fieldNamesAndValues)
+        public static SqlCommand GetInsertCommand(string fileName, IDictionary<string, object> fieldNamesAndValues, string outputIdColumnName)
         {
             var fieldNames = GetFieldNames(fieldNamesAndValues);
             var fieldValues = GetFieldValues(fieldNamesAndValues);
@@ -50,7 +54,7 @@ namespace TalentShowDataStorage.Helpers
             var sqlServerFieldNames = GetCollectOfSqlServerFieldNames(fieldNames);
             var sqlServerParameterNames = GetCollectionOfSqlServerParameterNames(fieldNames);
 
-            string commandText = "insert into " + PutSquareBracesAroundSqlServerName(fileName) + " (" + sqlServerFieldNames.GetCommaDelimitedListOfString() + ") values (" + sqlServerParameterNames.GetCommaDelimitedListOfString() + ");";
+            string commandText = "insert into " + PutSquareBracesAroundSqlServerName(fileName) + " (" + sqlServerFieldNames.GetCommaDelimitedListOfString() + ")  output INSERTED." + outputIdColumnName + " values (" + sqlServerParameterNames.GetCommaDelimitedListOfString() + ");";
 
             var command = new SqlCommand(commandText);
 
