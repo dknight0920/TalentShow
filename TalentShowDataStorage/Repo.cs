@@ -18,6 +18,8 @@ namespace TalentShowDataStorage
 
         protected abstract string GetTableName();
 
+        public abstract void Update(T item);
+
         public void Update(T item, int id)
         {
             var fieldNamesAndValues = GetFieldNamesAndValuesForInsertOrUpdate(item);

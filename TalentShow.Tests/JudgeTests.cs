@@ -59,5 +59,10 @@ namespace TalentShow.Tests
         {
             return ++id;
         }
+
+        public void Update(Judge item)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

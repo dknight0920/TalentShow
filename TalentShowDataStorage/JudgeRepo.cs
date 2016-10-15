@@ -44,6 +44,11 @@ namespace TalentShowDataStorage
             return new List<string>() { ID, FIRSTNAME, LASTNAME, AFFILIATION };
         }
 
+        public override void Update(Judge judge)
+        {
+            Update(judge, judge.Id);
+        }
+
         public void Delete(Judge judge)
         {
             Delete(judge.Id);
