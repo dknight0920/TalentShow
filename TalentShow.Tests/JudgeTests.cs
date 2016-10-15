@@ -21,13 +21,33 @@ namespace TalentShow.Tests
         }
     }
 
-    public class MockJudgeRepo : IJudgeRepo
+    public class MockJudgeRepo : IRepo<Judge>
     {
         private static int id = 0;
 
         public void Add(Judge judge)
         {
             
+        }
+
+        public void Delete(Judge judge)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Judge Get(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public ICollection<Judge> GetAll()

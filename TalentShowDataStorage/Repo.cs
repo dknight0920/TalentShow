@@ -1,115 +1,90 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TalentShow.Helpers;
+using TalentShowDataStorage.Helpers;
 
 namespace TalentShowDataStorage
 {
-    public abstract class Repo
+    public abstract class Repo<T>
     {
-        private static string connectionString = @"Server=.\SQLEXPRESS;Database=TalentShow;User Id=TalentShowUser;Password=TalentShowPassword;";
+        protected const string ID = "id";
 
-        public static int ExecuteSqlCommand(SqlCommand command)
+        public void Add(T item)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SetupCommandAndOpenConnection(command, connection);
-                return command.ExecuteNonQuery();
-            }
+            var fieldNamesAndValues = GetFieldNamesAndValuesForInsertOrUpdate(item);
+            SqlCommand command = SqlServerCommandHelper.GetInsertCommand(GetTableName(), fieldNamesAndValues);
+            SqlServerCommandHelper.ExecuteSqlCommand(command);
         }
 
-        public static IDataReader ExecuteSqlQuery(SqlCommand command)
+        protected abstract string GetTableName();
+
+        public void Update(T item, int id)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SetupCommandAndOpenConnection(command, connection);
-                DataSet ds = new DataSet();
-                var dt = new DataTable();
-                ds.Tables.Add(dt);
-                ds.EnforceConstraints = false;
-                var reader = command.ExecuteReader();
-                dt.Load(reader);
-                command.Dispose();
-                return dt.CreateDataReader();
-            }
+            var fieldNamesAndValues = GetFieldNamesAndValuesForInsertOrUpdate(item);
+            var whereClause = WhereIdEquals(id);
+            var whereClauseParameterNamesAndValues = new Dictionary<string, object>();
+            whereClauseParameterNamesAndValues.Add(ID, id);
+
+            SqlServerCommandHelper.GetUpdateCommand(GetTableName(), fieldNamesAndValues, whereClause, whereClauseParameterNamesAndValues);
         }
 
-        private static void SetupCommandAndOpenConnection(SqlCommand command, SqlConnection connection)
+        protected abstract Dictionary<string, object> GetFieldNamesAndValuesForInsertOrUpdate(T item);
+
+        public ICollection<T> GetAll()
         {
-            command.Connection = connection;
-            command.CommandTimeout = 0;
-            connection.Open();
-        }
+            string sql = GetSelectStatement() + ";";
+            SqlCommand command = new SqlCommand(sql);
+            IDataReader reader = SqlServerCommandHelper.ExecuteSqlQuery(command);
 
-        protected static SqlCommand GetInsertCommand(string fileName, IDictionary<string, object> fieldNamesAndValues)
-        {
-            var fieldNames = GetFieldNames(fieldNamesAndValues);
-            var fieldValues = GetFieldValues(fieldNamesAndValues);
+            var items = new List<T>();
 
-            var sqlServerFieldNames = GetCollectOfSqlServerFieldNames(fieldNames);
-            var sqlServerParameterNames = GetCollectionOfSqlServerParameterNames(fieldNames);
-
-            string commandText = "insert into " + PutSquareBracesAroundSqlServerName(fileName) + " (" + sqlServerFieldNames.GetCommaDelimitedListOfString() + ") values (" + sqlServerParameterNames.GetCommaDelimitedListOfString() + ");";
-
-            var command = new SqlCommand(commandText);
-
-            for(int i = 0; i < sqlServerParameterNames.Count; i++)
+            while (reader.Read())
             {
-                string parameterName = sqlServerParameterNames.ElementAt(i);
-                object value = fieldValues.ElementAt(i);
-                command.Parameters.AddWithValue(parameterName, value);
+                T item = GetItemFromDataReader(reader);
+                items.Add(item);
             }
 
-            return command;
+            return items;
         }
 
-        private static ICollection<string> GetFieldNames(IDictionary<string, object> fieldNamesAndValues)
+        protected abstract T GetItemFromDataReader(IDataReader reader);
+
+        public T Get(int id)
         {
-            var keys = new List<string>();
-
-            foreach (var fieldName in fieldNamesAndValues)
-                keys.Add(fieldName.Key);
-
-            return keys;
+            string sql = GetSelectStatement() + WhereIdEquals(id);
+            SqlCommand command = new SqlCommand(sql);
+            command.Parameters.AddWithValue("@" + ID, id);
+            IDataReader reader = SqlServerCommandHelper.ExecuteSqlQuery(command);      
+            reader.Read();
+            return GetItemFromDataReader(reader);
         }
 
-        private static ICollection<object> GetFieldValues(IDictionary<string, object> fieldNamesAndValues)
+        public void Delete(int id)
         {
-            var values = new List<object>();
-
-            foreach (var fieldName in fieldNamesAndValues)
-                values.Add(fieldName.Value);
-
-            return values;
+            string sql = SqlServerCommandHelper.GetSimpleDeleteStatement(GetTableName()) + WhereIdEquals(id);
+            SqlCommand command = new SqlCommand(sql);
+            command.Parameters.AddWithValue("@" + ID, id);
+            SqlServerCommandHelper.ExecuteSqlCommand(command);
         }
 
-        private static ICollection<string> GetCollectOfSqlServerFieldNames(ICollection<string> fieldNames)
+        public void DeleteAll()
         {
-            var sqlFieldNames = new List<string>();
-
-            foreach (var fieldName in fieldNames)
-                sqlFieldNames.Add(PutSquareBracesAroundSqlServerName(fieldName));
-
-            return sqlFieldNames;
+            string sql = SqlServerCommandHelper.GetSimpleDeleteStatement(GetTableName());
+            SqlCommand command = new SqlCommand(sql);
+            SqlServerCommandHelper.ExecuteSqlCommand(command);
         }
 
-        private static ICollection<string> GetCollectionOfSqlServerParameterNames(ICollection<string> fieldNames)
+        private string GetSelectStatement()
         {
-            var parameters = new List<string>();
-
-            foreach (var fieldName in fieldNames)
-                parameters.Add("@" + fieldName);
-
-            return parameters;
+            var fieldNames = GetFieldNamesForSelectStatement();
+            return SqlServerCommandHelper.GetSimpleSelectStatement(GetTableName(), fieldNames);
         }
 
-        private static string PutSquareBracesAroundSqlServerName(string name)
+        protected abstract ICollection<string> GetFieldNamesForSelectStatement();
+
+        private static string WhereIdEquals(int id)
         {
-            return "[" + name + "]";
-        }      
+            return " where [" + ID + "] = @" + ID + ";";
+        }
     }
 }

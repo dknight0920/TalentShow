@@ -15,7 +15,9 @@ namespace TalentShowConsoleUI
         static void Main(string[] args)
         {
             //Judge Repo
-            IJudgeRepo judgeRepo = new JudgeRepo();
+            IRepo<Judge> judgeRepo = new JudgeRepo();
+
+            judgeRepo.DeleteAll();
 
             //Talent Show
             var show = new Show("Talent Show");
