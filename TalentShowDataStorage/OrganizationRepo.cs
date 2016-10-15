@@ -22,7 +22,7 @@ namespace TalentShowDataStorage
         {
             var fieldNamesAndValues = new Dictionary<string, object>();
             fieldNamesAndValues.Add(NAME, organization.Name);
-            fieldNamesAndValues.Add(PARENTID, (organization.HasParent() ? (int?)organization.Parent.Id : null));
+            fieldNamesAndValues.Add(PARENTID, (organization.HasParent() ? organization.Parent.Id : 0));
             return fieldNamesAndValues;
         }
 
@@ -34,8 +34,8 @@ namespace TalentShowDataStorage
 
             Organization parent = null;
 
-            if (parentId != null)
-                parent = this.Get((int)parentId);
+            if (parentId != null && parentId != 0)
+                parent = Get((int)parentId);
 
             return new Organization(id, name, parent);
         }

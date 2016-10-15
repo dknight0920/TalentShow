@@ -22,7 +22,7 @@ namespace TalentShowDataStorage
         {
             var fieldNamesAndValues = new Dictionary<string, object>();
             fieldNamesAndValues.Add(PERSONNAMEID, judge.Name.Id);
-            fieldNamesAndValues.Add(ORGANIZATIONID, (judge.Affiliation != null ? (int?)judge.Affiliation.Id : null));
+            fieldNamesAndValues.Add(ORGANIZATIONID, (judge.Affiliation != null ? judge.Affiliation.Id : 0));
             return fieldNamesAndValues;
         }
 

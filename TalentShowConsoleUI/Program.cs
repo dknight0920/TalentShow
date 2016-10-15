@@ -14,6 +14,16 @@ namespace TalentShowConsoleUI
         //This is just for testing and playing around with ideas
         static void Main(string[] args)
         {
+            //Organization Repo
+            IRepo<Organization> organizationRepo = new OrganizationRepo();
+
+            organizationRepo.DeleteAll();
+
+            //Performance Repo
+            IRepo<Performance> performanceRepo = new PerformanceRepo();
+
+            performanceRepo.DeleteAll();
+
             //PersonName Repo
             IRepo<PersonName> personNameRepo = new PersonNameRepo();
 
@@ -33,14 +43,18 @@ namespace TalentShowConsoleUI
             //Dance Contestants
             var john = new PersonName("John", "Smith");
             personNameRepo.Add(john);
-            var johnPerformer = new Performer(Division.Alpha, john, new Organization("ABC"));
+            var abcOrganization = new Organization("ABC");
+            organizationRepo.Add(abcOrganization);
+            var johnPerformer = new Performer(Division.Alpha, john, abcOrganization);
             var johnPerformance = new Performance("Dance abc to xyz", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
+            performanceRepo.Add(johnPerformance);
             var johnDanceContestant = new Contestant(danceContest, johnPerformer, johnPerformance);
 
             var jim = new PersonName("Jim", "Smith");
             personNameRepo.Add(jim);
-            var jimPerformer = new Performer(Division.Alpha, jim, new Organization("ABC"));
+            var jimPerformer = new Performer(Division.Alpha, jim, abcOrganization);
             var jimPerformance = new Performance("Dance abc1 to xyz1", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
+            performanceRepo.Add(jimPerformance);
             var jimDanceContestant = new Contestant(danceContest, jimPerformer, jimPerformance);
 
             danceContest.Contestants.Add(johnDanceContestant);
@@ -49,10 +63,14 @@ namespace TalentShowConsoleUI
             //Dance Judges
             var bob = new PersonName("Bob", "Hill");
             personNameRepo.Add(bob);
-            var bobJudge = new Judge(bob, new Organization("LMNOP"));
+            var lmnopOrganization = new Organization("LMNOP");
+            organizationRepo.Add(lmnopOrganization);
+            var bobJudge = new Judge(bob, lmnopOrganization);
             var bill = new PersonName("Billy", "Bob");
             personNameRepo.Add(bill);
-            var billJudge = new Judge(bill, new Organization("EFG"));
+            var efgOrganization = new Organization("EFG");
+            organizationRepo.Add(efgOrganization);
+            var billJudge = new Judge(bill, efgOrganization);
 
             judgeRepo.Add(bobJudge);
             judgeRepo.Add(billJudge);
@@ -70,14 +88,16 @@ namespace TalentShowConsoleUI
             //Vocal Contestants
             var sandy = new PersonName("Sandy", "Smith");
             personNameRepo.Add(sandy);
-            var sandyPerformer = new Performer(Division.Alpha, sandy, new Organization("ABC"));
-            var sandyPerformance = new Performance("Dance abc to xyz", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
+            var sandyPerformer = new Performer(Division.Alpha, sandy, abcOrganization);
+            var sandyPerformance = new Performance("Sing abc", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
+            performanceRepo.Add(sandyPerformance);
             var sandyVocalContestant = new Contestant(vocalContest, sandyPerformer, sandyPerformance);
 
             var sam = new PersonName("Sam", "Smith");
             personNameRepo.Add(sam);
-            var samPerformer = new Performer(Division.Alpha, sam, new Organization("ABC"));
-            var samPerformance = new Performance("Dance abc1 to xyz1", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
+            var samPerformer = new Performer(Division.Alpha, sam, abcOrganization);
+            var samPerformance = new Performance("Sing xyz", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
+            performanceRepo.Add(samPerformance);
             var samVocalContestant = new Contestant(vocalContest, samPerformer, samPerformance);
 
             vocalContest.Contestants.Add(sandyVocalContestant);
@@ -86,10 +106,10 @@ namespace TalentShowConsoleUI
             //Dance Judges
             var tom = new PersonName("Tom", "Hill");
             personNameRepo.Add(tom);
-            var tomJudge = new Judge(tom, new Organization("LMNOP"));
+            var tomJudge = new Judge(tom, lmnopOrganization);
             var tim = new PersonName("Timmy", "Bob");
             personNameRepo.Add(tim);
-            var timJudge = new Judge(tim, new Organization("EFG"));
+            var timJudge = new Judge(tim, efgOrganization);
 
             vocalContest.Judges.Add(tomJudge);
             vocalContest.Judges.Add(timJudge);
@@ -147,9 +167,40 @@ namespace TalentShowConsoleUI
 
             Console.WriteLine();
 
+            Console.WriteLine("All Judges");
+
             foreach (Judge judge in judgeRepo.GetAll())
             {
                 Console.WriteLine(judge.Name.ToString());
+                Console.WriteLine("\t" + (judge.Affiliation != null ? judge.Affiliation.Name : ""));
+            }
+
+            Console.WriteLine();
+
+            Console.WriteLine("All Person Names");
+
+            foreach (PersonName name in personNameRepo.GetAll())
+            {
+                Console.WriteLine(name.ToString());
+            }
+
+            Console.WriteLine();
+
+            Console.WriteLine("All Organizations");
+
+            foreach (Organization organization in organizationRepo.GetAll())
+            {
+                Console.WriteLine(organization.Name);
+            }
+
+            Console.WriteLine();
+
+            Console.WriteLine("All Performances");
+
+            foreach (Performance performance in performanceRepo.GetAll())
+            {
+                Console.WriteLine(performance.Description);
+                Console.WriteLine("\t" + performance.Duration.TotalMinutes + " minutes");
             }
 
             Console.ReadLine();
