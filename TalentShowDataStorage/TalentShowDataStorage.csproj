@@ -49,6 +49,7 @@
     <Compile Include="JudgeRepo.cs" />
     <Compile Include="OrganizationRepo.cs" />
     <Compile Include="PerformanceRepo.cs" />
+    <Compile Include="PerformerRepo.cs" />
     <Compile Include="PersonNameRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repo.cs" />

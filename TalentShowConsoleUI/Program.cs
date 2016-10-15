@@ -19,6 +19,11 @@ namespace TalentShowConsoleUI
 
             organizationRepo.DeleteAll();
 
+            //Performer Repo
+            IRepo<Performer> performerRepo = new PerformerRepo();
+
+            performerRepo.DeleteAll();
+
             //Performance Repo
             IRepo<Performance> performanceRepo = new PerformanceRepo();
 
@@ -46,13 +51,15 @@ namespace TalentShowConsoleUI
             var abcOrganization = new Organization("ABC");
             organizationRepo.Add(abcOrganization);
             var johnPerformer = new Performer(Division.Alpha, john, abcOrganization);
+            performerRepo.Add(johnPerformer);
             var johnPerformance = new Performance("Dance abc to xyz", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
             performanceRepo.Add(johnPerformance);
             var johnDanceContestant = new Contestant(danceContest, johnPerformer, johnPerformance);
 
             var jim = new PersonName("Jim", "Smith");
             personNameRepo.Add(jim);
-            var jimPerformer = new Performer(Division.Alpha, jim, abcOrganization);
+            var jimPerformer = new Performer(Division.Gamma, jim, abcOrganization);
+            performerRepo.Add(jimPerformer);
             var jimPerformance = new Performance("Dance abc1 to xyz1", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
             performanceRepo.Add(jimPerformance);
             var jimDanceContestant = new Contestant(danceContest, jimPerformer, jimPerformance);
@@ -89,13 +96,15 @@ namespace TalentShowConsoleUI
             var sandy = new PersonName("Sandy", "Smith");
             personNameRepo.Add(sandy);
             var sandyPerformer = new Performer(Division.Alpha, sandy, abcOrganization);
+            performerRepo.Add(sandyPerformer);
             var sandyPerformance = new Performance("Sing abc", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
             performanceRepo.Add(sandyPerformance);
             var sandyVocalContestant = new Contestant(vocalContest, sandyPerformer, sandyPerformance);
 
             var sam = new PersonName("Sam", "Smith");
             personNameRepo.Add(sam);
-            var samPerformer = new Performer(Division.Alpha, sam, abcOrganization);
+            var samPerformer = new Performer(Division.Omega, sam, abcOrganization);
+            performerRepo.Add(samPerformer);
             var samPerformance = new Performance("Sing xyz", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
             performanceRepo.Add(samPerformance);
             var samVocalContestant = new Contestant(vocalContest, samPerformer, samPerformance);
@@ -191,6 +200,16 @@ namespace TalentShowConsoleUI
             foreach (Organization organization in organizationRepo.GetAll())
             {
                 Console.WriteLine(organization.Name);
+            }
+
+            Console.WriteLine();
+
+            Console.WriteLine("All Performers");
+
+            foreach (Performer performer in performerRepo.GetAll())
+            {
+                Console.WriteLine(Enum.GetName(typeof(Division), performer.Division));
+                Console.WriteLine(performer.Name.ToString());
             }
 
             Console.WriteLine();
