@@ -17,6 +17,8 @@ namespace TalentShowConsoleUI
             //PersonName Repo
             IRepo<PersonName> personNameRepo = new PersonNameRepo();
 
+            personNameRepo.DeleteAll();
+
             //Judge Repo
             IRepo<Judge> judgeRepo = new JudgeRepo();
 
@@ -31,13 +33,13 @@ namespace TalentShowConsoleUI
             //Dance Contestants
             var john = new PersonName("John", "Smith");
             personNameRepo.Add(john);
-            var johnPerformer = new Performer(Division.Alpha, john, "ABC");
+            var johnPerformer = new Performer(Division.Alpha, john, new Organization("ABC"));
             var johnPerformance = new Performance("Dance abc to xyz", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
             var johnDanceContestant = new Contestant(danceContest, johnPerformer, johnPerformance);
 
             var jim = new PersonName("Jim", "Smith");
             personNameRepo.Add(jim);
-            var jimPerformer = new Performer(Division.Alpha, jim, "ABC");
+            var jimPerformer = new Performer(Division.Alpha, jim, new Organization("ABC"));
             var jimPerformance = new Performance("Dance abc1 to xyz1", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
             var jimDanceContestant = new Contestant(danceContest, jimPerformer, jimPerformance);
 
@@ -47,10 +49,10 @@ namespace TalentShowConsoleUI
             //Dance Judges
             var bob = new PersonName("Bob", "Hill");
             personNameRepo.Add(bob);
-            var bobJudge = new Judge(bob, "LMNOP");
+            var bobJudge = new Judge(bob, new Organization("LMNOP"));
             var bill = new PersonName("Billy", "Bob");
             personNameRepo.Add(bill);
-            var billJudge = new Judge(bill, "EFG");
+            var billJudge = new Judge(bill, new Organization("EFG"));
 
             judgeRepo.Add(bobJudge);
             judgeRepo.Add(billJudge);
@@ -68,13 +70,13 @@ namespace TalentShowConsoleUI
             //Vocal Contestants
             var sandy = new PersonName("Sandy", "Smith");
             personNameRepo.Add(sandy);
-            var sandyPerformer = new Performer(Division.Alpha, sandy, "ABC");
+            var sandyPerformer = new Performer(Division.Alpha, sandy, new Organization("ABC"));
             var sandyPerformance = new Performance("Dance abc to xyz", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
             var sandyVocalContestant = new Contestant(vocalContest, sandyPerformer, sandyPerformance);
 
             var sam = new PersonName("Sam", "Smith");
             personNameRepo.Add(sam);
-            var samPerformer = new Performer(Division.Alpha, sam, "ABC");
+            var samPerformer = new Performer(Division.Alpha, sam, new Organization("ABC"));
             var samPerformance = new Performance("Dance abc1 to xyz1", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
             var samVocalContestant = new Contestant(vocalContest, samPerformer, samPerformance);
 
@@ -84,10 +86,10 @@ namespace TalentShowConsoleUI
             //Dance Judges
             var tom = new PersonName("Tom", "Hill");
             personNameRepo.Add(tom);
-            var tomJudge = new Judge(tom, "LMNOP");
+            var tomJudge = new Judge(tom, new Organization("LMNOP"));
             var tim = new PersonName("Timmy", "Bob");
             personNameRepo.Add(tim);
-            var timJudge = new Judge(tim, "EFG");
+            var timJudge = new Judge(tim, new Organization("EFG"));
 
             vocalContest.Judges.Add(tomJudge);
             vocalContest.Judges.Add(timJudge);

@@ -18,11 +18,6 @@ namespace TalentShowDataStorage
             return PERSONNAMES;
         }
 
-        public override void Add(PersonName name)
-        {
-            name.SetId(AddItem(name));
-        }
-
         protected override Dictionary<string, object> GetFieldNamesAndValuesForInsertOrUpdate(PersonName name)
         {
             var fieldNamesAndValues = new Dictionary<string, object>();
@@ -43,16 +38,6 @@ namespace TalentShowDataStorage
         protected override ICollection<string> GetFieldNamesForSelectStatement()
         {
             return new List<string>() { ID, FIRSTNAME, LASTNAME };
-        }
-
-        public override void Update(PersonName name)
-        {
-            Update(name, name.Id);
-        }
-
-        public void Delete(PersonName name)
-        {
-            Delete(name.Id);
         }
     }
 }

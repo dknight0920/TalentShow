@@ -16,7 +16,7 @@ namespace TalentShow.Tests
 
             Division division = Division.Alpha;
             PersonName name = new PersonName(firstName: "John", lastName: "Smith");
-            string affiliation = "ABC";
+            Organization affiliation = new Organization("ABC");
 
             Performer performer = new Performer(division, name, affiliation);
 
@@ -36,13 +36,13 @@ namespace TalentShow.Tests
 
             Division division = Division.Alpha;
             PersonName name = new PersonName(firstName: "John", lastName: "Smith");
-            string affiliation = "ABC";
+            Organization affiliation = new Organization("ABC");
 
             Performer performer = new Performer(division, name, affiliation);
 
             Division division2 = Division.Alpha;
             PersonName name2 = new PersonName(firstName: "Bob", lastName: "Beach");
-            string affiliation2 = "XYZ";
+            Organization affiliation2 = new Organization("XYZ");
 
             Performer performer2 = new Performer(division2, name2, affiliation2);
 

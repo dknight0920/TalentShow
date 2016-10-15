@@ -12,9 +12,9 @@ namespace TalentShow
     {
         public Division Division { get; private set; }
         public PersonName Name { get; private set; }
-        public string Affiliation { get; private set; }
+        public Organization Affiliation { get; private set; }
 
-        public Performer(Division division, PersonName name, string affiliation)
+        public Performer(Division division, PersonName name, Organization affiliation)
         {
             Division = division;
             Name = name;

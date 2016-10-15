@@ -2,28 +2,26 @@
 using System.Data;
 using System.Data.SqlClient;
 using TalentShowDataStorage.Helpers;
+using TalentShow.Repos;
 
 namespace TalentShowDataStorage
 {
-    public abstract class Repo<T>
+    public abstract class Repo<T> where T : IIdentity
     {
         protected const string ID = "id";
 
-        public abstract void Add(T item);
-
-        protected int AddItem(T item)
+        public void Add(T item)
         {
             var fieldNamesAndValues = GetFieldNamesAndValuesForInsertOrUpdate(item);
             SqlCommand command = SqlServerCommandHelper.GetInsertCommand(GetTableName(), fieldNamesAndValues, ID);
-            return SqlServerCommandHelper.ExecuteSqlCommand(command, outputIdValue: true);
+            item.SetId( SqlServerCommandHelper.ExecuteSqlCommand(command, outputIdValue: true));
         }
 
         protected abstract string GetTableName();
 
-        public abstract void Update(T item);
-
-        public void Update(T item, int id)
+        public void Update(T item)
         {
+            int id = item.Id;
             var fieldNamesAndValues = GetFieldNamesAndValuesForInsertOrUpdate(item);
             var whereClause = WhereIdEquals(id);
             var whereClauseParameterNamesAndValues = new Dictionary<string, object>();
@@ -61,6 +59,11 @@ namespace TalentShowDataStorage
             IDataReader reader = SqlServerCommandHelper.ExecuteSqlQuery(command);      
             reader.Read();
             return GetItemFromDataReader(reader);
+        }
+
+        public void Delete(T item)
+        {
+            Delete(item.Id);
         }
 
         public void Delete(int id)

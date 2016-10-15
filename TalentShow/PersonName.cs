@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TalentShow.Repos;
 
 namespace TalentShow
 {
-    public class PersonName
+    public class PersonName : IIdentity
     {
         public int Id { get; private set; }
         public string FirstName { get; private set; }

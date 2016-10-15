@@ -12,7 +12,7 @@ namespace TalentShow.Tests
         public void CreateJudge()
         {
             PersonName name = new PersonName(firstName: "Jeff", lastName: "Beach");
-            string affiliation = "XYZ";
+            Organization affiliation = new Organization("XYZ");
 
             Judge judge = new Judge(name, affiliation);
 

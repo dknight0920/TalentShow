@@ -53,6 +53,7 @@
     <Compile Include="ContestantTests.cs" />
     <Compile Include="ContestTests.cs" />
     <Compile Include="JudgeTests.cs" />
+    <Compile Include="OrganizationTests.cs" />
     <Compile Include="PerformanceTests.cs" />
     <Compile Include="PersonNameTests.cs" />
     <Compile Include="PerformerTests.cs" />
