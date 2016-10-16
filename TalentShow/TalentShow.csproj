@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Contest.cs" />
     <Compile Include="Contestant.cs" />
+    <Compile Include="Division.cs" />
     <Compile Include="Helpers\CollectionExtensions.cs" />
     <Compile Include="Judge.cs" />
     <Compile Include="Organization.cs" />

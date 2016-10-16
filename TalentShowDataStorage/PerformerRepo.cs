@@ -9,7 +9,7 @@ namespace TalentShowDataStorage
 {
     public class PerformerRepo : Repo<Performer>, IRepo<Performer>
     {
-        private const string DIVISION = "division";
+        private const string DIVISIONID = "divisionid";
         private const string PERSONNAMEID = "personnameid";
         private const string ORGANIZATIONID = "organizationid";
         private const string PERFORMERS = "performers";
@@ -22,7 +22,7 @@ namespace TalentShowDataStorage
         protected override Dictionary<string, object> GetFieldNamesAndValuesForInsertOrUpdate(Performer performer)
         {
             var fieldNamesAndValues = new Dictionary<string, object>();
-            fieldNamesAndValues.Add(DIVISION, Enum.GetName(typeof(Division), performer.Division));
+            fieldNamesAndValues.Add(DIVISIONID, performer.Division.Id);
             fieldNamesAndValues.Add(PERSONNAMEID, performer.Name.Id);
             fieldNamesAndValues.Add(ORGANIZATIONID, (performer.Affiliation != null ? performer.Affiliation.Id : 0));
             return fieldNamesAndValues;
@@ -31,9 +31,11 @@ namespace TalentShowDataStorage
         protected override Performer GetItemFromDataReader(IDataReader reader)
         {
             int id = Convert.ToInt32(reader.GetColumnValue(ID));
-            int personNameId = Convert.ToInt32(reader.GetColumnValue(PERSONNAMEID));
-            Division division = (Division)Enum.Parse(typeof(Division), reader.GetColumnValue(DIVISION).ToString());
+            int divisionId = Convert.ToInt32(reader.GetColumnValue(DIVISIONID));
+            int personNameId = Convert.ToInt32(reader.GetColumnValue(PERSONNAMEID)); 
             int? organizationId = reader.GetColumnValue(ORGANIZATIONID) as int?;
+
+            Division division = new DivisionRepo().Get(divisionId);
 
             PersonName name = new PersonNameRepo().Get(personNameId);
 
@@ -47,7 +49,7 @@ namespace TalentShowDataStorage
 
         protected override ICollection<string> GetFieldNamesForSelectStatement()
         {
-            return new List<string>() { ID, DIVISION, PERSONNAMEID, ORGANIZATIONID };
+            return new List<string>() { ID, DIVISIONID, PERSONNAMEID, ORGANIZATIONID };
         }
     }
 }

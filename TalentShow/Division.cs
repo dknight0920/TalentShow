@@ -7,30 +7,25 @@ using TalentShow.Repos;
 
 namespace TalentShow
 {
-    public class Show : IIdentity
+    public class Division : IIdentity
     {
         public int Id { get; private set; }
-        public string Name { get; private set;}
-        public ICollection<Contest> Contests { get; private set; }
+        public string Name { get; private set; }
 
-        public Show(int id, string name)
+        public Division(int id, string name)
         {
             Init(id, name);
         }
 
-        public Show(string name)
+        public Division(string name)
         {
             Init(0, name);
         }
 
         private void Init(int id, string name)
         {
-            if (String.IsNullOrWhiteSpace(name))
-                throw new ApplicationException("A show cannot be constructed without a name.");
-
             Id = id;
             Name = name;
-            Contests = new List<Contest>();
         }
 
         public void SetId(int id)

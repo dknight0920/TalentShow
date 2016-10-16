@@ -14,7 +14,7 @@ namespace TalentShow.Tests
         {
             Contest contest = new Contest(name: "Dance");
 
-            Division division = Division.Alpha;
+            Division division = new Division("Alpha");
             PersonName name = new PersonName(firstName: "John", lastName: "Smith");
             Organization affiliation = new Organization("ABC");
 
@@ -34,13 +34,13 @@ namespace TalentShow.Tests
         {
             Contest contest = new Contest(name: "Dance");
 
-            Division division = Division.Alpha;
+            Division division = new Division("Alpha");
             PersonName name = new PersonName(firstName: "John", lastName: "Smith");
             Organization affiliation = new Organization("ABC");
 
             Performer performer = new Performer(division, name, affiliation);
 
-            Division division2 = Division.Alpha;
+            Division division2 = new Division("Alpha");
             PersonName name2 = new PersonName(firstName: "Bob", lastName: "Beach");
             Organization affiliation2 = new Organization("XYZ");
 

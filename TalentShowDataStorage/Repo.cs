@@ -55,10 +55,19 @@ namespace TalentShowDataStorage
         {
             string sql = GetSelectStatement() + WhereIdEquals(id);
             SqlCommand command = new SqlCommand(sql);
-            command.Parameters.AddWithValue("@" + ID, id);
+            AddIdParameterToCommand(command, id);
             IDataReader reader = SqlServerCommandHelper.ExecuteSqlQuery(command);      
             reader.Read();
             return GetItemFromDataReader(reader);
+        }
+
+        public bool Exists(int id)
+        {
+            string sql = "select 1 from " + GetTableName() + WhereIdEquals(id);
+            SqlCommand command = new SqlCommand(sql);
+            AddIdParameterToCommand(command, id);
+            IDataReader reader = SqlServerCommandHelper.ExecuteSqlQuery(command);
+            return reader.Read();
         }
 
         public void Delete(T item)
@@ -70,7 +79,7 @@ namespace TalentShowDataStorage
         {
             string sql = SqlServerCommandHelper.GetSimpleDeleteStatement(GetTableName()) + WhereIdEquals(id);
             SqlCommand command = new SqlCommand(sql);
-            command.Parameters.AddWithValue("@" + ID, id);
+            AddIdParameterToCommand(command, id);
             SqlServerCommandHelper.ExecuteSqlCommand(command);
         }
 
@@ -85,6 +94,11 @@ namespace TalentShowDataStorage
         {
             var fieldNames = GetFieldNamesForSelectStatement();
             return SqlServerCommandHelper.GetSimpleSelectStatement(GetTableName(), fieldNames);
+        }
+
+        private static void AddIdParameterToCommand(SqlCommand command, int id)
+        {
+            command.Parameters.AddWithValue("@" + ID, id);
         }
 
         protected abstract ICollection<string> GetFieldNamesForSelectStatement();

@@ -9,7 +9,7 @@ namespace TalentShow.Tests
         [TestMethod]
         public void CreatePerformer()
         {
-            Division division = Division.Alpha;
+            Division division = new Division("Alpha");
             PersonName name = new PersonName(firstName: "John", lastName: "Smith");
             Organization affiliation = new Organization("ABC");
 

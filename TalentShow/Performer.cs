@@ -7,8 +7,6 @@ using TalentShow.Repos;
 
 namespace TalentShow
 {
-    public enum Division { Alpha, Gamma, Omega }
-
     public class Performer : IIdentity
     {
         public int Id { get; private set; }
@@ -28,6 +26,8 @@ namespace TalentShow
 
         private void Init(int id, Division division, PersonName name, Organization affiliation)
         {
+            if (division == null)
+                throw new ApplicationException("A performer cannot be constructed without a division.");
             if (name == null)
                 throw new ApplicationException("A performer cannot be constructed without a name.");
 

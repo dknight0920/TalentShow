@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DivisionRepo.cs" />
     <Compile Include="Helpers\DataReaderExtensions.cs" />
     <Compile Include="Helpers\SqlServerCommandHelper.cs" />
     <Compile Include="JudgeRepo.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="PersonNameRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repo.cs" />
+    <Compile Include="ShowRepo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TalentShow\TalentShow.csproj">

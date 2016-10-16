@@ -14,10 +14,20 @@ namespace TalentShowConsoleUI
         //This is just for testing and playing around with ideas
         static void Main(string[] args)
         {
+            //Show Repo
+            IRepo<Show> showRepo = new ShowRepo();
+
+            showRepo.DeleteAll();
+
             //Organization Repo
             IRepo<Organization> organizationRepo = new OrganizationRepo();
 
             organizationRepo.DeleteAll();
+
+            //Division Repo
+            IRepo<Division> divisionRepo = new DivisionRepo();
+
+            divisionRepo.DeleteAll();
 
             //Performer Repo
             IRepo<Performer> performerRepo = new PerformerRepo();
@@ -41,6 +51,7 @@ namespace TalentShowConsoleUI
 
             //Talent Show
             var show = new Show("Talent Show");
+            showRepo.Add(show);
 
             //Dance Contest
             var danceContest = new Contest("Dance");
@@ -50,7 +61,9 @@ namespace TalentShowConsoleUI
             personNameRepo.Add(john);
             var abcOrganization = new Organization("ABC");
             organizationRepo.Add(abcOrganization);
-            var johnPerformer = new Performer(Division.Alpha, john, abcOrganization);
+            var alphaDivision = new Division("Alpha");
+            divisionRepo.Add(alphaDivision);
+            var johnPerformer = new Performer(alphaDivision, john, abcOrganization);
             performerRepo.Add(johnPerformer);
             var johnPerformance = new Performance("Dance abc to xyz", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
             performanceRepo.Add(johnPerformance);
@@ -58,7 +71,9 @@ namespace TalentShowConsoleUI
 
             var jim = new PersonName("Jim", "Smith");
             personNameRepo.Add(jim);
-            var jimPerformer = new Performer(Division.Gamma, jim, abcOrganization);
+            var gammaDivision = new Division("Gamma");
+            divisionRepo.Add(gammaDivision);
+            var jimPerformer = new Performer(gammaDivision, jim, abcOrganization);
             performerRepo.Add(jimPerformer);
             var jimPerformance = new Performance("Dance abc1 to xyz1", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
             performanceRepo.Add(jimPerformance);
@@ -95,7 +110,7 @@ namespace TalentShowConsoleUI
             //Vocal Contestants
             var sandy = new PersonName("Sandy", "Smith");
             personNameRepo.Add(sandy);
-            var sandyPerformer = new Performer(Division.Alpha, sandy, abcOrganization);
+            var sandyPerformer = new Performer(alphaDivision, sandy, abcOrganization);
             performerRepo.Add(sandyPerformer);
             var sandyPerformance = new Performance("Sing abc", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
             performanceRepo.Add(sandyPerformance);
@@ -103,7 +118,9 @@ namespace TalentShowConsoleUI
 
             var sam = new PersonName("Sam", "Smith");
             personNameRepo.Add(sam);
-            var samPerformer = new Performer(Division.Omega, sam, abcOrganization);
+            var omegaDivision = new Division("Omega");
+            divisionRepo.Add(omegaDivision);
+            var samPerformer = new Performer(omegaDivision, sam, abcOrganization);
             performerRepo.Add(samPerformer);
             var samPerformance = new Performance("Sing xyz", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
             performanceRepo.Add(samPerformance);
@@ -204,11 +221,29 @@ namespace TalentShowConsoleUI
 
             Console.WriteLine();
 
+            Console.WriteLine("All Shows");
+
+            foreach (Show talentShow in showRepo.GetAll())
+            {
+                Console.WriteLine(talentShow.Name);
+            }
+
+            Console.WriteLine();
+
+            Console.WriteLine("All Divisions");
+
+            foreach (Division division in divisionRepo.GetAll())
+            {
+                Console.WriteLine(division.Name);
+            }
+
+            Console.WriteLine();
+
             Console.WriteLine("All Performers");
 
             foreach (Performer performer in performerRepo.GetAll())
             {
-                Console.WriteLine(Enum.GetName(typeof(Division), performer.Division));
+                Console.WriteLine(performer.Division.Name);
                 Console.WriteLine(performer.Name.ToString());
             }
 
