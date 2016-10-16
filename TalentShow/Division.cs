@@ -24,6 +24,9 @@ namespace TalentShow
 
         private void Init(int id, string name)
         {
+            if (String.IsNullOrWhiteSpace(name))
+                throw new ApplicationException("A division cannot be constructed without a name.");
+
             Id = id;
             Name = name;
         }
