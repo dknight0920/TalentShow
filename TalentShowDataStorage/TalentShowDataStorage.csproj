@@ -44,6 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContestJudgeRepo.cs" />
+    <Compile Include="ContestRepo.cs" />
+    <Compile Include="CrossReferences\ContestJudge.cs" />
     <Compile Include="DivisionRepo.cs" />
     <Compile Include="Helpers\DataReaderExtensions.cs" />
     <Compile Include="Helpers\SqlServerCommandHelper.cs" />

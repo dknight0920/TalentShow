@@ -10,7 +10,7 @@ namespace TalentShowDataStorage
     {
         protected const string ID = "id";
 
-        public void Add(T item)
+        public virtual void Add(T item)
         {
             var fieldNamesAndValues = GetFieldNamesAndValuesForInsertOrUpdate(item);
             SqlCommand command = SqlServerCommandHelper.GetInsertCommand(GetTableName(), fieldNamesAndValues, ID);
@@ -19,7 +19,7 @@ namespace TalentShowDataStorage
 
         protected abstract string GetTableName();
 
-        public void Update(T item)
+        public virtual void Update(T item)
         {
             int id = item.Id;
             var fieldNamesAndValues = GetFieldNamesAndValuesForInsertOrUpdate(item);

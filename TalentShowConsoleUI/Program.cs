@@ -19,6 +19,11 @@ namespace TalentShowConsoleUI
 
             showRepo.DeleteAll();
 
+            //Contest Repo
+            IRepo<Contest> contestRepo = new ContestRepo();
+
+            contestRepo.DeleteAll();
+
             //Organization Repo
             IRepo<Organization> organizationRepo = new OrganizationRepo();
 
@@ -226,6 +231,15 @@ namespace TalentShowConsoleUI
             foreach (Show talentShow in showRepo.GetAll())
             {
                 Console.WriteLine(talentShow.Name);
+            }
+
+            Console.WriteLine();
+
+            Console.WriteLine("All Contests");
+
+            foreach (Contest contest in contestRepo.GetAll())
+            {
+                Console.WriteLine(contest.Name);
             }
 
             Console.WriteLine();
