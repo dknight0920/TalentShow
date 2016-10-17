@@ -34,6 +34,11 @@ namespace TalentShowConsoleUI
 
             divisionRepo.DeleteAll();
 
+            //Contestant Repo
+            IRepo<Contestant> contestantRepo = new ContestantRepo();
+
+            contestantRepo.DeleteAll();
+
             //Performer Repo
             IRepo<Performer> performerRepo = new PerformerRepo();
 
@@ -108,6 +113,8 @@ namespace TalentShowConsoleUI
             danceContest.ScoreCriteria.Add(new ScoreCriterion("Danced to the beat.", new ScoreRange(0, 10)));
 
             contestRepo.Add(danceContest);
+            contestantRepo.Add(johnDanceContestant);
+            contestantRepo.Add(jimDanceContestant);
             show.Contests.Add(danceContest);
 
             //Vocal Contest
@@ -131,7 +138,7 @@ namespace TalentShowConsoleUI
             var samPerformance = new Performance("Sing xyz", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
             performanceRepo.Add(samPerformance);
             var samVocalContestant = new Contestant(vocalContest, samPerformer, samPerformance);
-
+            
             vocalContest.Contestants.Add(sandyVocalContestant);
             vocalContest.Contestants.Add(samVocalContestant);
 
@@ -152,6 +159,9 @@ namespace TalentShowConsoleUI
             vocalContest.ScoreCriteria.Add(new ScoreCriterion("Sang on pitch.", new ScoreRange(0, 10)));
 
             contestRepo.Add(vocalContest);
+            contestantRepo.Add(sandyVocalContestant);
+            contestantRepo.Add(samVocalContestant);
+
             show.Contests.Add(vocalContest);
 
             foreach (var contest in show.Contests)

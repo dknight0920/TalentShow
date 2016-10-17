@@ -44,8 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContestantPerformerRepo.cs" />
+    <Compile Include="ContestantRepo.cs" />
     <Compile Include="ContestJudgeRepo.cs" />
     <Compile Include="ContestRepo.cs" />
+    <Compile Include="CrossReferences\ContestantPerformer.cs" />
     <Compile Include="CrossReferences\ContestJudge.cs" />
     <Compile Include="DivisionRepo.cs" />
     <Compile Include="Helpers\DataReaderExtensions.cs" />
