@@ -107,6 +107,7 @@ namespace TalentShowConsoleUI
 
             danceContest.ScoreCriteria.Add(new ScoreCriterion("Danced to the beat.", new ScoreRange(0, 10)));
 
+            contestRepo.Add(danceContest);
             show.Contests.Add(danceContest);
 
             //Vocal Contest
@@ -150,6 +151,7 @@ namespace TalentShowConsoleUI
 
             vocalContest.ScoreCriteria.Add(new ScoreCriterion("Sang on pitch.", new ScoreRange(0, 10)));
 
+            contestRepo.Add(vocalContest);
             show.Contests.Add(vocalContest);
 
             foreach (var contest in show.Contests)
@@ -240,6 +242,10 @@ namespace TalentShowConsoleUI
             foreach (Contest contest in contestRepo.GetAll())
             {
                 Console.WriteLine(contest.Name);
+                foreach (Judge judge in contest.Judges)
+                {
+                    Console.WriteLine("\t" + judge.Name.ToString());
+                }
             }
 
             Console.WriteLine();
