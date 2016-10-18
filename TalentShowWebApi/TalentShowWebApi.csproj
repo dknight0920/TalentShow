@@ -235,7 +235,10 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\JudgesController.cs" />
+    <Compile Include="DataTransferObjects\JudgeDto.cs" />
+    <Compile Include="DataTransferObjects\OrganizationDto.cs" />
+    <Compile Include="DataTransferObjects\PersonNameDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -317,6 +320,16 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TalentShowDataStorage\TalentShowDataStorage.csproj">
+      <Project>{4293fdbe-9698-4569-b515-9d2e639d9565}</Project>
+      <Name>TalentShowDataStorage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TalentShow\TalentShow.csproj">
+      <Project>{93110d1b-b66b-41e7-8d1f-42a9877525fa}</Project>
+      <Name>TalentShow</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
