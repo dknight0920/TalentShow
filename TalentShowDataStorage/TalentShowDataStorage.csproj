@@ -60,6 +60,7 @@
     <Compile Include="PersonNameRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repo.cs" />
+    <Compile Include="ScorableCriterionRepo.cs" />
     <Compile Include="ScoreCriterionRepo.cs" />
     <Compile Include="ShowRepo.cs" />
   </ItemGroup>

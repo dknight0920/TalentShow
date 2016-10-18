@@ -64,6 +64,11 @@ namespace TalentShowConsoleUI
 
             scoreCriterionRepo.DeleteAll();
 
+            //Scorable Criterion Repo
+            IRepo<ScorableCriterion> scorableCriterionRepo = new ScorableCriterionRepo();
+
+            scorableCriterionRepo.DeleteAll();
+
             //Talent Show
             var show = new Show("Talent Show");
             showRepo.Add(show);
@@ -186,6 +191,7 @@ namespace TalentShowConsoleUI
                         foreach (var scorableCriterion in scoreCard.ScorableCriteria)
                         {
                             scorableCriterion.SetScoreAndComment(10, "This is a comment.");
+                            scorableCriterionRepo.Add(scorableCriterion);
                         }
 
                         contest.ScoreCards.Add(scoreCard);
@@ -324,6 +330,17 @@ namespace TalentShowConsoleUI
                 Console.WriteLine(scoreCriterion.CriterionDescription);
                 Console.WriteLine("\t" + scoreCriterion.ScoreRange.Min);
                 Console.WriteLine("\t" + scoreCriterion.ScoreRange.Max);
+            }
+
+            Console.WriteLine();
+
+            Console.WriteLine("All Scorable Criteria");
+
+            foreach (ScorableCriterion scorableCriterion in scorableCriterionRepo.GetAll())
+            {
+                Console.WriteLine(scorableCriterion.ScoreCriterion.CriterionDescription);
+                Console.WriteLine("\t" + scorableCriterion.Score);
+                Console.WriteLine("\t" + scorableCriterion.Comment);
             }
 
             Console.ReadLine();
