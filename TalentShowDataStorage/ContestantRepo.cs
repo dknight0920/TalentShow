@@ -23,10 +23,10 @@ namespace TalentShowDataStorage
         public override void Add(Contestant contestant)
         {
             base.Add(contestant);
-            AddContestPerformers(contestant);
+            AddContestantPerformers(contestant);
         }
 
-        private static void AddContestPerformers(Contestant contestant)
+        private static void AddContestantPerformers(Contestant contestant)
         {
             ContestantPerformerRepo contestantPerformerRepo = new ContestantPerformerRepo();
 

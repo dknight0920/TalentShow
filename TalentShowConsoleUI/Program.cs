@@ -59,6 +59,11 @@ namespace TalentShowConsoleUI
 
             judgeRepo.DeleteAll();
 
+            //Score Criterion Repo
+            IRepo<ScoreCriterion> scoreCriterionRepo = new ScoreCriterionRepo();
+
+            scoreCriterionRepo.DeleteAll();
+
             //Talent Show
             var show = new Show("Talent Show");
             showRepo.Add(show);
@@ -110,7 +115,10 @@ namespace TalentShowConsoleUI
             danceContest.Judges.Add(bobJudge);
             danceContest.Judges.Add(billJudge);
 
-            danceContest.ScoreCriteria.Add(new ScoreCriterion("Danced to the beat.", new ScoreRange(0, 10)));
+            var danceToTheBeatScoreCriterion = new ScoreCriterion("Danced to the beat.", new ScoreRange(0, 10));
+            scoreCriterionRepo.Add(danceToTheBeatScoreCriterion);
+
+            danceContest.ScoreCriteria.Add(danceToTheBeatScoreCriterion);
 
             contestRepo.Add(danceContest);
             contestantRepo.Add(johnDanceContestant);
@@ -156,7 +164,10 @@ namespace TalentShowConsoleUI
             judgeRepo.Add(tomJudge);
             judgeRepo.Add(timJudge);
 
-            vocalContest.ScoreCriteria.Add(new ScoreCriterion("Sang on pitch.", new ScoreRange(0, 10)));
+            var sangOnPitchScoreCriterion = new ScoreCriterion("Sang on pitch.", new ScoreRange(0, 10));
+            scoreCriterionRepo.Add(sangOnPitchScoreCriterion);
+
+            vocalContest.ScoreCriteria.Add(sangOnPitchScoreCriterion);
 
             contestRepo.Add(vocalContest);
             contestantRepo.Add(sandyVocalContestant);
@@ -269,6 +280,23 @@ namespace TalentShowConsoleUI
 
             Console.WriteLine();
 
+            Console.WriteLine("All Contestants");
+
+            foreach (Contestant contestant in contestantRepo.GetAll())
+            {
+                Console.WriteLine(contestant.Contest.Name);
+                Console.WriteLine(contestant.Performance.Description);
+                Console.WriteLine(contestant.Performance.Duration);
+
+                foreach (Performer performer in contestant.Performers)
+                {
+                    Console.WriteLine("\t" + performer.Division.Name);
+                    Console.WriteLine("\t" + performer.Name.ToString());
+                }
+            }
+
+            Console.WriteLine();
+
             Console.WriteLine("All Performers");
 
             foreach (Performer performer in performerRepo.GetAll())
@@ -285,6 +313,17 @@ namespace TalentShowConsoleUI
             {
                 Console.WriteLine(performance.Description);
                 Console.WriteLine("\t" + performance.Duration.TotalMinutes + " minutes");
+            }
+
+            Console.WriteLine();
+
+            Console.WriteLine("All Score Criteria");
+
+            foreach (ScoreCriterion scoreCriterion in scoreCriterionRepo.GetAll())
+            {
+                Console.WriteLine(scoreCriterion.CriterionDescription);
+                Console.WriteLine("\t" + scoreCriterion.ScoreRange.Min);
+                Console.WriteLine("\t" + scoreCriterion.ScoreRange.Max);
             }
 
             Console.ReadLine();
