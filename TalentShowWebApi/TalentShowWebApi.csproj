@@ -234,11 +234,23 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ContestantsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JudgesController.cs" />
+    <Compile Include="DataTransferObjects\ContestantDto.cs" />
+    <Compile Include="DataTransferObjects\ContestDto.cs" />
+    <Compile Include="DataTransferObjects\DivisionDto.cs" />
+    <Compile Include="DataTransferObjects\Helpers\DtoConverter.cs" />
     <Compile Include="DataTransferObjects\JudgeDto.cs" />
     <Compile Include="DataTransferObjects\OrganizationDto.cs" />
+    <Compile Include="DataTransferObjects\PerformanceDto.cs" />
+    <Compile Include="DataTransferObjects\PerformerDto.cs" />
     <Compile Include="DataTransferObjects\PersonNameDto.cs" />
+    <Compile Include="DataTransferObjects\ScorableCriterionDto.cs" />
+    <Compile Include="DataTransferObjects\ScoreCardDto.cs" />
+    <Compile Include="DataTransferObjects\ScoreCriterionDto.cs" />
+    <Compile Include="DataTransferObjects\ScoreRangeDto.cs" />
+    <Compile Include="DataTransferObjects\ShowDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
