@@ -21,7 +21,7 @@ namespace TalentShow
                 var scoreCards = Contest.ScoreCards.Where(s => s.Contestant == this);
 
                 if(scoreCards.Any())
-                    return Contest.ScoreCards.Where(s => s.Contestant == this).Average(s => s.AverageScore);
+                    return Contest.ScoreCards.Where(s => s.Contestant == this).Average(s => s.TotalScore);
                 return 0;
             }
         }

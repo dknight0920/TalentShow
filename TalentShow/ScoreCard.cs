@@ -29,10 +29,21 @@ namespace TalentShow
             }
         }
 
+        public ScoreCard(int id, Contestant contestant, Judge judge, ICollection<ScorableCriterion> scorableCriteria)
+        {
+            Init(id, contestant, judge, scorableCriteria);
+        }
+
         public ScoreCard(Contestant contestant, Judge judge, ICollection<ScorableCriterion> scorableCriteria)
+        {
+            Init(0, contestant, judge, scorableCriteria);
+        }
+
+        private void Init(int id, Contestant contestant, Judge judge, ICollection<ScorableCriterion> scorableCriteria)
         {
             ValidateConstructorArgs(contestant, judge, scorableCriteria);
 
+            Id = id;
             Contestant = contestant;
             Judge = judge;
             ScorableCriteria = scorableCriteria;
