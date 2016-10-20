@@ -69,6 +69,11 @@ namespace TalentShowConsoleUI
 
             scorableCriterionRepo.DeleteAll();
 
+            //Score Card Repo
+            IRepo<ScoreCard> scoreCardRepo = new ScoreCardRepo();
+
+            scoreCardRepo.DeleteAll();
+
             //Talent Show
             var show = new Show("Talent Show");
             showRepo.Add(show);
@@ -194,6 +199,7 @@ namespace TalentShowConsoleUI
                             scorableCriterionRepo.Add(scorableCriterion);
                         }
 
+                        scoreCardRepo.Add(scoreCard);
                         contest.ScoreCards.Add(scoreCard);
                     }
                 }

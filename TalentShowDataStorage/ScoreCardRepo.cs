@@ -4,6 +4,8 @@ using TalentShow;
 using TalentShow.Repos;
 using System.Data;
 using TalentShowDataStorage.Helpers;
+using TalentShowDataStorage.CrossReferences;
+using System.Linq;
 
 namespace TalentShowDataStorage
 {
@@ -16,6 +18,20 @@ namespace TalentShowDataStorage
         protected override string GetTableName()
         {
             return SCORECARDS;
+        }
+
+        public override void Add(ScoreCard scoreCard)
+        {
+            base.Add(scoreCard);
+            AddScoreCardScorableCriteria(scoreCard);
+        }
+
+        private static void AddScoreCardScorableCriteria(ScoreCard scoreCard)
+        {
+            ScoreCardScorableCriterionRepo repo = new ScoreCardScorableCriterionRepo();
+
+            foreach (ScorableCriterion scorableCriterion in scoreCard.ScorableCriteria)
+                repo.Add(new ScoreCardScorableCriterion(scoreCard.Id, scorableCriterion.Id));
         }
 
         protected override Dictionary<string, object> GetFieldNamesAndValuesForInsertOrUpdate(ScoreCard scoreCard)
@@ -36,7 +52,11 @@ namespace TalentShowDataStorage
             Judge judge = new JudgeRepo().Get(judgeId);
             ICollection<ScorableCriterion> scorableCriteria = new List<ScorableCriterion>();
 
-            //TODO Implement cross reference (i.e., ScoreCardScorableCriterion) and add elements to scorableCriteria 
+            var scoreCardScorableCriterionCollection = new ScoreCardScorableCriterionRepo().GetAll().Where(sc => sc.ScoreCardId == id);
+            var scorableCriterionRepo = new ScorableCriterionRepo();
+
+            foreach (var scoreCardScorableCriterion in scoreCardScorableCriterionCollection)
+                scorableCriteria.Add(scorableCriterionRepo.Get(scoreCardScorableCriterion.ScorableCriterionId));
 
             return new ScoreCard(id, contestant, judge, scorableCriteria);
         }
