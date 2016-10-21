@@ -11,7 +11,6 @@ namespace TalentShowDataStorage
 {
     public class ContestantRepo : Repo<Contestant>, IRepo<Contestant>
     {
-        private const string CONTESTID = "contestid";
         private const string PERFORMANCEID = "performanceid";
         private const string CONTESTANTS = "contestants";
 
@@ -37,7 +36,6 @@ namespace TalentShowDataStorage
         protected override Dictionary<string, object> GetFieldNamesAndValuesForInsertOrUpdate(Contestant contestant)
         {
             var fieldNamesAndValues = new Dictionary<string, object>();
-            fieldNamesAndValues.Add(CONTESTID, contestant.Contest.Id);
             fieldNamesAndValues.Add(PERFORMANCEID, contestant.Performance.Id);
             return fieldNamesAndValues;
         }
@@ -45,10 +43,8 @@ namespace TalentShowDataStorage
         protected override Contestant GetItemFromDataReader(IDataReader reader)
         {
             int id = Convert.ToInt32(reader.GetColumnValue(ID));
-            int contestId = Convert.ToInt32(reader.GetColumnValue(CONTESTID));
             int performanceId = Convert.ToInt32(reader.GetColumnValue(PERFORMANCEID));
 
-            Contest contest = new ContestRepo().Get(contestId);
             Performance performance = new PerformanceRepo().Get(performanceId);
 
             var contestPerformerCollection = new ContestantPerformerRepo().GetAll().Where(cp => cp.ContestantId == id);
@@ -58,12 +54,12 @@ namespace TalentShowDataStorage
             foreach (var cp in contestPerformerCollection)
                 performers.Add(performerRepo.Get(cp.PerformerId));
 
-            return new Contestant(id, contest, performers, performance);
+            return new Contestant(id, performers, performance);
         }
 
         protected override ICollection<string> GetFieldNamesForSelectStatement()
         {
-            return new List<string>() { ID, CONTESTID, PERFORMANCEID };
+            return new List<string>() { ID, PERFORMANCEID };
         }
     }
 }

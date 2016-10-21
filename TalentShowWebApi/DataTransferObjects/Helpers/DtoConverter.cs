@@ -10,7 +10,7 @@ namespace TalentShowWebApi.DataTransferObjects.Helpers
     {
         public static Contestant ConvertFromDto(this ContestantDto contestantDto)
         {
-            return new Contestant(contestantDto.Id, ConvertFromDto(contestantDto.Contest), ConvertFromDto(contestantDto.Performers), ConvertFromDto(contestantDto.Performance));
+            return new Contestant(contestantDto.Id, ConvertFromDto(contestantDto.Performers), ConvertFromDto(contestantDto.Performance));
         }
 
         public static ICollection<Performer> ConvertFromDto(this ICollection<PerformerDto> performersDto)
@@ -78,7 +78,6 @@ namespace TalentShowWebApi.DataTransferObjects.Helpers
             return new ContestantDto()
             {
                 Id = contestant.Id,
-                Contest = ConvertToDto(contestant.Contest),
                 Performance = ConvertToDto(contestant.Performance),
                 Performers = ConvertToDto(contestant.Performers),
                 Score = contestant.Score
@@ -110,7 +109,7 @@ namespace TalentShowWebApi.DataTransferObjects.Helpers
         {
             return new DivisionDto()
             {
-                Id = divison.Id,
+                Id = divison.Id, 
                 Name = divison.Name
             };
         }

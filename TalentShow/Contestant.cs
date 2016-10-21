@@ -11,46 +11,42 @@ namespace TalentShow
     public class Contestant : IIdentity //A contestant is a collection of performers (1 to n) that give a performance in a contest and receive a score from judges that submit a score card to the contest
     {
         public int Id { get; private set; }
-        public Contest Contest { get; private set; }
         public ICollection<Performer> Performers { get; private set; }
         public Performance Performance { get; private set; }
         public double Score
         {
             get
             {
-                var scoreCards = Contest.ScoreCards.Where(s => s.Contestant == this);
+                //var scoreCards = ScoreCards.Where(s => s.Contestant == this);
 
-                if(scoreCards.Any())
-                    return Contest.ScoreCards.Where(s => s.Contestant == this).Average(s => s.TotalScore);
+                //if(scoreCards.Any())
+                //    return Contest.ScoreCards.Where(s => s.Contestant == this).Average(s => s.TotalScore);
                 return 0;
             }
         }
 
 
-        public Contestant(int id, Contest contest, ICollection<Performer> performers, Performance performance)
+        public Contestant(int id, ICollection<Performer> performers, Performance performance)
         {
-            Init(id, contest, performers, performance);
+            Init(id, performers, performance);
         }
 
-        public Contestant(Contest contest, ICollection<Performer> performers, Performance performance)
+        public Contestant(ICollection<Performer> performers, Performance performance)
         {
-            Init(0, contest, performers, performance);
+            Init(0, performers, performance);
         }
 
-        public Contestant(Contest contest, Performer performer, Performance performance)
+        public Contestant(Performer performer, Performance performance)
         {
-            Init(0, contest, new List<Performer>() { performer }, performance);
+            Init(0, new List<Performer>() { performer }, performance);
         }
 
-        private void Init(int id, Contest contest, ICollection<Performer> performers, Performance performance)
+        private void Init(int id, ICollection<Performer> performers, Performance performance)
         {
-            if (contest == null)
-                throw new ApplicationException("A contestant cannot be constructed without a contest.");
             if (performers.IsNullOrEmpty())
                 throw new ApplicationException("A contestant cannot be constructed without any performers.");
 
             Id = id;
-            Contest = contest;
             Performers = performers;
             Performance = performance;
         }

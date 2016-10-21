@@ -92,7 +92,7 @@ namespace TalentShowConsoleUI
             performerRepo.Add(johnPerformer);
             var johnPerformance = new Performance("Dance abc to xyz", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
             performanceRepo.Add(johnPerformance);
-            var johnDanceContestant = new Contestant(danceContest, johnPerformer, johnPerformance);
+            var johnDanceContestant = new Contestant(johnPerformer, johnPerformance);
 
             var jim = new PersonName("Jim", "Smith");
             personNameRepo.Add(jim);
@@ -102,10 +102,7 @@ namespace TalentShowConsoleUI
             performerRepo.Add(jimPerformer);
             var jimPerformance = new Performance("Dance abc1 to xyz1", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
             performanceRepo.Add(jimPerformance);
-            var jimDanceContestant = new Contestant(danceContest, jimPerformer, jimPerformance);
-
-            danceContest.Contestants.Add(johnDanceContestant);
-            danceContest.Contestants.Add(jimDanceContestant);
+            var jimDanceContestant = new Contestant(jimPerformer, jimPerformance);
 
             //Dance Judges
             var bob = new PersonName("Bob", "Hill");
@@ -130,9 +127,11 @@ namespace TalentShowConsoleUI
 
             danceContest.ScoreCriteria.Add(danceToTheBeatScoreCriterion);
 
-            contestRepo.Add(danceContest);
             contestantRepo.Add(johnDanceContestant);
             contestantRepo.Add(jimDanceContestant);
+            danceContest.Contestants.Add(johnDanceContestant);
+            danceContest.Contestants.Add(jimDanceContestant);
+            contestRepo.Add(danceContest);  
             show.Contests.Add(danceContest);
 
             //Vocal Contest
@@ -145,7 +144,7 @@ namespace TalentShowConsoleUI
             performerRepo.Add(sandyPerformer);
             var sandyPerformance = new Performance("Sing abc", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
             performanceRepo.Add(sandyPerformance);
-            var sandyVocalContestant = new Contestant(vocalContest, sandyPerformer, sandyPerformance);
+            var sandyVocalContestant = new Contestant(sandyPerformer, sandyPerformance);
 
             var sam = new PersonName("Sam", "Smith");
             personNameRepo.Add(sam);
@@ -155,11 +154,8 @@ namespace TalentShowConsoleUI
             performerRepo.Add(samPerformer);
             var samPerformance = new Performance("Sing xyz", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
             performanceRepo.Add(samPerformance);
-            var samVocalContestant = new Contestant(vocalContest, samPerformer, samPerformance);
+            var samVocalContestant = new Contestant(samPerformer, samPerformance);
             
-            vocalContest.Contestants.Add(sandyVocalContestant);
-            vocalContest.Contestants.Add(samVocalContestant);
-
             //Dance Judges
             var tom = new PersonName("Tom", "Hill");
             personNameRepo.Add(tom);
@@ -179,10 +175,12 @@ namespace TalentShowConsoleUI
 
             vocalContest.ScoreCriteria.Add(sangOnPitchScoreCriterion);
 
-            contestRepo.Add(vocalContest);
             contestantRepo.Add(sandyVocalContestant);
             contestantRepo.Add(samVocalContestant);
-
+            vocalContest.Contestants.Add(sandyVocalContestant);
+            vocalContest.Contestants.Add(samVocalContestant);
+            contestRepo.Add(vocalContest);
+            
             show.Contests.Add(vocalContest);
 
             foreach (var contest in show.Contests)
@@ -296,7 +294,6 @@ namespace TalentShowConsoleUI
 
             foreach (Contestant contestant in contestantRepo.GetAll())
             {
-                Console.WriteLine(contestant.Contest.Name);
                 Console.WriteLine(contestant.Performance.Description);
                 Console.WriteLine(contestant.Performance.Duration);
 

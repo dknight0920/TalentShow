@@ -9,8 +9,6 @@ namespace TalentShowWebApi.DataTransferObjects
         [DataMember]
         public int Id { get; set; }
         [DataMember]
-        public ContestDto Contest { get; set; }
-        [DataMember]
         public ICollection<PerformerDto> Performers { get; set; }
         [DataMember]
         public PerformanceDto Performance { get; set; }
