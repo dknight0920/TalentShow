@@ -129,8 +129,7 @@ namespace TalentShowConsoleUI
             contestantRepo.Add(johnDanceContestant);
             contestantRepo.Add(jimDanceContestant);
             danceContest.Contestants.Add(johnDanceContestant);
-            danceContest.Contestants.Add(jimDanceContestant);
-            contestRepo.Add(danceContest);  
+            danceContest.Contestants.Add(jimDanceContestant);  
             show.Contests.Add(danceContest);
 
             //Vocal Contest
@@ -177,11 +176,8 @@ namespace TalentShowConsoleUI
             contestantRepo.Add(sandyVocalContestant);
             contestantRepo.Add(samVocalContestant);
             vocalContest.Contestants.Add(sandyVocalContestant);
-            vocalContest.Contestants.Add(samVocalContestant);
-            contestRepo.Add(vocalContest);
-            
-            show.Contests.Add(vocalContest);
-            showRepo.Add(show);
+            vocalContest.Contestants.Add(samVocalContestant);            
+            show.Contests.Add(vocalContest);  
 
             foreach (var contest in show.Contests)
             {
@@ -202,6 +198,10 @@ namespace TalentShowConsoleUI
                     }
                 }
             }
+
+            contestRepo.Add(danceContest);
+            contestRepo.Add(vocalContest);
+            showRepo.Add(show);
 
             foreach (var contest in show.Contests)
             {
