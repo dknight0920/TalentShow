@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using TalentShow;
+using TalentShow.Services;
 using TalentShowDataStorage;
 using TalentShowWebApi.DataTransferObjects;
 using TalentShowWebApi.DataTransferObjects.Helpers;
@@ -29,7 +30,8 @@ namespace TalentShowWebApi.Controllers
         // POST api/Judges
         public void Post([FromBody]JudgeDto judge)
         {
-            new JudgeRepo().Add(judge.ConvertFromDto());
+            var judgeService = new JudgeService(new JudgeRepo(), new PersonNameRepo(), new OrganizationRepo());
+            judgeService.Add(judge.ConvertFromDto());
         }
 
         // PUT api/Judges/5
