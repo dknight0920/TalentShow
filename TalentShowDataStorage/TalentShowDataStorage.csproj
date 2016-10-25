@@ -57,6 +57,7 @@
     <Compile Include="CrossReferences\ContestScoreCard.cs" />
     <Compile Include="CrossReferences\ContestScoreCriterion.cs" />
     <Compile Include="CrossReferences\ScoreCardScorableCriterion.cs" />
+    <Compile Include="CrossReferences\ShowContest.cs" />
     <Compile Include="DivisionRepo.cs" />
     <Compile Include="Helpers\DataReaderExtensions.cs" />
     <Compile Include="Helpers\SqlServerCommandHelper.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="ScoreCardRepo.cs" />
     <Compile Include="ScoreCardScorableCriterionRepo.cs" />
     <Compile Include="ScoreCriterionRepo.cs" />
+    <Compile Include="ShowContestRepo.cs" />
     <Compile Include="ShowRepo.cs" />
   </ItemGroup>
   <ItemGroup>

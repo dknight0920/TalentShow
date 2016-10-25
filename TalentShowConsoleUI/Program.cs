@@ -76,8 +76,7 @@ namespace TalentShowConsoleUI
 
             //Talent Show
             var show = new Show("Talent Show");
-            showRepo.Add(show);
-
+            
             //Dance Contest
             var danceContest = new Contest("Dance");
 
@@ -182,6 +181,7 @@ namespace TalentShowConsoleUI
             contestRepo.Add(vocalContest);
             
             show.Contests.Add(vocalContest);
+            showRepo.Add(show);
 
             foreach (var contest in show.Contests)
             {
