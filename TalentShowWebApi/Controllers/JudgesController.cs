@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using TalentShow;
+using TalentShow.Repos;
 using TalentShow.Services;
 using TalentShowDataStorage;
 using TalentShowWebApi.DataTransferObjects;
@@ -12,50 +13,58 @@ using TalentShowWebApi.DataTransferObjects.Helpers;
 
 namespace TalentShowWebApi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class JudgesController : ApiController
     {
+        private IRepo<Judge> JudgeRepo;
+        private JudgeService JudgeService;
+
+        public JudgesController()
+        {
+            JudgeRepo = new JudgeRepo();
+            JudgeService = new JudgeService(JudgeRepo, new PersonNameRepo(), new OrganizationRepo());
+        }
+
         // GET api/Judges
         public IEnumerable<JudgeDto> Get()
         {
-            return new JudgeRepo().GetAll().ConvertToDto();
+            return JudgeRepo.GetAll().ConvertToDto();
         }
 
         // GET api/Judges/5
         public JudgeDto Get(int id)
         {
-            return new JudgeRepo().Get(id).ConvertToDto();
+            return JudgeRepo.Get(id).ConvertToDto();
         }
 
         // POST api/Judges
         public void Post([FromBody]JudgeDto judge)
         {
-            var judgeService = new JudgeService(new JudgeRepo(), new PersonNameRepo(), new OrganizationRepo());
-            judgeService.Add(judge.ConvertFromDto());
+            JudgeService.Add(judge.ConvertFromDto());
         }
 
         // PUT api/Judges/5
         public void Put([FromBody]JudgeDto judge)
         {
-            new JudgeRepo().Update(judge.ConvertFromDto());
+            JudgeService.Update(judge.ConvertFromDto());
         }
 
         // DELETE api/Judges/5
         public void Delete(int id)
         {
-            new JudgeRepo().Delete(id);
+            JudgeRepo.Delete(id);
         }
 
         // DELETE api/Judges/5
         public void Delete([FromBody]JudgeDto judge)
         {
-            new JudgeRepo().Delete(judge.ConvertFromDto());
+            JudgeRepo.Delete(judge.ConvertFromDto());
         }
 
         // DELETE api/Judges/
         public void Delete()
         {
-            new JudgeRepo().DeleteAll();
+            JudgeRepo.DeleteAll();
         }
     }
 }

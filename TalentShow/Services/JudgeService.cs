@@ -29,11 +29,17 @@ namespace TalentShow.Services
 
         public void Add(Judge judge)
         {
-            ValidateBeforeAdding(judge);
+            Validate(judge);
             JudgeRepo.Add(judge);
         }
 
-        private void ValidateBeforeAdding(Judge judge)
+        public void Update(Judge judge)
+        {
+            Validate(judge);
+            JudgeRepo.Update(judge);
+        }
+
+        private void Validate(Judge judge)
         {
             if (!PersonNameRepo.Exists(judge.Name.Id))
                 throw new ApplicationException("The judge cannot be added because its name does not exist. Add the name before adding the judge.");

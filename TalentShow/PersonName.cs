@@ -31,6 +31,11 @@ namespace TalentShow
 
         private void Init(int id, string firstName, string lastName)
         {
+            if (String.IsNullOrWhiteSpace(firstName))
+                throw new ApplicationException("A PersonName cannot be constructed without a FirstName.");
+            if (String.IsNullOrWhiteSpace(lastName))
+                throw new ApplicationException("A PersonName cannot be constructed without a LastName.");
+
             Id = id;
             FirstName = firstName;
             LastName = lastName;
