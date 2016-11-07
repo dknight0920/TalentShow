@@ -238,6 +238,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\Tutorial.jsx" />
     <Content Include="Scripts\Judges.jsx" />
+    <Content Include="Scripts\Login.jsx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

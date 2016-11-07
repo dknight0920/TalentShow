@@ -6,14 +6,25 @@
     <title>Hello React</title>
 </head>
 <body>
+    <div id="login"></div>
     <div id="content"></div>
     <script>
         var globalWebApiBaseUrl = "@System.Configuration.ConfigurationManager.AppSettings["WebApiBaseUrl"]";
+
+        function globalGetAccessTokenHttpHeader() {
+            var token = sessionStorage.getItem("token");
+            var headers = {};
+            if (token) {
+                headers.Authorization = 'Bearer ' + token;
+            }
+            return headers;
+        }
     </script>
     <script src="@Url.Content("~/Scripts/jquery-1.10.2.min.js")"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react-dom.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.7.1/remarkable.min.js"></script>
+    <script src="@Url.Content("~/Scripts/Login.jsx")"></script>
     <script src="@Url.Content("~/Scripts/Judges.jsx")"></script>
 </body>
 </html>

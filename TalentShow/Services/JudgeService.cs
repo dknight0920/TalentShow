@@ -42,9 +42,9 @@ namespace TalentShow.Services
         private void Validate(Judge judge)
         {
             if (!PersonNameRepo.Exists(judge.Name.Id))
-                throw new ApplicationException("The judge cannot be added because its name does not exist. Add the name before adding the judge.");
+                PersonNameRepo.Add(judge.Name);
             if (!OrganizationRepo.Exists(judge.Affiliation.Id))
-                throw new ApplicationException("The judge cannot be added because its affiliation organization does not exist. Add the organization before adding the judge.");
+                OrganizationRepo.Add(judge.Affiliation);
         }
     }
 }

@@ -13,7 +13,7 @@ using TalentShowWebApi.DataTransferObjects.Helpers;
 
 namespace TalentShowWebApi.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class JudgesController : ApiController
     {
         private IRepo<Judge> JudgeRepo;
