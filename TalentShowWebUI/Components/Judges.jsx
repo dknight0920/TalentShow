@@ -111,8 +111,3 @@ var JudgeForm = React.createClass({
       );
     }
 });
-
-ReactDOM.render(
-  <JudgeBox/>,
-  document.getElementById('content')
-);
