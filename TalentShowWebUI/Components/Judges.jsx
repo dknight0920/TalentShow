@@ -1,4 +1,12 @@
-﻿var JudgeBox = React.createClass({
+﻿var JudgesPage = React.createClass({
+    render: function() {
+        return (
+            <JudgeBox/>
+      );
+    }
+});
+
+var JudgeBox = React.createClass({
     getInitialState: function () {
         return { data: [] };
     },

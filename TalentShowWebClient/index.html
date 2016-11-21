@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Talent Show Control Center</title>
+    <link href="/styles/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="app"></div>
+    <div id="login"></div>
+    <div id="content"></div>
+    <script>
+        var globalWebApiBaseUrl = "http://localhost:59543/";
+
+        function globalGetAccessTokenHttpHeader() {
+            var token = sessionStorage.getItem("token");
+            var headers = {};
+            if (token) {
+                headers.Authorization = 'Bearer ' + token;
+            }
+            return headers;
+        }
+    </script>
+    <script src="dist/app.bundle.js"></script>
+</body>
+</html>

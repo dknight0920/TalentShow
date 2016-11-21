@@ -1,9 +1,17 @@
-﻿var LoginBox = React.createClass({
+﻿var LoginPage = React.createClass({
+    render: function() {
+        return (
+            <LoginBox/>
+      );
+    }
+});
+
+var LoginBox = React.createClass({
     render: function() {
         return (
             <div className="container jumbotron">
-                <div class="page-header">
-                    <h1>Talent Show Controller</h1>
+                <div className="page-header">
+                    <h1>Talent Show <small>Control Center</small></h1>
                 </div>
                 <div className="loginBox panel panel-default">
                     <div className="panel-body">
@@ -85,7 +93,7 @@ var LoginForm = React.createClass({
     }
 });
 
-ReactDOM.render(
-  <LoginBox/>,
-  document.getElementById('login')
-);
+//ReactDOM.render(
+//  <LoginBox/>,
+//  document.getElementById('login')
+//);
