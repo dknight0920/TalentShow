@@ -1,4 +1,5 @@
-﻿var App = React.createClass({
+﻿
+var App = React.createClass({
     render: function () {
         return (
             <div>
@@ -15,11 +16,6 @@
 
 
 ReactDOM.render((
-    <ReactRouter.Router>
-  	    <ReactRouter.Route path="/" component={App}>
-  		    <ReactRouter.Route path="login" component={LoginPage} />
-  		    <ReactRouter.Route path="judges" component={JudgesPage} />
-  	    </ReactRouter.Route>
-   </ReactRouter.Router>
+    <LoginPage />
 
 ), document.getElementById('app'));
