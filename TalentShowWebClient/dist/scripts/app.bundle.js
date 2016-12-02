@@ -35427,11 +35427,15 @@ var App = _react2.default.createClass({
 
 (0, _reactDom.render)(_react2.default.createElement(
     _reactRouter.Router,
-    { history: _reactRouter.browserHistory },
-    _react2.default.createElement(_reactRouter.Route, { path: '/', component: App }),
-    _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _about2.default }),
-    _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _login2.default }),
-    _react2.default.createElement(_reactRouter.Route, { path: '/judges', component: _judges2.default })
+    { history: _reactRouter.hashHistory },
+    _react2.default.createElement(
+        _reactRouter.Route,
+        { path: '/', component: App },
+        _react2.default.createElement(_reactRouter.IndexRoute, { component: _login2.default }),
+        _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _about2.default }),
+        _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _login2.default }),
+        _react2.default.createElement(_reactRouter.Route, { path: '/judges', component: _judges2.default })
+    )
 ), document.getElementById('app'));
 
 },{"./modules/about":241,"./modules/judges":242,"./modules/login":243,"react":239,"react-dom":3,"react-router":180}],241:[function(require,module,exports){
@@ -35698,8 +35702,7 @@ var LoginForm = _react2.default.createClass({
         }).done(function (data) {
             sessionStorage.setItem("user", data.userName);
             sessionStorage.setItem("token", data.access_token);
-            //this.context.router.push("/judges");
-            _reactRouter.browserHistory.push('/judges');
+            _reactRouter.hashHistory.push('/judges');
         }).fail(function (data) {
             console.log(data); //TODO HANDLE BETTER
         });
