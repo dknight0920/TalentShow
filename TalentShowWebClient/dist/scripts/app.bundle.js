@@ -35438,7 +35438,54 @@ var App = _react2.default.createClass({
     )
 ), document.getElementById('app'));
 
-},{"./modules/about":241,"./modules/judges":242,"./modules/login":243,"react":239,"react-dom":3,"react-router":180}],241:[function(require,module,exports){
+},{"./modules/about":242,"./modules/judges":243,"./modules/login":244,"react":239,"react-dom":3,"react-router":180}],241:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require('react-router');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var AuthorizedComponent = function (_React$Component) {
+    _inherits(AuthorizedComponent, _React$Component);
+
+    function AuthorizedComponent(props) {
+        _classCallCheck(this, AuthorizedComponent);
+
+        return _possibleConstructorReturn(this, (AuthorizedComponent.__proto__ || Object.getPrototypeOf(AuthorizedComponent)).call(this, props));
+    }
+
+    _createClass(AuthorizedComponent, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            var token = sessionStorage.getItem("token");
+            if (!token) {
+                _reactRouter.hashHistory.push('/');
+            }
+        }
+    }]);
+
+    return AuthorizedComponent;
+}(_react2.default.Component);
+
+exports.default = AuthorizedComponent;
+
+},{"react":239,"react-router":180}],242:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35462,12 +35509,14 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"react":239}],242:[function(require,module,exports){
+},{"react":239}],243:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
 
@@ -35477,63 +35526,96 @@ var _jquery = require('jquery');
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
+var _authorized = require('../authorized');
+
+var _authorized2 = _interopRequireDefault(_authorized);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var JudgeBox = _react2.default.createClass({
-    displayName: 'JudgeBox',
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-    getInitialState: function getInitialState() {
-        return { data: [] };
-    },
-    componentDidMount: function componentDidMount() {
-        this.loadJudgesFromServer();
-    },
-    loadJudgesFromServer: function loadJudgesFromServer() {
-        var judges = _jquery2.default.parseJSON(_jquery2.default.ajax({
-            url: globalWebApiBaseUrl + "api/Judges",
-            contentType: "application/json",
-            type: "GET",
-            headers: globalGetAccessTokenHttpHeader(),
-            async: false
-        }).responseText);
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-        this.setState({ data: judges });
-    },
-    sendNewJudgeToServer: function sendNewJudgeToServer(newJudge) {
-        var judge = {
-            Id: 0,
-            Name: {
-                FirstName: newJudge.FirstName,
-                LastName: newJudge.LastName
-            },
-            Affiliation: newJudge.Affiliation
-        };
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-        _jquery2.default.ajax({
-            url: globalWebApiBaseUrl + "api/Judges",
-            contentType: "application/json",
-            type: "POST",
-            headers: globalGetAccessTokenHttpHeader(),
-            data: JSON.stringify(judge),
-            async: false
-        });
+var JudgeBox = function (_AuthorizedComponent) {
+    _inherits(JudgeBox, _AuthorizedComponent);
 
-        this.loadJudgesFromServer();
-    },
-    render: function render() {
-        return _react2.default.createElement(
-            'div',
-            { className: 'judgeBox' },
-            _react2.default.createElement(
-                'h1',
-                null,
-                'Judges'
-            ),
-            _react2.default.createElement(JudgeList, { data: this.state.data }),
-            _react2.default.createElement(JudgeForm, { onJudgeFormSubmit: this.sendNewJudgeToServer })
-        );
+    function JudgeBox(props) {
+        _classCallCheck(this, JudgeBox);
+
+        var _this = _possibleConstructorReturn(this, (JudgeBox.__proto__ || Object.getPrototypeOf(JudgeBox)).call(this, props));
+
+        _this.state = { data: [] };
+        _this.loadJudgesFromServer = _this.loadJudgesFromServer.bind(_this);
+        _this.sendNewJudgeToServer = _this.sendNewJudgeToServer.bind(_this);
+        return _this;
     }
-});
+
+    _createClass(JudgeBox, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            this.loadJudgesFromServer();
+        }
+    }, {
+        key: 'loadJudgesFromServer',
+        value: function loadJudgesFromServer() {
+            var headers = globalGetAccessTokenHttpHeader();
+
+            if (headers.Authorization) {
+                var judges = _jquery2.default.parseJSON(_jquery2.default.ajax({
+                    url: globalWebApiBaseUrl + "api/Judges",
+                    contentType: "application/json",
+                    type: "GET",
+                    headers: headers,
+                    async: false
+                }).responseText);
+
+                this.setState({ data: judges });
+            }
+        }
+    }, {
+        key: 'sendNewJudgeToServer',
+        value: function sendNewJudgeToServer(newJudge) {
+            var judge = {
+                Id: 0,
+                Name: {
+                    FirstName: newJudge.FirstName,
+                    LastName: newJudge.LastName
+                },
+                Affiliation: newJudge.Affiliation
+            };
+
+            _jquery2.default.ajax({
+                url: globalWebApiBaseUrl + "api/Judges",
+                contentType: "application/json",
+                type: "POST",
+                headers: globalGetAccessTokenHttpHeader(),
+                data: JSON.stringify(judge),
+                async: false
+            });
+
+            this.loadJudgesFromServer();
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                { className: 'judgeBox' },
+                _react2.default.createElement(
+                    'h1',
+                    null,
+                    'Judges'
+                ),
+                _react2.default.createElement(JudgeList, { data: this.state.data }),
+                _react2.default.createElement(JudgeForm, { onJudgeFormSubmit: this.sendNewJudgeToServer })
+            );
+        }
+    }]);
+
+    return JudgeBox;
+}(_authorized2.default);
 
 var JudgeList = _react2.default.createClass({
     displayName: 'JudgeList',
@@ -35607,15 +35689,28 @@ var JudgeForm = _react2.default.createClass({
     }
 });
 
-exports.default = _react2.default.createClass({
-    displayName: 'judges',
+var JudgesPage = function (_AuthorizedComponent2) {
+    _inherits(JudgesPage, _AuthorizedComponent2);
 
-    render: function render() {
-        return _react2.default.createElement(JudgeBox, null);
+    function JudgesPage(props) {
+        _classCallCheck(this, JudgesPage);
+
+        return _possibleConstructorReturn(this, (JudgesPage.__proto__ || Object.getPrototypeOf(JudgesPage)).call(this, props));
     }
-});
 
-},{"jquery":2,"react":239}],243:[function(require,module,exports){
+    _createClass(JudgesPage, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(JudgeBox, null);
+        }
+    }]);
+
+    return JudgesPage;
+}(_authorized2.default);
+
+exports.default = JudgesPage;
+
+},{"../authorized":241,"jquery":2,"react":239}],244:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

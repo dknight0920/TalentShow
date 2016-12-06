@@ -115,8 +115,10 @@
     <Content Include="scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="src\app.js" />
     <Content Include="src\modules\about.js" />
+    <Content Include="src\authorized.js" />
     <Content Include="src\modules\judges.js" />
     <Content Include="src\modules\login.js" />
+    <Content Include="src\modules\show\shows.js" />
     <Content Include="styles\bootstrap.min.css" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -128,6 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dist\" />
+    <Folder Include="src\modules\show\contest\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

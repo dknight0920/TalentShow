@@ -1,37 +1,25 @@
 ﻿import React from 'react';
 import $ from 'jquery';
-import AuthorizedComponent from '../authorized';
 
-class JudgeBox extends AuthorizedComponent {
-
-    constructor(props) {
-        super(props);
-        this.state = { data: [] };
-        this.loadJudgesFromServer = this.loadJudgesFromServer.bind(this);
-        this.sendNewJudgeToServer = this.sendNewJudgeToServer.bind(this);
-    }
-
-    componentDidMount() {
+var JudgeBox = React.createClass({
+    getInitialState: function () {
+        return { data: [] };
+    },
+    componentDidMount: function () {
         this.loadJudgesFromServer();
-    }
+    },
+    loadJudgesFromServer: function () {
+        var judges = $.parseJSON($.ajax({
+            url: globalWebApiBaseUrl + "api/Judges",
+            contentType: "application/json",
+            type: "GET",
+            headers: globalGetAccessTokenHttpHeader(),
+            async: false
+        }).responseText);
 
-    loadJudgesFromServer() {
-        var headers = globalGetAccessTokenHttpHeader();
-
-        if (headers.Authorization){
-            var judges = $.parseJSON($.ajax({
-                url: globalWebApiBaseUrl + "api/Judges",
-                contentType: "application/json",
-                type: "GET",
-                headers: headers,
-                async: false
-            }).responseText);
-
-            this.setState({ data: judges });
-        }
-    }
-
-    sendNewJudgeToServer(newJudge) {
+        this.setState({ data: judges });
+    },
+    sendNewJudgeToServer: function(newJudge) {
         var judge = {
             Id: 0, 
             Name: { 
@@ -51,18 +39,17 @@ class JudgeBox extends AuthorizedComponent {
         });
 
         this.loadJudgesFromServer();
-    }
-
-    render() {
+    },
+    render: function() {
         return (
-            <div className="judgeBox">
+          <div className="judgeBox">
             <h1>Judges</h1>
             <JudgeList data={this.state.data} />
             <JudgeForm onJudgeFormSubmit={this.sendNewJudgeToServer}/>
-            </div>
-        );
+          </div>
+      );
     }
-}
+});
 
 var JudgeList = React.createClass({
     render: function() {
@@ -128,14 +115,19 @@ var JudgeForm = React.createClass({
 }
 });
 
-class JudgesPage extends AuthorizedComponent {
-    constructor(props) {
-        super(props);
+export default React.createClass({
+    statics: {
+        willTransitionTo: function (transition, params, query, callback){
+            //if(1===2){
+            //    transition.login();
+            // }else{
+            //     callback();
+            // }
+        }
+    },
+    render: function() {
+        return (
+            <JudgeBox/>
+      );
     }
-
-    render() {
-        return (<JudgeBox/>);
-    }
-}
-
-export default JudgesPage;
+});
