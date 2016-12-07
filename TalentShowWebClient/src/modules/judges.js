@@ -1,4 +1,6 @@
 ﻿import React from 'react';
+import Input from '../common/input';
+import FormGroup from '../common/formGroup'
 import $ from 'jquery';
 import AuthorizedComponent from '../authorized';
 
@@ -30,7 +32,7 @@ class JudgeBox extends AuthorizedComponent {
             this.setState({ data: judges });
         }
     }
-
+    
     sendNewJudgeToServer(newJudge) {
         var judge = {
             Id: 0, 
@@ -110,19 +112,24 @@ var JudgeForm = React.createClass({
     render: function() {
         return (
           <form className="judgeForm"  onSubmit={this.handleSubmit}>
-            <input
+
+            <Input 
+                name="firstName" 
                 type="text"
-                placeholder="First Name"
+                label="First Name"
                 value={this.state.FirstName}
-                onChange={this.handleFirstNameChange}
-            />
-            <input
+                onChange={this.handleFirstNameChange} />
+
+            <Input 
+                name="lastName" 
                 type="text"
-                placeholder="Last Name"
+                label="Last Name"
                 value={this.state.LastName}
-                onChange={this.handleLastNameChange}
-            />
-            <input type="submit" value="Add" />
+                onChange={this.handleLastNameChange} />
+
+            <FormGroup>
+                <input className="btn btn-primary" type="submit" value="Add" />
+            </FormGroup>
         </form>
       );
 }

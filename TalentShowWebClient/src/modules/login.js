@@ -1,5 +1,7 @@
 ﻿import React from 'react';
 import { hashHistory } from 'react-router';
+import Input from '../common/input';
+import FormGroup from '../common/formGroup'
 import $ from 'jquery';
 
 var LoginBox = React.createClass({
@@ -62,17 +64,23 @@ var LoginForm = React.createClass({
     render: function() {
         return (
             <form className="loginForm"  onSubmit={this.handleSubmit}>
-                <div className="form-group">
-                    <label className="control-label">Email</label>
-                    <input className="form-control" type="text" placeholder="Email Address" value={this.state.EmailAddress} onChange={this.handleEmailAddressChange} />
-                </div>
-                <div className="form-group">
-                    <label className="control-label">Password</label>
-                    <input className="form-control" type="password" placeholder="Password" value={this.state.Password} onChange={this.handlePasswordChange} />
-                </div>
-                <div className="form-group">
+                <Input 
+                    name="emailAddress" 
+                    type="text"
+                    label="Email"
+                    value={this.state.EmailAddress}
+                    onChange={this.handleEmailAddressChange} />
+
+                <Input 
+                    name="emailAddress" 
+                    type="password"
+                    label="Password"
+                    value={this.state.Password}
+                    onChange={this.handlePasswordChange} />
+
+                <FormGroup>
                     <input className="btn btn-primary" type="submit" value="Submit" />
-                </div>
+                </FormGroup>
             </form>
       );
 }

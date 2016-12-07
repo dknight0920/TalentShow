@@ -110,6 +110,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="src\common\formGroup.js" />
+    <Content Include="src\common\input.js" />
+    <Content Include="src\common\label.js" />
     <Content Include="src\index.html" />
     <Content Include="scripts\ai.0.15.0-build58334.js" />
     <Content Include="scripts\ai.0.15.0-build58334.min.js" />

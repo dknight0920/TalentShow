@@ -35438,7 +35438,7 @@ var App = _react2.default.createClass({
     )
 ), document.getElementById('app'));
 
-},{"./modules/about":242,"./modules/judges":243,"./modules/login":244,"react":239,"react-dom":3,"react-router":180}],241:[function(require,module,exports){
+},{"./modules/about":245,"./modules/judges":246,"./modules/login":247,"react":239,"react-dom":3,"react-router":180}],241:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35486,6 +35486,163 @@ var AuthorizedComponent = function (_React$Component) {
 exports.default = AuthorizedComponent;
 
 },{"react":239,"react-router":180}],242:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var FormGroup = function (_React$Component) {
+    _inherits(FormGroup, _React$Component);
+
+    function FormGroup(props) {
+        _classCallCheck(this, FormGroup);
+
+        return _possibleConstructorReturn(this, (FormGroup.__proto__ || Object.getPrototypeOf(FormGroup)).call(this, props));
+    }
+
+    _createClass(FormGroup, [{
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "div",
+                { className: "form-group" },
+                this.props.children
+            );
+        }
+    }]);
+
+    return FormGroup;
+}(_react2.default.Component);
+
+exports.default = FormGroup;
+
+},{"react":239}],243:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _formGroup = require('./formGroup');
+
+var _formGroup2 = _interopRequireDefault(_formGroup);
+
+var _label = require('./label');
+
+var _label2 = _interopRequireDefault(_label);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Input = function (_React$Component) {
+    _inherits(Input, _React$Component);
+
+    function Input(props) {
+        _classCallCheck(this, Input);
+
+        return _possibleConstructorReturn(this, (Input.__proto__ || Object.getPrototypeOf(Input)).call(this, props));
+    }
+
+    _createClass(Input, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                _formGroup2.default,
+                null,
+                _react2.default.createElement(
+                    _label2.default,
+                    null,
+                    this.props.label
+                ),
+                _react2.default.createElement('input', {
+                    className: 'form-control',
+                    name: this.props.name,
+                    type: this.props.type,
+                    placeholder: this.props.label,
+                    value: this.props.value,
+                    onChange: this.props.onChange })
+            );
+        }
+    }]);
+
+    return Input;
+}(_react2.default.Component);
+
+exports.default = Input;
+
+},{"./formGroup":242,"./label":244,"react":239}],244:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Label = function (_React$Component) {
+    _inherits(Label, _React$Component);
+
+    function Label(props) {
+        _classCallCheck(this, Label);
+
+        return _possibleConstructorReturn(this, (Label.__proto__ || Object.getPrototypeOf(Label)).call(this, props));
+    }
+
+    _createClass(Label, [{
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "label",
+                { className: "control-label" },
+                this.props.children
+            );
+        }
+    }]);
+
+    return Label;
+}(_react2.default.Component);
+
+exports.default = Label;
+
+},{"react":239}],245:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35509,7 +35666,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"react":239}],243:[function(require,module,exports){
+},{"react":239}],246:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35521,6 +35678,14 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _input = require('../common/input');
+
+var _input2 = _interopRequireDefault(_input);
+
+var _formGroup = require('../common/formGroup');
+
+var _formGroup2 = _interopRequireDefault(_formGroup);
 
 var _jquery = require('jquery');
 
@@ -35672,19 +35837,23 @@ var JudgeForm = _react2.default.createClass({
         return _react2.default.createElement(
             'form',
             { className: 'judgeForm', onSubmit: this.handleSubmit },
-            _react2.default.createElement('input', {
+            _react2.default.createElement(_input2.default, {
+                name: 'firstName',
                 type: 'text',
-                placeholder: 'First Name',
+                label: 'First Name',
                 value: this.state.FirstName,
-                onChange: this.handleFirstNameChange
-            }),
-            _react2.default.createElement('input', {
+                onChange: this.handleFirstNameChange }),
+            _react2.default.createElement(_input2.default, {
+                name: 'lastName',
                 type: 'text',
-                placeholder: 'Last Name',
+                label: 'Last Name',
                 value: this.state.LastName,
-                onChange: this.handleLastNameChange
-            }),
-            _react2.default.createElement('input', { type: 'submit', value: 'Add' })
+                onChange: this.handleLastNameChange }),
+            _react2.default.createElement(
+                _formGroup2.default,
+                null,
+                _react2.default.createElement('input', { className: 'btn btn-primary', type: 'submit', value: 'Add' })
+            )
         );
     }
 });
@@ -35710,7 +35879,7 @@ var JudgesPage = function (_AuthorizedComponent2) {
 
 exports.default = JudgesPage;
 
-},{"../authorized":241,"jquery":2,"react":239}],244:[function(require,module,exports){
+},{"../authorized":241,"../common/formGroup":242,"../common/input":243,"jquery":2,"react":239}],247:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35722,6 +35891,14 @@ var _react = require('react');
 var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require('react-router');
+
+var _input = require('../common/input');
+
+var _input2 = _interopRequireDefault(_input);
+
+var _formGroup = require('../common/formGroup');
+
+var _formGroup2 = _interopRequireDefault(_formGroup);
 
 var _jquery = require('jquery');
 
@@ -35809,29 +35986,21 @@ var LoginForm = _react2.default.createClass({
         return _react2.default.createElement(
             'form',
             { className: 'loginForm', onSubmit: this.handleSubmit },
+            _react2.default.createElement(_input2.default, {
+                name: 'emailAddress',
+                type: 'text',
+                label: 'Email',
+                value: this.state.EmailAddress,
+                onChange: this.handleEmailAddressChange }),
+            _react2.default.createElement(_input2.default, {
+                name: 'emailAddress',
+                type: 'password',
+                label: 'Password',
+                value: this.state.Password,
+                onChange: this.handlePasswordChange }),
             _react2.default.createElement(
-                'div',
-                { className: 'form-group' },
-                _react2.default.createElement(
-                    'label',
-                    { className: 'control-label' },
-                    'Email'
-                ),
-                _react2.default.createElement('input', { className: 'form-control', type: 'text', placeholder: 'Email Address', value: this.state.EmailAddress, onChange: this.handleEmailAddressChange })
-            ),
-            _react2.default.createElement(
-                'div',
-                { className: 'form-group' },
-                _react2.default.createElement(
-                    'label',
-                    { className: 'control-label' },
-                    'Password'
-                ),
-                _react2.default.createElement('input', { className: 'form-control', type: 'password', placeholder: 'Password', value: this.state.Password, onChange: this.handlePasswordChange })
-            ),
-            _react2.default.createElement(
-                'div',
-                { className: 'form-group' },
+                _formGroup2.default,
+                null,
                 _react2.default.createElement('input', { className: 'btn btn-primary', type: 'submit', value: 'Submit' })
             )
         );
@@ -35846,4 +36015,4 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"jquery":2,"react":239,"react-router":180}]},{},[240]);
+},{"../common/formGroup":242,"../common/input":243,"jquery":2,"react":239,"react-router":180}]},{},[240]);
