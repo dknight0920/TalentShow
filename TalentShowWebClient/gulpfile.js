@@ -4,11 +4,13 @@ var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var concat = require('gulp-concat');
 var babelify = require("babelify");
+var tsify = require('tsify');
+var typescript = require('typescript');
 
 var config = {
     paths: {
         html: "./src/*.html",
-        js: "./src/**/*.{js,jsx}",
+        js: "./src/**/*.{ts,js,jsx}",
         css: [
             "./node_modules/bootstrap/dist/css/bootstrap.min.css",
             "./node_modules/bootstrap/dist/css/bootstrap-theme.min.css"
@@ -25,6 +27,10 @@ gulp.task('html', function () {
 
 gulp.task('js', function () {
     browserify(config.paths.appJs)
+        .plugin(tsify, {
+            noImplicitAny: true,
+            project: "./tsconfig.js"
+        })
         .transform("babelify", {presets: ["es2015", "react"]})
         //.transform(reactify)
         .bundle()

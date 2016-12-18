@@ -1,0 +1,18 @@
+﻿{
+    "compilerOptions": {
+        "module": "es2015",
+        "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true,
+        "noImplicitAny": false,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "jsx": "preserve",
+        "baseUrl": "./node_modules",
+        "allowJs": true,
+        "maxNodeModuleJsDepth": 1000
+    },
+    "files": [
+      "./src/app.tsx"
+  ]
+}

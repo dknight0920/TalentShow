@@ -1,20 +1,30 @@
 ﻿import React from 'react';
 import { render } from 'react-dom';
-import { Router, Route, hashHistory, IndexRoute  } from 'react-router';
+import { Router, Route, hashHistory, IndexRoute, Link  } from 'react-router';
 import about from './modules/about';
 import login from './modules/login';
 import judges from './modules/judges';
+import shows from './modules/ControlCenter/shows';
 
-var App = React.createClass({
+var Menu = React.createClass({
     render: function () {
         return (
             <div>
-                <ul>
-                   <li>Home</li>
-                   <li>About</li>
-                   <li>Contact</li>
-                </ul>
-        {this.props.children}
+                <nav className="navbar navbar-inverse navbar-static-top">
+                    <div className="container-fluid">
+                        <div className="navbar-header">
+                            <span className="navbar-brand">
+                                Control Center
+                            </span>
+                        </div>
+                        <ul className="nav navbar-nav">
+                            <li><Link to="/shows">Shows</Link></li>
+                            <li><Link to="/judges">Judges</Link></li>
+                            <li><Link to="/about">About</Link></li>
+                        </ul>
+                    </div>
+                </nav>
+                <div>{this.props.children}</div>
             </div>
         );
     }
@@ -22,11 +32,14 @@ var App = React.createClass({
 
 render((
     <Router history={hashHistory}>
-        <Route path="/" component={App}>
+        <Route path="/">
             <IndexRoute component={login} />
-            <Route path="/about" component={about} />
-            <Route path="/login" component={login} />
-            <Route path="/judges" component={judges} />
+            <Route component={Menu}>
+                <Route path="/shows" component={shows} />
+                <Route path="/about" component={about} />
+                <Route path="/login" component={login} />
+                <Route path="/judges" component={judges} />
+            </Route>
         </Route>
      </Router>
 ), document.getElementById('app'));

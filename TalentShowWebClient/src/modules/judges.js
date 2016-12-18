@@ -69,14 +69,10 @@ class JudgeBox extends AuthorizedComponent {
 var JudgeList = React.createClass({
     render: function() {
         var judgeNodes = this.props.data.map(function (judge) {
-            return (
-              <Judge key={judge.Id} data={judge}/>
-        );
-});
-return (
-  <div className="judgeList">{judgeNodes}</div>
-    );
-}
+            return (<Judge key={judge.Id} data={judge}/>);
+        });
+        return (<div className="judgeList">{judgeNodes}</div>);
+    }
 });
 
 var Judge = React.createClass({
