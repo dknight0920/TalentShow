@@ -53,7 +53,7 @@ var LoginForm = React.createClass({
         }).done(function (data) {
             sessionStorage.setItem("user", data.userName);
             sessionStorage.setItem("token", data.access_token);
-            hashHistory.push('/judges');
+            hashHistory.push('/shows');
         }).fail(function (data) {
             console.log(data); //TODO HANDLE BETTER
         });

@@ -35478,6 +35478,7 @@ function requireAuth(nextState, replaceState) {
             _reactRouter.Route,
             { onEnter: requireAuth, component: Menu },
             _react2.default.createElement(_reactRouter.Route, { path: '/shows', component: _shows2.default }),
+            _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId', component: _about2.default }),
             _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _about2.default }),
             _react2.default.createElement(_reactRouter.Route, { path: '/judges', component: _judges2.default })
         )
@@ -35612,15 +35613,17 @@ var Label = function (_super) {
 exports.default = Label;
 
 },{"react":239}],244:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _react = require("react");
+var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require('react-router');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35637,17 +35640,30 @@ var ShowsBox = function (_super) {
     __extends(ShowsBox, _super);
     function ShowsBox(props) {
         var _this = _super.call(this, props) || this;
-        _this.state = { data: [] };
+        _this.state = { data: [{
+                Id: 3,
+                Name: "Talent Show 2018",
+                Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+            }, {
+                Id: 2,
+                Name: "Talent Show 2017",
+                Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+            }, {
+                Id: 1,
+                Name: "Talent Show 2016",
+                Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+            }]
+        };
         return _this;
     }
     ShowsBox.prototype.render = function () {
         return _react2.default.createElement(
-            "div",
-            { className: "showsBox" },
+            'div',
+            { className: 'showsBox' },
             _react2.default.createElement(
-                "h1",
+                'h1',
                 null,
-                "Shows"
+                'Talent Shows'
             ),
             _react2.default.createElement(ShowList, { data: this.state.data })
         );
@@ -35664,9 +35680,13 @@ var ShowList = function (_super) {
             return _react2.default.createElement(Show, { key: show.Id, data: show });
         });
         return _react2.default.createElement(
-            "div",
-            { className: "showList" },
-            showNodes
+            'div',
+            { className: 'showList' },
+            _react2.default.createElement(
+                'div',
+                { className: 'list-group' },
+                showNodes
+            )
         );
     };
     return ShowList;
@@ -35679,9 +35699,22 @@ var Show = function (_super) {
     Show.prototype.render = function () {
         var show = this.props.data;
         return _react2.default.createElement(
-            "div",
-            { className: "show" },
-            show.Name
+            'div',
+            { className: 'show' },
+            _react2.default.createElement(
+                _reactRouter.Link,
+                { to: '/show', params: { showId: show.Id }, className: 'list-group-item' },
+                _react2.default.createElement(
+                    'h4',
+                    { className: 'list-group-item-heading' },
+                    show.Name
+                ),
+                _react2.default.createElement(
+                    'p',
+                    { className: 'list-group-item-text' },
+                    show.Description
+                )
+            )
         );
     };
     return Show;
@@ -35698,7 +35731,7 @@ var ShowsPage = function (_super) {
 }(_react2.default.Component);
 exports.default = ShowsPage;
 
-},{"react":239}],245:[function(require,module,exports){
+},{"react":239,"react-router":180}],245:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35984,7 +36017,7 @@ var LoginForm = _react2.default.createClass({
         }).done(function (data) {
             sessionStorage.setItem("user", data.userName);
             sessionStorage.setItem("token", data.access_token);
-            _reactRouter.hashHistory.push('/judges');
+            _reactRouter.hashHistory.push('/shows');
         }).fail(function (data) {
             console.log(data);
         });

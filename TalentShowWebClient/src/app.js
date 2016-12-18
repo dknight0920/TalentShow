@@ -43,6 +43,7 @@ render((
             <IndexRoute component={login} />
             <Route onEnter={requireAuth} component={Menu}>
                 <Route path="/shows" component={shows} />
+                <Route path="/show/:showId" component={about} />
                 <Route path="/about" component={about} />
                 <Route path="/judges" component={judges} />
             </Route>
