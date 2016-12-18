@@ -30,14 +30,20 @@ var Menu = React.createClass({
     }
 });
 
+function requireAuth(nextState, replaceState){
+    var token = sessionStorage.getItem("token");
+    if(!token){
+        replaceState({ nextPathname: nextState.location.pathname }, '/login');
+    }
+}
+
 render((
     <Router history={hashHistory}>
         <Route path="/">
             <IndexRoute component={login} />
-            <Route component={Menu}>
+            <Route onEnter={requireAuth} component={Menu}>
                 <Route path="/shows" component={shows} />
                 <Route path="/about" component={about} />
-                <Route path="/login" component={login} />
                 <Route path="/judges" component={judges} />
             </Route>
         </Route>

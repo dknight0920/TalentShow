@@ -1,5 +1,4 @@
 ﻿import React from 'react';
-import AuthorizedComponent from '../../authorized';
 
 class ShowsBox extends React.Component {
 
@@ -44,7 +43,7 @@ class Show extends React.Component {
     }
 }
 
-class ShowsPage extends AuthorizedComponent {
+class ShowsPage extends React.Component {
     constructor(props) {
         super(props);
     }

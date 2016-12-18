@@ -2,9 +2,8 @@
 import Input from '../common/input';
 import FormGroup from '../common/formGroup'
 import $ from 'jquery';
-import AuthorizedComponent from '../authorized';
 
-class JudgeBox extends AuthorizedComponent {
+class JudgeBox extends React.Component {
 
     constructor(props) {
         super(props);
@@ -131,7 +130,7 @@ var JudgeForm = React.createClass({
 }
 });
 
-class JudgesPage extends AuthorizedComponent {
+class JudgesPage extends React.Component {
     constructor(props) {
         super(props);
     }

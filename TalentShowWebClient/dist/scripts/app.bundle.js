@@ -35461,6 +35461,12 @@ var Menu = _react2.default.createClass({
         );
     }
 });
+function requireAuth(nextState, replaceState) {
+    var token = sessionStorage.getItem("token");
+    if (!token) {
+        replaceState({ nextPathname: nextState.location.pathname }, '/login');
+    }
+}
 (0, _reactDom.render)(_react2.default.createElement(
     _reactRouter.Router,
     { history: _reactRouter.hashHistory },
@@ -35470,55 +35476,15 @@ var Menu = _react2.default.createClass({
         _react2.default.createElement(_reactRouter.IndexRoute, { component: _login2.default }),
         _react2.default.createElement(
             _reactRouter.Route,
-            { component: Menu },
+            { onEnter: requireAuth, component: Menu },
             _react2.default.createElement(_reactRouter.Route, { path: '/shows', component: _shows2.default }),
             _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _about2.default }),
-            _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _login2.default }),
             _react2.default.createElement(_reactRouter.Route, { path: '/judges', component: _judges2.default })
         )
     )
 ), document.getElementById('app'));
 
-},{"./modules/ControlCenter/shows":245,"./modules/about":246,"./modules/judges":247,"./modules/login":248,"react":239,"react-dom":3,"react-router":180}],241:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRouter = require('react-router');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var __extends = undefined && undefined.__extends || function (d, b) {
-    for (var p in b) {
-        if (b.hasOwnProperty(p)) d[p] = b[p];
-    }function __() {
-        this.constructor = d;
-    }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-
-var AuthorizedComponent = function (_super) {
-    __extends(AuthorizedComponent, _super);
-    function AuthorizedComponent(props) {
-        return _super.call(this, props) || this;
-    }
-    AuthorizedComponent.prototype.componentWillMount = function () {
-        var token = sessionStorage.getItem("token");
-        if (!token) {
-            _reactRouter.hashHistory.push('/');
-        }
-    };
-    return AuthorizedComponent;
-}(_react2.default.Component);
-exports.default = AuthorizedComponent;
-
-},{"react":239,"react-router":180}],242:[function(require,module,exports){
+},{"./modules/ControlCenter/shows":244,"./modules/about":245,"./modules/judges":246,"./modules/login":247,"react":239,"react-dom":3,"react-router":180}],241:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35556,7 +35522,7 @@ var FormGroup = function (_super) {
 }(_react2.default.Component);
 exports.default = FormGroup;
 
-},{"react":239}],243:[function(require,module,exports){
+},{"react":239}],242:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35607,7 +35573,7 @@ var Input = function (_super) {
 }(_react2.default.Component);
 exports.default = Input;
 
-},{"./formGroup":242,"./label":244,"react":239}],244:[function(require,module,exports){
+},{"./formGroup":241,"./label":243,"react":239}],243:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35645,20 +35611,16 @@ var Label = function (_super) {
 }(_react2.default.Component);
 exports.default = Label;
 
-},{"react":239}],245:[function(require,module,exports){
-'use strict';
+},{"react":239}],244:[function(require,module,exports){
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _react = require('react');
+var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
-
-var _authorized = require('../../authorized');
-
-var _authorized2 = _interopRequireDefault(_authorized);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35680,12 +35642,12 @@ var ShowsBox = function (_super) {
     }
     ShowsBox.prototype.render = function () {
         return _react2.default.createElement(
-            'div',
-            { className: 'showsBox' },
+            "div",
+            { className: "showsBox" },
             _react2.default.createElement(
-                'h1',
+                "h1",
                 null,
-                'Shows'
+                "Shows"
             ),
             _react2.default.createElement(ShowList, { data: this.state.data })
         );
@@ -35702,8 +35664,8 @@ var ShowList = function (_super) {
             return _react2.default.createElement(Show, { key: show.Id, data: show });
         });
         return _react2.default.createElement(
-            'div',
-            { className: 'showList' },
+            "div",
+            { className: "showList" },
             showNodes
         );
     };
@@ -35717,8 +35679,8 @@ var Show = function (_super) {
     Show.prototype.render = function () {
         var show = this.props.data;
         return _react2.default.createElement(
-            'div',
-            { className: 'show' },
+            "div",
+            { className: "show" },
             show.Name
         );
     };
@@ -35733,10 +35695,10 @@ var ShowsPage = function (_super) {
         return _react2.default.createElement(ShowsBox, null);
     };
     return ShowsPage;
-}(_authorized2.default);
+}(_react2.default.Component);
 exports.default = ShowsPage;
 
-},{"../../authorized":241,"react":239}],246:[function(require,module,exports){
+},{"react":239}],245:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35761,7 +35723,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"react":239}],247:[function(require,module,exports){
+},{"react":239}],246:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35783,10 +35745,6 @@ var _formGroup2 = _interopRequireDefault(_formGroup);
 var _jquery = require('jquery');
 
 var _jquery2 = _interopRequireDefault(_jquery);
-
-var _authorized = require('../authorized');
-
-var _authorized2 = _interopRequireDefault(_authorized);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35857,7 +35815,7 @@ var JudgeBox = function (_super) {
         );
     };
     return JudgeBox;
-}(_authorized2.default);
+}(_react2.default.Component);
 var JudgeList = _react2.default.createClass({
     displayName: 'JudgeList',
 
@@ -35930,10 +35888,10 @@ var JudgesPage = function (_super) {
         return _react2.default.createElement(JudgeBox, null);
     };
     return JudgesPage;
-}(_authorized2.default);
+}(_react2.default.Component);
 exports.default = JudgesPage;
 
-},{"../authorized":241,"../common/formGroup":242,"../common/input":243,"jquery":2,"react":239}],248:[function(require,module,exports){
+},{"../common/formGroup":241,"../common/input":242,"jquery":2,"react":239}],247:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36056,4 +36014,4 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"../common/formGroup":242,"../common/input":243,"jquery":2,"react":239,"react-router":180}]},{},[240]);
+},{"../common/formGroup":241,"../common/input":242,"jquery":2,"react":239,"react-router":180}]},{},[240]);
