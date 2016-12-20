@@ -35396,6 +35396,10 @@ var _shows = require('./modules/ControlCenter/shows');
 
 var _shows2 = _interopRequireDefault(_shows);
 
+var _show = require('./modules/ControlCenter/show/show');
+
+var _show2 = _interopRequireDefault(_show);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Menu = _react2.default.createClass({
@@ -35462,10 +35466,12 @@ var Menu = _react2.default.createClass({
     }
 });
 function requireAuth(nextState, replaceState) {
-    var token = sessionStorage.getItem("token");
-    if (!token) {
+    if (!getToken()) {
         replaceState({ nextPathname: nextState.location.pathname }, '/login');
     }
+}
+function getToken() {
+    return sessionStorage.getItem("token");
 }
 (0, _reactDom.render)(_react2.default.createElement(
     _reactRouter.Router,
@@ -35478,14 +35484,14 @@ function requireAuth(nextState, replaceState) {
             _reactRouter.Route,
             { onEnter: requireAuth, component: Menu },
             _react2.default.createElement(_reactRouter.Route, { path: '/shows', component: _shows2.default }),
-            _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId', component: _about2.default }),
+            _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId', component: _show2.default }),
             _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _about2.default }),
             _react2.default.createElement(_reactRouter.Route, { path: '/judges', component: _judges2.default })
         )
     )
 ), document.getElementById('app'));
 
-},{"./modules/ControlCenter/shows":244,"./modules/about":245,"./modules/judges":246,"./modules/login":247,"react":239,"react-dom":3,"react-router":180}],241:[function(require,module,exports){
+},{"./modules/ControlCenter/show/show":244,"./modules/ControlCenter/shows":245,"./modules/about":246,"./modules/judges":247,"./modules/login":248,"react":239,"react-dom":3,"react-router":180}],241:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35613,6 +35619,82 @@ var Label = function (_super) {
 exports.default = Label;
 
 },{"react":239}],244:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var __extends = undefined && undefined.__extends || function (d, b) {
+    for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+    }function __() {
+        this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+
+var ShowsPage = function (_super) {
+    __extends(ShowsPage, _super);
+    function ShowsPage(props) {
+        var _this = _super.call(this, props) || this;
+        _this.getShow = _this.getShow.bind(_this);
+        _this.state = { show: _this.getShow() };
+        return _this;
+    }
+    ShowsPage.prototype.getShow = function () {
+        var showId = this.props.params.showId;
+        var show = null;
+        var shows = [{
+            Id: 3,
+            Name: "Talent Show 2018",
+            Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+        }, {
+            Id: 2,
+            Name: "Talent Show 2017",
+            Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+        }, {
+            Id: 1,
+            Name: "Talent Show 2016",
+            Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+        }];
+        for (var i = 0; i < shows.length; i++) {
+            var currentShow = shows[i];
+            if (currentShow.Id == showId) {
+                show = currentShow;
+                break;
+            }
+        }
+        return show;
+    };
+    ShowsPage.prototype.render = function () {
+        var show = this.state.show;
+        return _react2.default.createElement(
+            "div",
+            null,
+            _react2.default.createElement(
+                "h1",
+                null,
+                show.Name
+            ),
+            _react2.default.createElement(
+                "p",
+                null,
+                show.Description
+            )
+        );
+    };
+    return ShowsPage;
+}(_react2.default.Component);
+exports.default = ShowsPage;
+
+},{"react":239}],245:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35703,7 +35785,7 @@ var Show = function (_super) {
             { className: 'show' },
             _react2.default.createElement(
                 _reactRouter.Link,
-                { to: '/show', params: { showId: show.Id }, className: 'list-group-item' },
+                { to: { pathname: '/show/' + show.Id }, className: 'list-group-item' },
                 _react2.default.createElement(
                     'h4',
                     { className: 'list-group-item-heading' },
@@ -35731,7 +35813,7 @@ var ShowsPage = function (_super) {
 }(_react2.default.Component);
 exports.default = ShowsPage;
 
-},{"react":239,"react-router":180}],245:[function(require,module,exports){
+},{"react":239,"react-router":180}],246:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35756,7 +35838,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"react":239}],246:[function(require,module,exports){
+},{"react":239}],247:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35924,7 +36006,7 @@ var JudgesPage = function (_super) {
 }(_react2.default.Component);
 exports.default = JudgesPage;
 
-},{"../common/formGroup":241,"../common/input":242,"jquery":2,"react":239}],247:[function(require,module,exports){
+},{"../common/formGroup":241,"../common/input":242,"jquery":2,"react":239}],248:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

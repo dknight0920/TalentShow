@@ -5,6 +5,7 @@ import about from './modules/about';
 import login from './modules/login';
 import judges from './modules/judges';
 import shows from './modules/ControlCenter/shows';
+import show from './modules/ControlCenter/show/show';
 
 var Menu = React.createClass({
     render: function () {
@@ -31,10 +32,13 @@ var Menu = React.createClass({
 });
 
 function requireAuth(nextState, replaceState){
-    var token = sessionStorage.getItem("token");
-    if(!token){
+    if(!getToken()){
         replaceState({ nextPathname: nextState.location.pathname }, '/login');
     }
+}
+
+function getToken(){
+    return sessionStorage.getItem("token");
 }
 
 render((
@@ -43,7 +47,7 @@ render((
             <IndexRoute component={login} />
             <Route onEnter={requireAuth} component={Menu}>
                 <Route path="/shows" component={shows} />
-                <Route path="/show/:showId" component={about} />
+                <Route path="/show/:showId" component={show} />
                 <Route path="/about" component={about} />
                 <Route path="/judges" component={judges} />
             </Route>

@@ -64,7 +64,7 @@ class Show extends React.Component {
         var show = this.props.data;
         return (
             <div className="show">
-                <Link to="/show" params={{showId: show.Id}} className="list-group-item">
+                <Link to={{ pathname: '/show/' + show.Id }} className="list-group-item">
                     <h4 className="list-group-item-heading">{show.Name}</h4>
                     <p className="list-group-item-text">{show.Description}</p>
                 </Link>    
