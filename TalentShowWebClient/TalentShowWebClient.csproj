@@ -103,6 +103,7 @@
     </Content>
     <Content Include="package.json" />
     <Content Include="src\modules\about.js" />
+    <Content Include="src\modules\ControlCenter\show\contests.js" />
     <Content Include="src\modules\ControlCenter\show\show.js" />
     <Content Include="tsconfig.json" />
     <None Include="Web.Debug.config">

@@ -1,7 +1,8 @@
 ﻿import React from 'react';
 import { Link } from 'react-router';
+import ContestsBox from './contests';
 
-class ShowsPage extends React.Component {
+class ShowPage extends React.Component {
     constructor(props) {
         super(props);
         this.getShow = this.getShow.bind(this);
@@ -47,9 +48,11 @@ class ShowsPage extends React.Component {
             <div>
                 <h1>{show.Name}</h1>
                 <p>{show.Description}</p>
+                <hr />
+                <ContestsBox showId={show.Id} />
             </div>
         );
     }
 }
 
-export default ShowsPage;
+export default ShowPage;

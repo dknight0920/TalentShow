@@ -25,7 +25,7 @@ var Menu = React.createClass({
                         </ul>
                     </div>
                 </nav>
-                <div>{this.props.children}</div>
+                <div style={{margin: "20px"}}>{this.props.children}</div>
             </div>
         );
     }
@@ -48,6 +48,7 @@ render((
             <Route onEnter={requireAuth} component={Menu}>
                 <Route path="/shows" component={shows} />
                 <Route path="/show/:showId" component={show} />
+                <Route path="/show/:showId/contest/:contestId" component={show} />
                 <Route path="/about" component={about} />
                 <Route path="/judges" component={judges} />
             </Route>

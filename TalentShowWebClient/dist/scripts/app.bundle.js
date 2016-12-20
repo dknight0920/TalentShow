@@ -35459,7 +35459,7 @@ var Menu = _react2.default.createClass({
             ),
             _react2.default.createElement(
                 'div',
-                null,
+                { style: { margin: "20px" } },
                 this.props.children
             )
         );
@@ -35485,13 +35485,14 @@ function getToken() {
             { onEnter: requireAuth, component: Menu },
             _react2.default.createElement(_reactRouter.Route, { path: '/shows', component: _shows2.default }),
             _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId', component: _show2.default }),
+            _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId', component: _show2.default }),
             _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _about2.default }),
             _react2.default.createElement(_reactRouter.Route, { path: '/judges', component: _judges2.default })
         )
     )
 ), document.getElementById('app'));
 
-},{"./modules/ControlCenter/show/show":244,"./modules/ControlCenter/shows":245,"./modules/about":246,"./modules/judges":247,"./modules/login":248,"react":239,"react-dom":3,"react-router":180}],241:[function(require,module,exports){
+},{"./modules/ControlCenter/show/show":245,"./modules/ControlCenter/shows":246,"./modules/about":247,"./modules/judges":248,"./modules/login":249,"react":239,"react-dom":3,"react-router":180}],241:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35619,15 +35620,17 @@ var Label = function (_super) {
 exports.default = Label;
 
 },{"react":239}],244:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _react = require("react");
+var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require('react-router');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35640,15 +35643,136 @@ var __extends = undefined && undefined.__extends || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 
-var ShowsPage = function (_super) {
-    __extends(ShowsPage, _super);
-    function ShowsPage(props) {
+var ContestsBox = function (_super) {
+    __extends(ContestsBox, _super);
+    function ContestsBox(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = { data: [{
+                Id: 3,
+                Name: "Music",
+                Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+            }, {
+                Id: 2,
+                Name: "Dance",
+                Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+            }, {
+                Id: 1,
+                Name: "Design",
+                Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+            }]
+        };
+        return _this;
+    }
+    ContestsBox.prototype.render = function () {
+        return _react2.default.createElement(
+            'div',
+            { className: 'contestsBox' },
+            _react2.default.createElement(
+                'div',
+                { className: 'panel panel-default' },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'panel-heading' },
+                    _react2.default.createElement(
+                        'h3',
+                        { className: 'panel-title' },
+                        'Contests'
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'panel-body' },
+                    _react2.default.createElement(ContestList, { showId: this.props.showId, data: this.state.data })
+                )
+            )
+        );
+    };
+    return ContestsBox;
+}(_react2.default.Component);
+var ContestList = function (_super) {
+    __extends(ContestList, _super);
+    function ContestList(props) {
+        return _super.call(this, props) || this;
+    }
+    ContestList.prototype.render = function () {
+        var showId = this.props.showId;
+        var contestNodes = this.props.data.map(function (contest) {
+            return _react2.default.createElement(ContestNode, { key: contest.Id, showId: showId, data: contest });
+        });
+        return _react2.default.createElement(
+            'div',
+            { className: 'contestList' },
+            _react2.default.createElement(
+                'div',
+                { className: 'list-group' },
+                contestNodes
+            )
+        );
+    };
+    return ContestList;
+}(_react2.default.Component);
+var ContestNode = function (_super) {
+    __extends(ContestNode, _super);
+    function ContestNode(props) {
+        return _super.call(this, props) || this;
+    }
+    ContestNode.prototype.render = function () {
+        var showId = this.props.showId;
+        var contest = this.props.data;
+        return _react2.default.createElement(
+            _reactRouter.Link,
+            { to: { pathname: '/show/' + showId + '/contest/' + contest.Id }, className: 'list-group-item' },
+            _react2.default.createElement(
+                'h4',
+                { className: 'list-group-item-heading' },
+                contest.Name
+            ),
+            _react2.default.createElement(
+                'p',
+                { className: 'list-group-item-text' },
+                contest.Description
+            )
+        );
+    };
+    return ContestNode;
+}(_react2.default.Component);
+exports.default = ContestsBox;
+
+},{"react":239,"react-router":180}],245:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _contests = require('./contests');
+
+var _contests2 = _interopRequireDefault(_contests);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var __extends = undefined && undefined.__extends || function (d, b) {
+    for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+    }function __() {
+        this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+
+var ShowPage = function (_super) {
+    __extends(ShowPage, _super);
+    function ShowPage(props) {
         var _this = _super.call(this, props) || this;
         _this.getShow = _this.getShow.bind(_this);
         _this.state = { show: _this.getShow() };
         return _this;
     }
-    ShowsPage.prototype.getShow = function () {
+    ShowPage.prototype.getShow = function () {
         var showId = this.props.params.showId;
         var show = null;
         var shows = [{
@@ -35673,28 +35797,30 @@ var ShowsPage = function (_super) {
         }
         return show;
     };
-    ShowsPage.prototype.render = function () {
+    ShowPage.prototype.render = function () {
         var show = this.state.show;
         return _react2.default.createElement(
-            "div",
+            'div',
             null,
             _react2.default.createElement(
-                "h1",
+                'h1',
                 null,
                 show.Name
             ),
             _react2.default.createElement(
-                "p",
+                'p',
                 null,
                 show.Description
-            )
+            ),
+            _react2.default.createElement('hr', null),
+            _react2.default.createElement(_contests2.default, { showId: show.Id })
         );
     };
-    return ShowsPage;
+    return ShowPage;
 }(_react2.default.Component);
-exports.default = ShowsPage;
+exports.default = ShowPage;
 
-},{"react":239}],245:[function(require,module,exports){
+},{"./contests":244,"react":239}],246:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35781,21 +35907,17 @@ var Show = function (_super) {
     Show.prototype.render = function () {
         var show = this.props.data;
         return _react2.default.createElement(
-            'div',
-            { className: 'show' },
+            _reactRouter.Link,
+            { to: { pathname: '/show/' + show.Id }, className: 'list-group-item' },
             _react2.default.createElement(
-                _reactRouter.Link,
-                { to: { pathname: '/show/' + show.Id }, className: 'list-group-item' },
-                _react2.default.createElement(
-                    'h4',
-                    { className: 'list-group-item-heading' },
-                    show.Name
-                ),
-                _react2.default.createElement(
-                    'p',
-                    { className: 'list-group-item-text' },
-                    show.Description
-                )
+                'h4',
+                { className: 'list-group-item-heading' },
+                show.Name
+            ),
+            _react2.default.createElement(
+                'p',
+                { className: 'list-group-item-text' },
+                show.Description
             )
         );
     };
@@ -35813,7 +35935,7 @@ var ShowsPage = function (_super) {
 }(_react2.default.Component);
 exports.default = ShowsPage;
 
-},{"react":239,"react-router":180}],246:[function(require,module,exports){
+},{"react":239,"react-router":180}],247:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35838,7 +35960,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"react":239}],247:[function(require,module,exports){
+},{"react":239}],248:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36006,7 +36128,7 @@ var JudgesPage = function (_super) {
 }(_react2.default.Component);
 exports.default = JudgesPage;
 
-},{"../common/formGroup":241,"../common/input":242,"jquery":2,"react":239}],248:[function(require,module,exports){
+},{"../common/formGroup":241,"../common/input":242,"jquery":2,"react":239}],249:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

@@ -1,24 +1,24 @@
 ﻿import React from 'react';
 import { Link  } from 'react-router';
 
-class ShowsBox extends React.Component {
+class ContestsBox extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = { data: [
             {
                 Id: 3,
-                Name: "Talent Show 2018", 
+                Name: "Music", 
                 Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " 
             },
             {
                 Id: 2,
-                Name: "Talent Show 2017", 
+                Name: "Dance", 
                 Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " 
             },
             {
                 Id: 1,
-                Name: "Talent Show 2016", 
+                Name: "Design", 
                 Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " 
             }] 
         };
@@ -26,59 +26,57 @@ class ShowsBox extends React.Component {
 
     render() {
         return (
-            <div className="showsBox">
-            <h1>Talent Shows</h1>
-            <ShowList data={this.state.data} />
+            <div className="contestsBox">
+                <div className="panel panel-default">
+                    <div className="panel-heading">
+                        <h3 className="panel-title">Contests</h3>
+                    </div>
+                    <div className="panel-body">
+                       <ContestList showId={this.props.showId} data={this.state.data} />
+                    </div>
+                </div>               
             </div>
         );
     }
 }
 
-class ShowList extends React.Component {
+class ContestList extends React.Component {
 
     constructor(props) {
         super(props);
     }
 
     render() {
-        var showNodes = this.props.data.map(function (show) {
-            return (<Show key={show.Id} data={show}/>);
+        var showId = this.props.showId;
+        var contestNodes = this.props.data.map(function (contest) {
+            return (<ContestNode key={contest.Id}  showId={showId} data={contest}/>);
         });
         return (
-            <div className="showList">
+            <div className="contestList">
                 <div className="list-group">
-                    {showNodes}
+                    {contestNodes}
                 </div>
             </div>
         );
     }
 }
 
-class Show extends React.Component {
+class ContestNode extends React.Component {
 
     constructor(props) {
         super(props);
     }
 
     render() {
-        var show = this.props.data;
+        var showId =  this.props.showId;
+        var contest = this.props.data;
         return (
-            <Link to={{ pathname: '/show/' + show.Id }} className="list-group-item">
-                <h4 className="list-group-item-heading">{show.Name}</h4>
-                <p className="list-group-item-text">{show.Description}</p>
-            </Link>    
+            <Link to={{ pathname: '/show/' + showId + '/contest/' + contest.Id }} className="list-group-item">
+                <h4 className="list-group-item-heading">{contest.Name}</h4>
+                <p className="list-group-item-text">{contest.Description}</p>
+            </Link>
         );
     }
 }
 
-class ShowsPage extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (<ShowsBox/>);
-    }
-}
-
-export default ShowsPage;
+export default ContestsBox;
