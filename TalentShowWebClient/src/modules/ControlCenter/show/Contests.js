@@ -1,5 +1,6 @@
 ﻿import React from 'react';
-import { Link  } from 'react-router';
+import Panel from '../../../common/panel';
+import { ListGroup, ListItem, ItemHeading, ItemText } from '../../../common/listGroup';
 
 class ContestsBox extends React.Component {
 
@@ -27,14 +28,9 @@ class ContestsBox extends React.Component {
     render() {
         return (
             <div className="contestsBox">
-                <div className="panel panel-default">
-                    <div className="panel-heading">
-                        <h3 className="panel-title">Contests</h3>
-                    </div>
-                    <div className="panel-body">
-                       <ContestList showId={this.props.showId} data={this.state.data} />
-                    </div>
-                </div>               
+                <Panel title="Contests">
+                    <ContestList showId={this.props.showId} data={this.state.data} />
+                </Panel>             
             </div>
         );
     }
@@ -53,9 +49,9 @@ class ContestList extends React.Component {
         });
         return (
             <div className="contestList">
-                <div className="list-group">
+                <ListGroup>
                     {contestNodes}
-                </div>
+                </ListGroup>
             </div>
         );
     }
@@ -71,10 +67,10 @@ class ContestNode extends React.Component {
         var showId =  this.props.showId;
         var contest = this.props.data;
         return (
-            <Link to={{ pathname: '/show/' + showId + '/contest/' + contest.Id }} className="list-group-item">
-                <h4 className="list-group-item-heading">{contest.Name}</h4>
-                <p className="list-group-item-text">{contest.Description}</p>
-            </Link>
+            <ListItem pathname={ '/show/' + showId + '/contest/' + contest.Id }>
+                <ItemHeading>{contest.Name}</ItemHeading>
+                <ItemText>{contest.Description}</ItemText>
+            </ListItem>
         );
     }
 }

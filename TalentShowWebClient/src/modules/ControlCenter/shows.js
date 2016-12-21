@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { Link  } from 'react-router';
+import { ListGroup, ListItem, ItemHeading, ItemText } from '../../common/listGroup';
 
 class ShowsBox extends React.Component {
 
@@ -27,8 +27,8 @@ class ShowsBox extends React.Component {
     render() {
         return (
             <div className="showsBox">
-            <h1>Talent Shows</h1>
-            <ShowList data={this.state.data} />
+                <h1>Talent Shows</h1>
+                <ShowList data={this.state.data} />
             </div>
         );
     }
@@ -46,9 +46,9 @@ class ShowList extends React.Component {
         });
         return (
             <div className="showList">
-                <div className="list-group">
+                <ListGroup>
                     {showNodes}
-                </div>
+                </ListGroup>
             </div>
         );
     }
@@ -63,10 +63,10 @@ class Show extends React.Component {
     render() {
         var show = this.props.data;
         return (
-            <Link to={{ pathname: '/show/' + show.Id }} className="list-group-item">
-                <h4 className="list-group-item-heading">{show.Name}</h4>
-                <p className="list-group-item-text">{show.Description}</p>
-            </Link>    
+            <ListItem pathname={ '/show/' + show.Id  }>
+                <ItemHeading>{show.Name}</ItemHeading>
+                <ItemText>{show.Description}</ItemText>
+            </ListItem>
         );
     }
 }

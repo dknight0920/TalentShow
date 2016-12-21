@@ -1,57 +1,54 @@
 ﻿import React from 'react';
-import ContestsBox from './contests';
 
-class ShowPage extends React.Component {
+class ContestPage extends React.Component {
     constructor(props) {
         super(props);
-        this.getShow = this.getShow.bind(this);
-        this.state = { show: this.getShow() };
+        this.getContest = this.getContest.bind(this);
+        this.state = { contest: this.getContest() };
     }
 
-    getShow() {
-        var showId = this.props.params.showId;
+    getContest() {
+        var contestId = this.props.params.contestId;
 
-        var show = null;
+        var contest = null;
 
-        var shows = [
+        var contests = [
             {
                 Id: 3,
-                Name: "Talent Show 2018", 
+                Name: "Music", 
                 Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " 
             },
             {
                 Id: 2,
-                Name: "Talent Show 2017", 
+                Name: "Dance", 
                 Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " 
             },
             {
                 Id: 1,
-                Name: "Talent Show 2016", 
+                Name: "Design", 
                 Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " 
             }];
 
-        for (var i = 0; i < shows.length; i++){
-            var currentShow = shows[i];
-            if(currentShow.Id == showId){
-                show = currentShow;
+        for (var i = 0; i < contests.length; i++){
+            var currentContest = contests[i];
+            if(currentContest.Id == contestId){
+                contest = currentContest;
                 break;
             }
         }
 
-        return show;
+        return contest;
     }
 
     render() {
-        var show = this.state.show;
+        var contest = this.state.contest;
         return (
             <div>
-                <h1>{show.Name}</h1>
-                <p>{show.Description}</p>
-                <hr />
-                <ContestsBox showId={show.Id} />
+                <h1>{contest.Name}</h1>
+                <p>{contest.Description}</p>
             </div>
         );
     }
 }
 
-export default ShowPage;
+export default ContestPage;

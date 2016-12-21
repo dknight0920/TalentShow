@@ -6,6 +6,7 @@ import login from './modules/login';
 import judges from './modules/judges';
 import shows from './modules/ControlCenter/shows';
 import show from './modules/ControlCenter/show/show';
+import contest from './modules/ControlCenter/show/contest/contest';
 
 var Menu = React.createClass({
     render: function () {
@@ -48,7 +49,7 @@ render((
             <Route onEnter={requireAuth} component={Menu}>
                 <Route path="/shows" component={shows} />
                 <Route path="/show/:showId" component={show} />
-                <Route path="/show/:showId/contest/:contestId" component={show} />
+                <Route path="/show/:showId/contest/:contestId" component={contest} />
                 <Route path="/about" component={about} />
                 <Route path="/judges" component={judges} />
             </Route>
