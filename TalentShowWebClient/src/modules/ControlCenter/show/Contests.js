@@ -1,28 +1,13 @@
 ﻿import React from 'react';
 import Panel from '../../../common/panel';
 import { ListGroup, ListItem, ItemHeading, ItemText } from '../../../common/listGroup';
+import ContestStore from '../../../data/stores/contestStore';
 
 class ContestsBox extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { data: [
-            {
-                Id: 3,
-                Name: "Music", 
-                Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " 
-            },
-            {
-                Id: 2,
-                Name: "Dance", 
-                Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " 
-            },
-            {
-                Id: 1,
-                Name: "Design", 
-                Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " 
-            }] 
-        };
+        this.state = { data: ContestStore.getAll() };
     }
 
     render() {

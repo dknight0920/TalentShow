@@ -104,6 +104,11 @@
     <Content Include="package.json" />
     <Content Include="src\common\listGroup.js" />
     <Content Include="src\common\panel.js" />
+    <Content Include="src\data\actions\judgeActions.js" />
+    <Content Include="src\data\dispatcher.js" />
+    <Content Include="src\data\stores\contestStore.js" />
+    <Content Include="src\data\stores\judgeStore.js" />
+    <Content Include="src\data\stores\showStore.js" />
     <Content Include="src\modules\about.js" />
     <Content Include="src\modules\ControlCenter\show\contests.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contest.js" />

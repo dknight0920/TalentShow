@@ -1,4 +1,5 @@
 ﻿import React from 'react';
+import ContestStore from '../../../../data/stores/contestStore';
 
 class ContestPage extends React.Component {
     constructor(props) {
@@ -9,35 +10,7 @@ class ContestPage extends React.Component {
 
     getContest() {
         var contestId = this.props.params.contestId;
-
-        var contest = null;
-
-        var contests = [
-            {
-                Id: 3,
-                Name: "Music", 
-                Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " 
-            },
-            {
-                Id: 2,
-                Name: "Dance", 
-                Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " 
-            },
-            {
-                Id: 1,
-                Name: "Design", 
-                Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " 
-            }];
-
-        for (var i = 0; i < contests.length; i++){
-            var currentContest = contests[i];
-            if(currentContest.Id == contestId){
-                contest = currentContest;
-                break;
-            }
-        }
-
-        return contest;
+        return ContestStore.get(contestId);
     }
 
     render() {

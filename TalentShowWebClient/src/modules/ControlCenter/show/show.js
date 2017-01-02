@@ -1,5 +1,6 @@
 ﻿import React from 'react';
 import ContestsBox from './contests';
+import ShowStore from '../../../data/stores/showStore';
 
 class ShowPage extends React.Component {
     constructor(props) {
@@ -10,35 +11,7 @@ class ShowPage extends React.Component {
 
     getShow() {
         var showId = this.props.params.showId;
-
-        var show = null;
-
-        var shows = [
-            {
-                Id: 3,
-                Name: "Talent Show 2018", 
-                Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " 
-            },
-            {
-                Id: 2,
-                Name: "Talent Show 2017", 
-                Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " 
-            },
-            {
-                Id: 1,
-                Name: "Talent Show 2016", 
-                Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " 
-            }];
-
-        for (var i = 0; i < shows.length; i++){
-            var currentShow = shows[i];
-            if(currentShow.Id == showId){
-                show = currentShow;
-                break;
-            }
-        }
-
-        return show;
+        return ShowStore.get(showId);
     }
 
     render() {

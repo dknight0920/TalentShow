@@ -1,35 +1,30 @@
 ﻿import React from 'react';
 import Input from '../common/input';
-import FormGroup from '../common/formGroup'
+import FormGroup from '../common/formGroup';
 import $ from 'jquery';
+import JudgeStore from '../data/stores/judgeStore';
+import * as JudgeActions from '../data/actions/judgeActions';
 
 class JudgeBox extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { data: [] };
-        this.loadJudgesFromServer = this.loadJudgesFromServer.bind(this);
+        this.state = { data: JudgeStore.getAll() };
         this.sendNewJudgeToServer = this.sendNewJudgeToServer.bind(this);
+        this.storeChanged = this.storeChanged.bind(this);
     }
 
-    componentDidMount() {
-        this.loadJudgesFromServer();
+    componentWillMount(){
+        JudgeStore.on("change", this.storeChanged);
+        JudgeActions.loadAllJudges();
     }
 
-    loadJudgesFromServer() {
-        var headers = globalGetAccessTokenHttpHeader();
+    componentWillUnmount(){
+        JudgeStore.off("change", this.storeChanged);
+    }
 
-        if (headers.Authorization){
-            var judges = $.parseJSON($.ajax({
-                url: globalWebApiBaseUrl + "api/Judges",
-                contentType: "application/json",
-                type: "GET",
-                headers: headers,
-                async: false
-            }).responseText);
-
-            this.setState({ data: judges });
-        }
+    storeChanged(){
+        this.setState({ data: JudgeStore.getAll() });
     }
     
     sendNewJudgeToServer(newJudge) {
@@ -42,16 +37,7 @@ class JudgeBox extends React.Component {
             Affiliation: newJudge.Affiliation 
         };
 
-        $.ajax({
-            url: globalWebApiBaseUrl + "api/Judges",
-            contentType: "application/json",
-            type: "POST",
-            headers: globalGetAccessTokenHttpHeader(),
-            data: JSON.stringify(judge),
-            async: false
-        });
-
-        this.loadJudgesFromServer();
+        JudgeActions.add(judge);
     }
 
     render() {

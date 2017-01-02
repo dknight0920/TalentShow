@@ -1,27 +1,12 @@
 ﻿import React from 'react';
 import { ListGroup, ListItem, ItemHeading, ItemText } from '../../common/listGroup';
+import ShowStore from '../../data/stores/showStore';
 
 class ShowsBox extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { data: [
-            {
-                Id: 3,
-                Name: "Talent Show 2018", 
-                Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " 
-            },
-            {
-                Id: 2,
-                Name: "Talent Show 2017", 
-                Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " 
-            },
-            {
-                Id: 1,
-                Name: "Talent Show 2016", 
-                Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " 
-            }] 
-        };
+        this.state = { data: ShowStore.getAll() };
     }
 
     render() {
