@@ -36135,7 +36135,7 @@ function getToken() {
     )
 ), document.getElementById('app'));
 
-},{"./modules/ControlCenter/show/contest/contest":269,"./modules/ControlCenter/show/show":271,"./modules/ControlCenter/shows":272,"./modules/about":273,"./modules/judges":274,"./modules/login":275,"react":257,"react-dom":21,"react-router":198}],259:[function(require,module,exports){
+},{"./modules/ControlCenter/show/contest/contest":271,"./modules/ControlCenter/show/show":273,"./modules/ControlCenter/shows":274,"./modules/about":275,"./modules/judges":276,"./modules/login":277,"react":257,"react-dom":21,"react-router":198}],259:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36405,6 +36405,25 @@ exports.default = Panel;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.authenticate = authenticate;
+
+var _dispatcher = require("../dispatcher");
+
+var _dispatcher2 = _interopRequireDefault(_dispatcher);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function authenticate(credentials) {
+    _dispatcher2.default.dispatch({ type: "AUTHENTICATE_CURRENT_USER", data: credentials });
+}
+;
+
+},{"../dispatcher":266}],265:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 exports.add = add;
 exports.loadAllJudges = loadAllJudges;
 
@@ -36423,7 +36442,7 @@ function loadAllJudges() {
 }
 ;
 
-},{"../dispatcher":265}],265:[function(require,module,exports){
+},{"../dispatcher":266}],266:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36435,7 +36454,7 @@ var _flux = require('flux');
 var dispatcher = new _flux.Dispatcher();
 exports.default = dispatcher;
 
-},{"flux":17}],266:[function(require,module,exports){
+},{"flux":17}],267:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36495,7 +36514,79 @@ contestStore.get = function (id) {
 };
 exports.default = contestStore;
 
-},{"event-emitter":2}],267:[function(require,module,exports){
+},{"event-emitter":2}],268:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _eventEmitter = require('event-emitter');
+
+var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+
+var _jquery = require('jquery');
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _dispatcher = require('../dispatcher');
+
+var _dispatcher2 = _interopRequireDefault(_dispatcher);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var __extends = undefined && undefined.__extends || function (d, b) {
+    for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+    }function __() {
+        this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+
+var CurrentUserStore = function (_super) {
+    __extends(CurrentUserStore, _super);
+    function CurrentUserStore() {
+        var _this = _super.call(this) || this;
+        _this.authenticated = false;
+        return _this;
+    }
+    return CurrentUserStore;
+}(_eventEmitter2.default);
+var currentUserStore = new CurrentUserStore();
+currentUserStore.isAuthenticated = function () {
+    return this.authenticated;
+};
+currentUserStore.authenticate = function (credentials) {
+    var loginData = {
+        grant_type: 'password',
+        username: credentials.emailAddress,
+        password: credentials.password
+    };
+    _jquery2.default.ajax({
+        type: "POST",
+        url: globalWebApiBaseUrl + "api/Token",
+        data: loginData
+    }).done(function (data) {
+        sessionStorage.setItem("user", data.userName);
+        sessionStorage.setItem("token", data.access_token);
+        currentUserStore.authenticated = true;
+        currentUserStore.emit("change");
+    }).fail(function (data) {
+        console.log(data);
+    });
+};
+currentUserStore.handleAction = function (action) {
+    switch (action.type) {
+        case "AUTHENTICATE_CURRENT_USER":
+            currentUserStore.authenticate(action.data);
+            break;
+    }
+};
+_dispatcher2.default.register(currentUserStore.handleAction.bind(currentUserStore));
+exports.default = currentUserStore;
+
+},{"../dispatcher":266,"event-emitter":2,"jquery":20}],269:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36591,7 +36682,7 @@ judgeStore.handleAction = function (action) {
 _dispatcher2.default.register(judgeStore.handleAction.bind(judgeStore));
 exports.default = judgeStore;
 
-},{"../dispatcher":265,"event-emitter":2,"jquery":20}],268:[function(require,module,exports){
+},{"../dispatcher":266,"event-emitter":2,"jquery":20}],270:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36659,7 +36750,7 @@ showStore.handleAction = function (action) {
 _dispatcher2.default.register(showStore.handleAction.bind(showStore));
 exports.default = showStore;
 
-},{"../dispatcher":265,"event-emitter":2}],269:[function(require,module,exports){
+},{"../dispatcher":266,"event-emitter":2}],271:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36718,7 +36809,7 @@ var ContestPage = function (_super) {
 }(_react2.default.Component);
 exports.default = ContestPage;
 
-},{"../../../../data/stores/contestStore":266,"react":257}],270:[function(require,module,exports){
+},{"../../../../data/stores/contestStore":267,"react":257}],272:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36819,7 +36910,7 @@ var ContestNode = function (_super) {
 }(_react2.default.Component);
 exports.default = ContestsBox;
 
-},{"../../../common/listGroup":262,"../../../common/panel":263,"../../../data/stores/contestStore":266,"react":257}],271:[function(require,module,exports){
+},{"../../../common/listGroup":262,"../../../common/panel":263,"../../../data/stores/contestStore":267,"react":257}],273:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36884,7 +36975,7 @@ var ShowPage = function (_super) {
 }(_react2.default.Component);
 exports.default = ShowPage;
 
-},{"../../../data/stores/showStore":268,"./contests":270,"react":257}],272:[function(require,module,exports){
+},{"../../../data/stores/showStore":270,"./contests":272,"react":257}],274:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36990,7 +37081,7 @@ var ShowsPage = function (_super) {
 }(_react2.default.Component);
 exports.default = ShowsPage;
 
-},{"../../common/listGroup":262,"../../data/stores/showStore":268,"react":257}],273:[function(require,module,exports){
+},{"../../common/listGroup":262,"../../data/stores/showStore":270,"react":257}],275:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37015,7 +37106,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"react":257}],274:[function(require,module,exports){
+},{"react":257}],276:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37175,7 +37266,7 @@ var JudgesPage = function (_super) {
 }(_react2.default.Component);
 exports.default = JudgesPage;
 
-},{"../common/formGroup":259,"../common/input":260,"../data/actions/judgeActions":264,"../data/stores/judgeStore":267,"react":257}],275:[function(require,module,exports){
+},{"../common/formGroup":259,"../common/input":260,"../data/actions/judgeActions":265,"../data/stores/judgeStore":269,"react":257}],277:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37196,16 +37287,57 @@ var _formGroup = require('../common/formGroup');
 
 var _formGroup2 = _interopRequireDefault(_formGroup);
 
-var _jquery = require('jquery');
+var _currentUserStore = require('../data/stores/currentUserStore');
 
-var _jquery2 = _interopRequireDefault(_jquery);
+var _currentUserStore2 = _interopRequireDefault(_currentUserStore);
+
+var _currentUserActions = require('../data/actions/currentUserActions');
+
+var CurrentUserActions = _interopRequireWildcard(_currentUserActions);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var LoginBox = _react2.default.createClass({
-    displayName: 'LoginBox',
+var __extends = undefined && undefined.__extends || function (d, b) {
+    for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+    }function __() {
+        this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 
-    render: function render() {
+var LoginBox = function (_super) {
+    __extends(LoginBox, _super);
+    function LoginBox(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = { data: _currentUserStore2.default.isAuthenticated() };
+        _this.redirect = _this.redirect.bind(_this);
+        _this.authenticate = _this.authenticate.bind(_this);
+        _this.storeChanged = _this.storeChanged.bind(_this);
+        return _this;
+    }
+    LoginBox.prototype.componentWillMount = function () {
+        this.redirect();
+        _currentUserStore2.default.on("change", this.storeChanged);
+    };
+    LoginBox.prototype.componentWillUnmount = function () {
+        _currentUserStore2.default.off("change", this.storeChanged);
+    };
+    LoginBox.prototype.storeChanged = function () {
+        this.setState({ data: _currentUserStore2.default.isAuthenticated() });
+        this.redirect();
+    };
+    LoginBox.prototype.redirect = function () {
+        if (this.state.data === true) {
+            _reactRouter.hashHistory.push('/shows');
+        }
+    };
+    LoginBox.prototype.authenticate = function (credentials) {
+        CurrentUserActions.authenticate(credentials);
+    };
+    LoginBox.prototype.render = function () {
         return _react2.default.createElement(
             'div',
             { className: 'container jumbotron' },
@@ -37229,12 +37361,13 @@ var LoginBox = _react2.default.createClass({
                 _react2.default.createElement(
                     'div',
                     { className: 'panel-body' },
-                    _react2.default.createElement(LoginForm, null)
+                    _react2.default.createElement(LoginForm, { onLoginFormSubmit: this.authenticate })
                 )
             )
         );
-    }
-});
+    };
+    return LoginBox;
+}(_react2.default.Component);
 var LoginForm = _react2.default.createClass({
     displayName: 'LoginForm',
 
@@ -37252,26 +37385,8 @@ var LoginForm = _react2.default.createClass({
         if (!this.state.EmailAddress || !this.state.Password) {
             return;
         }
-        this.sendCredentialsToServer();
+        this.props.onLoginFormSubmit({ emailAddress: this.state.EmailAddress, password: this.state.Password });
         this.setState(this.createInitialState());
-    },
-    sendCredentialsToServer: function sendCredentialsToServer() {
-        var loginData = {
-            grant_type: 'password',
-            username: this.state.EmailAddress,
-            password: this.state.Password
-        };
-        _jquery2.default.ajax({
-            type: "POST",
-            url: globalWebApiBaseUrl + "api/Token",
-            data: loginData
-        }).done(function (data) {
-            sessionStorage.setItem("user", data.userName);
-            sessionStorage.setItem("token", data.access_token);
-            _reactRouter.hashHistory.push('/shows');
-        }).fail(function (data) {
-            console.log(data);
-        });
     },
     createInitialState: function createInitialState() {
         return { EmailAddress: "", Password: "" };
@@ -37298,4 +37413,4 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"../common/formGroup":259,"../common/input":260,"jquery":20,"react":257,"react-router":198}]},{},[258]);
+},{"../common/formGroup":259,"../common/input":260,"../data/actions/currentUserActions":264,"../data/stores/currentUserStore":268,"react":257,"react-router":198}]},{},[258]);

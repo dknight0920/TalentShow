@@ -3,9 +3,45 @@ import { hashHistory } from 'react-router';
 import Input from '../common/input';
 import FormGroup from '../common/formGroup'
 import $ from 'jquery';
+import CurrentUserStore from '../data/stores/currentUserStore';
+import * as CurrentUserActions from '../data/actions/currentUserActions';
 
-var LoginBox = React.createClass({
-    render: function() {
+
+class LoginBox extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = { data: CurrentUserStore.isAuthenticated() };
+        this.redirect = this.redirect.bind(this);
+        this.authenticate = this.authenticate.bind(this);
+        this.storeChanged = this.storeChanged.bind(this);
+    }
+
+    componentWillMount(){
+        this.redirect();
+        CurrentUserStore.on("change", this.storeChanged);
+    }
+
+    componentWillUnmount(){
+        CurrentUserStore.off("change", this.storeChanged);
+    }
+
+    storeChanged(){
+        this.setState({ data: CurrentUserStore.isAuthenticated() });
+        this.redirect();
+    }
+
+    redirect(){
+        if(this.state.data === true){
+            hashHistory.push('/shows');
+        }
+    }
+    
+    authenticate(credentials) {
+        CurrentUserActions.authenticate(credentials);
+    }
+
+    render() {
         return (
             <div className="container jumbotron">
                 <div className="page-header">
@@ -13,13 +49,13 @@ var LoginBox = React.createClass({
                 </div>
                 <div className="loginBox panel panel-default">
                     <div className="panel-body">
-                        <LoginForm />
+                        <LoginForm  onLoginFormSubmit={this.authenticate}/>
                     </div>
                 </div>
             </div>
-      );
+        );
     }
-});
+}
 
 var LoginForm = React.createClass({
     getInitialState: function() {
@@ -36,27 +72,9 @@ var LoginForm = React.createClass({
         if (!this.state.EmailAddress || !this.state.Password) {
             return;
         }
-        this.sendCredentialsToServer();
-        this.setState(this.createInitialState());
-    },
-    sendCredentialsToServer: function () {
-        var loginData = {
-            grant_type: 'password',
-            username: this.state.EmailAddress,
-            password: this.state.Password
-        };
 
-        $.ajax({
-            type: "POST",
-            url: globalWebApiBaseUrl + "api/Token",
-            data: loginData
-        }).done(function (data) {
-            sessionStorage.setItem("user", data.userName);
-            sessionStorage.setItem("token", data.access_token);
-            hashHistory.push('/shows');
-        }).fail(function (data) {
-            console.log(data); //TODO HANDLE BETTER
-        });
+        this.props.onLoginFormSubmit({ emailAddress: this.state.EmailAddress,  password: this.state.Password });
+        this.setState(this.createInitialState());
     },
     createInitialState: function () {
         return { EmailAddress: "", Password: "" };
