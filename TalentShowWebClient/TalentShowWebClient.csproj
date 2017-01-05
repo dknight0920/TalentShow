@@ -107,6 +107,7 @@
     <Content Include="src\data\actions\currentUserActions.js" />
     <Content Include="src\data\actions\judgeActions.js" />
     <Content Include="src\data\dispatcher.js" />
+    <Content Include="src\data\stores\contestantStore.js" />
     <Content Include="src\data\stores\contestStore.js" />
     <Content Include="src\data\stores\judgeStore.js" />
     <Content Include="src\data\stores\showStore.js" />
@@ -114,6 +115,7 @@
     <Content Include="src\modules\about.js" />
     <Content Include="src\modules\ControlCenter\show\contests.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contest.js" />
+    <Content Include="src\modules\ControlCenter\show\contest\contestants.js" />
     <Content Include="src\modules\ControlCenter\show\show.js" />
     <Content Include="tsconfig.json" />
     <None Include="Web.Debug.config">

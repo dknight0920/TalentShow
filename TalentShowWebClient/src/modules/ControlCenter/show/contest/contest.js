@@ -1,4 +1,5 @@
 ﻿import React from 'react';
+import ContestantsBox from './contestants';
 import ContestStore from '../../../../data/stores/contestStore';
 
 class ContestPage extends React.Component {
@@ -19,6 +20,8 @@ class ContestPage extends React.Component {
             <div>
                 <h1>{contest.Name}</h1>
                 <p>{contest.Description}</p>
+                <hr />
+                <ContestantsBox showId={this.props.params.showId} contestId={this.props.params.contestId} />
             </div>
         );
     }
