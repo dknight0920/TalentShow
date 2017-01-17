@@ -1,6 +1,5 @@
 ﻿import React from 'react';
-import Panel from '../../../common/panel';
-import { ListGroup, ListItem, ItemHeading, ItemText } from '../../../common/listGroup';
+import { ListPanel, ListPanelItem } from '../../../common/listPanel';
 import ContestStore from '../../../data/stores/contestStore';
 
 class ContestsBox extends React.Component {
@@ -11,52 +10,18 @@ class ContestsBox extends React.Component {
     }
 
     render() {
-        return (
-            <div className="contestsBox">
-                <Panel title="Contests">
-                    <ContestList showId={this.props.showId} data={this.state.data} />
-                </Panel>             
-            </div>
-        );
-    }
-}
-
-class ContestList extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
         var showId = this.props.showId;
-        var contestNodes = this.props.data.map(function (contest) {
-            return (<ContestNode key={contest.Id}  showId={showId} data={contest}/>);
+        var contests = this.state.data.map(function (contest) {
+            return (
+                <ListPanelItem 
+                    key={contest.Id} 
+                    name={contest.Name} 
+                    description={contest.Description} 
+                    pathname={ '/show/' + showId + '/contest/' + contest.Id } />
+            );
         });
-        return (
-            <div className="contestList">
-                <ListGroup>
-                    {contestNodes}
-                </ListGroup>
-            </div>
-        );
-    }
-}
 
-class ContestNode extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        var showId =  this.props.showId;
-        var contest = this.props.data;
-        return (
-            <ListItem pathname={ '/show/' + showId + '/contest/' + contest.Id }>
-                <ItemHeading>{contest.Name}</ItemHeading>
-                <ItemText>{contest.Description}</ItemText>
-            </ListItem>
-        );
+        return ( <ListPanel title="Contests" items={contests} /> );
     }
 }
 

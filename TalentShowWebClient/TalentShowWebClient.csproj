@@ -103,6 +103,7 @@
     </Content>
     <Content Include="package.json" />
     <Content Include="src\common\listGroup.js" />
+    <Content Include="src\common\listPanel.js" />
     <Content Include="src\common\panel.js" />
     <Content Include="src\data\actions\currentUserActions.js" />
     <Content Include="src\data\actions\judgeActions.js" />
@@ -116,6 +117,9 @@
     <Content Include="src\modules\ControlCenter\show\contests.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contest.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestants.js" />
+    <Content Include="src\modules\ControlCenter\show\contest\contestant\contestant.js" />
+    <Content Include="src\modules\ControlCenter\show\contest\contestant\contestantUtil.js" />
+    <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCards.js" />
     <Content Include="src\modules\ControlCenter\show\show.js" />
     <Content Include="tsconfig.json" />
     <None Include="Web.Debug.config">
