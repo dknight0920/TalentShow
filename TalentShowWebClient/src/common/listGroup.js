@@ -54,9 +54,9 @@ class ItemText extends React.Component {
 
     render() {
         return (
-            <p className="list-group-item-text">
+            <span className="list-group-item-text">
                 {this.props.children}
-            </p>  
+            </span>  
         );
     }
 }

@@ -36341,7 +36341,7 @@ var ItemText = function (_super) {
     }
     ItemText.prototype.render = function () {
         return _react2.default.createElement(
-            'p',
+            'span',
             { className: 'list-group-item-text' },
             this.props.children
         );
@@ -37472,27 +37472,75 @@ exports.default = ScoreCardsBox;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.getDescription = exports.getName = undefined;
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var getName = function getName(scoreCard) {
     var judgeName = scoreCard.Judge.Name;
     return "Score card submitted by " + judgeName.FirstName + " " + judgeName.LastName;
 };
 var getDescription = function getDescription(scoreCard) {
-    var description = "";
+    var description = [];
+    var key = 0;
     if (scoreCard && scoreCard.ScorableCriteria && scoreCard.ScorableCriteria.length) {
         for (var i = 0; i < scoreCard.ScorableCriteria.length; i++) {
             var scorableCriterion = scoreCard.ScorableCriteria[i];
             if (i > 0) {
-                description += "  ";
+                description.push(_react2.default.createElement("hr", { key: key++ }));
             }
-            description += i + 1 + ". " + scorableCriterion.ScoreCriterion.CriterionDescription;
+            description.push(_react2.default.createElement(
+                "span",
+                { key: key++ },
+                _react2.default.createElement(
+                    "b",
+                    null,
+                    _react2.default.createElement(
+                        "i",
+                        null,
+                        scorableCriterion.ScoreCriterion.CriterionDescription
+                    )
+                ),
+                _react2.default.createElement("br", null),
+                _react2.default.createElement(
+                    "b",
+                    null,
+                    "Comment"
+                ),
+                ": " + scorableCriterion.Comment,
+                _react2.default.createElement("br", null),
+                _react2.default.createElement(
+                    "b",
+                    null,
+                    "Score"
+                ),
+                ": " + scorableCriterion.Score
+            ));
         }
     }
+    description.push(_react2.default.createElement("hr", { key: key++ }));
+    description.push(_react2.default.createElement(
+        "span",
+        { key: key++ },
+        _react2.default.createElement(
+            "h4",
+            null,
+            "Average Score: ",
+            scoreCard.AverageScore,
+            " Total Score: ",
+            scoreCard.TotalScore
+        )
+    ));
     return description;
 };
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],279:[function(require,module,exports){
+},{"react":257}],279:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
