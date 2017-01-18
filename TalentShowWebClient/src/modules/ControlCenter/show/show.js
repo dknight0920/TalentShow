@@ -1,6 +1,7 @@
 ﻿import React from 'react';
 import ContestsBox from './contests';
 import ShowStore from '../../../data/stores/showStore';
+import PageContent from '../../../common/pageContent';
 
 class ShowPage extends React.Component {
     constructor(props) {
@@ -17,12 +18,9 @@ class ShowPage extends React.Component {
     render() {
         var show = this.state.show;
         return (
-            <div>
-                <h1>{show.Name}</h1>
-                <p>{show.Description}</p>
-                <hr />
+            <PageContent title={show.Name} description={show.Description}>
                 <ContestsBox showId={show.Id} />
-            </div>
+            </PageContent>
         );
     }
 }

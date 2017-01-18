@@ -104,6 +104,7 @@
     <Content Include="package.json" />
     <Content Include="src\common\listGroup.js" />
     <Content Include="src\common\listPanel.js" />
+    <Content Include="src\common\pageContent.js" />
     <Content Include="src\common\panel.js" />
     <Content Include="src\data\actions\currentUserActions.js" />
     <Content Include="src\data\actions\judgeActions.js" />

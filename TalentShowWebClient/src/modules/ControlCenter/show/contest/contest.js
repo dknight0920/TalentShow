@@ -1,6 +1,7 @@
 ﻿import React from 'react';
 import ContestantsBox from './contestants';
 import ContestStore from '../../../../data/stores/contestStore';
+import PageContent from '../../../../common/pageContent';
 
 class ContestPage extends React.Component {
     constructor(props) {
@@ -17,12 +18,9 @@ class ContestPage extends React.Component {
     render() {
         var contest = this.state.contest;
         return (
-            <div>
-                <h1>{contest.Name}</h1>
-                <p>{contest.Description}</p>
-                <hr />
+            <PageContent title={contest.Name} description={contest.Description}>
                 <ContestantsBox showId={this.props.params.showId} contestId={this.props.params.contestId} />
-            </div>
+            </PageContent>
         );
     }
 }
