@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-//import ScoreCardsBox from './scoreCards';
+import ScoreCardsBox from './scoreCards';
 import ContestantStore from '../../../../../data/stores/contestantStore';
 import * as ContestantUtil from './contestantUtil';
 
@@ -21,10 +21,10 @@ class ContestantPage extends React.Component {
                 <h1>{ContestantUtil.getName(contestant)}</h1>
                 <p>{ContestantUtil.getDescription(contestant)}</p>
                 <hr />
-
+                <ScoreCardsBox showId={this.props.params.showId} contestId={this.props.params.contestId} contestantId={this.props.params.contestantId} />
             </div>
         );
-                }
+    }
 }
 
 export default ContestantPage;

@@ -111,6 +111,7 @@
     <Content Include="src\data\stores\contestantStore.js" />
     <Content Include="src\data\stores\contestStore.js" />
     <Content Include="src\data\stores\judgeStore.js" />
+    <Content Include="src\data\stores\scoreCardStore.js" />
     <Content Include="src\data\stores\showStore.js" />
     <Content Include="src\data\stores\currentUserStore.js" />
     <Content Include="src\modules\about.js" />
@@ -120,6 +121,8 @@
     <Content Include="src\modules\ControlCenter\show\contest\contestant\contestant.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\contestantUtil.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCards.js" />
+    <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCard\scoreCard.js" />
+    <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCard\scoreCardUtil.js" />
     <Content Include="src\modules\ControlCenter\show\show.js" />
     <Content Include="tsconfig.json" />
     <None Include="Web.Debug.config">

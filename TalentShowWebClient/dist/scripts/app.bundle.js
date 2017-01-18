@@ -36140,7 +36140,7 @@ function getToken() {
     )
 ), document.getElementById('app'));
 
-},{"./modules/ControlCenter/show/contest/contest":273,"./modules/ControlCenter/show/contest/contestant/contestant":274,"./modules/ControlCenter/show/show":278,"./modules/ControlCenter/shows":279,"./modules/about":280,"./modules/judges":281,"./modules/login":282,"react":257,"react-dom":21,"react-router":198}],259:[function(require,module,exports){
+},{"./modules/ControlCenter/show/contest/contest":274,"./modules/ControlCenter/show/contest/contestant/contestant":275,"./modules/ControlCenter/show/show":281,"./modules/ControlCenter/shows":282,"./modules/about":283,"./modules/judges":284,"./modules/login":285,"react":257,"react-dom":21,"react-router":198}],259:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36857,6 +36857,336 @@ _dispatcher2.default.register(judgeStore.handleAction.bind(judgeStore));
 exports.default = judgeStore;
 
 },{"../dispatcher":267,"event-emitter":2,"jquery":20}],272:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _eventEmitter = require("event-emitter");
+
+var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var __extends = undefined && undefined.__extends || function (d, b) {
+    for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+    }function __() {
+        this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+
+var ScoreCardStore = function (_super) {
+    __extends(ScoreCardStore, _super);
+    function ScoreCardStore() {
+        var _this = _super.call(this) || this;
+        _this.scoreCards = [{
+            Id: 1,
+            Contestant: {
+                Id: 1,
+                Performance: {
+                    Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+                },
+                Performers: [{
+                    Name: {
+                        FirstName: "Jeff",
+                        LastName: "Smith"
+                    }
+                }, {
+                    Name: {
+                        FirstName: "Sammy",
+                        LastName: "Bob"
+                    }
+                }]
+            },
+            Judge: {
+                Id: 1,
+                Name: {
+                    FirstName: "Frank",
+                    LastName: "Smith"
+                },
+                Affiliation: {
+                    Id: 1,
+                    Name: "ABC",
+                    Parent: null
+                }
+            },
+            ScorableCriteria: [{
+                Id: 1,
+                ScoreCriterion: {
+                    Id: 1,
+                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                    ScoreRange: {
+                        Min: 0,
+                        Max: 10
+                    }
+                },
+                Score: 8,
+                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            }, {
+                Id: 2,
+                ScoreCriterion: {
+                    Id: 1,
+                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                    ScoreRange: {
+                        Min: 0,
+                        Max: 10
+                    }
+                },
+                Score: 8,
+                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            }, {
+                Id: 3,
+                ScoreCriterion: {
+                    Id: 1,
+                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                    ScoreRange: {
+                        Min: 0,
+                        Max: 10
+                    }
+                },
+                Score: 8,
+                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            }, {
+                Id: 4,
+                ScoreCriterion: {
+                    Id: 1,
+                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                    ScoreRange: {
+                        Min: 0,
+                        Max: 10
+                    }
+                },
+                Score: 8,
+                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            }, {
+                Id: 5,
+                ScoreCriterion: {
+                    Id: 1,
+                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                    ScoreRange: {
+                        Min: 0,
+                        Max: 10
+                    }
+                },
+                Score: 8,
+                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            }],
+            AverageScore: 8,
+            TotalScore: 24
+        }, {
+            Id: 2,
+            Contestant: {
+                Id: 1,
+                Performance: {
+                    Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+                },
+                Performers: [{
+                    Name: {
+                        FirstName: "Jeff",
+                        LastName: "Smith"
+                    }
+                }, {
+                    Name: {
+                        FirstName: "Sammy",
+                        LastName: "Bob"
+                    }
+                }]
+            },
+            Judge: {
+                Id: 1,
+                Name: {
+                    FirstName: "Jane",
+                    LastName: "Smith"
+                },
+                Affiliation: {
+                    Id: 1,
+                    Name: "ABC",
+                    Parent: null
+                }
+            },
+            ScorableCriteria: [{
+                Id: 1,
+                ScoreCriterion: {
+                    Id: 1,
+                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                    ScoreRange: {
+                        Min: 0,
+                        Max: 10
+                    }
+                },
+                Score: 8,
+                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            }, {
+                Id: 2,
+                ScoreCriterion: {
+                    Id: 1,
+                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                    ScoreRange: {
+                        Min: 0,
+                        Max: 10
+                    }
+                },
+                Score: 8,
+                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            }, {
+                Id: 3,
+                ScoreCriterion: {
+                    Id: 1,
+                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                    ScoreRange: {
+                        Min: 0,
+                        Max: 10
+                    }
+                },
+                Score: 8,
+                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            }, {
+                Id: 4,
+                ScoreCriterion: {
+                    Id: 1,
+                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                    ScoreRange: {
+                        Min: 0,
+                        Max: 10
+                    }
+                },
+                Score: 8,
+                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            }, {
+                Id: 5,
+                ScoreCriterion: {
+                    Id: 1,
+                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                    ScoreRange: {
+                        Min: 0,
+                        Max: 10
+                    }
+                },
+                Score: 8,
+                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            }],
+            AverageScore: 8,
+            TotalScore: 24
+        }, {
+            Id: 3,
+            Contestant: {
+                Id: 1,
+                Performance: {
+                    Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+                },
+                Performers: [{
+                    Name: {
+                        FirstName: "Jeff",
+                        LastName: "Smith"
+                    }
+                }, {
+                    Name: {
+                        FirstName: "Sammy",
+                        LastName: "Bob"
+                    }
+                }]
+            },
+            Judge: {
+                Id: 1,
+                Name: {
+                    FirstName: "Tom",
+                    LastName: "Bob"
+                },
+                Affiliation: {
+                    Id: 1,
+                    Name: "ABC",
+                    Parent: null
+                }
+            },
+            ScorableCriteria: [{
+                Id: 1,
+                ScoreCriterion: {
+                    Id: 1,
+                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                    ScoreRange: {
+                        Min: 0,
+                        Max: 10
+                    }
+                },
+                Score: 8,
+                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            }, {
+                Id: 2,
+                ScoreCriterion: {
+                    Id: 1,
+                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                    ScoreRange: {
+                        Min: 0,
+                        Max: 10
+                    }
+                },
+                Score: 8,
+                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            }, {
+                Id: 3,
+                ScoreCriterion: {
+                    Id: 1,
+                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                    ScoreRange: {
+                        Min: 0,
+                        Max: 10
+                    }
+                },
+                Score: 8,
+                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            }, {
+                Id: 4,
+                ScoreCriterion: {
+                    Id: 1,
+                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                    ScoreRange: {
+                        Min: 0,
+                        Max: 10
+                    }
+                },
+                Score: 8,
+                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            }, {
+                Id: 5,
+                ScoreCriterion: {
+                    Id: 1,
+                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                    ScoreRange: {
+                        Min: 0,
+                        Max: 10
+                    }
+                },
+                Score: 8,
+                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            }],
+            AverageScore: 8,
+            TotalScore: 24
+        }];
+        return _this;
+    }
+    return ScoreCardStore;
+}(_eventEmitter2.default);
+var scoreCardStore = new ScoreCardStore();
+scoreCardStore.getAll = function () {
+    return this.scoreCards;
+};
+scoreCardStore.get = function (id) {
+    var scoreCard = null;
+    for (var i = 0; i < this.scoreCards.length; i++) {
+        var currentscoreCard = this.scoreCards[i];
+        if (currentscoreCard.Id == id) {
+            scoreCard = currentscoreCard;
+            break;
+        }
+    }
+    return scoreCard;
+};
+exports.default = scoreCardStore;
+
+},{"event-emitter":2}],273:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36924,7 +37254,7 @@ showStore.handleAction = function (action) {
 _dispatcher2.default.register(showStore.handleAction.bind(showStore));
 exports.default = showStore;
 
-},{"../dispatcher":267,"event-emitter":2}],273:[function(require,module,exports){
+},{"../dispatcher":267,"event-emitter":2}],274:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36989,7 +37319,7 @@ var ContestPage = function (_super) {
 }(_react2.default.Component);
 exports.default = ContestPage;
 
-},{"../../../../data/stores/contestStore":268,"./contestants":276,"react":257}],274:[function(require,module,exports){
+},{"../../../../data/stores/contestStore":268,"./contestants":279,"react":257}],275:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36999,6 +37329,10 @@ Object.defineProperty(exports, "__esModule", {
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _scoreCards = require('./scoreCards');
+
+var _scoreCards2 = _interopRequireDefault(_scoreCards);
 
 var _contestantStore = require('../../../../../data/stores/contestantStore');
 
@@ -37047,14 +37381,15 @@ var ContestantPage = function (_super) {
                 null,
                 ContestantUtil.getDescription(contestant)
             ),
-            _react2.default.createElement('hr', null)
+            _react2.default.createElement('hr', null),
+            _react2.default.createElement(_scoreCards2.default, { showId: this.props.params.showId, contestId: this.props.params.contestId, contestantId: this.props.params.contestantId })
         );
     };
     return ContestantPage;
 }(_react2.default.Component);
 exports.default = ContestantPage;
 
-},{"../../../../../data/stores/contestantStore":269,"./contestantUtil":275,"react":257}],275:[function(require,module,exports){
+},{"../../../../../data/stores/contestantStore":269,"./contestantUtil":276,"./scoreCards":277,"react":257}],276:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -37077,7 +37412,87 @@ var getDescription = function getDescription(contestant) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],276:[function(require,module,exports){
+},{}],277:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _listPanel = require('../../../../../common/listPanel');
+
+var _scoreCardStore = require('../../../../../data/stores/scoreCardStore');
+
+var _scoreCardStore2 = _interopRequireDefault(_scoreCardStore);
+
+var _scoreCardUtil = require('./scorecard/scoreCardUtil');
+
+var ScoreCardUtil = _interopRequireWildcard(_scoreCardUtil);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var __extends = undefined && undefined.__extends || function (d, b) {
+    for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+    }function __() {
+        this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+
+var ScoreCardsBox = function (_super) {
+    __extends(ScoreCardsBox, _super);
+    function ScoreCardsBox(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = { scoreCards: _scoreCardStore2.default.getAll() };
+        return _this;
+    }
+    ScoreCardsBox.prototype.render = function () {
+        var showId = this.props.showId;
+        var contestId = this.props.contestId;
+        var contestantId = this.props.contestantId;
+        var scoreCards = this.state.scoreCards.map(function (scoreCard) {
+            return _react2.default.createElement(_listPanel.ListPanelItem, { key: scoreCard.Id, name: ScoreCardUtil.getName(scoreCard), description: ScoreCardUtil.getDescription(scoreCard), pathname: '/show/' + showId + '/contest/' + contestId + '/contestant/' + contestantId + '/scorecard/' + scoreCard.Id });
+        });
+        return _react2.default.createElement(_listPanel.ListPanel, { title: 'Score Cards', items: scoreCards });
+    };
+    return ScoreCardsBox;
+}(_react2.default.Component);
+exports.default = ScoreCardsBox;
+
+},{"../../../../../common/listPanel":263,"../../../../../data/stores/scoreCardStore":272,"./scorecard/scoreCardUtil":278,"react":257}],278:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var getName = function getName(scoreCard) {
+    var judgeName = scoreCard.Judge.Name;
+    return "Score card submitted by " + judgeName.FirstName + " " + judgeName.LastName;
+};
+var getDescription = function getDescription(scoreCard) {
+    var description = "";
+    if (scoreCard && scoreCard.ScorableCriteria && scoreCard.ScorableCriteria.length) {
+        for (var i = 0; i < scoreCard.ScorableCriteria.length; i++) {
+            var scorableCriterion = scoreCard.ScorableCriteria[i];
+            if (i > 0) {
+                description += "  ";
+            }
+            description += i + 1 + ". " + scorableCriterion.ScoreCriterion.CriterionDescription;
+        }
+    }
+    return description;
+};
+exports.getName = getName;
+exports.getDescription = getDescription;
+
+},{}],279:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37130,7 +37545,7 @@ var ContestantsBox = function (_super) {
 }(_react2.default.Component);
 exports.default = ContestantsBox;
 
-},{"../../../../common/listPanel":263,"../../../../data/stores/contestantStore":269,"./contestant/contestantUtil":275,"react":257}],277:[function(require,module,exports){
+},{"../../../../common/listPanel":263,"../../../../data/stores/contestantStore":269,"./contestant/contestantUtil":276,"react":257}],280:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37176,7 +37591,7 @@ var ContestsBox = function (_super) {
 }(_react2.default.Component);
 exports.default = ContestsBox;
 
-},{"../../../common/listPanel":263,"../../../data/stores/contestStore":268,"react":257}],278:[function(require,module,exports){
+},{"../../../common/listPanel":263,"../../../data/stores/contestStore":268,"react":257}],281:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37241,7 +37656,7 @@ var ShowPage = function (_super) {
 }(_react2.default.Component);
 exports.default = ShowPage;
 
-},{"../../../data/stores/showStore":272,"./contests":277,"react":257}],279:[function(require,module,exports){
+},{"../../../data/stores/showStore":273,"./contests":280,"react":257}],282:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37347,7 +37762,7 @@ var ShowsPage = function (_super) {
 }(_react2.default.Component);
 exports.default = ShowsPage;
 
-},{"../../common/listGroup":262,"../../data/stores/showStore":272,"react":257}],280:[function(require,module,exports){
+},{"../../common/listGroup":262,"../../data/stores/showStore":273,"react":257}],283:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37372,7 +37787,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"react":257}],281:[function(require,module,exports){
+},{"react":257}],284:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37532,7 +37947,7 @@ var JudgesPage = function (_super) {
 }(_react2.default.Component);
 exports.default = JudgesPage;
 
-},{"../common/formGroup":259,"../common/input":260,"../data/actions/judgeActions":266,"../data/stores/judgeStore":271,"react":257}],282:[function(require,module,exports){
+},{"../common/formGroup":259,"../common/input":260,"../data/actions/judgeActions":266,"../data/stores/judgeStore":271,"react":257}],285:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
