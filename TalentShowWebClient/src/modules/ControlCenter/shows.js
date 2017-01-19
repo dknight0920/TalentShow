@@ -1,60 +1,7 @@
 ﻿import React from 'react';
-import { ListGroup, ListItem, ItemHeading, ItemText } from '../../common/listGroup';
 import ShowStore from '../../data/stores/showStore';
-
-class ShowsBox extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = { data: ShowStore.getAll() };
-    }
-
-    render() {
-        return (
-            <div className="showsBox">
-                <h1>Talent Shows</h1>
-                <ShowList data={this.state.data} />
-            </div>
-        );
-    }
-}
-
-class ShowList extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        var showNodes = this.props.data.map(function (show) {
-            return (<Show key={show.Id} data={show}/>);
-        });
-        return (
-            <div className="showList">
-                <ListGroup>
-                    {showNodes}
-                </ListGroup>
-            </div>
-        );
-    }
-}
-
-class Show extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        var show = this.props.data;
-        return (
-            <ListItem pathname={ '/show/' + show.Id  }>
-                <ItemHeading>{show.Name}</ItemHeading>
-                <ItemText>{show.Description}</ItemText>
-            </ListItem>
-        );
-    }
-}
+import { ListPanel, ListPanelItem } from '../../common/listPanel';
+import PageContent from '../../common/pageContent';
 
 class ShowsPage extends React.Component {
     constructor(props) {
@@ -62,7 +9,33 @@ class ShowsPage extends React.Component {
     }
 
     render() {
-        return (<ShowsBox/>);
+        return (
+            <PageContent title="Talent Show Control Center" description="">
+                <ShowsBox/>
+            </PageContent>        
+        );
+    }
+}
+
+class ShowsBox extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = { shows: ShowStore.getAll() };
+    }
+
+    render() {
+        var shows = this.state.shows.map(function (show) {
+            return (
+                <ListPanelItem 
+                    key={show.Id} 
+                    name={show.Name} 
+                    description={show.Description} 
+                    pathname={ '/show/' + show.Id  } />
+            );
+    });
+
+    return ( <ListPanel title="Talent Shows" items={shows} /> );
     }
 }
 

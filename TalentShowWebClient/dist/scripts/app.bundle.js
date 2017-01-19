@@ -37743,11 +37743,15 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _listGroup = require('../../common/listGroup');
-
 var _showStore = require('../../data/stores/showStore');
 
 var _showStore2 = _interopRequireDefault(_showStore);
+
+var _listPanel = require('../../common/listPanel');
+
+var _pageContent = require('../../common/pageContent');
+
+var _pageContent2 = _interopRequireDefault(_pageContent);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37760,85 +37764,38 @@ var __extends = undefined && undefined.__extends || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 
-var ShowsBox = function (_super) {
-    __extends(ShowsBox, _super);
-    function ShowsBox(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = { data: _showStore2.default.getAll() };
-        return _this;
-    }
-    ShowsBox.prototype.render = function () {
-        return _react2.default.createElement(
-            'div',
-            { className: 'showsBox' },
-            _react2.default.createElement(
-                'h1',
-                null,
-                'Talent Shows'
-            ),
-            _react2.default.createElement(ShowList, { data: this.state.data })
-        );
-    };
-    return ShowsBox;
-}(_react2.default.Component);
-var ShowList = function (_super) {
-    __extends(ShowList, _super);
-    function ShowList(props) {
-        return _super.call(this, props) || this;
-    }
-    ShowList.prototype.render = function () {
-        var showNodes = this.props.data.map(function (show) {
-            return _react2.default.createElement(Show, { key: show.Id, data: show });
-        });
-        return _react2.default.createElement(
-            'div',
-            { className: 'showList' },
-            _react2.default.createElement(
-                _listGroup.ListGroup,
-                null,
-                showNodes
-            )
-        );
-    };
-    return ShowList;
-}(_react2.default.Component);
-var Show = function (_super) {
-    __extends(Show, _super);
-    function Show(props) {
-        return _super.call(this, props) || this;
-    }
-    Show.prototype.render = function () {
-        var show = this.props.data;
-        return _react2.default.createElement(
-            _listGroup.ListItem,
-            { pathname: '/show/' + show.Id },
-            _react2.default.createElement(
-                _listGroup.ItemHeading,
-                null,
-                show.Name
-            ),
-            _react2.default.createElement(
-                _listGroup.ItemText,
-                null,
-                show.Description
-            )
-        );
-    };
-    return Show;
-}(_react2.default.Component);
 var ShowsPage = function (_super) {
     __extends(ShowsPage, _super);
     function ShowsPage(props) {
         return _super.call(this, props) || this;
     }
     ShowsPage.prototype.render = function () {
-        return _react2.default.createElement(ShowsBox, null);
+        return _react2.default.createElement(
+            _pageContent2.default,
+            { title: 'Talent Show Control Center', description: '' },
+            _react2.default.createElement(ShowsBox, null)
+        );
     };
     return ShowsPage;
 }(_react2.default.Component);
+var ShowsBox = function (_super) {
+    __extends(ShowsBox, _super);
+    function ShowsBox(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = { shows: _showStore2.default.getAll() };
+        return _this;
+    }
+    ShowsBox.prototype.render = function () {
+        var shows = this.state.shows.map(function (show) {
+            return _react2.default.createElement(_listPanel.ListPanelItem, { key: show.Id, name: show.Name, description: show.Description, pathname: '/show/' + show.Id });
+        });
+        return _react2.default.createElement(_listPanel.ListPanel, { title: 'Talent Shows', items: shows });
+    };
+    return ShowsBox;
+}(_react2.default.Component);
 exports.default = ShowsPage;
 
-},{"../../common/listGroup":262,"../../data/stores/showStore":274,"react":257}],284:[function(require,module,exports){
+},{"../../common/listPanel":263,"../../common/pageContent":264,"../../data/stores/showStore":274,"react":257}],284:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
