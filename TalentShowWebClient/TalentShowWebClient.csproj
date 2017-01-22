@@ -124,6 +124,8 @@
     <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCards.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCard\scoreCard.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCard\scoreCardUtil.js" />
+    <Content Include="src\modules\ControlCenter\show\contest\judges.js" />
+    <Content Include="src\modules\ControlCenter\show\contest\judge\judgeUtil.js" />
     <Content Include="src\modules\ControlCenter\show\show.js" />
     <Content Include="tsconfig.json" />
     <None Include="Web.Debug.config">

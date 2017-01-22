@@ -36140,7 +36140,7 @@ function getToken() {
     )
 ), document.getElementById('app'));
 
-},{"./modules/ControlCenter/show/contest/contest":275,"./modules/ControlCenter/show/contest/contestant/contestant":276,"./modules/ControlCenter/show/show":282,"./modules/ControlCenter/shows":283,"./modules/about":284,"./modules/judges":285,"./modules/login":286,"react":257,"react-dom":21,"react-router":198}],259:[function(require,module,exports){
+},{"./modules/ControlCenter/show/contest/contest":275,"./modules/ControlCenter/show/contest/contestant/contestant":276,"./modules/ControlCenter/show/show":284,"./modules/ControlCenter/shows":285,"./modules/about":286,"./modules/judges":287,"./modules/login":288,"react":257,"react-dom":21,"react-router":198}],259:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36610,7 +36610,41 @@ var ContestStore = function (_super) {
         _this.contests = [{
             Id: 3,
             Name: "Music",
-            Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+            Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+            Judges: [{
+                Id: 1,
+                Name: {
+                    FirstName: "Jane",
+                    LastName: "Smith"
+                },
+                Affiliation: {
+                    Id: 1,
+                    Name: "ABC",
+                    Parent: null
+                }
+            }, {
+                Id: 2,
+                Name: {
+                    FirstName: "Frank",
+                    LastName: "Smith"
+                },
+                Affiliation: {
+                    Id: 1,
+                    Name: "ABC",
+                    Parent: null
+                }
+            }, {
+                Id: 3,
+                Name: {
+                    FirstName: "Tom",
+                    LastName: "Bob"
+                },
+                Affiliation: {
+                    Id: 1,
+                    Name: "ABC",
+                    Parent: null
+                }
+            }]
         }, {
             Id: 2,
             Name: "Dance",
@@ -37045,7 +37079,7 @@ var ScoreCardStore = function (_super) {
                 }]
             },
             Judge: {
-                Id: 1,
+                Id: 2,
                 Name: {
                     FirstName: "Jane",
                     LastName: "Smith"
@@ -37139,7 +37173,7 @@ var ScoreCardStore = function (_super) {
                 }]
             },
             Judge: {
-                Id: 1,
+                Id: 3,
                 Name: {
                     FirstName: "Tom",
                     LastName: "Bob"
@@ -37318,6 +37352,10 @@ var _contestants = require('./contestants');
 
 var _contestants2 = _interopRequireDefault(_contestants);
 
+var _judges = require('./judges');
+
+var _judges2 = _interopRequireDefault(_judges);
+
 var _contestStore = require('../../../../data/stores/contestStore');
 
 var _contestStore2 = _interopRequireDefault(_contestStore);
@@ -37351,17 +37389,20 @@ var ContestPage = function (_super) {
     };
     ContestPage.prototype.render = function () {
         var contest = this.state.contest;
+        var showId = this.props.params.showId;
+        var contestId = this.props.params.contestId;
         return _react2.default.createElement(
             _pageContent2.default,
             { title: contest.Name, description: contest.Description },
-            _react2.default.createElement(_contestants2.default, { showId: this.props.params.showId, contestId: this.props.params.contestId })
+            _react2.default.createElement(_contestants2.default, { showId: showId, contestId: contestId }),
+            _react2.default.createElement(_judges2.default, { showId: showId, contestId: contestId })
         );
     };
     return ContestPage;
 }(_react2.default.Component);
 exports.default = ContestPage;
 
-},{"../../../../common/pageContent":264,"../../../../data/stores/contestStore":269,"./contestants":280,"react":257}],276:[function(require,module,exports){
+},{"../../../../common/pageContent":264,"../../../../data/stores/contestStore":269,"./contestants":280,"./judges":282,"react":257}],276:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37629,6 +37670,92 @@ var ContestantsBox = function (_super) {
 exports.default = ContestantsBox;
 
 },{"../../../../common/listPanel":263,"../../../../data/stores/contestantStore":270,"./contestant/contestantUtil":277,"react":257}],281:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var getName = function getName(judge) {
+    return judge.Name.FirstName + " " + judge.Name.LastName + " (" + judge.Id + ")";
+};
+var getDescription = function getDescription(judge) {
+    return judge.Affiliation.Name;
+};
+exports.getName = getName;
+exports.getDescription = getDescription;
+
+},{}],282:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _listPanel = require('../../../../common/listPanel');
+
+var _contestStore = require('../../../../data/stores/contestStore');
+
+var _contestStore2 = _interopRequireDefault(_contestStore);
+
+var _judgeUtil = require('./judge/judgeUtil');
+
+var JudgeUtil = _interopRequireWildcard(_judgeUtil);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var __extends = undefined && undefined.__extends || function (d, b) {
+    for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+    }function __() {
+        this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+
+var JudgesBox = function (_super) {
+    __extends(JudgesBox, _super);
+    function JudgesBox(props) {
+        var _this = _super.call(this, props) || this;
+        _this.setJudges = _this.setJudges.bind(_this);
+        _this.getJudges = _this.getJudges.bind(_this);
+        _this.storeChanged = _this.storeChanged.bind(_this);
+        _this.state = _this.getJudges();
+        return _this;
+    }
+    JudgesBox.prototype.componentWillMount = function () {
+        _contestStore2.default.on("change", this.storeChanged);
+    };
+    JudgesBox.prototype.componentWillUnmount = function () {
+        _contestStore2.default.off("change", this.storeChanged);
+    };
+    JudgesBox.prototype.storeChanged = function () {
+        this.setJudges();
+    };
+    JudgesBox.prototype.setJudges = function () {
+        this.setState(this.getJudges());
+    };
+    JudgesBox.prototype.getJudges = function () {
+        return { judges: _contestStore2.default.get(this.props.contestId).Judges };
+    };
+    JudgesBox.prototype.render = function () {
+        var showId = this.props.showId;
+        var contestId = this.props.contestId;
+        var judges = this.state.judges.map(function (judge) {
+            return _react2.default.createElement(_listPanel.ListPanelItem, { key: judge.Id, name: JudgeUtil.getName(judge), description: JudgeUtil.getDescription(judge), pathname: '/show/' + showId + '/contest/' + contestId + '/judge/' + judge.Id });
+        });
+        return _react2.default.createElement(_listPanel.ListPanel, { title: 'Judges', items: judges });
+    };
+    return JudgesBox;
+}(_react2.default.Component);
+exports.default = JudgesBox;
+
+},{"../../../../common/listPanel":263,"../../../../data/stores/contestStore":269,"./judge/judgeUtil":281,"react":257}],283:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37674,7 +37801,7 @@ var ContestsBox = function (_super) {
 }(_react2.default.Component);
 exports.default = ContestsBox;
 
-},{"../../../common/listPanel":263,"../../../data/stores/contestStore":269,"react":257}],282:[function(require,module,exports){
+},{"../../../common/listPanel":263,"../../../data/stores/contestStore":269,"react":257}],284:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37732,7 +37859,7 @@ var ShowPage = function (_super) {
 }(_react2.default.Component);
 exports.default = ShowPage;
 
-},{"../../../common/pageContent":264,"../../../data/stores/showStore":274,"./contests":281,"react":257}],283:[function(require,module,exports){
+},{"../../../common/pageContent":264,"../../../data/stores/showStore":274,"./contests":283,"react":257}],285:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37795,7 +37922,7 @@ var ShowsBox = function (_super) {
 }(_react2.default.Component);
 exports.default = ShowsPage;
 
-},{"../../common/listPanel":263,"../../common/pageContent":264,"../../data/stores/showStore":274,"react":257}],284:[function(require,module,exports){
+},{"../../common/listPanel":263,"../../common/pageContent":264,"../../data/stores/showStore":274,"react":257}],286:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37820,7 +37947,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"react":257}],285:[function(require,module,exports){
+},{"react":257}],287:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37980,7 +38107,7 @@ var JudgesPage = function (_super) {
 }(_react2.default.Component);
 exports.default = JudgesPage;
 
-},{"../common/formGroup":259,"../common/input":260,"../data/actions/judgeActions":267,"../data/stores/judgeStore":272,"react":257}],286:[function(require,module,exports){
+},{"../common/formGroup":259,"../common/input":260,"../data/actions/judgeActions":267,"../data/stores/judgeStore":272,"react":257}],288:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

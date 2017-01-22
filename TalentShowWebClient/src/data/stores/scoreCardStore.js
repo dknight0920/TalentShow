@@ -131,7 +131,7 @@ class ScoreCardStore extends EventEmitter {
                     ]
                 }, 
                 Judge: {
-                    Id: 1,
+                    Id: 2,
                     Name: {
                         FirstName: "Jane",
                         LastName: "Smith"
@@ -235,7 +235,7 @@ class ScoreCardStore extends EventEmitter {
                     ]
                 }, 
                 Judge: {
-                    Id: 1,
+                    Id: 3,
                     Name: {
                         FirstName: "Tom",
                         LastName: "Bob"
