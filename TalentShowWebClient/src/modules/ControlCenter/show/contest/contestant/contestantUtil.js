@@ -8,7 +8,7 @@
         }
         performerNames += performerName.FirstName + " " + performerName.LastName;
     }
-    return contestant.Id + " - " + performerNames;
+    return performerNames + " (" + contestant.Id + ")";
 };
 
 var getDescription = function (contestant) {

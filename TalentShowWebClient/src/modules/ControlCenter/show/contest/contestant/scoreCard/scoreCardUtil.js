@@ -2,7 +2,7 @@
 
 var getName = function (scoreCard) {
     var judgeName = scoreCard.Judge.Name;
-    return "Score card submitted by " + judgeName.FirstName + " " + judgeName.LastName;
+    return "Score Card by " + judgeName.FirstName + " " + judgeName.LastName;
 };
 
 var getDescription = function (scoreCard) {

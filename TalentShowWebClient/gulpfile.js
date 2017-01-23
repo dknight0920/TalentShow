@@ -27,10 +27,10 @@ gulp.task('html', function () {
 
 gulp.task('js', function () {
     browserify(config.paths.appJs)
-        .plugin(tsify, {
-            noImplicitAny: true,
-            project: "./tsconfig.js"
-        })
+        //.plugin(tsify, {
+        //    noImplicitAny: true,
+       //     project: "./tsconfig.js"
+       // })
         .transform("babelify", {presets: ["es2015", "react"]})
         //.transform(reactify)
         .bundle()
