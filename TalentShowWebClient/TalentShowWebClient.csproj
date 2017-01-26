@@ -122,6 +122,7 @@
     <Content Include="src\modules\ControlCenter\show\contest\contestant\contestant.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\contestantUtil.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCards.js" />
+    <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCard\scorableCriteria.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCard\scoreCard.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCard\scoreCardUtil.js" />
     <Content Include="src\modules\ControlCenter\show\contest\judges.js" />

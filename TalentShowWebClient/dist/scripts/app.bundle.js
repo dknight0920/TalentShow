@@ -36148,7 +36148,7 @@ function getToken() {
     )
 ), document.getElementById('app'));
 
-},{"./modules/ControlCenter/show/contest/contest":275,"./modules/ControlCenter/show/contest/contestant/contestant":276,"./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard":278,"./modules/ControlCenter/show/show":286,"./modules/ControlCenter/shows":287,"./modules/about":288,"./modules/judges":289,"./modules/login":290,"react":257,"react-dom":21,"react-router":198}],259:[function(require,module,exports){
+},{"./modules/ControlCenter/show/contest/contest":275,"./modules/ControlCenter/show/contest/contestant/contestant":276,"./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard":279,"./modules/ControlCenter/show/show":287,"./modules/ControlCenter/shows":288,"./modules/about":289,"./modules/judges":290,"./modules/login":291,"react":257,"react-dom":21,"react-router":198}],259:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -37649,7 +37649,7 @@ var ContestPage = function (_React$Component) {
 
 exports.default = ContestPage;
 
-},{"../../../../common/pageContent":264,"../../../../data/stores/contestStore":269,"./contestants":282,"./judges":284,"react":257}],276:[function(require,module,exports){
+},{"../../../../common/pageContent":264,"../../../../data/stores/contestStore":269,"./contestants":283,"./judges":285,"react":257}],276:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37723,7 +37723,7 @@ var ContestantPage = function (_React$Component) {
 
 exports.default = ContestantPage;
 
-},{"../../../../../common/pageContent":264,"../../../../../data/stores/contestantStore":270,"./contestantUtil":277,"./scoreCards":280,"react":257}],277:[function(require,module,exports){
+},{"../../../../../common/pageContent":264,"../../../../../data/stores/contestantStore":270,"./contestantUtil":277,"./scoreCards":281,"react":257}],277:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -37766,9 +37766,139 @@ var _scoreCardStore = require('../../../../../../data/stores/scoreCardStore');
 
 var _scoreCardStore2 = _interopRequireDefault(_scoreCardStore);
 
+var _panel = require('../../../../../../common/panel');
+
+var _panel2 = _interopRequireDefault(_panel);
+
+var _input = require('../../../../../../common/input');
+
+var _input2 = _interopRequireDefault(_input);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ScorableCriteria = function (_React$Component) {
+    _inherits(ScorableCriteria, _React$Component);
+
+    function ScorableCriteria(props) {
+        _classCallCheck(this, ScorableCriteria);
+
+        var _this = _possibleConstructorReturn(this, (ScorableCriteria.__proto__ || Object.getPrototypeOf(ScorableCriteria)).call(this, props));
+
+        _this.getScorableCriteria = _this.getScorableCriteria.bind(_this);
+        _this.state = { scorableCriteria: _this.getScorableCriteria() };
+        return _this;
+    }
+
+    _createClass(ScorableCriteria, [{
+        key: 'getScorableCriteria',
+        value: function getScorableCriteria() {
+            return _scoreCardStore2.default.get(this.props.scoreCardId).ScorableCriteria;
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var key = 0;
+            var scorableCriteria = this.state.scorableCriteria.map(function (scorableCriterion) {
+                return _react2.default.createElement(ScorableCriterion, { key: key++, scorableCriterion: scorableCriterion });
+            });
+
+            return _react2.default.createElement(
+                'div',
+                null,
+                scorableCriteria
+            );
+        }
+    }]);
+
+    return ScorableCriteria;
+}(_react2.default.Component);
+
+var ScorableCriterion = function (_React$Component2) {
+    _inherits(ScorableCriterion, _React$Component2);
+
+    function ScorableCriterion(props) {
+        _classCallCheck(this, ScorableCriterion);
+
+        var _this2 = _possibleConstructorReturn(this, (ScorableCriterion.__proto__ || Object.getPrototypeOf(ScorableCriterion)).call(this, props));
+
+        _this2.handleCommentChange = _this2.handleCommentChange.bind(_this2);
+        _this2.handleScoreChange = _this2.handleScoreChange.bind(_this2);
+        _this2.state = { scorableCriterion: _this2.props.scorableCriterion };
+        return _this2;
+    }
+
+    _createClass(ScorableCriterion, [{
+        key: 'handleCommentChange',
+        value: function handleCommentChange(e) {
+            var scorableCriterion = this.state.scorableCriterion;
+            scorableCriterion.Comment = e.target.value;
+            this.setState(scorableCriterion);
+        }
+    }, {
+        key: 'handleScoreChange',
+        value: function handleScoreChange(e) {
+            var scorableCriterion = this.state.scorableCriterion;
+            scorableCriterion.Score = e.target.value;
+            this.setState(scorableCriterion);
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var scorableCriterion = this.state.scorableCriterion;
+            return _react2.default.createElement(
+                _panel2.default,
+                { title: scorableCriterion.ScoreCriterion.CriterionDescription },
+                _react2.default.createElement(_input2.default, {
+                    name: 'comment',
+                    type: 'text',
+                    label: 'Comment',
+                    value: scorableCriterion.Comment,
+                    onChange: this.handleCommentChange }),
+                _react2.default.createElement(_input2.default, {
+                    name: 'score',
+                    type: 'number',
+                    label: 'Score',
+                    value: scorableCriterion.Score,
+                    onChange: this.handleScoreChange })
+            );
+        }
+    }]);
+
+    return ScorableCriterion;
+}(_react2.default.Component);
+
+exports.default = ScorableCriteria;
+
+},{"../../../../../../common/input":260,"../../../../../../common/panel":265,"../../../../../../data/stores/scoreCardStore":273,"react":257}],279:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _scoreCardStore = require('../../../../../../data/stores/scoreCardStore');
+
+var _scoreCardStore2 = _interopRequireDefault(_scoreCardStore);
+
 var _scoreCardUtil = require('./scoreCardUtil');
 
 var ScoreCardUtil = _interopRequireWildcard(_scoreCardUtil);
+
+var _scorableCriteria = require('./scorableCriteria');
+
+var _scorableCriteria2 = _interopRequireDefault(_scorableCriteria);
 
 var _pageContent = require('../../../../../../common/pageContent');
 
@@ -37809,7 +37939,7 @@ var ScoreCardPage = function (_React$Component) {
             return _react2.default.createElement(
                 _pageContent2.default,
                 { title: ScoreCardUtil.getName(scoreCard), description: '' },
-                ScoreCardUtil.getDescription(scoreCard)
+                _react2.default.createElement(_scorableCriteria2.default, { scoreCardId: scoreCard.Id })
             );
         }
     }]);
@@ -37819,7 +37949,7 @@ var ScoreCardPage = function (_React$Component) {
 
 exports.default = ScoreCardPage;
 
-},{"../../../../../../common/pageContent":264,"../../../../../../data/stores/scoreCardStore":273,"./scoreCardUtil":279,"react":257}],279:[function(require,module,exports){
+},{"../../../../../../common/pageContent":264,"../../../../../../data/stores/scoreCardStore":273,"./scorableCriteria":278,"./scoreCardUtil":280,"react":257}],280:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -37895,7 +38025,7 @@ var getDescription = function getDescription(scoreCard) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{"react":257}],280:[function(require,module,exports){
+},{"react":257}],281:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37964,9 +38094,9 @@ var ScoreCardsBox = function (_React$Component) {
 
 exports.default = ScoreCardsBox;
 
-},{"../../../../../common/listPanel":263,"../../../../../data/stores/scoreCardStore":273,"./scorecard/scoreCardUtil":281,"react":257}],281:[function(require,module,exports){
-arguments[4][279][0].apply(exports,arguments)
-},{"dup":279,"react":257}],282:[function(require,module,exports){
+},{"../../../../../common/listPanel":263,"../../../../../data/stores/scoreCardStore":273,"./scorecard/scoreCardUtil":282,"react":257}],282:[function(require,module,exports){
+arguments[4][280][0].apply(exports,arguments)
+},{"dup":280,"react":257}],283:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38034,7 +38164,7 @@ var ContestantsBox = function (_React$Component) {
 
 exports.default = ContestantsBox;
 
-},{"../../../../common/listPanel":263,"../../../../data/stores/contestantStore":270,"./contestant/contestantUtil":277,"react":257}],283:[function(require,module,exports){
+},{"../../../../common/listPanel":263,"../../../../data/stores/contestantStore":270,"./contestant/contestantUtil":277,"react":257}],284:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38051,7 +38181,7 @@ var getDescription = function getDescription(judge) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],284:[function(require,module,exports){
+},{}],285:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38147,7 +38277,7 @@ var JudgesBox = function (_React$Component) {
 
 exports.default = JudgesBox;
 
-},{"../../../../common/listPanel":263,"../../../../data/stores/contestStore":269,"./judge/judgeUtil":283,"react":257}],285:[function(require,module,exports){
+},{"../../../../common/listPanel":263,"../../../../data/stores/contestStore":269,"./judge/judgeUtil":284,"react":257}],286:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38207,7 +38337,7 @@ var ContestsBox = function (_React$Component) {
 
 exports.default = ContestsBox;
 
-},{"../../../common/listPanel":263,"../../../data/stores/contestStore":269,"react":257}],286:[function(require,module,exports){
+},{"../../../common/listPanel":263,"../../../data/stores/contestStore":269,"react":257}],287:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38276,7 +38406,7 @@ var ShowPage = function (_React$Component) {
 
 exports.default = ShowPage;
 
-},{"../../../common/pageContent":264,"../../../data/stores/showStore":274,"./contests":285,"react":257}],287:[function(require,module,exports){
+},{"../../../common/pageContent":264,"../../../data/stores/showStore":274,"./contests":286,"react":257}],288:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38362,7 +38492,7 @@ var ShowsBox = function (_React$Component2) {
 
 exports.default = ShowsPage;
 
-},{"../../common/listPanel":263,"../../common/pageContent":264,"../../data/stores/showStore":274,"react":257}],288:[function(require,module,exports){
+},{"../../common/listPanel":263,"../../common/pageContent":264,"../../data/stores/showStore":274,"react":257}],289:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38386,7 +38516,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"react":257}],289:[function(require,module,exports){
+},{"react":257}],290:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38590,7 +38720,7 @@ var JudgesPage = function (_React$Component2) {
 
 exports.default = JudgesPage;
 
-},{"../common/formGroup":259,"../common/input":260,"../data/actions/judgeActions":267,"../data/stores/judgeStore":272,"jquery":20,"react":257}],290:[function(require,module,exports){
+},{"../common/formGroup":259,"../common/input":260,"../data/actions/judgeActions":267,"../data/stores/judgeStore":272,"jquery":20,"react":257}],291:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
