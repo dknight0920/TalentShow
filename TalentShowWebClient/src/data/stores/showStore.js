@@ -1,32 +1,27 @@
 ﻿import EventEmitter from 'event-emitter';
 import Dispatcher from '../dispatcher';
+import * as ShowApi from '../api/showApi'
 
 class ShowStore extends EventEmitter {
     constructor(){
         super();
-        this.shows = [
-            {
-                Id: 3,
-                Name: "Talent Show 2018", 
-                Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " 
-            },
-            {
-                Id: 2,
-                Name: "Talent Show 2017", 
-                Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " 
-            },
-            {
-                Id: 1,
-                Name: "Talent Show 2016", 
-                Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " 
-            }];
+        this.shows = [];
     }
 }
 
 const showStore = new ShowStore;
 
+showStore.setShows = function(_shows){
+    showStore.shows = _shows;
+    showStore.emit("change");
+};
+
 showStore.getAll = function(){
     return this.shows;
+};
+
+showStore.loadAll = function(){
+    ShowApi.getAll(showStore.setShows);
 };
 
 showStore.get = function(id){
@@ -44,7 +39,12 @@ showStore.get = function(id){
 };
 
 showStore.handleAction = function(action){
-    console.log("Need to handle action here", action);
+    switch(action.type){
+        case "LOAD_ALL_SHOWS":
+            showStore.loadAll();
+            break;
+
+    }
 };
 
 Dispatcher.register(showStore.handleAction.bind(showStore));

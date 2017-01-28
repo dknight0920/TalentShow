@@ -12,6 +12,7 @@ namespace TalentShowDataStorage
     public class ShowRepo : Repo<Show>, IRepo<Show>
     {
         private const string NAME = "name";
+        private const string DESCRIPTION = "description";
         private const string SHOWS = "shows";
 
         protected override string GetTableName()
@@ -37,6 +38,7 @@ namespace TalentShowDataStorage
         {
             var fieldNamesAndValues = new Dictionary<string, object>();
             fieldNamesAndValues.Add(NAME, show.Name);
+            fieldNamesAndValues.Add(DESCRIPTION, show.Description);
             return fieldNamesAndValues;
         }
 
@@ -44,8 +46,9 @@ namespace TalentShowDataStorage
         {
             int id = Convert.ToInt32(reader.GetColumnValue(ID));
             string name = reader.GetColumnValue(NAME).ToString();
+            string description = reader.GetColumnValue(DESCRIPTION).ToString();
 
-            Show show = new Show(id, name);
+            Show show = new Show(id, name, description);
 
             var showContestCollection = new ShowContestRepo().GetAll().Where(sc => sc.ShowId == show.Id);
             var contestRepo = new ContestRepo();
@@ -58,7 +61,7 @@ namespace TalentShowDataStorage
 
         protected override ICollection<string> GetFieldNamesForSelectStatement()
         {
-            return new List<string>() { ID, NAME };
+            return new List<string>() { ID, NAME, DESCRIPTION };
         }
     }
 }

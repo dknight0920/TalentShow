@@ -9,6 +9,7 @@ namespace TalentShowWebApi.DataTransferObjects
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
         public ICollection<ContestantDto> Contestants { get; set; }
         public ICollection<JudgeDto> Judges { get; set; }
         public ICollection<ScoreCriterionDto> ScoreCriteria { get; set; }

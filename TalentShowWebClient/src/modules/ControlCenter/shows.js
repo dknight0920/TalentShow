@@ -1,5 +1,6 @@
 ﻿import React from 'react';
 import ShowStore from '../../data/stores/showStore';
+import * as ShowActions from '../../data/actions/showActions';
 import { ListPanel, ListPanelItem } from '../../common/listPanel';
 import PageContent from '../../common/pageContent';
 
@@ -21,7 +22,26 @@ class ShowsBox extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { shows: ShowStore.getAll() };
+        this.getState = this.getState.bind(this);
+        this.storeChanged = this.storeChanged.bind(this);
+        this.state = this.getState();
+    }
+
+    componentWillMount(){
+        ShowStore.on("change", this.storeChanged);
+        ShowActions.loadAllShows();
+    }
+
+    componentWillUnmount(){
+        ShowStore.off("change", this.storeChanged);
+    }
+
+    storeChanged(){
+        this.setState(this.getState());
+    }
+
+    getState(){
+        return { shows: ShowStore.getAll() };
     }
 
     render() {

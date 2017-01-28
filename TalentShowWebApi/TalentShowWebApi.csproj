@@ -249,6 +249,7 @@
     <Compile Include="Controllers\ContestantsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JudgesController.cs" />
+    <Compile Include="Controllers\ShowsController.cs" />
     <Compile Include="DataTransferObjects\ContestantDto.cs" />
     <Compile Include="DataTransferObjects\ContestDto.cs" />
     <Compile Include="DataTransferObjects\DivisionDto.cs" />

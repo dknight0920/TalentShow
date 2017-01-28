@@ -59,6 +59,7 @@
     <Compile Include="ScoreRange.cs" />
     <Compile Include="Services\ContestantService.cs" />
     <Compile Include="Services\JudgeService.cs" />
+    <Compile Include="Services\ShowService.cs" />
     <Compile Include="Show.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

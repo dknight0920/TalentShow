@@ -12,10 +12,16 @@ namespace TalentShow
     {
         public int Id { get; private set; }
         public string Name { get; private set; }
+        public string Description { get; private set; }
         public ICollection<Contestant> Contestants { get; private set; }
         public ICollection<Judge> Judges { get; private set; }
         public ICollection<ScoreCriterion> ScoreCriteria { get; private set; }
         public ICollection<ScoreCard> ScoreCards { get; private set; }
+
+        public Contest(int id, string name, string description)
+        {
+            Init(id, name, description);
+        }
 
         public Contest(int id, string name)
         {
@@ -27,13 +33,14 @@ namespace TalentShow
             Init(0, name);
         }
 
-        private void Init(int id, string name)
+        private void Init(int id, string name, string description = null)
         {
             if (String.IsNullOrWhiteSpace(name))
                 throw new ApplicationException("A contest cannot be constructed without a name.");
 
             Id = id;
             Name = name;
+            Description = description;
             Contestants = new List<Contestant>();
             Judges = new List<Judge>();
             ScoreCriteria = new List<ScoreCriterion>();

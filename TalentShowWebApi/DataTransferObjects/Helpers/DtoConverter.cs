@@ -8,6 +8,16 @@ namespace TalentShowWebApi.DataTransferObjects.Helpers
 {
     public static class DtoConverter
     {
+        public static Show ConvertFromDto(this ShowDto showDto)
+        {
+            var show = new Show(showDto.Id, showDto.Name, showDto.Description);
+
+            //foreach (var contestDto in showDto.Contests)
+                //show.Contests.Add(ConvertFromDto(contestDto));
+
+            return show;
+        }
+
         public static Contestant ConvertFromDto(this ContestantDto contestantDto)
         {
             return new Contestant(contestantDto.Id, ConvertFromDto(contestantDto.Performers), ConvertFromDto(contestantDto.Performance));
@@ -61,6 +71,27 @@ namespace TalentShowWebApi.DataTransferObjects.Helpers
                 parent = ConvertFromDto(organizationDto.Parent);
 
             return new Organization(organizationDto.Id, organizationDto.Name, parent);
+        }
+
+        public static ICollection<ShowDto> ConvertToDto(this ICollection<Show> shows)
+        {
+            var dtos = new List<ShowDto>();
+
+            foreach (var show in shows)
+                dtos.Add(ConvertToDto(show));
+
+            return dtos;
+        }
+
+        public static ShowDto ConvertToDto(this Show show)
+        {
+            return new ShowDto()
+            {
+                Id = show.Id,
+                Name = show.Name,
+                Description = show.Description,
+                //Contests = show.Contests.ConvertToDto()
+            };
         }
 
         public static ICollection<ContestantDto> ConvertToDto(this ICollection<Contestant> contestants)
@@ -124,6 +155,16 @@ namespace TalentShowWebApi.DataTransferObjects.Helpers
             };
         }
 
+        public static ICollection<ContestDto> ConvertToDto(this ICollection<Contest> contests)
+        {
+            var dtos = new List<ContestDto>();
+
+            foreach (var contest in contests)
+                dtos.Add(ConvertToDto(contest));
+
+            return dtos;
+        }
+
         public static ContestDto ConvertToDto(this Contest contest)
         {
             return new ContestDto()
@@ -132,6 +173,7 @@ namespace TalentShowWebApi.DataTransferObjects.Helpers
                 Contestants = ConvertToDto(contest.Contestants),
                 Judges = ConvertToDto(contest.Judges),
                 Name = contest.Name,
+                Description = contest.Description,
                 ScoreCards = ConvertToDto(contest.ScoreCards),
                 ScoreCriteria = ConvertToDto(contest.ScoreCriteria)
             };
