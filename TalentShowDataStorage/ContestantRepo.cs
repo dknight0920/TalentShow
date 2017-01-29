@@ -4,7 +4,7 @@ using TalentShow;
 using TalentShow.Repos;
 using System.Data;
 using TalentShowDataStorage.Helpers;
-using TalentShowDataStorage.CrossReferences;
+using TalentShow.CrossReferences;
 using System.Linq;
 
 namespace TalentShowDataStorage

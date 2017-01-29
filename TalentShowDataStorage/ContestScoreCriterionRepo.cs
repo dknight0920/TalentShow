@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using TalentShow.Repos;
 using System.Data;
 using TalentShowDataStorage.Helpers;
-using TalentShowDataStorage.CrossReferences;
+using TalentShow.CrossReferences;
 
 namespace TalentShowDataStorage
 {
-    internal class ContestScoreCriterionRepo : Repo<ContestScoreCriterion>, IRepo<ContestScoreCriterion>
+    public class ContestScoreCriterionRepo : Repo<ContestScoreCriterion>, IRepo<ContestScoreCriterion>
     {
         private const string CONTESTID = "contestid";
         private const string SCORECRITERIONID = "scorecriterionid";

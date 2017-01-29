@@ -4,11 +4,11 @@ using TalentShow;
 using TalentShow.Repos;
 using System.Data;
 using TalentShowDataStorage.Helpers;
-using TalentShowDataStorage.CrossReferences;
+using TalentShow.CrossReferences;
 
 namespace TalentShowDataStorage
 {
-    internal class ContestantPerformerRepo : Repo<ContestantPerformer>, IRepo<ContestantPerformer>
+    public class ContestantPerformerRepo : Repo<ContestantPerformer>, IRepo<ContestantPerformer>
     {
         private const string CONTESTANTID = "contestantid";
         private const string PERFORMERID = "performerid";

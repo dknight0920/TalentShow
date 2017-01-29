@@ -12,7 +12,7 @@ namespace TalentShow
         public int Id { get; private set; }
         public string Name { get; private set; }
         public string Description { get; private set; }
-        public ICollection<Contest> Contests { get; private set; }
+        //public ICollection<Contest> Contests { get; private set; }
 
         public Show(int id, string name, string description)
         {
@@ -37,7 +37,7 @@ namespace TalentShow
             Id = id;
             Name = name;
             Description = description;
-            Contests = new List<Contest>();
+            //Contests = new List<Contest>();
         }
 
         public void SetId(int id)

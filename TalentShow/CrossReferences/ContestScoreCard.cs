@@ -1,8 +1,8 @@
 ﻿using TalentShow.Repos;
 
-namespace TalentShowDataStorage.CrossReferences
+namespace TalentShow.CrossReferences
 {
-    internal class ContestScoreCard : IIdentity
+    public class ContestScoreCard : IIdentity
     {
         public int Id { get; private set; }
         public int ContestId { get; private set; }

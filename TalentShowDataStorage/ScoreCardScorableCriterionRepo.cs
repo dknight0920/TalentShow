@@ -4,11 +4,11 @@ using TalentShow;
 using TalentShow.Repos;
 using System.Data;
 using TalentShowDataStorage.Helpers;
-using TalentShowDataStorage.CrossReferences;
+using TalentShow.CrossReferences;
 
 namespace TalentShowDataStorage
 {
-    internal class ScoreCardScorableCriterionRepo : Repo<ScoreCardScorableCriterion>, IRepo<ScoreCardScorableCriterion>
+    public class ScoreCardScorableCriterionRepo : Repo<ScoreCardScorableCriterion>, IRepo<ScoreCardScorableCriterion>
     {
         private const string SCORECARDID = "scorecardid";
         private const string SCORABLECRITERIONID = "scorablecriterionid";

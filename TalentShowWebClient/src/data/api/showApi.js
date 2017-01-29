@@ -1,8 +1,6 @@
 ﻿import $ from 'jquery';
 
 var getAll = function (callback) {
-    var shows = [];
-
     var headers = globalGetAccessTokenHttpHeader();
 
     $.ajax({

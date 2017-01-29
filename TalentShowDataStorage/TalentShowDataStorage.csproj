@@ -51,13 +51,6 @@
     <Compile Include="ContestRepo.cs" />
     <Compile Include="ContestScoreCardRepo.cs" />
     <Compile Include="ContestScoreCriterionRepo.cs" />
-    <Compile Include="CrossReferences\ContestantPerformer.cs" />
-    <Compile Include="CrossReferences\ContestContestant.cs" />
-    <Compile Include="CrossReferences\ContestJudge.cs" />
-    <Compile Include="CrossReferences\ContestScoreCard.cs" />
-    <Compile Include="CrossReferences\ContestScoreCriterion.cs" />
-    <Compile Include="CrossReferences\ScoreCardScorableCriterion.cs" />
-    <Compile Include="CrossReferences\ShowContest.cs" />
     <Compile Include="DivisionRepo.cs" />
     <Compile Include="Helpers\DataReaderExtensions.cs" />
     <Compile Include="Helpers\SqlServerCommandHelper.cs" />

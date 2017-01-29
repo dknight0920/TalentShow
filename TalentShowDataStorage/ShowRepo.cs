@@ -5,7 +5,7 @@ using TalentShow.Repos;
 using System.Data;
 using TalentShowDataStorage.Helpers;
 using System.Linq;
-using TalentShowDataStorage.CrossReferences;
+using TalentShow.CrossReferences;
 
 namespace TalentShowDataStorage
 {
@@ -30,8 +30,8 @@ namespace TalentShowDataStorage
         {
             ShowContestRepo showContestRepo = new ShowContestRepo();
 
-            foreach (Contest contest in show.Contests)
-                showContestRepo.Add(new ShowContest(show.Id, contest.Id));
+            //foreach (Contest contest in show.Contests)
+                //showContestRepo.Add(new ShowContest(show.Id, contest.Id));
         }
 
         protected override Dictionary<string, object> GetFieldNamesAndValuesForInsertOrUpdate(Show show)
@@ -50,11 +50,11 @@ namespace TalentShowDataStorage
 
             Show show = new Show(id, name, description);
 
-            var showContestCollection = new ShowContestRepo().GetAll().Where(sc => sc.ShowId == show.Id);
-            var contestRepo = new ContestRepo();
+            //var showContestCollection = new ShowContestRepo().GetAll().Where(sc => sc.ShowId == show.Id);
+            //var contestRepo = new ContestRepo();
 
-            foreach (var sc in showContestCollection)
-                show.Contests.Add(contestRepo.Get(sc.ContestId));
+            //foreach (var sc in showContestCollection)
+                //show.Contests.Add(contestRepo.Get(sc.ContestId));
 
             return show;
         }

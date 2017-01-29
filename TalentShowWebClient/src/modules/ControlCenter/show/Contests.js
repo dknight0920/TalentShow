@@ -1,17 +1,37 @@
 ﻿import React from 'react';
 import { ListPanel, ListPanelItem } from '../../../common/listPanel';
 import ContestStore from '../../../data/stores/contestStore';
+import * as ContestActions from '../../../data/actions/contestActions';
 
 class ContestsBox extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { data: ContestStore.getAll() };
+        this.getState = this.getState.bind(this);
+        this.storeChanged = this.storeChanged.bind(this);
+        this.state = this.getState();
+    }
+
+    componentWillMount(){
+        ContestStore.on("change", this.storeChanged);
+        ContestActions.loadShowContests(this.props.showId);
+    }
+
+    componentWillUnmount(){
+        ContestStore.off("change", this.storeChanged);
+    }
+
+    storeChanged(){
+        this.setState(this.getState());
+    }
+
+    getState(){
+        return { contests: ContestStore.getShowContests() };
     }
 
     render() {
         var showId = this.props.showId;
-        var contests = this.state.data.map(function (contest) {
+        var contests = this.state.contests.map(function (contest) {
             return (
                 <ListPanelItem 
                     key={contest.Id} 

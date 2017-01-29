@@ -43,6 +43,13 @@
   <ItemGroup>
     <Compile Include="Contest.cs" />
     <Compile Include="Contestant.cs" />
+    <Compile Include="CrossReferences\ContestantPerformer.cs" />
+    <Compile Include="CrossReferences\ContestContestant.cs" />
+    <Compile Include="CrossReferences\ContestJudge.cs" />
+    <Compile Include="CrossReferences\ContestScoreCard.cs" />
+    <Compile Include="CrossReferences\ContestScoreCriterion.cs" />
+    <Compile Include="CrossReferences\ScoreCardScorableCriterion.cs" />
+    <Compile Include="CrossReferences\ShowContest.cs" />
     <Compile Include="Division.cs" />
     <Compile Include="Helpers\CollectionExtensions.cs" />
     <Compile Include="Judge.cs" />
@@ -58,6 +65,7 @@
     <Compile Include="ScorableCriterion.cs" />
     <Compile Include="ScoreRange.cs" />
     <Compile Include="Services\ContestantService.cs" />
+    <Compile Include="Services\ContestService.cs" />
     <Compile Include="Services\JudgeService.cs" />
     <Compile Include="Services\ShowService.cs" />
     <Compile Include="Show.cs" />
