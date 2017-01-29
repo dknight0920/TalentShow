@@ -4,7 +4,7 @@ var getShowContests = function (showId, callback) {
     var headers = globalGetAccessTokenHttpHeader();
 
     $.ajax({
-        url: globalWebApiBaseUrl + "api/Contests",
+        url: globalWebApiBaseUrl + "api/Contests/Show/" + showId,
         contentType: "application/json",
         type: "GET",
         headers: headers,

@@ -36698,6 +36698,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.loadAllShows = loadAllShows;
+exports.loadShow = loadShow;
 
 var _dispatcher = require("../dispatcher");
 
@@ -36707,6 +36708,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function loadAllShows() {
     _dispatcher2.default.dispatch({ type: "LOAD_ALL_SHOWS" });
+};
+
+function loadShow(showId) {
+    _dispatcher2.default.dispatch({ type: "LOAD_SHOW", showId: showId });
 };
 
 },{"../dispatcher":272}],270:[function(require,module,exports){
@@ -36727,7 +36732,7 @@ var getShowContests = function getShowContests(showId, callback) {
     var headers = globalGetAccessTokenHttpHeader();
 
     _jquery2.default.ajax({
-        url: globalWebApiBaseUrl + "api/Contests",
+        url: globalWebApiBaseUrl + "api/Contests/Show/" + showId,
         contentType: "application/json",
         type: "GET",
         headers: headers,
@@ -36818,9 +36823,21 @@ var getAll = function getAll(callback) {
     });
 };
 
-var get = function get(id) {
-    var show = null;
-    return show;
+var get = function get(id, callback) {
+    var headers = globalGetAccessTokenHttpHeader();
+
+    _jquery2.default.ajax({
+        url: globalWebApiBaseUrl + "api/Shows/" + id,
+        contentType: "application/json",
+        type: "GET",
+        headers: headers,
+        success: function success(result) {
+            callback(result);
+        },
+        error: function error(request, status, err) {
+            //TODO handle error
+        }
+    });
 };
 
 var add = function add(show) {};
@@ -37623,19 +37640,39 @@ showStore.setShows = function (_shows) {
     showStore.emit("change");
 };
 
+showStore.pushShow = function (_show) {
+    var replacedExisting = false;
+    for (var i = 0; i < showStore.shows.length; i++) {
+        var show = showStore.shows[i];
+        if (show.Id === _show.Id) {
+            show = _show;
+            replacedExisting = true;
+            break;
+        }
+    }
+    if (!replacedExisting) {
+        showStore.shows.push(_show);
+    }
+    showStore.emit("change");
+};
+
 showStore.getAll = function () {
-    return this.shows;
+    return showStore.shows;
 };
 
 showStore.loadAll = function () {
     ShowApi.getAll(showStore.setShows);
 };
 
+showStore.load = function (showId) {
+    ShowApi.get(showId, showStore.pushShow);
+};
+
 showStore.get = function (id) {
     var show = null;
 
-    for (var i = 0; i < this.shows.length; i++) {
-        var currentShow = this.shows[i];
+    for (var i = 0; i < showStore.shows.length; i++) {
+        var currentShow = showStore.shows[i];
         if (currentShow.Id == id) {
             show = currentShow;
             break;
@@ -37649,6 +37686,9 @@ showStore.handleAction = function (action) {
     switch (action.type) {
         case "LOAD_ALL_SHOWS":
             showStore.loadAll();
+            break;
+        case "LOAD_SHOW":
+            showStore.load(action.showId);
             break;
 
     }
@@ -38473,9 +38513,15 @@ var _showStore = require('../../../data/stores/showStore');
 
 var _showStore2 = _interopRequireDefault(_showStore);
 
+var _showActions = require('../../../data/actions/showActions');
+
+var ShowActions = _interopRequireWildcard(_showActions);
+
 var _pageContent = require('../../../common/pageContent');
 
 var _pageContent2 = _interopRequireDefault(_pageContent);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -38493,21 +38539,54 @@ var ShowPage = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (ShowPage.__proto__ || Object.getPrototypeOf(ShowPage)).call(this, props));
 
+        _this.getState = _this.getState.bind(_this);
+        _this.storeChanged = _this.storeChanged.bind(_this);
         _this.getShow = _this.getShow.bind(_this);
-        _this.state = { show: _this.getShow() };
+        _this.getShowId = _this.getShowId.bind(_this);
+        _this.state = _this.getState();
         return _this;
     }
 
     _createClass(ShowPage, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            _showStore2.default.on("change", this.storeChanged);
+            ShowActions.loadShow(this.getShowId());
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            _showStore2.default.off("change", this.storeChanged);
+        }
+    }, {
+        key: 'storeChanged',
+        value: function storeChanged() {
+            this.setState(this.getState());
+        }
+    }, {
+        key: 'getState',
+        value: function getState() {
+            return { show: this.getShow() };
+        }
+    }, {
         key: 'getShow',
         value: function getShow() {
-            var showId = this.props.params.showId;
-            return _showStore2.default.get(showId);
+            return _showStore2.default.get(this.getShowId());
+        }
+    }, {
+        key: 'getShowId',
+        value: function getShowId() {
+            return this.props.params.showId;
         }
     }, {
         key: 'render',
         value: function render() {
             var show = this.state.show;
+
+            if (!show) {
+                return _react2.default.createElement(_pageContent2.default, { title: 'Loading', description: 'The show\'s details are loading, please wait.' });
+            }
+
             return _react2.default.createElement(
                 _pageContent2.default,
                 { title: show.Name, description: show.Description },
@@ -38521,7 +38600,7 @@ var ShowPage = function (_React$Component) {
 
 exports.default = ShowPage;
 
-},{"../../../common/pageContent":264,"../../../data/stores/showStore":278,"./contests":290,"react":257}],292:[function(require,module,exports){
+},{"../../../common/pageContent":264,"../../../data/actions/showActions":269,"../../../data/stores/showStore":278,"./contests":290,"react":257}],292:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

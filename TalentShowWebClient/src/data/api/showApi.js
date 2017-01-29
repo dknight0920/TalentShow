@@ -17,9 +17,21 @@ var getAll = function (callback) {
     });
 };
 
-var get = function (id) {
-    var show = null;
-    return show;
+var get = function (id, callback) {
+    var headers = globalGetAccessTokenHttpHeader();
+
+    $.ajax({
+        url: globalWebApiBaseUrl + "api/Shows/" + id,
+        contentType: "application/json",
+        type: "GET",
+        headers: headers,
+        success: function(result){
+            callback(result);
+        },
+        error: function(request, status, err){
+            //TODO handle error
+        }	
+    });
 };
 
 var add = function (show) {

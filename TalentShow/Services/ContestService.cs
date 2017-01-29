@@ -21,6 +21,7 @@ namespace TalentShow.Services
                 throw new ApplicationException("A ContestService cannot be constructed without a ShowContestRepo.");
 
             ContestRepo = contestRepo;
+            ShowContestRepo = showContestRepo;
         }
 
         public ICollection<Contest> GetShowContests(int showId)

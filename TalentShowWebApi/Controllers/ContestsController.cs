@@ -29,10 +29,10 @@ namespace TalentShowWebApi.Controllers
             ContestService = new ContestService(ContestRepo, ShowContestRepo);
         }
 
-        // GET api/Contests/ShowContests
-        [Route("ShowContests")]
-        [EnableCors(origins: "*", headers: "*", methods: "*", SupportsCredentials = true)]
-        public IEnumerable<ContestDto> GetShowContests([FromUri]int id)
+        // GET api/Contests/Show/5
+        [HttpGet]
+        [Route("api/Contests/Show/{id}")]
+        public IEnumerable<ContestDto> GetShowContests(int id)
         {
             return ContestService.GetShowContests(id).ConvertToDto();
         }
