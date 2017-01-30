@@ -8,7 +8,7 @@ using TalentShow.CrossReferences;
 
 namespace TalentShowDataStorage
 {
-    public class ContestContestantRepo : Repo<ContestContestant>, IRepo<ContestContestant>
+    public class ContestContestantRepo : CrossReferenceRepo<ContestContestant>, ICrossReferenceRepo<ContestContestant>
     {
         private const string CONTESTID = "contestid";
         private const string CONTESTANTID = "contestantid";
@@ -39,6 +39,11 @@ namespace TalentShowDataStorage
         protected override ICollection<string> GetFieldNamesForSelectStatement()
         {
             return new List<string>() { ID, CONTESTID, CONTESTANTID };
+        }
+
+        protected override string GetForeignKeyFieldName()
+        {
+            return CONTESTID;
         }
     }
 }

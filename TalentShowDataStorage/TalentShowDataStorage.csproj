@@ -51,6 +51,7 @@
     <Compile Include="ContestRepo.cs" />
     <Compile Include="ContestScoreCardRepo.cs" />
     <Compile Include="ContestScoreCriterionRepo.cs" />
+    <Compile Include="CrossReferenceRepo.cs" />
     <Compile Include="DivisionRepo.cs" />
     <Compile Include="Helpers\DataReaderExtensions.cs" />
     <Compile Include="Helpers\SqlServerCommandHelper.cs" />

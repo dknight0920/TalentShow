@@ -11,9 +11,9 @@ namespace TalentShow.Services
     public class ContestService
     {
         private readonly IRepo<Contest> ContestRepo;
-        private readonly IRepo<ShowContest> ShowContestRepo;
+        private readonly ICrossReferenceRepo<ShowContest> ShowContestRepo;
 
-        public ContestService(IRepo<Contest> contestRepo, IRepo<ShowContest> showContestRepo)
+        public ContestService(IRepo<Contest> contestRepo, ICrossReferenceRepo<ShowContest> showContestRepo)
         {
             if (contestRepo == null)
                 throw new ApplicationException("A ContestService cannot be constructed without a ContestRepo.");
@@ -26,7 +26,7 @@ namespace TalentShow.Services
 
         public ICollection<Contest> GetShowContests(int showId)
         {
-            var showContestCollection = ShowContestRepo.GetAll().Where(sc => sc.ShowId == showId);
+            var showContestCollection = ShowContestRepo.GetMatchingOn(showId);
             var contests = new List<Contest>();
 
             foreach (var sc in showContestCollection)

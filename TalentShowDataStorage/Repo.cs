@@ -23,7 +23,7 @@ namespace TalentShowDataStorage
         {
             int id = item.Id;
             var fieldNamesAndValues = GetFieldNamesAndValuesForInsertOrUpdate(item);
-            var whereClause = WhereIdEquals(id);
+            var whereClause = WhereIdEquals();
             var whereClauseParameterNamesAndValues = new Dictionary<string, object>();
             whereClauseParameterNamesAndValues.Add(ID, id);
 
@@ -53,7 +53,7 @@ namespace TalentShowDataStorage
 
         public T Get(int id)
         {
-            string sql = GetSelectStatement() + WhereIdEquals(id);
+            string sql = GetSelectStatement() + WhereIdEquals();
             SqlCommand command = new SqlCommand(sql);
             AddIdParameterToCommand(command, id);
             IDataReader reader = SqlServerCommandHelper.ExecuteSqlQuery(command);      
@@ -63,7 +63,7 @@ namespace TalentShowDataStorage
 
         public bool Exists(int id)
         {
-            string sql = "select 1 from " + GetTableName() + WhereIdEquals(id);
+            string sql = "select 1 from " + GetTableName() + WhereIdEquals();
             SqlCommand command = new SqlCommand(sql);
             AddIdParameterToCommand(command, id);
             IDataReader reader = SqlServerCommandHelper.ExecuteSqlQuery(command);
@@ -77,7 +77,7 @@ namespace TalentShowDataStorage
 
         public void Delete(int id)
         {
-            string sql = SqlServerCommandHelper.GetSimpleDeleteStatement(GetTableName()) + WhereIdEquals(id);
+            string sql = SqlServerCommandHelper.GetSimpleDeleteStatement(GetTableName()) + WhereIdEquals();
             SqlCommand command = new SqlCommand(sql);
             AddIdParameterToCommand(command, id);
             SqlServerCommandHelper.ExecuteSqlCommand(command);
@@ -90,7 +90,7 @@ namespace TalentShowDataStorage
             SqlServerCommandHelper.ExecuteSqlCommand(command);
         }
 
-        private string GetSelectStatement()
+        protected string GetSelectStatement()
         {
             var fieldNames = GetFieldNamesForSelectStatement();
             return SqlServerCommandHelper.GetSimpleSelectStatement(GetTableName(), fieldNames);
@@ -103,7 +103,7 @@ namespace TalentShowDataStorage
 
         protected abstract ICollection<string> GetFieldNamesForSelectStatement();
 
-        private static string WhereIdEquals(int id)
+        private static string WhereIdEquals()
         {
             return " where [" + ID + "] = @" + ID + ";";
         }

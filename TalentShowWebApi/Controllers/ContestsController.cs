@@ -19,7 +19,7 @@ namespace TalentShowWebApi.Controllers
     public class ContestsController : ApiController
     {
         private IRepo<Contest> ContestRepo;
-        private IRepo<ShowContest> ShowContestRepo;
+        private ICrossReferenceRepo<ShowContest> ShowContestRepo;
         private ContestService ContestService;
 
         public ContestsController()

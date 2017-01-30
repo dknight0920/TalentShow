@@ -8,6 +8,6 @@ namespace TalentShow.Repos
 {
     public interface ICrossReferenceRepo<T> : IRepo<T> 
     {
-        ICollection<T> GetWhere();
+        ICollection<T> GetMatchingOn(int foreignKeyId);
     }
 }
