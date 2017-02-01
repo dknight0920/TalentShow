@@ -22,9 +22,8 @@ namespace TalentShow.Tests
             ICollection<ScorableCriterion> scorableCriteria = new List<ScorableCriterion>() { scorableCriterion, scorableCriterion2 };
 
             Contest contest = new Contest("Talent Show");
-            Performer performer = new Performer(new Division("Alpha"), new PersonName(firstName: "Jim", lastName: "Dale"), new Organization("XYZ"));
             Performance performance = new Performance("Singing a song.", new TimeSpan(hours: 0, minutes: 4, seconds: 0));
-            Contestant contestant = new Contestant(performer, performance);
+            Contestant contestant = new Contestant(performance);
             Judge judge = new Judge(new PersonName(firstName: "Sam", lastName: "Bam"), new Organization("ABC"));
 
             ScoreCard scoreCard = new ScoreCard(contestant, judge, scorableCriteria);

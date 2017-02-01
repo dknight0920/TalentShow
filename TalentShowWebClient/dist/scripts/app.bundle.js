@@ -36148,7 +36148,7 @@ function getToken() {
     )
 ), document.getElementById('app'));
 
-},{"./modules/ControlCenter/show/contest/contest":279,"./modules/ControlCenter/show/contest/contestant/contestant":280,"./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard":283,"./modules/ControlCenter/show/show":291,"./modules/ControlCenter/shows":292,"./modules/about":293,"./modules/judges":294,"./modules/login":295,"react":257,"react-dom":21,"react-router":198}],259:[function(require,module,exports){
+},{"./modules/ControlCenter/show/contest/contest":281,"./modules/ControlCenter/show/contest/contestant/contestant":282,"./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard":285,"./modules/ControlCenter/show/show":293,"./modules/ControlCenter/shows":294,"./modules/about":295,"./modules/judges":296,"./modules/login":297,"react":257,"react-dom":21,"react-router":198}],259:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36650,7 +36650,25 @@ function loadShowContests(showId) {
     _dispatcher2.default.dispatch({ type: "LOAD_SHOW_CONTESTS", showId: showId });
 };
 
-},{"../dispatcher":272}],267:[function(require,module,exports){
+},{"../dispatcher":274}],267:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.loadContestContestants = loadContestContestants;
+
+var _dispatcher = require("../dispatcher");
+
+var _dispatcher2 = _interopRequireDefault(_dispatcher);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function loadContestContestants(contestId) {
+    _dispatcher2.default.dispatch({ type: "LOAD_CONTEST_CONTESTANTS", contestId: contestId });
+};
+
+},{"../dispatcher":274}],268:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36668,7 +36686,7 @@ function authenticate(credentials) {
     _dispatcher2.default.dispatch({ type: "AUTHENTICATE_CURRENT_USER", data: credentials });
 };
 
-},{"../dispatcher":272}],268:[function(require,module,exports){
+},{"../dispatcher":274}],269:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36691,7 +36709,7 @@ function loadAllJudges() {
     _dispatcher2.default.dispatch({ type: "LOAD_ALL_JUDGES" });
 };
 
-},{"../dispatcher":272}],269:[function(require,module,exports){
+},{"../dispatcher":274}],270:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36714,7 +36732,7 @@ function loadShow(showId) {
     _dispatcher2.default.dispatch({ type: "LOAD_SHOW", showId: showId });
 };
 
-},{"../dispatcher":272}],270:[function(require,module,exports){
+},{"../dispatcher":274}],271:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36792,7 +36810,85 @@ exports.add = add;
 exports.update = update;
 exports.remove = remove;
 
-},{"jquery":20}],271:[function(require,module,exports){
+},{"jquery":20}],272:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.remove = exports.update = exports.add = exports.get = exports.getAll = exports.getContestContestants = undefined;
+
+var _jquery = require("jquery");
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var getContestContestants = function getContestContestants(contestId, callback) {
+    var headers = globalGetAccessTokenHttpHeader();
+
+    _jquery2.default.ajax({
+        url: globalWebApiBaseUrl + "api/Contestants/Contest/" + contestId,
+        contentType: "application/json",
+        type: "GET",
+        headers: headers,
+        success: function success(result) {
+            callback(result);
+        },
+        error: function error(request, status, err) {
+            //TODO handle error
+        }
+    });
+};
+
+var getAll = function getAll(callback) {
+    var headers = globalGetAccessTokenHttpHeader();
+
+    _jquery2.default.ajax({
+        url: globalWebApiBaseUrl + "api/Contestants",
+        contentType: "application/json",
+        type: "GET",
+        headers: headers,
+        success: function success(result) {
+            callback(result);
+        },
+        error: function error(request, status, err) {
+            //TODO handle error
+        }
+    });
+};
+
+var get = function get(id, callback) {
+    var headers = globalGetAccessTokenHttpHeader();
+
+    _jquery2.default.ajax({
+        url: globalWebApiBaseUrl + "api/Contestants/" + id,
+        contentType: "application/json",
+        type: "GET",
+        headers: headers,
+        success: function success(result) {
+            callback(result);
+        },
+        error: function error(request, status, err) {
+            //TODO handle error
+        }
+    });
+};
+
+var add = function add(show) {};
+
+var update = function update(show) {};
+
+var remove = function remove(show) {};
+
+exports.getContestContestants = getContestContestants;
+exports.getAll = getAll;
+exports.get = get;
+exports.add = add;
+exports.update = update;
+exports.remove = remove;
+
+},{"jquery":20}],273:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36852,7 +36948,7 @@ exports.add = add;
 exports.update = update;
 exports.remove = remove;
 
-},{"jquery":20}],272:[function(require,module,exports){
+},{"jquery":20}],274:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36865,7 +36961,7 @@ var dispatcher = new _flux.Dispatcher();
 
 exports.default = dispatcher;
 
-},{"flux":17}],273:[function(require,module,exports){
+},{"flux":17}],275:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36951,16 +37047,26 @@ _dispatcher2.default.register(contestStore.handleAction.bind(contestStore));
 
 exports.default = contestStore;
 
-},{"../api/contestApi":270,"../dispatcher":272,"event-emitter":2}],274:[function(require,module,exports){
-"use strict";
+},{"../api/contestApi":271,"../dispatcher":274,"event-emitter":2}],276:[function(require,module,exports){
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _eventEmitter = require("event-emitter");
+var _eventEmitter = require('event-emitter');
 
 var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+
+var _dispatcher = require('../dispatcher');
+
+var _dispatcher2 = _interopRequireDefault(_dispatcher);
+
+var _contestantApi = require('../api/contestantApi');
+
+var ContestantApi = _interopRequireWildcard(_contestantApi);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -36978,55 +37084,7 @@ var ContestantStore = function (_EventEmitter) {
 
         var _this = _possibleConstructorReturn(this, (ContestantStore.__proto__ || Object.getPrototypeOf(ContestantStore)).call(this));
 
-        _this.contestants = [{
-            Id: 1,
-            Performance: {
-                Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-            },
-            Performers: [{
-                Name: {
-                    FirstName: "Jeff",
-                    LastName: "Smith"
-                }
-            }, {
-                Name: {
-                    FirstName: "Sammy",
-                    LastName: "Bob"
-                }
-            }]
-        }, {
-            Id: 2,
-            Performance: {
-                Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-            },
-            Performers: [{
-                Name: {
-                    FirstName: "Jimmy",
-                    LastName: "John"
-                }
-            }, {
-                Name: {
-                    FirstName: "Bobby",
-                    LastName: "Boy"
-                }
-            }]
-        }, {
-            Id: 3,
-            Performance: {
-                Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-            },
-            Performers: [{
-                Name: {
-                    FirstName: "Sandy",
-                    LastName: "Mandy"
-                }
-            }, {
-                Name: {
-                    FirstName: "Jane",
-                    LastName: "Doe"
-                }
-            }]
-        }];
+        _this.contestants = [];
         return _this;
     }
 
@@ -37035,8 +37093,17 @@ var ContestantStore = function (_EventEmitter) {
 
 var contestantStore = new ContestantStore();
 
-contestantStore.getAll = function () {
+contestantStore.setContestants = function (_contestants) {
+    contestantStore.contestants = _contestants;
+    contestantStore.emit("change");
+};
+
+contestantStore.getContestContestants = function () {
     return this.contestants;
+};
+
+contestantStore.loadContestContestants = function (contestId) {
+    ContestantApi.getContestContestants(contestId, contestantStore.setContestants);
 };
 
 contestantStore.get = function (id) {
@@ -37053,9 +37120,19 @@ contestantStore.get = function (id) {
     return contestant;
 };
 
+contestantStore.handleAction = function (action) {
+    switch (action.type) {
+        case "LOAD_CONTEST_CONTESTANTS":
+            contestantStore.loadContestContestants(action.contestId);
+            break;
+    }
+};
+
+_dispatcher2.default.register(contestantStore.handleAction.bind(contestantStore));
+
 exports.default = contestantStore;
 
-},{"event-emitter":2}],275:[function(require,module,exports){
+},{"../api/contestantApi":272,"../dispatcher":274,"event-emitter":2}],277:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37136,7 +37213,7 @@ _dispatcher2.default.register(currentUserStore.handleAction.bind(currentUserStor
 
 exports.default = currentUserStore;
 
-},{"../dispatcher":272,"event-emitter":2,"jquery":20}],276:[function(require,module,exports){
+},{"../dispatcher":274,"event-emitter":2,"jquery":20}],278:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37251,7 +37328,7 @@ _dispatcher2.default.register(judgeStore.handleAction.bind(judgeStore));
 
 exports.default = judgeStore;
 
-},{"../dispatcher":272,"event-emitter":2,"jquery":20}],277:[function(require,module,exports){
+},{"../dispatcher":274,"event-emitter":2,"jquery":20}],279:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -37589,7 +37666,7 @@ scoreCardStore.get = function (id) {
 
 exports.default = scoreCardStore;
 
-},{"event-emitter":2}],278:[function(require,module,exports){
+},{"event-emitter":2}],280:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37698,7 +37775,7 @@ _dispatcher2.default.register(showStore.handleAction.bind(showStore));
 
 exports.default = showStore;
 
-},{"../api/showApi":271,"../dispatcher":272,"event-emitter":2}],279:[function(require,module,exports){
+},{"../api/showApi":273,"../dispatcher":274,"event-emitter":2}],281:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37775,7 +37852,7 @@ var ContestPage = function (_React$Component) {
 
 exports.default = ContestPage;
 
-},{"../../../../common/pageContent":264,"../../../../data/stores/contestStore":273,"./contestants":287,"./judges":289,"react":257}],280:[function(require,module,exports){
+},{"../../../../common/pageContent":264,"../../../../data/stores/contestStore":275,"./contestants":289,"./judges":291,"react":257}],282:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37849,7 +37926,7 @@ var ContestantPage = function (_React$Component) {
 
 exports.default = ContestantPage;
 
-},{"../../../../../common/pageContent":264,"../../../../../data/stores/contestantStore":274,"./contestantUtil":281,"./scoreCards":285,"react":257}],281:[function(require,module,exports){
+},{"../../../../../common/pageContent":264,"../../../../../data/stores/contestantStore":276,"./contestantUtil":283,"./scoreCards":287,"react":257}],283:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -37858,14 +37935,15 @@ Object.defineProperty(exports, "__esModule", {
 var getName = function getName(contestant) {
     var performerNames = "";
 
-    for (var i = 0; i < contestant.Performers.length; i++) {
-        var performerName = contestant.Performers[i].Name;
-        if (i > 0) {
-            performerNames += ", ";
-        }
-        performerNames += performerName.FirstName + " " + performerName.LastName;
-    }
-    return performerNames + " (" + contestant.Id + ")";
+    //for (var i = 0; i < contestant.Performers.length; i++) {
+    //    var performerName = contestant.Performers[i].Name;
+    //    if (i > 0) {
+    //        performerNames += ", ";
+    //    }
+    //    performerNames += performerName.FirstName + " " + performerName.LastName;
+    //}
+    //return performerNames + " (" + contestant.Id + ")";
+    return contestant.Id;
 };
 
 var getDescription = function getDescription(contestant) {
@@ -37875,7 +37953,7 @@ var getDescription = function getDescription(contestant) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],282:[function(require,module,exports){
+},{}],284:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38001,7 +38079,7 @@ var ScorableCriterion = function (_React$Component2) {
 
 exports.default = ScorableCriteria;
 
-},{"../../../../../../common/input":260,"../../../../../../common/panel":265,"../../../../../../data/stores/scoreCardStore":277,"react":257}],283:[function(require,module,exports){
+},{"../../../../../../common/input":260,"../../../../../../common/panel":265,"../../../../../../data/stores/scoreCardStore":279,"react":257}],285:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38075,7 +38153,7 @@ var ScoreCardPage = function (_React$Component) {
 
 exports.default = ScoreCardPage;
 
-},{"../../../../../../common/pageContent":264,"../../../../../../data/stores/scoreCardStore":277,"./scorableCriteria":282,"./scoreCardUtil":284,"react":257}],284:[function(require,module,exports){
+},{"../../../../../../common/pageContent":264,"../../../../../../data/stores/scoreCardStore":279,"./scorableCriteria":284,"./scoreCardUtil":286,"react":257}],286:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38151,7 +38229,7 @@ var getDescription = function getDescription(scoreCard) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{"react":257}],285:[function(require,module,exports){
+},{"react":257}],287:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38220,9 +38298,9 @@ var ScoreCardsBox = function (_React$Component) {
 
 exports.default = ScoreCardsBox;
 
-},{"../../../../../common/listPanel":263,"../../../../../data/stores/scoreCardStore":277,"./scorecard/scoreCardUtil":286,"react":257}],286:[function(require,module,exports){
-arguments[4][284][0].apply(exports,arguments)
-},{"dup":284,"react":257}],287:[function(require,module,exports){
+},{"../../../../../common/listPanel":263,"../../../../../data/stores/scoreCardStore":279,"./scorecard/scoreCardUtil":288,"react":257}],288:[function(require,module,exports){
+arguments[4][286][0].apply(exports,arguments)
+},{"dup":286,"react":257}],289:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38240,6 +38318,10 @@ var _listPanel = require('../../../../common/listPanel');
 var _contestantStore = require('../../../../data/stores/contestantStore');
 
 var _contestantStore2 = _interopRequireDefault(_contestantStore);
+
+var _contestantActions = require('../../../../data/actions/contestantActions');
+
+var ContestantActions = _interopRequireWildcard(_contestantActions);
 
 var _contestantUtil = require('./contestant/contestantUtil');
 
@@ -38263,11 +38345,34 @@ var ContestantsBox = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (ContestantsBox.__proto__ || Object.getPrototypeOf(ContestantsBox)).call(this, props));
 
-        _this.state = { contestants: _contestantStore2.default.getAll() };
+        _this.getState = _this.getState.bind(_this);
+        _this.storeChanged = _this.storeChanged.bind(_this);
+        _this.state = _this.getState();
         return _this;
     }
 
     _createClass(ContestantsBox, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            _contestantStore2.default.on("change", this.storeChanged);
+            ContestantActions.loadContestContestants(this.props.contestId);
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            _contestantStore2.default.off("change", this.storeChanged);
+        }
+    }, {
+        key: 'storeChanged',
+        value: function storeChanged() {
+            this.setState(this.getState());
+        }
+    }, {
+        key: 'getState',
+        value: function getState() {
+            return { contestants: _contestantStore2.default.getContestContestants() };
+        }
+    }, {
         key: 'render',
         value: function render() {
             var showId = this.props.showId;
@@ -38290,7 +38395,7 @@ var ContestantsBox = function (_React$Component) {
 
 exports.default = ContestantsBox;
 
-},{"../../../../common/listPanel":263,"../../../../data/stores/contestantStore":274,"./contestant/contestantUtil":281,"react":257}],288:[function(require,module,exports){
+},{"../../../../common/listPanel":263,"../../../../data/actions/contestantActions":267,"../../../../data/stores/contestantStore":276,"./contestant/contestantUtil":283,"react":257}],290:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38307,7 +38412,7 @@ var getDescription = function getDescription(judge) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],289:[function(require,module,exports){
+},{}],291:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38403,7 +38508,7 @@ var JudgesBox = function (_React$Component) {
 
 exports.default = JudgesBox;
 
-},{"../../../../common/listPanel":263,"../../../../data/stores/contestStore":273,"./judge/judgeUtil":288,"react":257}],290:[function(require,module,exports){
+},{"../../../../common/listPanel":263,"../../../../data/stores/contestStore":275,"./judge/judgeUtil":290,"react":257}],292:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38492,7 +38597,7 @@ var ContestsBox = function (_React$Component) {
 
 exports.default = ContestsBox;
 
-},{"../../../common/listPanel":263,"../../../data/actions/contestActions":266,"../../../data/stores/contestStore":273,"react":257}],291:[function(require,module,exports){
+},{"../../../common/listPanel":263,"../../../data/actions/contestActions":266,"../../../data/stores/contestStore":275,"react":257}],293:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38600,7 +38705,7 @@ var ShowPage = function (_React$Component) {
 
 exports.default = ShowPage;
 
-},{"../../../common/pageContent":264,"../../../data/actions/showActions":269,"../../../data/stores/showStore":278,"./contests":290,"react":257}],292:[function(require,module,exports){
+},{"../../../common/pageContent":264,"../../../data/actions/showActions":270,"../../../data/stores/showStore":280,"./contests":292,"react":257}],294:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38715,7 +38820,7 @@ var ShowsBox = function (_React$Component2) {
 
 exports.default = ShowsPage;
 
-},{"../../common/listPanel":263,"../../common/pageContent":264,"../../data/actions/showActions":269,"../../data/stores/showStore":278,"react":257}],293:[function(require,module,exports){
+},{"../../common/listPanel":263,"../../common/pageContent":264,"../../data/actions/showActions":270,"../../data/stores/showStore":280,"react":257}],295:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38739,7 +38844,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"react":257}],294:[function(require,module,exports){
+},{"react":257}],296:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38943,7 +39048,7 @@ var JudgesPage = function (_React$Component2) {
 
 exports.default = JudgesPage;
 
-},{"../common/formGroup":259,"../common/input":260,"../data/actions/judgeActions":268,"../data/stores/judgeStore":276,"jquery":20,"react":257}],295:[function(require,module,exports){
+},{"../common/formGroup":259,"../common/input":260,"../data/actions/judgeActions":269,"../data/stores/judgeStore":278,"jquery":20,"react":257}],297:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39125,4 +39230,4 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"../common/formGroup":259,"../common/input":260,"../data/actions/currentUserActions":267,"../data/stores/currentUserStore":275,"jquery":20,"react":257,"react-router":198}]},{},[258]);
+},{"../common/formGroup":259,"../common/input":260,"../data/actions/currentUserActions":268,"../data/stores/currentUserStore":277,"jquery":20,"react":257,"react-router":198}]},{},[258]);

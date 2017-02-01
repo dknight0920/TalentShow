@@ -18,21 +18,7 @@ namespace TalentShowDataStorage
         {
             return CONTESTANTS;
         }
-
-        public override void Add(Contestant contestant)
-        {
-            base.Add(contestant);
-            AddContestantPerformers(contestant);
-        }
-
-        private static void AddContestantPerformers(Contestant contestant)
-        {
-            ContestantPerformerRepo contestantPerformerRepo = new ContestantPerformerRepo();
-
-            foreach (Performer performer in contestant.Performers)
-                contestantPerformerRepo.Add(new ContestantPerformer(contestant.Id, performer.Id));
-        }
-
+        
         protected override Dictionary<string, object> GetFieldNamesAndValuesForInsertOrUpdate(Contestant contestant)
         {
             var fieldNamesAndValues = new Dictionary<string, object>();
@@ -44,17 +30,8 @@ namespace TalentShowDataStorage
         {
             int id = Convert.ToInt32(reader.GetColumnValue(ID));
             int performanceId = Convert.ToInt32(reader.GetColumnValue(PERFORMANCEID));
-
             Performance performance = new PerformanceRepo().Get(performanceId);
-
-            var contestPerformerCollection = new ContestantPerformerRepo().GetAll().Where(cp => cp.ContestantId == id);
-            var performerRepo = new PerformerRepo();
-            var performers = new List<Performer>();
-
-            foreach (var cp in contestPerformerCollection)
-                performers.Add(performerRepo.Get(cp.PerformerId));
-
-            return new Contestant(id, performers, performance);
+            return new Contestant(id, performance);
         }
 
         protected override ICollection<string> GetFieldNamesForSelectStatement()

@@ -91,7 +91,7 @@ namespace TalentShowConsoleUI
             performerRepo.Add(johnPerformer);
             var johnPerformance = new Performance("Dance abc to xyz", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
             performanceRepo.Add(johnPerformance);
-            var johnDanceContestant = new Contestant(johnPerformer, johnPerformance);
+            var johnDanceContestant = new Contestant(johnPerformance);
 
             var jim = new PersonName("Jim", "Smith");
             personNameRepo.Add(jim);
@@ -101,7 +101,7 @@ namespace TalentShowConsoleUI
             performerRepo.Add(jimPerformer);
             var jimPerformance = new Performance("Dance abc1 to xyz1", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
             performanceRepo.Add(jimPerformance);
-            var jimDanceContestant = new Contestant(jimPerformer, jimPerformance);
+            var jimDanceContestant = new Contestant(jimPerformance);
 
             //Dance Judges
             var bob = new PersonName("Bob", "Hill");
@@ -142,7 +142,7 @@ namespace TalentShowConsoleUI
             performerRepo.Add(sandyPerformer);
             var sandyPerformance = new Performance("Sing abc", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
             performanceRepo.Add(sandyPerformance);
-            var sandyVocalContestant = new Contestant(sandyPerformer, sandyPerformance);
+            var sandyVocalContestant = new Contestant(sandyPerformance);
 
             var sam = new PersonName("Sam", "Smith");
             personNameRepo.Add(sam);
@@ -152,7 +152,7 @@ namespace TalentShowConsoleUI
             performerRepo.Add(samPerformer);
             var samPerformance = new Performance("Sing xyz", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
             performanceRepo.Add(samPerformance);
-            var samVocalContestant = new Contestant(samPerformer, samPerformance);
+            var samVocalContestant = new Contestant(samPerformance);
             
             //Dance Judges
             var tom = new PersonName("Tom", "Hill");
@@ -296,12 +296,6 @@ namespace TalentShowConsoleUI
             {
                 Console.WriteLine(contestant.Performance.Description);
                 Console.WriteLine(contestant.Performance.Duration);
-
-                foreach (Performer performer in contestant.Performers)
-                {
-                    Console.WriteLine("\t" + performer.Division.Name);
-                    Console.WriteLine("\t" + performer.Name.ToString());
-                }
             }
 
             Console.WriteLine();

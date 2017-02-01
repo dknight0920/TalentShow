@@ -32,7 +32,7 @@ namespace TalentShow.Services
             foreach (var sc in showContestCollection)
                 contests.Add(ContestRepo.Get(sc.ContestId));
 
-            return ContestRepo.GetAll();
+            return contests;
         }
 
         public ICollection<Contest> GetAll()

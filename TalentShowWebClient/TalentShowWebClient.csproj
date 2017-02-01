@@ -107,9 +107,11 @@
     <Content Include="src\common\pageContent.js" />
     <Content Include="src\common\panel.js" />
     <Content Include="src\data\actions\contestActions.js" />
+    <Content Include="src\data\actions\contestantActions.js" />
     <Content Include="src\data\actions\currentUserActions.js" />
     <Content Include="src\data\actions\judgeActions.js" />
     <Content Include="src\data\actions\showActions.js" />
+    <Content Include="src\data\api\contestantApi.js" />
     <Content Include="src\data\api\contestApi.js" />
     <Content Include="src\data\api\showApi.js" />
     <Content Include="src\data\dispatcher.js" />

@@ -8,46 +8,24 @@ using TalentShow.Repos;
 
 namespace TalentShow
 {
-    public class Contestant : IIdentity //A contestant is a collection of performers (1 to n) that give a performance in a contest and receive a score from judges that submit a score card to the contest
+    public class Contestant : IIdentity
     {
         public int Id { get; private set; }
-        public ICollection<Performer> Performers { get; private set; }
         public Performance Performance { get; private set; }
-        public double Score
+        
+        public Contestant(int id, Performance performance)
         {
-            get
-            {
-                //var scoreCards = ScoreCards.Where(s => s.Contestant == this);
-
-                //if(scoreCards.Any())
-                //    return Contest.ScoreCards.Where(s => s.Contestant == this).Average(s => s.TotalScore);
-                return 0;
-            }
+            Init(id, performance);
         }
 
-
-        public Contestant(int id, ICollection<Performer> performers, Performance performance)
+        public Contestant(Performance performance)
         {
-            Init(id, performers, performance);
+            Init(0, performance);
         }
 
-        public Contestant(ICollection<Performer> performers, Performance performance)
+        private void Init(int id, Performance performance)
         {
-            Init(0, performers, performance);
-        }
-
-        public Contestant(Performer performer, Performance performance)
-        {
-            Init(0, new List<Performer>() { performer }, performance);
-        }
-
-        private void Init(int id, ICollection<Performer> performers, Performance performance)
-        {
-            if (performers.IsNullOrEmpty())
-                throw new ApplicationException("A contestant cannot be constructed without any performers.");
-
             Id = id;
-            Performers = performers;
             Performance = performance;
         }
 
