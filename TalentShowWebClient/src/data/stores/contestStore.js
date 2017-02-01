@@ -16,12 +16,32 @@ contestStore.setContests = function(_contests){
     contestStore.emit("change");
 };
 
+contestStore.pushContest = function(_contest){
+    var replacedExisting = false;
+    for (var i = 0; i < contestStore.contests.length; i++){
+        var contest = contestStore.contests[i];
+        if(contest.Id === _contest.Id){
+            contest = _contest;
+            replacedExisting = true;
+            break;
+        }
+    }
+    if (!replacedExisting){
+        contestStore.contests.push(_contest);
+    }
+    contestStore.emit("change");
+};
+
 contestStore.getShowContests = function(){
     return this.contests;
 };
 
 contestStore.loadShowContests = function(showId){
     ContestApi.getShowContests(showId, contestStore.setContests);
+};
+
+contestStore.load = function(contestId){
+    ContestApi.get(contestId, contestStore.pushContest);
 };
 
 contestStore.get = function(id){
@@ -43,7 +63,9 @@ contestStore.handleAction = function(action){
         case "LOAD_SHOW_CONTESTS":
             contestStore.loadShowContests(action.showId);
             break;
-
+        case "LOAD_CONTEST":
+            contestStore.load(action.contestId);
+            break;
     }
 };
 

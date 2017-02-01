@@ -36639,6 +36639,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.loadShowContests = loadShowContests;
+exports.loadContest = loadContest;
 
 var _dispatcher = require("../dispatcher");
 
@@ -36648,6 +36649,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function loadShowContests(showId) {
     _dispatcher2.default.dispatch({ type: "LOAD_SHOW_CONTESTS", showId: showId });
+};
+
+function loadContest(contestId) {
+    _dispatcher2.default.dispatch({ type: "LOAD_CONTEST", contestId: contestId });
 };
 
 },{"../dispatcher":274}],267:[function(require,module,exports){
@@ -37012,12 +37017,32 @@ contestStore.setContests = function (_contests) {
     contestStore.emit("change");
 };
 
+contestStore.pushContest = function (_contest) {
+    var replacedExisting = false;
+    for (var i = 0; i < contestStore.contests.length; i++) {
+        var contest = contestStore.contests[i];
+        if (contest.Id === _contest.Id) {
+            contest = _contest;
+            replacedExisting = true;
+            break;
+        }
+    }
+    if (!replacedExisting) {
+        contestStore.contests.push(_contest);
+    }
+    contestStore.emit("change");
+};
+
 contestStore.getShowContests = function () {
     return this.contests;
 };
 
 contestStore.loadShowContests = function (showId) {
     ContestApi.getShowContests(showId, contestStore.setContests);
+};
+
+contestStore.load = function (contestId) {
+    ContestApi.get(contestId, contestStore.pushContest);
 };
 
 contestStore.get = function (id) {
@@ -37039,7 +37064,9 @@ contestStore.handleAction = function (action) {
         case "LOAD_SHOW_CONTESTS":
             contestStore.loadShowContests(action.showId);
             break;
-
+        case "LOAD_CONTEST":
+            contestStore.load(action.contestId);
+            break;
     }
 };
 
@@ -37800,9 +37827,15 @@ var _contestStore = require('../../../../data/stores/contestStore');
 
 var _contestStore2 = _interopRequireDefault(_contestStore);
 
+var _contestActions = require('../../../../data/actions/contestActions');
+
+var ContestActions = _interopRequireWildcard(_contestActions);
+
 var _pageContent = require('../../../../common/pageContent');
 
 var _pageContent2 = _interopRequireDefault(_pageContent);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37820,16 +37853,44 @@ var ContestPage = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (ContestPage.__proto__ || Object.getPrototypeOf(ContestPage)).call(this, props));
 
+        _this.getState = _this.getState.bind(_this);
+        _this.storeChanged = _this.storeChanged.bind(_this);
         _this.getContest = _this.getContest.bind(_this);
-        _this.state = { contest: _this.getContest() };
+        _this.getContestId = _this.getContestId.bind(_this);
+        _this.state = _this.getState();
         return _this;
     }
 
     _createClass(ContestPage, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            _contestStore2.default.on("change", this.storeChanged);
+            ContestActions.loadContest(this.getContestId());
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            _contestStore2.default.off("change", this.storeChanged);
+        }
+    }, {
+        key: 'storeChanged',
+        value: function storeChanged() {
+            this.setState(this.getState());
+        }
+    }, {
+        key: 'getState',
+        value: function getState() {
+            return { contest: this.getContest() };
+        }
+    }, {
         key: 'getContest',
         value: function getContest() {
-            var contestId = this.props.params.contestId;
-            return _contestStore2.default.get(contestId);
+            return _contestStore2.default.get(this.getContestId());
+        }
+    }, {
+        key: 'getContestId',
+        value: function getContestId() {
+            return this.props.params.contestId;
         }
     }, {
         key: 'render',
@@ -37837,6 +37898,10 @@ var ContestPage = function (_React$Component) {
             var contest = this.state.contest;
             var showId = this.props.params.showId;
             var contestId = this.props.params.contestId;
+
+            if (!contest) {
+                return _react2.default.createElement(_pageContent2.default, { title: 'Loading', description: 'The contest\'s details are loading, please wait.' });
+            }
 
             return _react2.default.createElement(
                 _pageContent2.default,
@@ -37852,7 +37917,7 @@ var ContestPage = function (_React$Component) {
 
 exports.default = ContestPage;
 
-},{"../../../../common/pageContent":264,"../../../../data/stores/contestStore":275,"./contestants":289,"./judges":291,"react":257}],282:[function(require,module,exports){
+},{"../../../../common/pageContent":264,"../../../../data/actions/contestActions":266,"../../../../data/stores/contestStore":275,"./contestants":289,"./judges":291,"react":257}],282:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
