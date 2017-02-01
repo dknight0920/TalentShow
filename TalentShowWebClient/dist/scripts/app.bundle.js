@@ -36148,7 +36148,7 @@ function getToken() {
     )
 ), document.getElementById('app'));
 
-},{"./modules/ControlCenter/show/contest/contest":281,"./modules/ControlCenter/show/contest/contestant/contestant":282,"./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard":285,"./modules/ControlCenter/show/show":293,"./modules/ControlCenter/shows":294,"./modules/about":295,"./modules/judges":296,"./modules/login":297,"react":257,"react-dom":21,"react-router":198}],259:[function(require,module,exports){
+},{"./modules/ControlCenter/show/contest/contest":283,"./modules/ControlCenter/show/contest/contestant/contestant":284,"./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard":287,"./modules/ControlCenter/show/show":295,"./modules/ControlCenter/shows":296,"./modules/about":297,"./modules/judges":298,"./modules/login":299,"react":257,"react-dom":21,"react-router":198}],259:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36655,7 +36655,7 @@ function loadContest(contestId) {
     _dispatcher2.default.dispatch({ type: "LOAD_CONTEST", contestId: contestId });
 };
 
-},{"../dispatcher":274}],267:[function(require,module,exports){
+},{"../dispatcher":276}],267:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36673,7 +36673,7 @@ function loadContestContestants(contestId) {
     _dispatcher2.default.dispatch({ type: "LOAD_CONTEST_CONTESTANTS", contestId: contestId });
 };
 
-},{"../dispatcher":274}],268:[function(require,module,exports){
+},{"../dispatcher":276}],268:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36691,7 +36691,7 @@ function authenticate(credentials) {
     _dispatcher2.default.dispatch({ type: "AUTHENTICATE_CURRENT_USER", data: credentials });
 };
 
-},{"../dispatcher":274}],269:[function(require,module,exports){
+},{"../dispatcher":276}],269:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36714,7 +36714,7 @@ function loadAllJudges() {
     _dispatcher2.default.dispatch({ type: "LOAD_ALL_JUDGES" });
 };
 
-},{"../dispatcher":274}],270:[function(require,module,exports){
+},{"../dispatcher":276}],270:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36737,7 +36737,7 @@ function loadShow(showId) {
     _dispatcher2.default.dispatch({ type: "LOAD_SHOW", showId: showId });
 };
 
-},{"../dispatcher":274}],271:[function(require,module,exports){
+},{"../dispatcher":276}],271:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36745,20 +36745,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.remove = exports.update = exports.add = exports.get = exports.getAll = exports.getShowContests = undefined;
 
-var _jquery = require("jquery");
+var _httpUtil = require("./utils/httpUtil.js");
 
-var _jquery2 = _interopRequireDefault(_jquery);
+var ApiHttpUtil = _interopRequireWildcard(_httpUtil);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 var getShowContests = function getShowContests(showId, callback) {
-    var headers = globalGetAccessTokenHttpHeader();
-
-    _jquery2.default.ajax({
-        url: globalWebApiBaseUrl + "api/Contests/Show/" + showId,
-        contentType: "application/json",
-        type: "GET",
-        headers: headers,
+    ApiHttpUtil.get({
+        url: "api/Contests/Show/" + showId,
         success: function success(result) {
             callback(result);
         },
@@ -36769,13 +36764,8 @@ var getShowContests = function getShowContests(showId, callback) {
 };
 
 var getAll = function getAll(callback) {
-    var headers = globalGetAccessTokenHttpHeader();
-
-    _jquery2.default.ajax({
-        url: globalWebApiBaseUrl + "api/Contests",
-        contentType: "application/json",
-        type: "GET",
-        headers: headers,
+    ApiHttpUtil.get({
+        url: "api/Contests",
         success: function success(result) {
             callback(result);
         },
@@ -36786,13 +36776,8 @@ var getAll = function getAll(callback) {
 };
 
 var get = function get(id, callback) {
-    var headers = globalGetAccessTokenHttpHeader();
-
-    _jquery2.default.ajax({
-        url: globalWebApiBaseUrl + "api/Contests/" + id,
-        contentType: "application/json",
-        type: "GET",
-        headers: headers,
+    ApiHttpUtil.get({
+        url: "api/Contests/" + id,
         success: function success(result) {
             callback(result);
         },
@@ -36815,7 +36800,7 @@ exports.add = add;
 exports.update = update;
 exports.remove = remove;
 
-},{"jquery":20}],272:[function(require,module,exports){
+},{"./utils/httpUtil.js":275}],272:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36823,20 +36808,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.remove = exports.update = exports.add = exports.get = exports.getAll = exports.getContestContestants = undefined;
 
-var _jquery = require("jquery");
+var _httpUtil = require("./utils/httpUtil.js");
 
-var _jquery2 = _interopRequireDefault(_jquery);
+var ApiHttpUtil = _interopRequireWildcard(_httpUtil);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 var getContestContestants = function getContestContestants(contestId, callback) {
-    var headers = globalGetAccessTokenHttpHeader();
-
-    _jquery2.default.ajax({
-        url: globalWebApiBaseUrl + "api/Contestants/Contest/" + contestId,
-        contentType: "application/json",
-        type: "GET",
-        headers: headers,
+    ApiHttpUtil.get({
+        url: "api/Contestants/Contest/" + contestId,
         success: function success(result) {
             callback(result);
         },
@@ -36847,13 +36827,8 @@ var getContestContestants = function getContestContestants(contestId, callback) 
 };
 
 var getAll = function getAll(callback) {
-    var headers = globalGetAccessTokenHttpHeader();
-
-    _jquery2.default.ajax({
-        url: globalWebApiBaseUrl + "api/Contestants",
-        contentType: "application/json",
-        type: "GET",
-        headers: headers,
+    ApiHttpUtil.get({
+        url: "api/Contestants",
         success: function success(result) {
             callback(result);
         },
@@ -36864,13 +36839,8 @@ var getAll = function getAll(callback) {
 };
 
 var get = function get(id, callback) {
-    var headers = globalGetAccessTokenHttpHeader();
-
-    _jquery2.default.ajax({
-        url: globalWebApiBaseUrl + "api/Contestants/" + id,
-        contentType: "application/json",
-        type: "GET",
-        headers: headers,
+    ApiHttpUtil.get({
+        url: "api/Contestants/" + id,
         success: function success(result) {
             callback(result);
         },
@@ -36893,28 +36863,35 @@ exports.add = add;
 exports.update = update;
 exports.remove = remove;
 
-},{"jquery":20}],273:[function(require,module,exports){
+},{"./utils/httpUtil.js":275}],273:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.remove = exports.update = exports.add = exports.get = exports.getAll = undefined;
+exports.remove = exports.update = exports.add = exports.get = exports.getAll = exports.getContestJudges = undefined;
 
-var _jquery = require("jquery");
+var _httpUtil = require("./utils/httpUtil.js");
 
-var _jquery2 = _interopRequireDefault(_jquery);
+var ApiHttpUtil = _interopRequireWildcard(_httpUtil);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var getContestJudges = function getContestJudges(contestId, callback) {
+    ApiHttpUtil.get({
+        url: "api/Judges/Contest/" + contestId,
+        success: function success(result) {
+            callback(result);
+        },
+        error: function error(request, status, err) {
+            //TODO handle error
+        }
+    });
+};
 
 var getAll = function getAll(callback) {
-    var headers = globalGetAccessTokenHttpHeader();
-
-    _jquery2.default.ajax({
-        url: globalWebApiBaseUrl + "api/Shows",
-        contentType: "application/json",
-        type: "GET",
-        headers: headers,
+    ApiHttpUtil.get({
+        url: "api/Judges",
         success: function success(result) {
             callback(result);
         },
@@ -36925,13 +36902,69 @@ var getAll = function getAll(callback) {
 };
 
 var get = function get(id, callback) {
-    var headers = globalGetAccessTokenHttpHeader();
+    ApiHttpUtil.get({
+        url: "api/Judges/" + id,
+        success: function success(result) {
+            callback(result);
+        },
+        error: function error(request, status, err) {
+            //TODO handle error
+        }
+    });
+};
 
-    _jquery2.default.ajax({
-        url: globalWebApiBaseUrl + "api/Shows/" + id,
-        contentType: "application/json",
-        type: "GET",
-        headers: headers,
+var add = function add(show, callback) {
+    ApiHttpUtil.post({
+        url: "api/Judges",
+        success: function success(result) {
+            callback(result);
+        },
+        error: function error(request, status, err) {
+            //TODO handle error
+        }
+    }, JSON.stringify(show));
+};
+
+var update = function update(show) {};
+
+var remove = function remove(show) {};
+
+exports.getContestJudges = getContestJudges;
+exports.getAll = getAll;
+exports.get = get;
+exports.add = add;
+exports.update = update;
+exports.remove = remove;
+
+},{"./utils/httpUtil.js":275}],274:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.remove = exports.update = exports.add = exports.get = exports.getAll = undefined;
+
+var _httpUtil = require("./utils/httpUtil.js");
+
+var ApiHttpUtil = _interopRequireWildcard(_httpUtil);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var getAll = function getAll(callback) {
+    ApiHttpUtil.get({
+        url: "api/Shows",
+        success: function success(result) {
+            callback(result);
+        },
+        error: function error(request, status, err) {
+            //TODO handle error
+        }
+    });
+};
+
+var get = function get(id, callback) {
+    ApiHttpUtil.get({
+        url: "api/Shows/" + id,
         success: function success(result) {
             callback(result);
         },
@@ -36953,7 +36986,71 @@ exports.add = add;
 exports.update = update;
 exports.remove = remove;
 
-},{"jquery":20}],274:[function(require,module,exports){
+},{"./utils/httpUtil.js":275}],275:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.remove = exports.put = exports.post = exports.get = undefined;
+
+var _jquery = require('jquery');
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var getAccessTokenHttpHeader = function getAccessTokenHttpHeader() {
+    var token = sessionStorage.getItem("token");
+    var headers = {};
+    if (token) {
+        headers.Authorization = 'Bearer ' + token;
+    }
+    return headers;
+};
+
+var makeRequest = function makeRequest(options, type, data) {
+
+    var headers = getAccessTokenHttpHeader();
+
+    var httpOptions = {
+        url: globalWebApiBaseUrl + options.url,
+        contentType: "application/json",
+        type: type,
+        headers: headers,
+        success: options.success,
+        error: options.error
+    };
+
+    if (data) {
+        httpOptions.data = data;
+    }
+
+    _jquery2.default.ajax(httpOptions);
+};
+
+var get = function get(options) {
+    makeRequest(options, "GET");
+};
+
+var post = function post(options, data) {
+    makeRequest(options, "POST", data);
+};
+
+var put = function put(options, data) {
+    makeRequest(options, "PUT", data);
+};
+
+var remove = function remove(options, data) {
+    makeRequest(options, "DELETE", data);
+};
+
+exports.get = get;
+exports.post = post;
+exports.put = put;
+exports.remove = remove;
+
+},{"jquery":20}],276:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36966,7 +37063,7 @@ var dispatcher = new _flux.Dispatcher();
 
 exports.default = dispatcher;
 
-},{"flux":17}],275:[function(require,module,exports){
+},{"flux":17}],277:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37074,7 +37171,7 @@ _dispatcher2.default.register(contestStore.handleAction.bind(contestStore));
 
 exports.default = contestStore;
 
-},{"../api/contestApi":271,"../dispatcher":274,"event-emitter":2}],276:[function(require,module,exports){
+},{"../api/contestApi":271,"../dispatcher":276,"event-emitter":2}],278:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37159,7 +37256,7 @@ _dispatcher2.default.register(contestantStore.handleAction.bind(contestantStore)
 
 exports.default = contestantStore;
 
-},{"../api/contestantApi":272,"../dispatcher":274,"event-emitter":2}],277:[function(require,module,exports){
+},{"../api/contestantApi":272,"../dispatcher":276,"event-emitter":2}],279:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37240,7 +37337,7 @@ _dispatcher2.default.register(currentUserStore.handleAction.bind(currentUserStor
 
 exports.default = currentUserStore;
 
-},{"../dispatcher":274,"event-emitter":2,"jquery":20}],278:[function(require,module,exports){
+},{"../dispatcher":276,"event-emitter":2,"jquery":20}],280:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37251,13 +37348,15 @@ var _eventEmitter = require('event-emitter');
 
 var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
 
-var _jquery = require('jquery');
+var _judgeApi = require('../api/judgeApi');
 
-var _jquery2 = _interopRequireDefault(_jquery);
+var JudgeApi = _interopRequireWildcard(_judgeApi);
 
 var _dispatcher = require('../dispatcher');
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37284,27 +37383,17 @@ var JudgeStore = function (_EventEmitter) {
 
 var judgeStore = new JudgeStore();
 
+judgeStore.setJudges = function (_judges) {
+    judgeStore.judges = _judges;
+    judgeStore.emit("change");
+};
+
 judgeStore.getAll = function () {
     return this.judges;
 };
 
 judgeStore.loadAllJudges = function () {
-    var headers = globalGetAccessTokenHttpHeader();
-
-    _jquery2.default.ajax({
-        url: globalWebApiBaseUrl + "api/Judges",
-        contentType: "application/json",
-        type: "GET",
-        headers: headers,
-        success: function success(result) {
-            var judges = result;
-            judgeStore.judges = judges;
-            judgeStore.emit("change");
-        },
-        error: function error(request, status, err) {
-            //TODO handle error
-        }
-    });
+    JudgeApi.getAll(judgeStore.setJudges);
 };
 
 judgeStore.get = function (id) {
@@ -37322,20 +37411,8 @@ judgeStore.get = function (id) {
 };
 
 judgeStore.add = function (judge) {
-    var headers = globalGetAccessTokenHttpHeader();
-
-    _jquery2.default.ajax({
-        url: globalWebApiBaseUrl + "api/Judges",
-        contentType: "application/json",
-        type: "POST",
-        headers: headers,
-        data: JSON.stringify(judge),
-        success: function success(result) {
-            judgeStore.loadAllJudges();
-        },
-        error: function error(request, status, err) {
-            //TODO handle error
-        }
+    JudgeApi.add(judge, function (result) {
+        judgeStore.loadAllJudges();
     });
 };
 
@@ -37355,7 +37432,7 @@ _dispatcher2.default.register(judgeStore.handleAction.bind(judgeStore));
 
 exports.default = judgeStore;
 
-},{"../dispatcher":274,"event-emitter":2,"jquery":20}],279:[function(require,module,exports){
+},{"../api/judgeApi":273,"../dispatcher":276,"event-emitter":2}],281:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -37693,7 +37770,7 @@ scoreCardStore.get = function (id) {
 
 exports.default = scoreCardStore;
 
-},{"event-emitter":2}],280:[function(require,module,exports){
+},{"event-emitter":2}],282:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37802,7 +37879,7 @@ _dispatcher2.default.register(showStore.handleAction.bind(showStore));
 
 exports.default = showStore;
 
-},{"../api/showApi":273,"../dispatcher":274,"event-emitter":2}],281:[function(require,module,exports){
+},{"../api/showApi":274,"../dispatcher":276,"event-emitter":2}],283:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37917,7 +37994,7 @@ var ContestPage = function (_React$Component) {
 
 exports.default = ContestPage;
 
-},{"../../../../common/pageContent":264,"../../../../data/actions/contestActions":266,"../../../../data/stores/contestStore":275,"./contestants":289,"./judges":291,"react":257}],282:[function(require,module,exports){
+},{"../../../../common/pageContent":264,"../../../../data/actions/contestActions":266,"../../../../data/stores/contestStore":277,"./contestants":291,"./judges":293,"react":257}],284:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37991,7 +38068,7 @@ var ContestantPage = function (_React$Component) {
 
 exports.default = ContestantPage;
 
-},{"../../../../../common/pageContent":264,"../../../../../data/stores/contestantStore":276,"./contestantUtil":283,"./scoreCards":287,"react":257}],283:[function(require,module,exports){
+},{"../../../../../common/pageContent":264,"../../../../../data/stores/contestantStore":278,"./contestantUtil":285,"./scoreCards":289,"react":257}],285:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38018,7 +38095,7 @@ var getDescription = function getDescription(contestant) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],284:[function(require,module,exports){
+},{}],286:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38144,7 +38221,7 @@ var ScorableCriterion = function (_React$Component2) {
 
 exports.default = ScorableCriteria;
 
-},{"../../../../../../common/input":260,"../../../../../../common/panel":265,"../../../../../../data/stores/scoreCardStore":279,"react":257}],285:[function(require,module,exports){
+},{"../../../../../../common/input":260,"../../../../../../common/panel":265,"../../../../../../data/stores/scoreCardStore":281,"react":257}],287:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38218,7 +38295,7 @@ var ScoreCardPage = function (_React$Component) {
 
 exports.default = ScoreCardPage;
 
-},{"../../../../../../common/pageContent":264,"../../../../../../data/stores/scoreCardStore":279,"./scorableCriteria":284,"./scoreCardUtil":286,"react":257}],286:[function(require,module,exports){
+},{"../../../../../../common/pageContent":264,"../../../../../../data/stores/scoreCardStore":281,"./scorableCriteria":286,"./scoreCardUtil":288,"react":257}],288:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38294,7 +38371,7 @@ var getDescription = function getDescription(scoreCard) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{"react":257}],287:[function(require,module,exports){
+},{"react":257}],289:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38363,9 +38440,9 @@ var ScoreCardsBox = function (_React$Component) {
 
 exports.default = ScoreCardsBox;
 
-},{"../../../../../common/listPanel":263,"../../../../../data/stores/scoreCardStore":279,"./scorecard/scoreCardUtil":288,"react":257}],288:[function(require,module,exports){
-arguments[4][286][0].apply(exports,arguments)
-},{"dup":286,"react":257}],289:[function(require,module,exports){
+},{"../../../../../common/listPanel":263,"../../../../../data/stores/scoreCardStore":281,"./scorecard/scoreCardUtil":290,"react":257}],290:[function(require,module,exports){
+arguments[4][288][0].apply(exports,arguments)
+},{"dup":288,"react":257}],291:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38460,7 +38537,7 @@ var ContestantsBox = function (_React$Component) {
 
 exports.default = ContestantsBox;
 
-},{"../../../../common/listPanel":263,"../../../../data/actions/contestantActions":267,"../../../../data/stores/contestantStore":276,"./contestant/contestantUtil":283,"react":257}],290:[function(require,module,exports){
+},{"../../../../common/listPanel":263,"../../../../data/actions/contestantActions":267,"../../../../data/stores/contestantStore":278,"./contestant/contestantUtil":285,"react":257}],292:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38477,7 +38554,7 @@ var getDescription = function getDescription(judge) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],291:[function(require,module,exports){
+},{}],293:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38573,7 +38650,7 @@ var JudgesBox = function (_React$Component) {
 
 exports.default = JudgesBox;
 
-},{"../../../../common/listPanel":263,"../../../../data/stores/contestStore":275,"./judge/judgeUtil":290,"react":257}],292:[function(require,module,exports){
+},{"../../../../common/listPanel":263,"../../../../data/stores/contestStore":277,"./judge/judgeUtil":292,"react":257}],294:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38662,7 +38739,7 @@ var ContestsBox = function (_React$Component) {
 
 exports.default = ContestsBox;
 
-},{"../../../common/listPanel":263,"../../../data/actions/contestActions":266,"../../../data/stores/contestStore":275,"react":257}],293:[function(require,module,exports){
+},{"../../../common/listPanel":263,"../../../data/actions/contestActions":266,"../../../data/stores/contestStore":277,"react":257}],295:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38770,7 +38847,7 @@ var ShowPage = function (_React$Component) {
 
 exports.default = ShowPage;
 
-},{"../../../common/pageContent":264,"../../../data/actions/showActions":270,"../../../data/stores/showStore":280,"./contests":292,"react":257}],294:[function(require,module,exports){
+},{"../../../common/pageContent":264,"../../../data/actions/showActions":270,"../../../data/stores/showStore":282,"./contests":294,"react":257}],296:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38885,7 +38962,7 @@ var ShowsBox = function (_React$Component2) {
 
 exports.default = ShowsPage;
 
-},{"../../common/listPanel":263,"../../common/pageContent":264,"../../data/actions/showActions":270,"../../data/stores/showStore":280,"react":257}],295:[function(require,module,exports){
+},{"../../common/listPanel":263,"../../common/pageContent":264,"../../data/actions/showActions":270,"../../data/stores/showStore":282,"react":257}],297:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38909,7 +38986,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"react":257}],296:[function(require,module,exports){
+},{"react":257}],298:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39113,7 +39190,7 @@ var JudgesPage = function (_React$Component2) {
 
 exports.default = JudgesPage;
 
-},{"../common/formGroup":259,"../common/input":260,"../data/actions/judgeActions":269,"../data/stores/judgeStore":278,"jquery":20,"react":257}],297:[function(require,module,exports){
+},{"../common/formGroup":259,"../common/input":260,"../data/actions/judgeActions":269,"../data/stores/judgeStore":280,"jquery":20,"react":257}],299:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39295,4 +39372,4 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"../common/formGroup":259,"../common/input":260,"../data/actions/currentUserActions":268,"../data/stores/currentUserStore":277,"jquery":20,"react":257,"react-router":198}]},{},[258]);
+},{"../common/formGroup":259,"../common/input":260,"../data/actions/currentUserActions":268,"../data/stores/currentUserStore":279,"jquery":20,"react":257,"react-router":198}]},{},[258]);

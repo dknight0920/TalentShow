@@ -1,13 +1,8 @@
-﻿import $ from 'jquery';
+﻿import * as ApiHttpUtil from './utils/httpUtil.js'
 
 var getContestContestants = function (contestId, callback) {
-    var headers = globalGetAccessTokenHttpHeader();
-
-    $.ajax({
-        url: globalWebApiBaseUrl + "api/Contestants/Contest/" + contestId,
-        contentType: "application/json",
-        type: "GET",
-        headers: headers,
+    ApiHttpUtil.get({
+        url: "api/Contestants/Contest/" + contestId,
         success: function(result){
             callback(result);
         },
@@ -18,13 +13,8 @@ var getContestContestants = function (contestId, callback) {
 };
 
 var getAll = function (callback) {
-    var headers = globalGetAccessTokenHttpHeader();
-
-    $.ajax({
-        url: globalWebApiBaseUrl + "api/Contestants",
-        contentType: "application/json",
-        type: "GET",
-        headers: headers,
+    ApiHttpUtil.get({
+        url: "api/Contestants",
         success: function(result){
             callback(result);
         },
@@ -35,13 +25,8 @@ var getAll = function (callback) {
 };
 
 var get = function (id, callback) {
-    var headers = globalGetAccessTokenHttpHeader();
-
-    $.ajax({
-        url: globalWebApiBaseUrl + "api/Contestants/" + id,
-        contentType: "application/json",
-        type: "GET",
-        headers: headers,
+    ApiHttpUtil.get({
+        url: "api/Contestants/" + id,
         success: function(result){
             callback(result);
         },

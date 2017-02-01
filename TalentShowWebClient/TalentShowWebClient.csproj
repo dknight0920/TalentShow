@@ -113,7 +113,9 @@
     <Content Include="src\data\actions\showActions.js" />
     <Content Include="src\data\api\contestantApi.js" />
     <Content Include="src\data\api\contestApi.js" />
+    <Content Include="src\data\api\judgeApi.js" />
     <Content Include="src\data\api\showApi.js" />
+    <Content Include="src\data\api\utils\httpUtil.js" />
     <Content Include="src\data\dispatcher.js" />
     <Content Include="src\data\stores\contestantStore.js" />
     <Content Include="src\data\stores\contestStore.js" />

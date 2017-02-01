@@ -1,13 +1,8 @@
-﻿import $ from 'jquery';
+﻿import * as ApiHttpUtil from './utils/httpUtil.js'
 
 var getAll = function (callback) {
-    var headers = globalGetAccessTokenHttpHeader();
-
-    $.ajax({
-        url: globalWebApiBaseUrl + "api/Shows",
-        contentType: "application/json",
-        type: "GET",
-        headers: headers,
+    ApiHttpUtil.get({
+        url: "api/Shows",
         success: function(result){
             callback(result);
         },
@@ -18,13 +13,8 @@ var getAll = function (callback) {
 };
 
 var get = function (id, callback) {
-    var headers = globalGetAccessTokenHttpHeader();
-
-    $.ajax({
-        url: globalWebApiBaseUrl + "api/Shows/" + id,
-        contentType: "application/json",
-        type: "GET",
-        headers: headers,
+    ApiHttpUtil.get({
+        url: "api/Shows/" + id,
         success: function(result){
             callback(result);
         },

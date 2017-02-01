@@ -1,5 +1,5 @@
 ﻿import EventEmitter from 'event-emitter';
-import $ from 'jquery';
+import * as JudgeApi from '../api/judgeApi'
 import Dispatcher from '../dispatcher';
 
 class JudgeStore extends EventEmitter {
@@ -11,27 +11,17 @@ class JudgeStore extends EventEmitter {
 
 const judgeStore = new JudgeStore;
 
+judgeStore.setJudges = function(_judges){
+    judgeStore.judges = _judges;
+    judgeStore.emit("change");
+};
+
 judgeStore.getAll = function(){
     return this.judges;
 };
 
 judgeStore.loadAllJudges = function(){
-    var headers = globalGetAccessTokenHttpHeader();
-
-    $.ajax({
-        url: globalWebApiBaseUrl + "api/Judges",
-        contentType: "application/json",
-        type: "GET",
-        headers: headers,
-        success: function(result){
-            var judges = result;
-            judgeStore.judges = judges;
-            judgeStore.emit("change");
-        },
-        error: function(request, status, err){
-            //TODO handle error
-        }	
-    });
+    JudgeApi.getAll(judgeStore.setJudges);
 };
 
 judgeStore.get = function(id){
@@ -49,20 +39,8 @@ judgeStore.get = function(id){
 };
 
 judgeStore.add = function(judge){
-    var headers = globalGetAccessTokenHttpHeader();
-
-    $.ajax({
-        url: globalWebApiBaseUrl + "api/Judges",
-        contentType: "application/json",
-        type: "POST",
-        headers: headers,
-        data: JSON.stringify(judge),
-        success: function(result){
-            judgeStore.loadAllJudges();
-        },
-        error: function(request, status, err){
-            //TODO handle error
-        }
+    JudgeApi.add(judge, function(result){
+        judgeStore.loadAllJudges();
     });
 };
 

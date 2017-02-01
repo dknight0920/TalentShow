@@ -6,19 +6,8 @@
 </head>
 <body>
     <div id="app"></div>
-    <div id="login"></div>
-    <div id="content"></div>
     <script>
         var globalWebApiBaseUrl = "http://localhost:59543/";
-
-        function globalGetAccessTokenHttpHeader() {
-            var token = sessionStorage.getItem("token");
-            var headers = {};
-            if (token) {
-                headers.Authorization = 'Bearer ' + token;
-            }
-            return headers;
-        }
     </script>
     <script src="scripts/app.bundle.js"></script>
 </body>
