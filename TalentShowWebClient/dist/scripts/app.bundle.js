@@ -36699,6 +36699,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.add = add;
 exports.loadAllJudges = loadAllJudges;
+exports.loadContestJudges = loadContestJudges;
 
 var _dispatcher = require("../dispatcher");
 
@@ -36712,6 +36713,10 @@ function add(judge) {
 
 function loadAllJudges() {
     _dispatcher2.default.dispatch({ type: "LOAD_ALL_JUDGES" });
+};
+
+function loadContestJudges(contestId) {
+    _dispatcher2.default.dispatch({ type: "LOAD_CONTEST_JUDGES", contestId: contestId });
 };
 
 },{"../dispatcher":276}],270:[function(require,module,exports){
@@ -37388,7 +37393,16 @@ judgeStore.setJudges = function (_judges) {
     judgeStore.emit("change");
 };
 
+judgeStore.getContestJudges = function () {
+    return this.judges;
+};
+
+judgeStore.loadContestJudges = function (contestId) {
+    JudgeApi.getContestJudges(contestId, judgeStore.setJudges);
+};
+
 judgeStore.getAll = function () {
+    //TODO probably remove this function
     return this.judges;
 };
 
@@ -37423,6 +37437,9 @@ judgeStore.handleAction = function (action) {
             break;
         case "LOAD_ALL_JUDGES":
             judgeStore.loadAllJudges();
+            break;
+        case "LOAD_CONTEST_JUDGES":
+            judgeStore.loadContestJudges(action.contestId);
             break;
 
     }
@@ -38569,9 +38586,13 @@ var _react2 = _interopRequireDefault(_react);
 
 var _listPanel = require('../../../../common/listPanel');
 
-var _contestStore = require('../../../../data/stores/contestStore');
+var _judgeStore = require('../../../../data/stores/judgeStore');
 
-var _contestStore2 = _interopRequireDefault(_contestStore);
+var _judgeStore2 = _interopRequireDefault(_judgeStore);
+
+var _judgeActions = require('../../../../data/actions/judgeActions');
+
+var JudgeActions = _interopRequireWildcard(_judgeActions);
 
 var _judgeUtil = require('./judge/judgeUtil');
 
@@ -38595,37 +38616,32 @@ var JudgesBox = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (JudgesBox.__proto__ || Object.getPrototypeOf(JudgesBox)).call(this, props));
 
-        _this.setJudges = _this.setJudges.bind(_this);
-        _this.getJudges = _this.getJudges.bind(_this);
+        _this.getState = _this.getState.bind(_this);
         _this.storeChanged = _this.storeChanged.bind(_this);
-        _this.state = _this.getJudges();
+        _this.state = _this.getState();
         return _this;
     }
 
     _createClass(JudgesBox, [{
         key: 'componentWillMount',
         value: function componentWillMount() {
-            _contestStore2.default.on("change", this.storeChanged);
+            _judgeStore2.default.on("change", this.storeChanged);
+            JudgeActions.loadContestJudges(this.props.contestId);
         }
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
-            _contestStore2.default.off("change", this.storeChanged);
+            _judgeStore2.default.off("change", this.storeChanged);
         }
     }, {
         key: 'storeChanged',
         value: function storeChanged() {
-            this.setJudges();
+            this.setState(this.getState());
         }
     }, {
-        key: 'setJudges',
-        value: function setJudges() {
-            this.setState(this.getJudges());
-        }
-    }, {
-        key: 'getJudges',
-        value: function getJudges() {
-            return { judges: _contestStore2.default.get(this.props.contestId).Judges };
+        key: 'getState',
+        value: function getState() {
+            return { judges: _judgeStore2.default.getContestJudges() };
         }
     }, {
         key: 'render',
@@ -38650,7 +38666,7 @@ var JudgesBox = function (_React$Component) {
 
 exports.default = JudgesBox;
 
-},{"../../../../common/listPanel":263,"../../../../data/stores/contestStore":277,"./judge/judgeUtil":292,"react":257}],294:[function(require,module,exports){
+},{"../../../../common/listPanel":263,"../../../../data/actions/judgeActions":269,"../../../../data/stores/judgeStore":280,"./judge/judgeUtil":292,"react":257}],294:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

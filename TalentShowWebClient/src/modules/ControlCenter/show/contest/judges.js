@@ -1,36 +1,33 @@
 ﻿import React from 'react';
 import { ListPanel, ListPanelItem } from '../../../../common/listPanel';
-import ContestStore from '../../../../data/stores/contestStore';
+import JudgeStore from '../../../../data/stores/judgeStore';
+import * as JudgeActions from '../../../../data/actions/judgeActions';
 import * as JudgeUtil from './judge/judgeUtil';
 
 class JudgesBox extends React.Component {
 
     constructor(props) {
         super(props);
-        this.setJudges = this.setJudges.bind(this);
-        this.getJudges = this.getJudges.bind(this);  
+        this.getState = this.getState.bind(this);
         this.storeChanged = this.storeChanged.bind(this);
-        this.state = this.getJudges();
+        this.state = this.getState();
     }
 
     componentWillMount(){
-        ContestStore.on("change", this.storeChanged);
+        JudgeStore.on("change", this.storeChanged);
+        JudgeActions.loadContestJudges(this.props.contestId);
     }
 
     componentWillUnmount(){
-        ContestStore.off("change", this.storeChanged);
+        JudgeStore.off("change", this.storeChanged);
     }
 
     storeChanged(){
-        this.setJudges();
+        this.setState(this.getState());
     }
 
-    setJudges(){
-        this.setState(this.getJudges());
-    }
-
-    getJudges(){
-        return { judges: ContestStore.get(this.props.contestId).Judges };
+    getState(){
+        return { judges: JudgeStore.getContestJudges() };
     }
 
     render() {

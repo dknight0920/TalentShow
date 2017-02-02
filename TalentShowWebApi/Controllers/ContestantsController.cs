@@ -17,17 +17,11 @@ namespace TalentShowWebApi.Controllers
     [Authorize]
     public class ContestantsController : ApiController
     {
-        private IRepo<Contestant> ContestantRepo;
-        private IRepo<Performance> PerformanceRepo;
-        private ICrossReferenceRepo<ContestContestant> ContestContestantRepo;
-        private ContestantService ContestantService;
+        private readonly ContestantService ContestantService;
 
         public ContestantsController()
         {
-            ContestantRepo = new ContestantRepo();
-            PerformanceRepo = new PerformanceRepo();
-            ContestContestantRepo = new ContestContestantRepo();
-            ContestantService = new ContestantService(ContestantRepo, PerformanceRepo, ContestContestantRepo);
+            ContestantService = new ContestantService(new ContestantRepo(), new PerformanceRepo(), new ContestContestantRepo());
         }
 
         // GET api/Contestants/Contest/5

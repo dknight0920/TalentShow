@@ -16,13 +16,11 @@ namespace TalentShowWebApi.Controllers
     [Authorize]
     public class ShowsController : ApiController
     {
-        private IRepo<Show> ShowRepo;
-        private ShowService ShowService;
+        private readonly ShowService ShowService;
 
         public ShowsController()
         {
-            ShowRepo = new ShowRepo();
-            ShowService = new ShowService(ShowRepo);
+            ShowService = new ShowService(new ShowRepo());
         }
 
         // GET api/Shows

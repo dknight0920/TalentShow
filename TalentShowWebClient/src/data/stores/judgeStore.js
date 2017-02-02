@@ -16,7 +16,15 @@ judgeStore.setJudges = function(_judges){
     judgeStore.emit("change");
 };
 
-judgeStore.getAll = function(){
+judgeStore.getContestJudges = function(){
+    return this.judges;
+};
+
+judgeStore.loadContestJudges = function(contestId){
+    JudgeApi.getContestJudges(contestId, judgeStore.setJudges);
+};
+
+judgeStore.getAll = function(){ //TODO probably remove this function
     return this.judges;
 };
 
@@ -51,6 +59,9 @@ judgeStore.handleAction = function(action){
             break;
         case "LOAD_ALL_JUDGES":
             judgeStore.loadAllJudges();
+            break;
+        case "LOAD_CONTEST_JUDGES":
+            judgeStore.loadContestJudges(action.contestId);
             break;
 
     }
