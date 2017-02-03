@@ -15,7 +15,7 @@ var makeRequest = function (options, type, data) {
 
     var httpOptions = {
         url: globalWebApiBaseUrl + options.url,
-        contentType: "application/json",
+        contentType: (options.contentType || "application/json"),
         type: type,
         headers: headers,
         success: options.success,

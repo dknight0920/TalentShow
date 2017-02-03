@@ -36148,7 +36148,7 @@ function getToken() {
     )
 ), document.getElementById('app'));
 
-},{"./modules/ControlCenter/show/contest/contest":283,"./modules/ControlCenter/show/contest/contestant/contestant":284,"./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard":287,"./modules/ControlCenter/show/show":295,"./modules/ControlCenter/shows":296,"./modules/about":297,"./modules/judges":298,"./modules/login":299,"react":257,"react-dom":21,"react-router":198}],259:[function(require,module,exports){
+},{"./modules/ControlCenter/show/contest/contest":285,"./modules/ControlCenter/show/contest/contestant/contestant":286,"./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard":289,"./modules/ControlCenter/show/show":297,"./modules/ControlCenter/shows":298,"./modules/about":299,"./modules/judges":300,"./modules/login":301,"react":257,"react-dom":21,"react-router":198}],259:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36655,7 +36655,7 @@ function loadContest(contestId) {
     _dispatcher2.default.dispatch({ type: "LOAD_CONTEST", contestId: contestId });
 };
 
-},{"../dispatcher":276}],267:[function(require,module,exports){
+},{"../dispatcher":277}],267:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36673,7 +36673,7 @@ function loadContestContestants(contestId) {
     _dispatcher2.default.dispatch({ type: "LOAD_CONTEST_CONTESTANTS", contestId: contestId });
 };
 
-},{"../dispatcher":276}],268:[function(require,module,exports){
+},{"../dispatcher":277}],268:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36691,7 +36691,7 @@ function authenticate(credentials) {
     _dispatcher2.default.dispatch({ type: "AUTHENTICATE_CURRENT_USER", data: credentials });
 };
 
-},{"../dispatcher":276}],269:[function(require,module,exports){
+},{"../dispatcher":277}],269:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36719,7 +36719,7 @@ function loadContestJudges(contestId) {
     _dispatcher2.default.dispatch({ type: "LOAD_CONTEST_JUDGES", contestId: contestId });
 };
 
-},{"../dispatcher":276}],270:[function(require,module,exports){
+},{"../dispatcher":277}],270:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36742,7 +36742,7 @@ function loadShow(showId) {
     _dispatcher2.default.dispatch({ type: "LOAD_SHOW", showId: showId });
 };
 
-},{"../dispatcher":276}],271:[function(require,module,exports){
+},{"../dispatcher":277}],271:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36805,7 +36805,7 @@ exports.add = add;
 exports.update = update;
 exports.remove = remove;
 
-},{"./utils/httpUtil.js":275}],272:[function(require,module,exports){
+},{"./utils/httpUtil.js":276}],272:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36868,7 +36868,7 @@ exports.add = add;
 exports.update = update;
 exports.remove = remove;
 
-},{"./utils/httpUtil.js":275}],273:[function(require,module,exports){
+},{"./utils/httpUtil.js":276}],273:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36941,7 +36941,7 @@ exports.add = add;
 exports.update = update;
 exports.remove = remove;
 
-},{"./utils/httpUtil.js":275}],274:[function(require,module,exports){
+},{"./utils/httpUtil.js":276}],274:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36991,7 +36991,42 @@ exports.add = add;
 exports.update = update;
 exports.remove = remove;
 
-},{"./utils/httpUtil.js":275}],275:[function(require,module,exports){
+},{"./utils/httpUtil.js":276}],275:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.getToken = undefined;
+
+var _httpUtil = require('./utils/httpUtil.js');
+
+var ApiHttpUtil = _interopRequireWildcard(_httpUtil);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var getToken = function getToken(credentials, callback) {
+    var loginData = {
+        grant_type: 'password',
+        username: credentials.emailAddress,
+        password: credentials.password
+    };
+
+    ApiHttpUtil.post({
+        url: "api/Token",
+        contentType: "application/x-www-form-urlencoded",
+        success: function success(result) {
+            callback(result);
+        },
+        error: function error(request, status, err) {
+            //TODO handle error
+        }
+    }, loginData);
+};
+
+exports.getToken = getToken;
+
+},{"./utils/httpUtil.js":276}],276:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37020,7 +37055,7 @@ var makeRequest = function makeRequest(options, type, data) {
 
     var httpOptions = {
         url: globalWebApiBaseUrl + options.url,
-        contentType: "application/json",
+        contentType: options.contentType || "application/json",
         type: type,
         headers: headers,
         success: options.success,
@@ -37055,7 +37090,7 @@ exports.post = post;
 exports.put = put;
 exports.remove = remove;
 
-},{"jquery":20}],276:[function(require,module,exports){
+},{"jquery":20}],277:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37068,7 +37103,7 @@ var dispatcher = new _flux.Dispatcher();
 
 exports.default = dispatcher;
 
-},{"flux":17}],277:[function(require,module,exports){
+},{"flux":17}],278:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37086,6 +37121,10 @@ var _dispatcher2 = _interopRequireDefault(_dispatcher);
 var _contestApi = require('../api/contestApi');
 
 var ContestApi = _interopRequireWildcard(_contestApi);
+
+var _storeUtils = require('./utils/storeUtils');
+
+var StoreUtils = _interopRequireWildcard(_storeUtils);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -37120,18 +37159,7 @@ contestStore.setContests = function (_contests) {
 };
 
 contestStore.pushContest = function (_contest) {
-    var replacedExisting = false;
-    for (var i = 0; i < contestStore.contests.length; i++) {
-        var contest = contestStore.contests[i];
-        if (contest.Id === _contest.Id) {
-            contest = _contest;
-            replacedExisting = true;
-            break;
-        }
-    }
-    if (!replacedExisting) {
-        contestStore.contests.push(_contest);
-    }
+    StoreUtils.pushItem(_contest, contestStore.contests);
     contestStore.emit("change");
 };
 
@@ -37148,17 +37176,7 @@ contestStore.load = function (contestId) {
 };
 
 contestStore.get = function (id) {
-    var contest = null;
-
-    for (var i = 0; i < this.contests.length; i++) {
-        var currentContest = this.contests[i];
-        if (currentContest.Id == id) {
-            contest = currentContest;
-            break;
-        }
-    }
-
-    return contest;
+    return StoreUtils.get(id, contestStore.contests);
 };
 
 contestStore.handleAction = function (action) {
@@ -37176,7 +37194,7 @@ _dispatcher2.default.register(contestStore.handleAction.bind(contestStore));
 
 exports.default = contestStore;
 
-},{"../api/contestApi":271,"../dispatcher":276,"event-emitter":2}],278:[function(require,module,exports){
+},{"../api/contestApi":271,"../dispatcher":277,"./utils/storeUtils":284,"event-emitter":2}],279:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37194,6 +37212,10 @@ var _dispatcher2 = _interopRequireDefault(_dispatcher);
 var _contestantApi = require('../api/contestantApi');
 
 var ContestantApi = _interopRequireWildcard(_contestantApi);
+
+var _storeUtils = require('./utils/storeUtils');
+
+var StoreUtils = _interopRequireWildcard(_storeUtils);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -37236,17 +37258,7 @@ contestantStore.loadContestContestants = function (contestId) {
 };
 
 contestantStore.get = function (id) {
-    var contestant = null;
-
-    for (var i = 0; i < this.contestants.length; i++) {
-        var currentContestant = this.contestants[i];
-        if (currentContestant.Id == id) {
-            contestant = currentContestant;
-            break;
-        }
-    }
-
-    return contestant;
+    return StoreUtils.get(id, contestantStore.contestants);
 };
 
 contestantStore.handleAction = function (action) {
@@ -37261,7 +37273,7 @@ _dispatcher2.default.register(contestantStore.handleAction.bind(contestantStore)
 
 exports.default = contestantStore;
 
-},{"../api/contestantApi":272,"../dispatcher":276,"event-emitter":2}],279:[function(require,module,exports){
+},{"../api/contestantApi":272,"../dispatcher":277,"./utils/storeUtils":284,"event-emitter":2}],280:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37272,13 +37284,15 @@ var _eventEmitter = require('event-emitter');
 
 var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
 
-var _jquery = require('jquery');
+var _tokenApi = require('../api/tokenApi');
 
-var _jquery2 = _interopRequireDefault(_jquery);
+var TokenApi = _interopRequireWildcard(_tokenApi);
 
 var _dispatcher = require('../dispatcher');
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37316,17 +37330,11 @@ currentUserStore.authenticate = function (credentials) {
         password: credentials.password
     };
 
-    _jquery2.default.ajax({
-        type: "POST",
-        url: globalWebApiBaseUrl + "api/Token",
-        data: loginData
-    }).done(function (data) {
+    TokenApi.getToken(credentials, function (data) {
         sessionStorage.setItem("user", data.userName);
         sessionStorage.setItem("token", data.access_token);
         currentUserStore.authenticated = true;
         currentUserStore.emit("change");
-    }).fail(function (data) {
-        console.log(data); //TODO HANDLE BETTER
     });
 };
 
@@ -37342,7 +37350,7 @@ _dispatcher2.default.register(currentUserStore.handleAction.bind(currentUserStor
 
 exports.default = currentUserStore;
 
-},{"../dispatcher":276,"event-emitter":2,"jquery":20}],280:[function(require,module,exports){
+},{"../api/tokenApi":275,"../dispatcher":277,"event-emitter":2}],281:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37360,6 +37368,10 @@ var JudgeApi = _interopRequireWildcard(_judgeApi);
 var _dispatcher = require('../dispatcher');
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
+
+var _storeUtils = require('./utils/storeUtils');
+
+var StoreUtils = _interopRequireWildcard(_storeUtils);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -37411,17 +37423,7 @@ judgeStore.loadAllJudges = function () {
 };
 
 judgeStore.get = function (id) {
-    var judge = null;
-
-    for (var i = 0; i < this.judges.length; i++) {
-        var currentJudge = this.judges[i];
-        if (currentJudge.Id == id) {
-            judge = currentJudge;
-            break;
-        }
-    }
-
-    return judge;
+    return StoreUtils.get(id, judgeStore.judges);
 };
 
 judgeStore.add = function (judge) {
@@ -37449,16 +37451,22 @@ _dispatcher2.default.register(judgeStore.handleAction.bind(judgeStore));
 
 exports.default = judgeStore;
 
-},{"../api/judgeApi":273,"../dispatcher":276,"event-emitter":2}],281:[function(require,module,exports){
-"use strict";
+},{"../api/judgeApi":273,"../dispatcher":277,"./utils/storeUtils":284,"event-emitter":2}],282:[function(require,module,exports){
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _eventEmitter = require("event-emitter");
+var _eventEmitter = require('event-emitter');
 
 var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+
+var _storeUtils = require('./utils/storeUtils');
+
+var StoreUtils = _interopRequireWildcard(_storeUtils);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37772,22 +37780,12 @@ scoreCardStore.getAll = function () {
 };
 
 scoreCardStore.get = function (id) {
-    var scoreCard = null;
-
-    for (var i = 0; i < this.scoreCards.length; i++) {
-        var currentscoreCard = this.scoreCards[i];
-        if (currentscoreCard.Id == id) {
-            scoreCard = currentscoreCard;
-            break;
-        }
-    }
-
-    return scoreCard;
+    return StoreUtils.get(id, scoreCardStore.scoreCards);
 };
 
 exports.default = scoreCardStore;
 
-},{"event-emitter":2}],282:[function(require,module,exports){
+},{"./utils/storeUtils":284,"event-emitter":2}],283:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37805,6 +37803,10 @@ var _dispatcher2 = _interopRequireDefault(_dispatcher);
 var _showApi = require('../api/showApi');
 
 var ShowApi = _interopRequireWildcard(_showApi);
+
+var _storeUtils = require('./utils/storeUtils');
+
+var StoreUtils = _interopRequireWildcard(_storeUtils);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -37839,18 +37841,7 @@ showStore.setShows = function (_shows) {
 };
 
 showStore.pushShow = function (_show) {
-    var replacedExisting = false;
-    for (var i = 0; i < showStore.shows.length; i++) {
-        var show = showStore.shows[i];
-        if (show.Id === _show.Id) {
-            show = _show;
-            replacedExisting = true;
-            break;
-        }
-    }
-    if (!replacedExisting) {
-        showStore.shows.push(_show);
-    }
+    StoreUtils.pushItem(_show, showStore.shows);
     showStore.emit("change");
 };
 
@@ -37867,17 +37858,7 @@ showStore.load = function (showId) {
 };
 
 showStore.get = function (id) {
-    var show = null;
-
-    for (var i = 0; i < showStore.shows.length; i++) {
-        var currentShow = showStore.shows[i];
-        if (currentShow.Id == id) {
-            show = currentShow;
-            break;
-        }
-    }
-
-    return show;
+    return StoreUtils.get(id, showStore.shows);
 };
 
 showStore.handleAction = function (action) {
@@ -37896,7 +37877,45 @@ _dispatcher2.default.register(showStore.handleAction.bind(showStore));
 
 exports.default = showStore;
 
-},{"../api/showApi":274,"../dispatcher":276,"event-emitter":2}],283:[function(require,module,exports){
+},{"../api/showApi":274,"../dispatcher":277,"./utils/storeUtils":284,"event-emitter":2}],284:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var get = function get(id, items) {
+    var returnItem = null;
+
+    for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        if (item.Id == id) {
+            returnItem = item;
+            break;
+        }
+    }
+
+    return returnItem;
+};
+
+var pushItem = function pushItem(item, items) {
+    var replacedExisting = false;
+    for (var i = 0; i < items.length; i++) {
+        var _item = items[i];
+        if (_item.Id === item.Id) {
+            _item = item;
+            replacedExisting = true;
+            break;
+        }
+    }
+    if (!replacedExisting) {
+        items.push(item);
+    }
+};
+
+exports.get = get;
+exports.pushItem = pushItem;
+
+},{}],285:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38011,7 +38030,7 @@ var ContestPage = function (_React$Component) {
 
 exports.default = ContestPage;
 
-},{"../../../../common/pageContent":264,"../../../../data/actions/contestActions":266,"../../../../data/stores/contestStore":277,"./contestants":291,"./judges":293,"react":257}],284:[function(require,module,exports){
+},{"../../../../common/pageContent":264,"../../../../data/actions/contestActions":266,"../../../../data/stores/contestStore":278,"./contestants":293,"./judges":295,"react":257}],286:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38085,7 +38104,7 @@ var ContestantPage = function (_React$Component) {
 
 exports.default = ContestantPage;
 
-},{"../../../../../common/pageContent":264,"../../../../../data/stores/contestantStore":278,"./contestantUtil":285,"./scoreCards":289,"react":257}],285:[function(require,module,exports){
+},{"../../../../../common/pageContent":264,"../../../../../data/stores/contestantStore":279,"./contestantUtil":287,"./scoreCards":291,"react":257}],287:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38112,7 +38131,7 @@ var getDescription = function getDescription(contestant) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],286:[function(require,module,exports){
+},{}],288:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38238,7 +38257,7 @@ var ScorableCriterion = function (_React$Component2) {
 
 exports.default = ScorableCriteria;
 
-},{"../../../../../../common/input":260,"../../../../../../common/panel":265,"../../../../../../data/stores/scoreCardStore":281,"react":257}],287:[function(require,module,exports){
+},{"../../../../../../common/input":260,"../../../../../../common/panel":265,"../../../../../../data/stores/scoreCardStore":282,"react":257}],289:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38312,7 +38331,7 @@ var ScoreCardPage = function (_React$Component) {
 
 exports.default = ScoreCardPage;
 
-},{"../../../../../../common/pageContent":264,"../../../../../../data/stores/scoreCardStore":281,"./scorableCriteria":286,"./scoreCardUtil":288,"react":257}],288:[function(require,module,exports){
+},{"../../../../../../common/pageContent":264,"../../../../../../data/stores/scoreCardStore":282,"./scorableCriteria":288,"./scoreCardUtil":290,"react":257}],290:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38388,7 +38407,7 @@ var getDescription = function getDescription(scoreCard) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{"react":257}],289:[function(require,module,exports){
+},{"react":257}],291:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38457,9 +38476,9 @@ var ScoreCardsBox = function (_React$Component) {
 
 exports.default = ScoreCardsBox;
 
-},{"../../../../../common/listPanel":263,"../../../../../data/stores/scoreCardStore":281,"./scorecard/scoreCardUtil":290,"react":257}],290:[function(require,module,exports){
-arguments[4][288][0].apply(exports,arguments)
-},{"dup":288,"react":257}],291:[function(require,module,exports){
+},{"../../../../../common/listPanel":263,"../../../../../data/stores/scoreCardStore":282,"./scorecard/scoreCardUtil":292,"react":257}],292:[function(require,module,exports){
+arguments[4][290][0].apply(exports,arguments)
+},{"dup":290,"react":257}],293:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38554,7 +38573,7 @@ var ContestantsBox = function (_React$Component) {
 
 exports.default = ContestantsBox;
 
-},{"../../../../common/listPanel":263,"../../../../data/actions/contestantActions":267,"../../../../data/stores/contestantStore":278,"./contestant/contestantUtil":285,"react":257}],292:[function(require,module,exports){
+},{"../../../../common/listPanel":263,"../../../../data/actions/contestantActions":267,"../../../../data/stores/contestantStore":279,"./contestant/contestantUtil":287,"react":257}],294:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38571,7 +38590,7 @@ var getDescription = function getDescription(judge) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],293:[function(require,module,exports){
+},{}],295:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38666,7 +38685,7 @@ var JudgesBox = function (_React$Component) {
 
 exports.default = JudgesBox;
 
-},{"../../../../common/listPanel":263,"../../../../data/actions/judgeActions":269,"../../../../data/stores/judgeStore":280,"./judge/judgeUtil":292,"react":257}],294:[function(require,module,exports){
+},{"../../../../common/listPanel":263,"../../../../data/actions/judgeActions":269,"../../../../data/stores/judgeStore":281,"./judge/judgeUtil":294,"react":257}],296:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38755,7 +38774,7 @@ var ContestsBox = function (_React$Component) {
 
 exports.default = ContestsBox;
 
-},{"../../../common/listPanel":263,"../../../data/actions/contestActions":266,"../../../data/stores/contestStore":277,"react":257}],295:[function(require,module,exports){
+},{"../../../common/listPanel":263,"../../../data/actions/contestActions":266,"../../../data/stores/contestStore":278,"react":257}],297:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38863,7 +38882,7 @@ var ShowPage = function (_React$Component) {
 
 exports.default = ShowPage;
 
-},{"../../../common/pageContent":264,"../../../data/actions/showActions":270,"../../../data/stores/showStore":282,"./contests":294,"react":257}],296:[function(require,module,exports){
+},{"../../../common/pageContent":264,"../../../data/actions/showActions":270,"../../../data/stores/showStore":283,"./contests":296,"react":257}],298:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38978,7 +38997,7 @@ var ShowsBox = function (_React$Component2) {
 
 exports.default = ShowsPage;
 
-},{"../../common/listPanel":263,"../../common/pageContent":264,"../../data/actions/showActions":270,"../../data/stores/showStore":282,"react":257}],297:[function(require,module,exports){
+},{"../../common/listPanel":263,"../../common/pageContent":264,"../../data/actions/showActions":270,"../../data/stores/showStore":283,"react":257}],299:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39002,7 +39021,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"react":257}],298:[function(require,module,exports){
+},{"react":257}],300:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39206,7 +39225,7 @@ var JudgesPage = function (_React$Component2) {
 
 exports.default = JudgesPage;
 
-},{"../common/formGroup":259,"../common/input":260,"../data/actions/judgeActions":269,"../data/stores/judgeStore":280,"jquery":20,"react":257}],299:[function(require,module,exports){
+},{"../common/formGroup":259,"../common/input":260,"../data/actions/judgeActions":269,"../data/stores/judgeStore":281,"jquery":20,"react":257}],301:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39388,4 +39407,4 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"../common/formGroup":259,"../common/input":260,"../data/actions/currentUserActions":268,"../data/stores/currentUserStore":279,"jquery":20,"react":257,"react-router":198}]},{},[258]);
+},{"../common/formGroup":259,"../common/input":260,"../data/actions/currentUserActions":268,"../data/stores/currentUserStore":280,"jquery":20,"react":257,"react-router":198}]},{},[258]);

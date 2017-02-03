@@ -1,6 +1,7 @@
 ﻿import EventEmitter from 'event-emitter';
 import Dispatcher from '../dispatcher';
-import * as ContestantApi from '../api/contestantApi'
+import * as ContestantApi from '../api/contestantApi';
+import * as StoreUtils from './utils/storeUtils';
 
 class ContestantStore extends EventEmitter {
     constructor(){
@@ -25,17 +26,7 @@ contestantStore.loadContestContestants = function(contestId){
 };
 
 contestantStore.get = function(id){
-    var contestant = null;
-
-    for (var i = 0; i < this.contestants.length; i++){
-        var currentContestant = this.contestants[i];
-        if(currentContestant.Id == id){
-            contestant = currentContestant;
-            break;
-        }
-    }
-
-    return contestant;
+    return StoreUtils.get(id, contestantStore.contestants);
 };
 
 contestantStore.handleAction = function(action){

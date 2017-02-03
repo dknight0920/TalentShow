@@ -1,5 +1,5 @@
 ﻿import EventEmitter from 'event-emitter';
-import $ from 'jquery';
+import * as TokenApi from '../api/tokenApi';
 import Dispatcher from '../dispatcher';
 
 class CurrentUserStore extends EventEmitter {
@@ -22,17 +22,11 @@ currentUserStore.authenticate = function(credentials){
         password: credentials.password
     };
 
-    $.ajax({
-        type: "POST",
-        url: globalWebApiBaseUrl + "api/Token",
-        data: loginData
-    }).done(function (data) {
+    TokenApi.getToken(credentials, function (data) {
         sessionStorage.setItem("user", data.userName);
         sessionStorage.setItem("token", data.access_token);
         currentUserStore.authenticated = true;
         currentUserStore.emit("change");
-    }).fail(function (data) {
-        console.log(data); //TODO HANDLE BETTER
     });
 };
 

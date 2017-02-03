@@ -1,4 +1,5 @@
 ﻿import EventEmitter from 'event-emitter';
+import * as StoreUtils from './utils/storeUtils';
 
 class ScoreCardStore extends EventEmitter {
     constructor(){
@@ -326,17 +327,7 @@ scoreCardStore.getAll = function(){
 };
 
 scoreCardStore.get = function(id){
-    var scoreCard = null;
-
-    for (var i = 0; i < this.scoreCards.length; i++){
-        var currentscoreCard = this.scoreCards[i];
-        if(currentscoreCard.Id == id){
-            scoreCard = currentscoreCard;
-            break;
-        }
-    }
-
-    return scoreCard;
+    return StoreUtils.get(id, scoreCardStore.scoreCards);
 };
 
 export default scoreCardStore;

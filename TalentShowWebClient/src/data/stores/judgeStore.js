@@ -1,6 +1,7 @@
 ﻿import EventEmitter from 'event-emitter';
 import * as JudgeApi from '../api/judgeApi'
 import Dispatcher from '../dispatcher';
+import * as StoreUtils from './utils/storeUtils';
 
 class JudgeStore extends EventEmitter {
     constructor(){
@@ -33,17 +34,7 @@ judgeStore.loadAllJudges = function(){
 };
 
 judgeStore.get = function(id){
-    var judge = null;
-
-    for (var i = 0; i < this.judges.length; i++){
-        var currentJudge = this.judges[i];
-        if(currentJudge.Id == id){
-            judge = currentJudge;
-            break;
-        }
-    }
-
-    return judge;
+    return StoreUtils.get(id, judgeStore.judges);
 };
 
 judgeStore.add = function(judge){

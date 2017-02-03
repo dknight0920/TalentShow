@@ -1,6 +1,7 @@
 ﻿import EventEmitter from 'event-emitter';
 import Dispatcher from '../dispatcher';
-import * as ContestApi from '../api/contestApi'
+import * as ContestApi from '../api/contestApi';
+import * as StoreUtils from './utils/storeUtils';
 
 class ContestStore extends EventEmitter {
     constructor(){
@@ -17,18 +18,7 @@ contestStore.setContests = function(_contests){
 };
 
 contestStore.pushContest = function(_contest){
-    var replacedExisting = false;
-    for (var i = 0; i < contestStore.contests.length; i++){
-        var contest = contestStore.contests[i];
-        if(contest.Id === _contest.Id){
-            contest = _contest;
-            replacedExisting = true;
-            break;
-        }
-    }
-    if (!replacedExisting){
-        contestStore.contests.push(_contest);
-    }
+    StoreUtils.pushItem(_contest, contestStore.contests);
     contestStore.emit("change");
 };
 
@@ -45,17 +35,7 @@ contestStore.load = function(contestId){
 };
 
 contestStore.get = function(id){
-    var contest = null;
-
-    for (var i = 0; i < this.contests.length; i++){
-        var currentContest = this.contests[i];
-        if(currentContest.Id == id){
-            contest = currentContest;
-            break;
-        }
-    }
-
-    return contest;
+    return StoreUtils.get(id, contestStore.contests);
 };
 
 contestStore.handleAction = function(action){

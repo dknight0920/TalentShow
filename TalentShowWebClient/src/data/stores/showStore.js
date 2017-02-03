@@ -1,6 +1,7 @@
 ﻿import EventEmitter from 'event-emitter';
 import Dispatcher from '../dispatcher';
-import * as ShowApi from '../api/showApi'
+import * as ShowApi from '../api/showApi';
+import * as StoreUtils from './utils/storeUtils';
 
 class ShowStore extends EventEmitter {
     constructor(){
@@ -17,18 +18,7 @@ showStore.setShows = function(_shows){
 };
 
 showStore.pushShow = function(_show){
-    var replacedExisting = false;
-    for (var i = 0; i < showStore.shows.length; i++){
-        var show = showStore.shows[i];
-        if(show.Id === _show.Id){
-            show = _show;
-            replacedExisting = true;
-            break;
-        }
-    }
-    if (!replacedExisting){
-        showStore.shows.push(_show);
-    }
+    StoreUtils.pushItem(_show, showStore.shows);
     showStore.emit("change");
 };
 
@@ -45,17 +35,7 @@ showStore.load = function(showId){
 };
 
 showStore.get = function(id){
-    var show = null;
-
-    for (var i = 0; i < showStore.shows.length; i++){
-        var currentShow = showStore.shows[i];
-        if(currentShow.Id == id){
-            show = currentShow;
-            break;
-        }
-    }
-
-    return show;
+    return StoreUtils.get(id, showStore.shows);
 };
 
 showStore.handleAction = function(action){
