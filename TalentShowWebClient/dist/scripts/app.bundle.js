@@ -36662,6 +36662,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.loadContestContestants = loadContestContestants;
+exports.loadContestant = loadContestant;
 
 var _dispatcher = require("../dispatcher");
 
@@ -36671,6 +36672,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function loadContestContestants(contestId) {
     _dispatcher2.default.dispatch({ type: "LOAD_CONTEST_CONTESTANTS", contestId: contestId });
+};
+
+function loadContestant(contestantId) {
+    _dispatcher2.default.dispatch({ type: "LOAD_CONTESTANT", contestantId: contestantId });
 };
 
 },{"../dispatcher":277}],268:[function(require,module,exports){
@@ -37249,12 +37254,21 @@ contestantStore.setContestants = function (_contestants) {
     contestantStore.emit("change");
 };
 
+contestantStore.pushContestant = function (_contestant) {
+    StoreUtils.pushItem(_contestant, contestantStore.contestants);
+    contestantStore.emit("change");
+};
+
 contestantStore.getContestContestants = function () {
-    return this.contestants;
+    return contestantStore.contestants;
 };
 
 contestantStore.loadContestContestants = function (contestId) {
     ContestantApi.getContestContestants(contestId, contestantStore.setContestants);
+};
+
+contestantStore.load = function (contestantId) {
+    ContestantApi.get(contestantId, contestantStore.pushContestant);
 };
 
 contestantStore.get = function (id) {
@@ -37265,6 +37279,9 @@ contestantStore.handleAction = function (action) {
     switch (action.type) {
         case "LOAD_CONTEST_CONTESTANTS":
             contestantStore.loadContestContestants(action.contestId);
+            break;
+        case "LOAD_CONTESTANT":
+            contestantStore.load(action.contestantId);
             break;
     }
 };
@@ -38051,6 +38068,10 @@ var _contestantStore = require('../../../../../data/stores/contestantStore');
 
 var _contestantStore2 = _interopRequireDefault(_contestantStore);
 
+var _contestantActions = require('../../../../../data/actions/contestantActions');
+
+var ContestantActions = _interopRequireWildcard(_contestantActions);
+
 var _contestantUtil = require('./contestantUtil');
 
 var ContestantUtil = _interopRequireWildcard(_contestantUtil);
@@ -38077,20 +38098,54 @@ var ContestantPage = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (ContestantPage.__proto__ || Object.getPrototypeOf(ContestantPage)).call(this, props));
 
+        _this.getState = _this.getState.bind(_this);
+        _this.storeChanged = _this.storeChanged.bind(_this);
         _this.getContestant = _this.getContestant.bind(_this);
-        _this.state = { contestant: _this.getContestant() };
+        _this.getContestantId = _this.getContestantId.bind(_this);
+        _this.state = _this.getState();
         return _this;
     }
 
     _createClass(ContestantPage, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            _contestantStore2.default.on("change", this.storeChanged);
+            ContestantActions.loadContestant(this.getContestantId());
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            _contestantStore2.default.off("change", this.storeChanged);
+        }
+    }, {
+        key: 'storeChanged',
+        value: function storeChanged() {
+            this.setState(this.getState());
+        }
+    }, {
+        key: 'getState',
+        value: function getState() {
+            return { contestant: this.getContestant() };
+        }
+    }, {
         key: 'getContestant',
         value: function getContestant() {
-            return _contestantStore2.default.get(this.props.params.contestantId);
+            return _contestantStore2.default.get(this.getContestantId());
+        }
+    }, {
+        key: 'getContestantId',
+        value: function getContestantId() {
+            return this.props.params.contestantId;
         }
     }, {
         key: 'render',
         value: function render() {
             var contestant = this.state.contestant;
+
+            if (!contestant) {
+                return _react2.default.createElement(_pageContent2.default, { title: 'Loading', description: 'The contestant\'s details are loading, please wait.' });
+            }
+
             return _react2.default.createElement(
                 _pageContent2.default,
                 { title: ContestantUtil.getName(contestant), description: ContestantUtil.getDescription(contestant) },
@@ -38104,7 +38159,7 @@ var ContestantPage = function (_React$Component) {
 
 exports.default = ContestantPage;
 
-},{"../../../../../common/pageContent":264,"../../../../../data/stores/contestantStore":279,"./contestantUtil":287,"./scoreCards":291,"react":257}],287:[function(require,module,exports){
+},{"../../../../../common/pageContent":264,"../../../../../data/actions/contestantActions":267,"../../../../../data/stores/contestantStore":279,"./contestantUtil":287,"./scoreCards":291,"react":257}],287:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
