@@ -1,13 +1,33 @@
 ﻿import React from 'react';
 import { ListPanel, ListPanelItem } from '../../../../../common/listPanel';
 import ScoreCardStore from '../../../../../data/stores/scoreCardStore';
+import * as ScoreCardActions from '../../../../../data/actions/scoreCardActions';
 import * as ScoreCardUtil from './scorecard/scoreCardUtil'
 
 class ScoreCardsBox extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { scoreCards: ScoreCardStore.getAll() };
+        this.getState = this.getState.bind(this);
+        this.storeChanged = this.storeChanged.bind(this);
+        this.state = this.getState();
+    }
+
+    componentWillMount(){
+        ScoreCardStore.on("change", this.storeChanged);
+        ScoreCardActions.loadContestantScoreCards(this.props.contestantId);
+    }
+
+    componentWillUnmount(){
+        ScoreCardStore.off("change", this.storeChanged);
+    }
+
+    storeChanged(){
+        this.setState(this.getState());
+    }
+
+    getState(){
+        return { scoreCards: ScoreCardStore.getContestantScoreCards() };
     }
 
     render() {

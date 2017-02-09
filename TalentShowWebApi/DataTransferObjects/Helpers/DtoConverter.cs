@@ -73,6 +73,36 @@ namespace TalentShowWebApi.DataTransferObjects.Helpers
             return new Organization(organizationDto.Id, organizationDto.Name, parent);
         }
 
+        public static ScoreCard ConvertFromDto(this ScoreCardDto scoreCardDto)
+        {
+            return new ScoreCard(scoreCardDto.Id, ConvertFromDto(scoreCardDto.Contestant), ConvertFromDto(scoreCardDto.Judge), ConvertFromDto(scoreCardDto.ScorableCriteria));
+        }
+
+        public static ICollection<ScorableCriterion> ConvertFromDto(this ICollection<ScorableCriterionDto> scorableCriteriaDto)
+        {
+            var scorableCriteria = new List<ScorableCriterion>();
+
+            foreach (var scorableCriterionDto in scorableCriteriaDto)
+                scorableCriteria.Add(ConvertFromDto(scorableCriterionDto));
+
+            return scorableCriteria;
+        }
+
+        public static ScorableCriterion ConvertFromDto(this ScorableCriterionDto scorableCriterionDto)
+        {
+            return new ScorableCriterion(scorableCriterionDto.Id, ConvertFromDto(scorableCriterionDto.ScoreCriterion));
+        }
+
+        public static ScoreCriterion ConvertFromDto(this ScoreCriterionDto scoreCriterionDto)
+        {
+            return new ScoreCriterion(scoreCriterionDto.Id, scoreCriterionDto.CriterionDescription, ConvertFromDto(scoreCriterionDto.ScoreRange));
+        }
+
+        public static ScoreRange ConvertFromDto(this ScoreRangeDto scoreRangeDto)
+        {
+            return new ScoreRange(scoreRangeDto.Min, scoreRangeDto.Max);
+        }
+
         public static ICollection<ShowDto> ConvertToDto(this ICollection<Show> shows)
         {
             var dtos = new List<ShowDto>();

@@ -1,8 +1,8 @@
 ﻿import * as ApiHttpUtil from './utils/httpUtil.js'
 
-var getShowContests = function (showId, callback) {
+var getContestantScoreCards = function (contestantId, callback) {
     ApiHttpUtil.get({
-        url: "api/Contests/Show/" + showId,
+        url: "api/ScoreCards/Contestant/" + contestantId,
         success: function(result){
             callback(result);
         },
@@ -14,7 +14,7 @@ var getShowContests = function (showId, callback) {
 
 var getAll = function (callback) {
     ApiHttpUtil.get({
-        url:  "api/Contests",
+        url:  "api/ScoreCards",
         success: function(result){
             callback(result);
         },
@@ -26,7 +26,7 @@ var getAll = function (callback) {
 
 var get = function (id, callback) {
     ApiHttpUtil.get({
-        url:  "api/Contests/" + id,
+        url:  "api/ScoreCards/" + id,
         success: function(result){
             callback(result);
         },
@@ -36,16 +36,16 @@ var get = function (id, callback) {
     });
 };
 
-var add = function (contest) {
+var add = function (scoreCard) {
     
 };
 
-var update = function (contest) {
+var update = function (scoreCard) {
     
 };
 
-var remove = function (contest) {
+var remove = function (scoreCard) {
     
 };
 
-export {getShowContests, getAll, get, add, update, remove};
+export {getContestantScoreCards, getAll, get, add, update, remove};

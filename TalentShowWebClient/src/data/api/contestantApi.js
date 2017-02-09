@@ -36,15 +36,15 @@ var get = function (id, callback) {
     });
 };
 
-var add = function (show) {
+var add = function (contestant) {
     
 };
 
-var update = function (show) {
+var update = function (contestant) {
     
 };
 
-var remove = function (show) {
+var remove = function (contestant) {
     
 };
 

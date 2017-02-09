@@ -1,333 +1,54 @@
 ﻿import EventEmitter from 'event-emitter';
+import Dispatcher from '../dispatcher';
+import * as ScoreCardApi from '../api/scoreCardApi';
 import * as StoreUtils from './utils/storeUtils';
 
 class ScoreCardStore extends EventEmitter {
     constructor(){
         super();
-        this.scoreCards = [
-            {
-                Id: 1,
-                Contestant: {
-                    Id: 1,
-                    Performance: {
-                        Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                    }, 
-                    Performers: [
-                        {
-                            Name:{
-                                FirstName: "Jeff",
-                                LastName: "Smith"
-                            }
-                        },
-                        {
-                            Name:{
-                                FirstName: "Sammy",
-                                LastName: "Bob"
-                            }
-                        }
-                    ]
-                }, 
-                Judge: {
-                    Id: 1,
-                    Name: {
-                        FirstName: "Frank",
-                        LastName: "Smith"
-                    },
-                    Affiliation: {
-                        Id: 1,
-                        Name: "ABC",
-                        Parent: null
-                    }
-                },
-                ScorableCriteria: [
-                    {
-                        Id: 1,
-                        ScoreCriterion: {
-                            Id: 1,
-                            CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                            ScoreRange: {
-                                Min: 0,
-                                Max: 10
-                            }
-                        },
-                        Score: 8,
-                        Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    },
-                    {
-                        Id: 2,
-                        ScoreCriterion: {
-                            Id: 1,
-                            CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                            ScoreRange: {
-                                Min: 0,
-                                Max: 10
-                            }
-                        },
-                        Score: 8,
-                        Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    },
-                    {
-                        Id: 3,
-                        ScoreCriterion: {
-                            Id: 1,
-                            CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                            ScoreRange: {
-                                Min: 0,
-                                Max: 10
-                            }
-                        },
-                        Score: 8,
-                        Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    },
-                    {
-                        Id: 4,
-                        ScoreCriterion: {
-                            Id: 1,
-                            CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                            ScoreRange: {
-                                Min: 0,
-                                Max: 10
-                            }
-                        },
-                        Score: 8,
-                        Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    },
-                    {
-                        Id: 5,
-                        ScoreCriterion: {
-                            Id: 1,
-                            CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                            ScoreRange: {
-                                Min: 0,
-                                Max: 10
-                            }
-                        },
-                        Score: 8,
-                        Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    }
-                ],
-                AverageScore: 8,
-                TotalScore: 24
-            },
-            {
-                Id: 2,
-                Contestant: {
-                    Id: 1,
-                    Performance: {
-                        Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                    }, 
-                    Performers: [
-                        {
-                            Name:{
-                                FirstName: "Jeff",
-                                LastName: "Smith"
-                            }
-                        },
-                        {
-                            Name:{
-                                FirstName: "Sammy",
-                                LastName: "Bob"
-                            }
-                        }
-                    ]
-                }, 
-                Judge: {
-                    Id: 2,
-                    Name: {
-                        FirstName: "Jane",
-                        LastName: "Smith"
-                    },
-                    Affiliation: {
-                        Id: 1,
-                        Name: "ABC",
-                        Parent: null
-                    }
-                },
-                ScorableCriteria: [
-                    {
-                        Id: 1,
-                        ScoreCriterion: {
-                            Id: 1,
-                            CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                            ScoreRange: {
-                                Min: 0,
-                                Max: 10
-                            }
-                        },
-                        Score: 8,
-                        Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    },
-                    {
-                        Id: 2,
-                        ScoreCriterion: {
-                            Id: 1,
-                            CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                            ScoreRange: {
-                                Min: 0,
-                                Max: 10
-                            }
-                        },
-                        Score: 8,
-                        Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    },
-                    {
-                        Id: 3,
-                        ScoreCriterion: {
-                            Id: 1,
-                            CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                            ScoreRange: {
-                                Min: 0,
-                                Max: 10
-                            }
-                        },
-                        Score: 8,
-                        Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    },
-                    {
-                        Id: 4,
-                        ScoreCriterion: {
-                            Id: 1,
-                            CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                            ScoreRange: {
-                                Min: 0,
-                                Max: 10
-                            }
-                        },
-                        Score: 8,
-                        Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    },
-                    {
-                        Id: 5,
-                        ScoreCriterion: {
-                            Id: 1,
-                            CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                            ScoreRange: {
-                                Min: 0,
-                                Max: 10
-                            }
-                        },
-                        Score: 8,
-                        Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    }
-                ],
-                AverageScore: 8,
-                TotalScore: 24
-            },
-            {
-                Id: 3,
-                Contestant: {
-                    Id: 1,
-                    Performance: {
-                        Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                    }, 
-                    Performers: [
-                        {
-                            Name:{
-                                FirstName: "Jeff",
-                                LastName: "Smith"
-                            }
-                        },
-                        {
-                            Name:{
-                                FirstName: "Sammy",
-                                LastName: "Bob"
-                            }
-                        }
-                    ]
-                }, 
-                Judge: {
-                    Id: 3,
-                    Name: {
-                        FirstName: "Tom",
-                        LastName: "Bob"
-                    },
-                    Affiliation: {
-                        Id: 1,
-                        Name: "ABC",
-                        Parent: null
-                    }
-                },
-                ScorableCriteria: [
-                    {
-                        Id: 1,
-                        ScoreCriterion: {
-                            Id: 1,
-                            CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                            ScoreRange: {
-                                Min: 0,
-                                Max: 10
-                            }
-                        },
-                        Score: 8,
-                        Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    },
-                    {
-                        Id: 2,
-                        ScoreCriterion: {
-                            Id: 1,
-                            CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                            ScoreRange: {
-                                Min: 0,
-                                Max: 10
-                            }
-                        },
-                        Score: 8,
-                        Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    },
-                    {
-                        Id: 3,
-                        ScoreCriterion: {
-                            Id: 1,
-                            CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                            ScoreRange: {
-                                Min: 0,
-                                Max: 10
-                            }
-                        },
-                        Score: 8,
-                        Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    },
-                    {
-                        Id: 4,
-                        ScoreCriterion: {
-                            Id: 1,
-                            CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                            ScoreRange: {
-                                Min: 0,
-                                Max: 10
-                            }
-                        },
-                        Score: 8,
-                        Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    },
-                    {
-                        Id: 5,
-                        ScoreCriterion: {
-                            Id: 1,
-                            CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                            ScoreRange: {
-                                Min: 0,
-                                Max: 10
-                            }
-                        },
-                        Score: 8,
-                        Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    }
-                ],
-                AverageScore: 8,
-                TotalScore: 24
-            }];
+        this.scoreCards = [];
     }
 }
 
 const scoreCardStore = new ScoreCardStore;
 
-scoreCardStore.getAll = function(){
+scoreCardStore.setScoreCards = function(_scoreCards){
+    scoreCardStore.scoreCards = _scoreCards;
+    scoreCardStore.emit("change");
+};
+
+scoreCardStore.pushScoreCard = function(_scoreCard){
+    StoreUtils.pushItem(_scoreCard, scoreCardStore.scoreCards);
+    scoreCardStore.emit("change");
+};
+
+scoreCardStore.getContestantScoreCards = function(){
     return this.scoreCards;
+};
+
+scoreCardStore.loadContestantScoreCards = function(showId){
+    ScoreCardApi.getContestantScoreCards(showId, scoreCardStore.setScoreCards);
+};
+
+scoreCardStore.load = function(scoreCardId){
+    ScoreCardApi.get(scoreCardId, scoreCardStore.pushScoreCard);
 };
 
 scoreCardStore.get = function(id){
     return StoreUtils.get(id, scoreCardStore.scoreCards);
 };
+
+scoreCardStore.handleAction = function(action){
+    switch(action.type){
+        case "LOAD_CONTESTANT_SCORE_CARDS":
+            scoreCardStore.loadContestantScoreCards(action.contestantId);
+            break;
+        case "LOAD_SCORE_CARD":
+            scoreCardStore.load(action.scoreCardId);
+            break;
+    }
+};
+
+Dispatcher.register(scoreCardStore.handleAction.bind(scoreCardStore));
 
 export default scoreCardStore;

@@ -36148,7 +36148,7 @@ function getToken() {
     )
 ), document.getElementById('app'));
 
-},{"./modules/ControlCenter/show/contest/contest":285,"./modules/ControlCenter/show/contest/contestant/contestant":286,"./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard":289,"./modules/ControlCenter/show/show":297,"./modules/ControlCenter/shows":298,"./modules/about":299,"./modules/judges":300,"./modules/login":301,"react":257,"react-dom":21,"react-router":198}],259:[function(require,module,exports){
+},{"./modules/ControlCenter/show/contest/contest":287,"./modules/ControlCenter/show/contest/contestant/contestant":288,"./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard":291,"./modules/ControlCenter/show/show":299,"./modules/ControlCenter/shows":300,"./modules/about":301,"./modules/judges":302,"./modules/login":303,"react":257,"react-dom":21,"react-router":198}],259:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36655,7 +36655,7 @@ function loadContest(contestId) {
     _dispatcher2.default.dispatch({ type: "LOAD_CONTEST", contestId: contestId });
 };
 
-},{"../dispatcher":277}],267:[function(require,module,exports){
+},{"../dispatcher":279}],267:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36678,7 +36678,7 @@ function loadContestant(contestantId) {
     _dispatcher2.default.dispatch({ type: "LOAD_CONTESTANT", contestantId: contestantId });
 };
 
-},{"../dispatcher":277}],268:[function(require,module,exports){
+},{"../dispatcher":279}],268:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36696,7 +36696,7 @@ function authenticate(credentials) {
     _dispatcher2.default.dispatch({ type: "AUTHENTICATE_CURRENT_USER", data: credentials });
 };
 
-},{"../dispatcher":277}],269:[function(require,module,exports){
+},{"../dispatcher":279}],269:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36724,7 +36724,30 @@ function loadContestJudges(contestId) {
     _dispatcher2.default.dispatch({ type: "LOAD_CONTEST_JUDGES", contestId: contestId });
 };
 
-},{"../dispatcher":277}],270:[function(require,module,exports){
+},{"../dispatcher":279}],270:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.loadContestantScoreCards = loadContestantScoreCards;
+exports.loadScoreCard = loadScoreCard;
+
+var _dispatcher = require("../dispatcher");
+
+var _dispatcher2 = _interopRequireDefault(_dispatcher);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function loadContestantScoreCards(contestantId) {
+    _dispatcher2.default.dispatch({ type: "LOAD_CONTESTANT_SCORE_CARDS", contestantId: contestantId });
+};
+
+function loadScoreCard(scoreCardId) {
+    _dispatcher2.default.dispatch({ type: "LOAD_SCORE_CARD", scoreCardId: scoreCardId });
+};
+
+},{"../dispatcher":279}],271:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36747,7 +36770,7 @@ function loadShow(showId) {
     _dispatcher2.default.dispatch({ type: "LOAD_SHOW", showId: showId });
 };
 
-},{"../dispatcher":277}],271:[function(require,module,exports){
+},{"../dispatcher":279}],272:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36797,11 +36820,11 @@ var get = function get(id, callback) {
     });
 };
 
-var add = function add(show) {};
+var add = function add(contest) {};
 
-var update = function update(show) {};
+var update = function update(contest) {};
 
-var remove = function remove(show) {};
+var remove = function remove(contest) {};
 
 exports.getShowContests = getShowContests;
 exports.getAll = getAll;
@@ -36810,7 +36833,7 @@ exports.add = add;
 exports.update = update;
 exports.remove = remove;
 
-},{"./utils/httpUtil.js":276}],272:[function(require,module,exports){
+},{"./utils/httpUtil.js":278}],273:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36860,11 +36883,11 @@ var get = function get(id, callback) {
     });
 };
 
-var add = function add(show) {};
+var add = function add(contestant) {};
 
-var update = function update(show) {};
+var update = function update(contestant) {};
 
-var remove = function remove(show) {};
+var remove = function remove(contestant) {};
 
 exports.getContestContestants = getContestContestants;
 exports.getAll = getAll;
@@ -36873,7 +36896,7 @@ exports.add = add;
 exports.update = update;
 exports.remove = remove;
 
-},{"./utils/httpUtil.js":276}],273:[function(require,module,exports){
+},{"./utils/httpUtil.js":278}],274:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36923,7 +36946,7 @@ var get = function get(id, callback) {
     });
 };
 
-var add = function add(show, callback) {
+var add = function add(judge, callback) {
     ApiHttpUtil.post({
         url: "api/Judges",
         success: function success(result) {
@@ -36932,12 +36955,12 @@ var add = function add(show, callback) {
         error: function error(request, status, err) {
             //TODO handle error
         }
-    }, JSON.stringify(show));
+    }, JSON.stringify(judge));
 };
 
-var update = function update(show) {};
+var update = function update(judge) {};
 
-var remove = function remove(show) {};
+var remove = function remove(judge) {};
 
 exports.getContestJudges = getContestJudges;
 exports.getAll = getAll;
@@ -36946,7 +36969,70 @@ exports.add = add;
 exports.update = update;
 exports.remove = remove;
 
-},{"./utils/httpUtil.js":276}],274:[function(require,module,exports){
+},{"./utils/httpUtil.js":278}],275:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.remove = exports.update = exports.add = exports.get = exports.getAll = exports.getContestantScoreCards = undefined;
+
+var _httpUtil = require("./utils/httpUtil.js");
+
+var ApiHttpUtil = _interopRequireWildcard(_httpUtil);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var getContestantScoreCards = function getContestantScoreCards(contestantId, callback) {
+    ApiHttpUtil.get({
+        url: "api/ScoreCards/Contestant/" + contestantId,
+        success: function success(result) {
+            callback(result);
+        },
+        error: function error(request, status, err) {
+            //TODO handle error
+        }
+    });
+};
+
+var getAll = function getAll(callback) {
+    ApiHttpUtil.get({
+        url: "api/ScoreCards",
+        success: function success(result) {
+            callback(result);
+        },
+        error: function error(request, status, err) {
+            //TODO handle error
+        }
+    });
+};
+
+var get = function get(id, callback) {
+    ApiHttpUtil.get({
+        url: "api/ScoreCards/" + id,
+        success: function success(result) {
+            callback(result);
+        },
+        error: function error(request, status, err) {
+            //TODO handle error
+        }
+    });
+};
+
+var add = function add(scoreCard) {};
+
+var update = function update(scoreCard) {};
+
+var remove = function remove(scoreCard) {};
+
+exports.getContestantScoreCards = getContestantScoreCards;
+exports.getAll = getAll;
+exports.get = get;
+exports.add = add;
+exports.update = update;
+exports.remove = remove;
+
+},{"./utils/httpUtil.js":278}],276:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36996,7 +37082,7 @@ exports.add = add;
 exports.update = update;
 exports.remove = remove;
 
-},{"./utils/httpUtil.js":276}],275:[function(require,module,exports){
+},{"./utils/httpUtil.js":278}],277:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37031,7 +37117,7 @@ var getToken = function getToken(credentials, callback) {
 
 exports.getToken = getToken;
 
-},{"./utils/httpUtil.js":276}],276:[function(require,module,exports){
+},{"./utils/httpUtil.js":278}],278:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37095,7 +37181,7 @@ exports.post = post;
 exports.put = put;
 exports.remove = remove;
 
-},{"jquery":20}],277:[function(require,module,exports){
+},{"jquery":20}],279:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37108,7 +37194,7 @@ var dispatcher = new _flux.Dispatcher();
 
 exports.default = dispatcher;
 
-},{"flux":17}],278:[function(require,module,exports){
+},{"flux":17}],280:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37199,7 +37285,7 @@ _dispatcher2.default.register(contestStore.handleAction.bind(contestStore));
 
 exports.default = contestStore;
 
-},{"../api/contestApi":271,"../dispatcher":277,"./utils/storeUtils":284,"event-emitter":2}],279:[function(require,module,exports){
+},{"../api/contestApi":272,"../dispatcher":279,"./utils/storeUtils":286,"event-emitter":2}],281:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37290,7 +37376,7 @@ _dispatcher2.default.register(contestantStore.handleAction.bind(contestantStore)
 
 exports.default = contestantStore;
 
-},{"../api/contestantApi":272,"../dispatcher":277,"./utils/storeUtils":284,"event-emitter":2}],280:[function(require,module,exports){
+},{"../api/contestantApi":273,"../dispatcher":279,"./utils/storeUtils":286,"event-emitter":2}],282:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37367,7 +37453,7 @@ _dispatcher2.default.register(currentUserStore.handleAction.bind(currentUserStor
 
 exports.default = currentUserStore;
 
-},{"../api/tokenApi":275,"../dispatcher":277,"event-emitter":2}],281:[function(require,module,exports){
+},{"../api/tokenApi":277,"../dispatcher":279,"event-emitter":2}],283:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37468,7 +37554,7 @@ _dispatcher2.default.register(judgeStore.handleAction.bind(judgeStore));
 
 exports.default = judgeStore;
 
-},{"../api/judgeApi":273,"../dispatcher":277,"./utils/storeUtils":284,"event-emitter":2}],282:[function(require,module,exports){
+},{"../api/judgeApi":274,"../dispatcher":279,"./utils/storeUtils":286,"event-emitter":2}],284:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37478,6 +37564,14 @@ Object.defineProperty(exports, "__esModule", {
 var _eventEmitter = require('event-emitter');
 
 var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+
+var _dispatcher = require('../dispatcher');
+
+var _dispatcher2 = _interopRequireDefault(_dispatcher);
+
+var _scoreCardApi = require('../api/scoreCardApi');
+
+var ScoreCardApi = _interopRequireWildcard(_scoreCardApi);
 
 var _storeUtils = require('./utils/storeUtils');
 
@@ -37501,289 +37595,7 @@ var ScoreCardStore = function (_EventEmitter) {
 
         var _this = _possibleConstructorReturn(this, (ScoreCardStore.__proto__ || Object.getPrototypeOf(ScoreCardStore)).call(this));
 
-        _this.scoreCards = [{
-            Id: 1,
-            Contestant: {
-                Id: 1,
-                Performance: {
-                    Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                },
-                Performers: [{
-                    Name: {
-                        FirstName: "Jeff",
-                        LastName: "Smith"
-                    }
-                }, {
-                    Name: {
-                        FirstName: "Sammy",
-                        LastName: "Bob"
-                    }
-                }]
-            },
-            Judge: {
-                Id: 1,
-                Name: {
-                    FirstName: "Frank",
-                    LastName: "Smith"
-                },
-                Affiliation: {
-                    Id: 1,
-                    Name: "ABC",
-                    Parent: null
-                }
-            },
-            ScorableCriteria: [{
-                Id: 1,
-                ScoreCriterion: {
-                    Id: 1,
-                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                    ScoreRange: {
-                        Min: 0,
-                        Max: 10
-                    }
-                },
-                Score: 8,
-                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            }, {
-                Id: 2,
-                ScoreCriterion: {
-                    Id: 1,
-                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                    ScoreRange: {
-                        Min: 0,
-                        Max: 10
-                    }
-                },
-                Score: 8,
-                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            }, {
-                Id: 3,
-                ScoreCriterion: {
-                    Id: 1,
-                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                    ScoreRange: {
-                        Min: 0,
-                        Max: 10
-                    }
-                },
-                Score: 8,
-                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            }, {
-                Id: 4,
-                ScoreCriterion: {
-                    Id: 1,
-                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                    ScoreRange: {
-                        Min: 0,
-                        Max: 10
-                    }
-                },
-                Score: 8,
-                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            }, {
-                Id: 5,
-                ScoreCriterion: {
-                    Id: 1,
-                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                    ScoreRange: {
-                        Min: 0,
-                        Max: 10
-                    }
-                },
-                Score: 8,
-                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            }],
-            AverageScore: 8,
-            TotalScore: 24
-        }, {
-            Id: 2,
-            Contestant: {
-                Id: 1,
-                Performance: {
-                    Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                },
-                Performers: [{
-                    Name: {
-                        FirstName: "Jeff",
-                        LastName: "Smith"
-                    }
-                }, {
-                    Name: {
-                        FirstName: "Sammy",
-                        LastName: "Bob"
-                    }
-                }]
-            },
-            Judge: {
-                Id: 2,
-                Name: {
-                    FirstName: "Jane",
-                    LastName: "Smith"
-                },
-                Affiliation: {
-                    Id: 1,
-                    Name: "ABC",
-                    Parent: null
-                }
-            },
-            ScorableCriteria: [{
-                Id: 1,
-                ScoreCriterion: {
-                    Id: 1,
-                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                    ScoreRange: {
-                        Min: 0,
-                        Max: 10
-                    }
-                },
-                Score: 8,
-                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            }, {
-                Id: 2,
-                ScoreCriterion: {
-                    Id: 1,
-                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                    ScoreRange: {
-                        Min: 0,
-                        Max: 10
-                    }
-                },
-                Score: 8,
-                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            }, {
-                Id: 3,
-                ScoreCriterion: {
-                    Id: 1,
-                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                    ScoreRange: {
-                        Min: 0,
-                        Max: 10
-                    }
-                },
-                Score: 8,
-                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            }, {
-                Id: 4,
-                ScoreCriterion: {
-                    Id: 1,
-                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                    ScoreRange: {
-                        Min: 0,
-                        Max: 10
-                    }
-                },
-                Score: 8,
-                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            }, {
-                Id: 5,
-                ScoreCriterion: {
-                    Id: 1,
-                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                    ScoreRange: {
-                        Min: 0,
-                        Max: 10
-                    }
-                },
-                Score: 8,
-                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            }],
-            AverageScore: 8,
-            TotalScore: 24
-        }, {
-            Id: 3,
-            Contestant: {
-                Id: 1,
-                Performance: {
-                    Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                },
-                Performers: [{
-                    Name: {
-                        FirstName: "Jeff",
-                        LastName: "Smith"
-                    }
-                }, {
-                    Name: {
-                        FirstName: "Sammy",
-                        LastName: "Bob"
-                    }
-                }]
-            },
-            Judge: {
-                Id: 3,
-                Name: {
-                    FirstName: "Tom",
-                    LastName: "Bob"
-                },
-                Affiliation: {
-                    Id: 1,
-                    Name: "ABC",
-                    Parent: null
-                }
-            },
-            ScorableCriteria: [{
-                Id: 1,
-                ScoreCriterion: {
-                    Id: 1,
-                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                    ScoreRange: {
-                        Min: 0,
-                        Max: 10
-                    }
-                },
-                Score: 8,
-                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            }, {
-                Id: 2,
-                ScoreCriterion: {
-                    Id: 1,
-                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                    ScoreRange: {
-                        Min: 0,
-                        Max: 10
-                    }
-                },
-                Score: 8,
-                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            }, {
-                Id: 3,
-                ScoreCriterion: {
-                    Id: 1,
-                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                    ScoreRange: {
-                        Min: 0,
-                        Max: 10
-                    }
-                },
-                Score: 8,
-                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            }, {
-                Id: 4,
-                ScoreCriterion: {
-                    Id: 1,
-                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                    ScoreRange: {
-                        Min: 0,
-                        Max: 10
-                    }
-                },
-                Score: 8,
-                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            }, {
-                Id: 5,
-                ScoreCriterion: {
-                    Id: 1,
-                    CriterionDescription: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                    ScoreRange: {
-                        Min: 0,
-                        Max: 10
-                    }
-                },
-                Score: 8,
-                Comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            }],
-            AverageScore: 8,
-            TotalScore: 24
-        }];
+        _this.scoreCards = [];
         return _this;
     }
 
@@ -37792,17 +37604,48 @@ var ScoreCardStore = function (_EventEmitter) {
 
 var scoreCardStore = new ScoreCardStore();
 
-scoreCardStore.getAll = function () {
+scoreCardStore.setScoreCards = function (_scoreCards) {
+    scoreCardStore.scoreCards = _scoreCards;
+    scoreCardStore.emit("change");
+};
+
+scoreCardStore.pushScoreCard = function (_scoreCard) {
+    StoreUtils.pushItem(_scoreCard, scoreCardStore.scoreCards);
+    scoreCardStore.emit("change");
+};
+
+scoreCardStore.getContestantScoreCards = function () {
     return this.scoreCards;
+};
+
+scoreCardStore.loadContestantScoreCards = function (showId) {
+    ScoreCardApi.getContestantScoreCards(showId, scoreCardStore.setScoreCards);
+};
+
+scoreCardStore.load = function (scoreCardId) {
+    ScoreCardApi.get(scoreCardId, scoreCardStore.pushScoreCard);
 };
 
 scoreCardStore.get = function (id) {
     return StoreUtils.get(id, scoreCardStore.scoreCards);
 };
 
+scoreCardStore.handleAction = function (action) {
+    switch (action.type) {
+        case "LOAD_CONTESTANT_SCORE_CARDS":
+            scoreCardStore.loadContestantScoreCards(action.contestantId);
+            break;
+        case "LOAD_SCORE_CARD":
+            scoreCardStore.load(action.scoreCardId);
+            break;
+    }
+};
+
+_dispatcher2.default.register(scoreCardStore.handleAction.bind(scoreCardStore));
+
 exports.default = scoreCardStore;
 
-},{"./utils/storeUtils":284,"event-emitter":2}],283:[function(require,module,exports){
+},{"../api/scoreCardApi":275,"../dispatcher":279,"./utils/storeUtils":286,"event-emitter":2}],285:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37894,7 +37737,7 @@ _dispatcher2.default.register(showStore.handleAction.bind(showStore));
 
 exports.default = showStore;
 
-},{"../api/showApi":274,"../dispatcher":277,"./utils/storeUtils":284,"event-emitter":2}],284:[function(require,module,exports){
+},{"../api/showApi":276,"../dispatcher":279,"./utils/storeUtils":286,"event-emitter":2}],286:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -37932,7 +37775,7 @@ var pushItem = function pushItem(item, items) {
 exports.get = get;
 exports.pushItem = pushItem;
 
-},{}],285:[function(require,module,exports){
+},{}],287:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38047,7 +37890,7 @@ var ContestPage = function (_React$Component) {
 
 exports.default = ContestPage;
 
-},{"../../../../common/pageContent":264,"../../../../data/actions/contestActions":266,"../../../../data/stores/contestStore":278,"./contestants":293,"./judges":295,"react":257}],286:[function(require,module,exports){
+},{"../../../../common/pageContent":264,"../../../../data/actions/contestActions":266,"../../../../data/stores/contestStore":280,"./contestants":295,"./judges":297,"react":257}],288:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38159,7 +38002,7 @@ var ContestantPage = function (_React$Component) {
 
 exports.default = ContestantPage;
 
-},{"../../../../../common/pageContent":264,"../../../../../data/actions/contestantActions":267,"../../../../../data/stores/contestantStore":279,"./contestantUtil":287,"./scoreCards":291,"react":257}],287:[function(require,module,exports){
+},{"../../../../../common/pageContent":264,"../../../../../data/actions/contestantActions":267,"../../../../../data/stores/contestantStore":281,"./contestantUtil":289,"./scoreCards":293,"react":257}],289:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38186,7 +38029,7 @@ var getDescription = function getDescription(contestant) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],288:[function(require,module,exports){
+},{}],290:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38312,7 +38155,7 @@ var ScorableCriterion = function (_React$Component2) {
 
 exports.default = ScorableCriteria;
 
-},{"../../../../../../common/input":260,"../../../../../../common/panel":265,"../../../../../../data/stores/scoreCardStore":282,"react":257}],289:[function(require,module,exports){
+},{"../../../../../../common/input":260,"../../../../../../common/panel":265,"../../../../../../data/stores/scoreCardStore":284,"react":257}],291:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38386,7 +38229,7 @@ var ScoreCardPage = function (_React$Component) {
 
 exports.default = ScoreCardPage;
 
-},{"../../../../../../common/pageContent":264,"../../../../../../data/stores/scoreCardStore":282,"./scorableCriteria":288,"./scoreCardUtil":290,"react":257}],290:[function(require,module,exports){
+},{"../../../../../../common/pageContent":264,"../../../../../../data/stores/scoreCardStore":284,"./scorableCriteria":290,"./scoreCardUtil":292,"react":257}],292:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38462,7 +38305,7 @@ var getDescription = function getDescription(scoreCard) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{"react":257}],291:[function(require,module,exports){
+},{"react":257}],293:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38480,6 +38323,10 @@ var _listPanel = require('../../../../../common/listPanel');
 var _scoreCardStore = require('../../../../../data/stores/scoreCardStore');
 
 var _scoreCardStore2 = _interopRequireDefault(_scoreCardStore);
+
+var _scoreCardActions = require('../../../../../data/actions/scoreCardActions');
+
+var ScoreCardActions = _interopRequireWildcard(_scoreCardActions);
 
 var _scoreCardUtil = require('./scorecard/scoreCardUtil');
 
@@ -38503,11 +38350,34 @@ var ScoreCardsBox = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (ScoreCardsBox.__proto__ || Object.getPrototypeOf(ScoreCardsBox)).call(this, props));
 
-        _this.state = { scoreCards: _scoreCardStore2.default.getAll() };
+        _this.getState = _this.getState.bind(_this);
+        _this.storeChanged = _this.storeChanged.bind(_this);
+        _this.state = _this.getState();
         return _this;
     }
 
     _createClass(ScoreCardsBox, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            _scoreCardStore2.default.on("change", this.storeChanged);
+            ScoreCardActions.loadContestantScoreCards(this.props.contestantId);
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            _scoreCardStore2.default.off("change", this.storeChanged);
+        }
+    }, {
+        key: 'storeChanged',
+        value: function storeChanged() {
+            this.setState(this.getState());
+        }
+    }, {
+        key: 'getState',
+        value: function getState() {
+            return { scoreCards: _scoreCardStore2.default.getContestantScoreCards() };
+        }
+    }, {
         key: 'render',
         value: function render() {
             var showId = this.props.showId;
@@ -38531,9 +38401,9 @@ var ScoreCardsBox = function (_React$Component) {
 
 exports.default = ScoreCardsBox;
 
-},{"../../../../../common/listPanel":263,"../../../../../data/stores/scoreCardStore":282,"./scorecard/scoreCardUtil":292,"react":257}],292:[function(require,module,exports){
-arguments[4][290][0].apply(exports,arguments)
-},{"dup":290,"react":257}],293:[function(require,module,exports){
+},{"../../../../../common/listPanel":263,"../../../../../data/actions/scoreCardActions":270,"../../../../../data/stores/scoreCardStore":284,"./scorecard/scoreCardUtil":294,"react":257}],294:[function(require,module,exports){
+arguments[4][292][0].apply(exports,arguments)
+},{"dup":292,"react":257}],295:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38628,7 +38498,7 @@ var ContestantsBox = function (_React$Component) {
 
 exports.default = ContestantsBox;
 
-},{"../../../../common/listPanel":263,"../../../../data/actions/contestantActions":267,"../../../../data/stores/contestantStore":279,"./contestant/contestantUtil":287,"react":257}],294:[function(require,module,exports){
+},{"../../../../common/listPanel":263,"../../../../data/actions/contestantActions":267,"../../../../data/stores/contestantStore":281,"./contestant/contestantUtil":289,"react":257}],296:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38645,7 +38515,7 @@ var getDescription = function getDescription(judge) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],295:[function(require,module,exports){
+},{}],297:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38740,7 +38610,7 @@ var JudgesBox = function (_React$Component) {
 
 exports.default = JudgesBox;
 
-},{"../../../../common/listPanel":263,"../../../../data/actions/judgeActions":269,"../../../../data/stores/judgeStore":281,"./judge/judgeUtil":294,"react":257}],296:[function(require,module,exports){
+},{"../../../../common/listPanel":263,"../../../../data/actions/judgeActions":269,"../../../../data/stores/judgeStore":283,"./judge/judgeUtil":296,"react":257}],298:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38829,7 +38699,7 @@ var ContestsBox = function (_React$Component) {
 
 exports.default = ContestsBox;
 
-},{"../../../common/listPanel":263,"../../../data/actions/contestActions":266,"../../../data/stores/contestStore":278,"react":257}],297:[function(require,module,exports){
+},{"../../../common/listPanel":263,"../../../data/actions/contestActions":266,"../../../data/stores/contestStore":280,"react":257}],299:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38937,7 +38807,7 @@ var ShowPage = function (_React$Component) {
 
 exports.default = ShowPage;
 
-},{"../../../common/pageContent":264,"../../../data/actions/showActions":270,"../../../data/stores/showStore":283,"./contests":296,"react":257}],298:[function(require,module,exports){
+},{"../../../common/pageContent":264,"../../../data/actions/showActions":271,"../../../data/stores/showStore":285,"./contests":298,"react":257}],300:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39052,7 +38922,7 @@ var ShowsBox = function (_React$Component2) {
 
 exports.default = ShowsPage;
 
-},{"../../common/listPanel":263,"../../common/pageContent":264,"../../data/actions/showActions":270,"../../data/stores/showStore":283,"react":257}],299:[function(require,module,exports){
+},{"../../common/listPanel":263,"../../common/pageContent":264,"../../data/actions/showActions":271,"../../data/stores/showStore":285,"react":257}],301:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39076,7 +38946,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"react":257}],300:[function(require,module,exports){
+},{"react":257}],302:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39280,7 +39150,7 @@ var JudgesPage = function (_React$Component2) {
 
 exports.default = JudgesPage;
 
-},{"../common/formGroup":259,"../common/input":260,"../data/actions/judgeActions":269,"../data/stores/judgeStore":281,"jquery":20,"react":257}],301:[function(require,module,exports){
+},{"../common/formGroup":259,"../common/input":260,"../data/actions/judgeActions":269,"../data/stores/judgeStore":283,"jquery":20,"react":257}],303:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39462,4 +39332,4 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"../common/formGroup":259,"../common/input":260,"../data/actions/currentUserActions":268,"../data/stores/currentUserStore":280,"jquery":20,"react":257,"react-router":198}]},{},[258]);
+},{"../common/formGroup":259,"../common/input":260,"../data/actions/currentUserActions":268,"../data/stores/currentUserStore":282,"jquery":20,"react":257,"react-router":198}]},{},[258]);

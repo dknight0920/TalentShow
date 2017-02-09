@@ -36,7 +36,7 @@ var get = function (id, callback) {
     });
 };
 
-var add = function (show, callback) {
+var add = function (judge, callback) {
     ApiHttpUtil.post({
         url: "api/Judges",
         success: function(result){
@@ -45,14 +45,14 @@ var add = function (show, callback) {
         error: function(request, status, err){
             //TODO handle error
         }	
-    }, JSON.stringify(show));
+    }, JSON.stringify(judge));
 };
 
-var update = function (show) {
+var update = function (judge) {
     
 };
 
-var remove = function (show) {
+var remove = function (judge) {
     
 };
 
