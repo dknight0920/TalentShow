@@ -102,10 +102,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="package.json" />
+    <Content Include="src\common\button.js" />
     <Content Include="src\common\listGroup.js" />
     <Content Include="src\common\listPanel.js" />
     <Content Include="src\common\pageContent.js" />
     <Content Include="src\common\panel.js" />
+    <Content Include="src\common\roleAwareComponent.js" />
     <Content Include="src\data\actions\contestActions.js" />
     <Content Include="src\data\actions\contestantActions.js" />
     <Content Include="src\data\actions\currentUserActions.js" />

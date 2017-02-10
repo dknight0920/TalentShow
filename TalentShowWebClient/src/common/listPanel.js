@@ -10,7 +10,7 @@ class ListPanel extends React.Component {
 
     render() {
         return (
-            <Panel title={this.props.title}>
+            <Panel title={this.props.title} button={this.props.button}>
                 <ListGroup>
                     {this.props.items}
                 </ListGroup>

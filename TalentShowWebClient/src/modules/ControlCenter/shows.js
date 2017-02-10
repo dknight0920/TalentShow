@@ -2,6 +2,7 @@
 import ShowStore from '../../data/stores/showStore';
 import * as ShowActions from '../../data/actions/showActions';
 import { ListPanel, ListPanelItem } from '../../common/listPanel';
+import Button from '../../common/button';
 import PageContent from '../../common/pageContent';
 
 class ShowsPage extends React.Component {
@@ -24,6 +25,7 @@ class ShowsBox extends React.Component {
         super(props);
         this.getState = this.getState.bind(this);
         this.storeChanged = this.storeChanged.bind(this);
+        this.handleAddShowClick = this.handleAddShowClick.bind(this);
         this.state = this.getState();
     }
 
@@ -44,6 +46,10 @@ class ShowsBox extends React.Component {
         return { shows: ShowStore.getAll() };
     }
 
+    handleAddShowClick(e){
+        alert("Add new show");
+    }
+
     render() {
         var shows = this.state.shows.map(function (show) {
             return (
@@ -53,9 +59,11 @@ class ShowsBox extends React.Component {
                     description={show.Description} 
                     pathname={ '/show/' + show.Id  } />
             );
-    });
+        });
 
-    return ( <ListPanel title="Talent Shows" items={shows} /> );
+        var addShowButton = ( <Button type="primary" authorizedRoles={["admin"]} name="addShow" value="Add" onClick={this.handleAddShowClick} /> );
+            
+        return ( <ListPanel title="Talent Shows" items={shows} button={addShowButton} /> );
     }
 }
 

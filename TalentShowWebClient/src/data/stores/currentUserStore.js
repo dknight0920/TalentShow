@@ -15,6 +15,10 @@ currentUserStore.isAuthenticated = function(){
     return  this.authenticated;
 }
 
+currentUserStore.getUserRole = function(){
+    return "admin";
+}
+
 currentUserStore.authenticate = function(credentials){
     var loginData = {
         grant_type: 'password',
