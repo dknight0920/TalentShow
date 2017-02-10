@@ -38,6 +38,10 @@ scoreCardStore.get = function(id){
     return StoreUtils.get(id, scoreCardStore.scoreCards);
 };
 
+scoreCardStore.update = function(scoreCard){
+    ScoreCardApi.update(scoreCard, scoreCardStore.pushScoreCard);
+};
+
 scoreCardStore.handleAction = function(action){
     switch(action.type){
         case "LOAD_CONTESTANT_SCORE_CARDS":
@@ -45,6 +49,9 @@ scoreCardStore.handleAction = function(action){
             break;
         case "LOAD_SCORE_CARD":
             scoreCardStore.load(action.scoreCardId);
+            break;
+        case "UPDATE_SCORE_CARD":
+            scoreCardStore.update(action.scoreCard);
             break;
     }
 };

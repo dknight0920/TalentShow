@@ -28,7 +28,7 @@ namespace TalentShow
             if (String.IsNullOrWhiteSpace(criterionDescription))
                 throw new ApplicationException("A score criterion cannot be constructed without a criterion description.");
 
-            Id = Id;
+            Id = id;
             CriterionDescription = criterionDescription;
             ScoreRange = scoreRange;
         }

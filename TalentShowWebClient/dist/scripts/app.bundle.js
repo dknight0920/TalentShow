@@ -36732,6 +36732,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.loadContestantScoreCards = loadContestantScoreCards;
 exports.loadScoreCard = loadScoreCard;
+exports.updateScoreCard = updateScoreCard;
 
 var _dispatcher = require("../dispatcher");
 
@@ -36745,6 +36746,10 @@ function loadContestantScoreCards(contestantId) {
 
 function loadScoreCard(scoreCardId) {
     _dispatcher2.default.dispatch({ type: "LOAD_SCORE_CARD", scoreCardId: scoreCardId });
+};
+
+function updateScoreCard(scoreCard) {
+    _dispatcher2.default.dispatch({ type: "UPDATE_SCORE_CARD", scoreCard: scoreCard });
 };
 
 },{"../dispatcher":279}],271:[function(require,module,exports){
@@ -37021,7 +37026,17 @@ var get = function get(id, callback) {
 
 var add = function add(scoreCard) {};
 
-var update = function update(scoreCard) {};
+var update = function update(scoreCard, callback) {
+    ApiHttpUtil.put({
+        url: "api/ScoreCards/",
+        success: function success(result) {
+            callback(scoreCard);
+        },
+        error: function error(request, status, err) {
+            //TODO handle error
+        }
+    }, JSON.stringify(scoreCard));
+};
 
 var remove = function remove(scoreCard) {};
 
@@ -37630,6 +37645,10 @@ scoreCardStore.get = function (id) {
     return StoreUtils.get(id, scoreCardStore.scoreCards);
 };
 
+scoreCardStore.update = function (scoreCard) {
+    ScoreCardApi.update(scoreCard, scoreCardStore.pushScoreCard);
+};
+
 scoreCardStore.handleAction = function (action) {
     switch (action.type) {
         case "LOAD_CONTESTANT_SCORE_CARDS":
@@ -37637,6 +37656,9 @@ scoreCardStore.handleAction = function (action) {
             break;
         case "LOAD_SCORE_CARD":
             scoreCardStore.load(action.scoreCardId);
+            break;
+        case "UPDATE_SCORE_CARD":
+            scoreCardStore.update(action.scoreCard);
             break;
     }
 };
@@ -38071,6 +38093,7 @@ var ScorableCriteria = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (ScorableCriteria.__proto__ || Object.getPrototypeOf(ScorableCriteria)).call(this, props));
 
         _this.getScorableCriteria = _this.getScorableCriteria.bind(_this);
+        _this.handleChange = _this.handleChange.bind(_this);
         _this.state = { scorableCriteria: _this.getScorableCriteria() };
         return _this;
     }
@@ -38081,11 +38104,17 @@ var ScorableCriteria = function (_React$Component) {
             return _scoreCardStore2.default.get(this.props.scoreCardId).ScorableCriteria;
         }
     }, {
+        key: 'handleChange',
+        value: function handleChange() {
+            this.props.onChange();
+        }
+    }, {
         key: 'render',
         value: function render() {
             var key = 0;
+            var changeHandler = this.handleChange;
             var scorableCriteria = this.state.scorableCriteria.map(function (scorableCriterion) {
-                return _react2.default.createElement(ScorableCriterion, { key: key++, scorableCriterion: scorableCriterion });
+                return _react2.default.createElement(ScorableCriterion, { key: key++, scorableCriterion: scorableCriterion, onChange: changeHandler });
             });
 
             return _react2.default.createElement(
@@ -38109,6 +38138,8 @@ var ScorableCriterion = function (_React$Component2) {
 
         _this2.handleCommentChange = _this2.handleCommentChange.bind(_this2);
         _this2.handleScoreChange = _this2.handleScoreChange.bind(_this2);
+        _this2.handleStateChange = _this2.handleStateChange.bind(_this2);
+        _this2.changeState = _this2.changeState.bind(_this2);
         _this2.state = { scorableCriterion: _this2.props.scorableCriterion };
         return _this2;
     }
@@ -38118,14 +38149,25 @@ var ScorableCriterion = function (_React$Component2) {
         value: function handleCommentChange(e) {
             var scorableCriterion = this.state.scorableCriterion;
             scorableCriterion.Comment = e.target.value;
-            this.setState(scorableCriterion);
+            this.changeState(scorableCriterion);
         }
     }, {
         key: 'handleScoreChange',
         value: function handleScoreChange(e) {
             var scorableCriterion = this.state.scorableCriterion;
             scorableCriterion.Score = e.target.value;
+            this.changeState(scorableCriterion);
+        }
+    }, {
+        key: 'changeState',
+        value: function changeState(scorableCriterion) {
             this.setState(scorableCriterion);
+            this.handleStateChange();
+        }
+    }, {
+        key: 'handleStateChange',
+        value: function handleStateChange() {
+            this.props.onChange();
         }
     }, {
         key: 'render',
@@ -38172,6 +38214,10 @@ var _scoreCardStore = require('../../../../../../data/stores/scoreCardStore');
 
 var _scoreCardStore2 = _interopRequireDefault(_scoreCardStore);
 
+var _scoreCardActions = require('../../../../../../data/actions/scoreCardActions');
+
+var ScoreCardActions = _interopRequireWildcard(_scoreCardActions);
+
 var _scoreCardUtil = require('./scoreCardUtil');
 
 var ScoreCardUtil = _interopRequireWildcard(_scoreCardUtil);
@@ -38202,24 +38248,64 @@ var ScoreCardPage = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (ScoreCardPage.__proto__ || Object.getPrototypeOf(ScoreCardPage)).call(this, props));
 
+        _this.getState = _this.getState.bind(_this);
+        _this.storeChanged = _this.storeChanged.bind(_this);
         _this.getScoreCard = _this.getScoreCard.bind(_this);
-        _this.state = { scoreCard: _this.getScoreCard() };
+        _this.getScoreCardId = _this.getScoreCardId.bind(_this);
+        _this.handleScorableCriteriaChange = _this.handleScorableCriteriaChange.bind(_this);
+        _this.state = _this.getState();
         return _this;
     }
 
     _createClass(ScoreCardPage, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            _scoreCardStore2.default.on("change", this.storeChanged);
+            ScoreCardActions.loadScoreCard(this.getScoreCardId());
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            _scoreCardStore2.default.off("change", this.storeChanged);
+        }
+    }, {
+        key: 'storeChanged',
+        value: function storeChanged() {
+            this.setState(this.getState());
+        }
+    }, {
+        key: 'getState',
+        value: function getState() {
+            return { scoreCard: this.getScoreCard() };
+        }
+    }, {
         key: 'getScoreCard',
         value: function getScoreCard() {
-            return _scoreCardStore2.default.get(this.props.params.scoreCardId);
+            return _scoreCardStore2.default.get(this.getScoreCardId());
+        }
+    }, {
+        key: 'getScoreCardId',
+        value: function getScoreCardId() {
+            return this.props.params.scoreCardId;
+        }
+    }, {
+        key: 'handleScorableCriteriaChange',
+        value: function handleScorableCriteriaChange() {
+            ScoreCardActions.updateScoreCard(this.state.scoreCard);
         }
     }, {
         key: 'render',
         value: function render() {
             var scoreCard = this.state.scoreCard;
+
+            if (!scoreCard) {
+                return _react2.default.createElement(_pageContent2.default, { title: 'Loading', description: 'The score card\'s details are loading, please wait.' });
+            }
+
             return _react2.default.createElement(
                 _pageContent2.default,
                 { title: ScoreCardUtil.getName(scoreCard), description: '' },
-                _react2.default.createElement(_scorableCriteria2.default, { scoreCardId: scoreCard.Id })
+                _react2.default.createElement(_scorableCriteria2.default, { scoreCardId: scoreCard.Id, onChange: this.handleScorableCriteriaChange })
             );
         }
     }]);
@@ -38229,7 +38315,7 @@ var ScoreCardPage = function (_React$Component) {
 
 exports.default = ScoreCardPage;
 
-},{"../../../../../../common/pageContent":264,"../../../../../../data/stores/scoreCardStore":284,"./scorableCriteria":290,"./scoreCardUtil":292,"react":257}],292:[function(require,module,exports){
+},{"../../../../../../common/pageContent":264,"../../../../../../data/actions/scoreCardActions":270,"../../../../../../data/stores/scoreCardStore":284,"./scorableCriteria":290,"./scoreCardUtil":292,"react":257}],292:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

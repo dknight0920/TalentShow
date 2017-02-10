@@ -40,8 +40,16 @@ var add = function (scoreCard) {
     
 };
 
-var update = function (scoreCard) {
-    
+var update = function (scoreCard, callback) {
+    ApiHttpUtil.put({
+        url:  "api/ScoreCards/",
+        success: function(result){
+            callback(scoreCard);
+        },
+        error: function(request, status, err){
+            //TODO handle error
+        }
+    }, JSON.stringify(scoreCard));
 };
 
 var remove = function (scoreCard) {

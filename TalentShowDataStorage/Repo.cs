@@ -27,7 +27,9 @@ namespace TalentShowDataStorage
             var whereClauseParameterNamesAndValues = new Dictionary<string, object>();
             whereClauseParameterNamesAndValues.Add(ID, id);
 
-            SqlServerCommandHelper.GetUpdateCommand(GetTableName(), fieldNamesAndValues, whereClause, whereClauseParameterNamesAndValues);
+            SqlCommand command = SqlServerCommandHelper.GetUpdateCommand(GetTableName(), fieldNamesAndValues, whereClause, whereClauseParameterNamesAndValues);
+            SqlServerCommandHelper.ExecuteSqlCommand(command);
+
         }
 
         protected abstract Dictionary<string, object> GetFieldNamesAndValuesForInsertOrUpdate(T item);

@@ -34,6 +34,20 @@ namespace TalentShowDataStorage
                 repo.Add(new ScoreCardScorableCriterion(scoreCard.Id, scorableCriterion.Id));
         }
 
+        public override void Update(ScoreCard scoreCard)
+        {
+            base.Update(scoreCard);
+            UpdateScoreCardScorableCriteria(scoreCard);
+        }
+
+        private void UpdateScoreCardScorableCriteria(ScoreCard scoreCard)
+        {
+            ScorableCriterionRepo repo = new ScorableCriterionRepo();
+
+            foreach (ScorableCriterion scorableCriterion in scoreCard.ScorableCriteria)
+                repo.Update(scorableCriterion);
+        }
+
         protected override Dictionary<string, object> GetFieldNamesAndValuesForInsertOrUpdate(ScoreCard scoreCard)
         {
             var fieldNamesAndValues = new Dictionary<string, object>();

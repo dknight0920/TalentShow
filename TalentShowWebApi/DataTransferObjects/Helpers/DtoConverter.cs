@@ -90,12 +90,15 @@ namespace TalentShowWebApi.DataTransferObjects.Helpers
 
         public static ScorableCriterion ConvertFromDto(this ScorableCriterionDto scorableCriterionDto)
         {
-            return new ScorableCriterion(scorableCriterionDto.Id, ConvertFromDto(scorableCriterionDto.ScoreCriterion));
+            var scorableCriterion = new ScorableCriterion(scorableCriterionDto.Id, ConvertFromDto(scorableCriterionDto.ScoreCriterion));
+            scorableCriterion.SetScoreAndComment(scorableCriterionDto.Score, scorableCriterionDto.Comment);
+            return scorableCriterion;
         }
 
         public static ScoreCriterion ConvertFromDto(this ScoreCriterionDto scoreCriterionDto)
         {
-            return new ScoreCriterion(scoreCriterionDto.Id, scoreCriterionDto.CriterionDescription, ConvertFromDto(scoreCriterionDto.ScoreRange));
+            var scoreCriterion = new ScoreCriterion(scoreCriterionDto.Id, scoreCriterionDto.CriterionDescription, ConvertFromDto(scoreCriterionDto.ScoreRange));      
+            return scoreCriterion;
         }
 
         public static ScoreRange ConvertFromDto(this ScoreRangeDto scoreRangeDto)
