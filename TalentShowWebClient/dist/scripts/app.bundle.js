@@ -36208,16 +36208,12 @@ var Button = function (_RoleAwareComponent) {
                 return null;
             }
 
-            return _react2.default.createElement(
-                _formGroup2.default,
-                null,
-                _react2.default.createElement('input', {
-                    className: "btn btn-sm btn-" + (this.props.type || "default"),
-                    name: this.props.name,
-                    type: 'button',
-                    value: this.props.value,
-                    onClick: this.props.onClick })
-            );
+            return _react2.default.createElement('input', {
+                className: "btn btn-sm btn-" + (this.props.type || "default"),
+                name: this.props.name,
+                type: 'button',
+                value: this.props.value,
+                onClick: this.props.onClick });
         }
     }]);
 
@@ -38035,7 +38031,7 @@ var AddShowPage = function (_React$Component) {
         value: function render() {
             return _react2.default.createElement(
                 _pageContent2.default,
-                { title: 'Create a New Show', description: 'Use the form below to create a new show.' },
+                { title: 'Create a Show', description: 'Use the form below to create a new show.' },
                 _react2.default.createElement(_showEditor2.default, { OnClickSave: this.handleClickSave, OnClickCancel: this.handleClickCancel })
             );
         }
@@ -39264,8 +39260,9 @@ var ShowEditor = function (_React$Component) {
                 _react2.default.createElement(
                     _formGroup2.default,
                     null,
-                    _react2.default.createElement(_button2.default, { type: 'default', authorizedRoles: ["admin"], name: 'cancel', value: 'Cancel', onClick: this.handleClickCancel }),
-                    _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: ["admin"], name: 'save', value: 'Save', onClick: this.handleClickSave })
+                    _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: ["admin"], name: 'save', value: 'Save', onClick: this.handleClickSave }),
+                    "  ",
+                    _react2.default.createElement(_button2.default, { type: 'default', authorizedRoles: ["admin"], name: 'cancel', value: 'Cancel', onClick: this.handleClickCancel })
                 )
             );
         }

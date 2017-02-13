@@ -21,14 +21,12 @@ class Button extends RoleAwareComponent {
         }
 
         return (
-            <FormGroup>
                 <input 
                     className={"btn btn-sm btn-" + (this.props.type || "default")}
                     name={this.props.name} 
                     type="button" 
                     value={this.props.value} 
                     onClick={this.props.onClick} />
-            </FormGroup>
         );
     }
 }

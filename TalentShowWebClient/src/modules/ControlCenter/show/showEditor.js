@@ -54,24 +54,25 @@ class ShowEditor extends React.Component {
     render() {
         return (
             <div>
-                    <Input 
-                        name="name" 
-                        type="text"
-                        label="Show Name"
-                        value={this.state.show.name}
-                        onChange={this.handleNameChange} />
+                <Input 
+                    name="name" 
+                    type="text"
+                    label="Show Name"
+                    value={this.state.show.name}
+                    onChange={this.handleNameChange} />
 
-                    <Input 
-                        name="description" 
-                        type="text"
-                        label="Description"
-                        value={this.state.show.description}
-                        onChange={this.handleDescriptionChange} />
+                <Input 
+                    name="description" 
+                    type="text"
+                    label="Description"
+                    value={this.state.show.description}
+                    onChange={this.handleDescriptionChange} />
 
-                    <FormGroup>
-                        <Button type="default" authorizedRoles={["admin"]} name="cancel" value="Cancel" onClick={this.handleClickCancel} />
-                        <Button type="primary" authorizedRoles={["admin"]} name="save" value="Save" onClick={this.handleClickSave} />
-                    </FormGroup>
+                <FormGroup>
+                    <Button type="primary" authorizedRoles={["admin"]} name="save" value="Save" onClick={this.handleClickSave} />
+                    {"  "}
+                    <Button type="default" authorizedRoles={["admin"]} name="cancel" value="Cancel" onClick={this.handleClickCancel} />
+                </FormGroup>
             </div>
         );
     }

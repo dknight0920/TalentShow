@@ -27,7 +27,7 @@ class AddShowPage extends React.Component {
 
     render() {
         return (
-            <PageContent title="Create a New Show" description="Use the form below to create a new show.">
+            <PageContent title="Create a Show" description="Use the form below to create a new show.">
                 <ShowEditor OnClickSave={this.handleClickSave} OnClickCancel={this.handleClickCancel}/>
             </PageContent>
         );
