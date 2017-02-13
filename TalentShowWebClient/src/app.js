@@ -6,6 +6,7 @@ import login from './modules/login';
 import judges from './modules/judges';
 import shows from './modules/ControlCenter/shows';
 import show from './modules/ControlCenter/show/show';
+import addShow from './modules/ControlCenter/show/addShow';
 import contest from './modules/ControlCenter/show/contest/contest';
 import contestant from './modules/ControlCenter/show/contest/contestant/contestant';
 import scoreCard from './modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard';
@@ -50,6 +51,7 @@ render((
             <IndexRoute component={login} />
             <Route onEnter={requireAuth} component={Menu}>
                 <Route path="/shows" component={shows} />
+                <Route path="/shows/add" component={addShow} />
                 <Route path="/show/:showId" component={show} />
                 <Route path="/show/:showId/contest/:contestId" component={contest} />
                 <Route path="/show/:showId/contest/:contestId/contestant/:contestantId" component={contestant} />

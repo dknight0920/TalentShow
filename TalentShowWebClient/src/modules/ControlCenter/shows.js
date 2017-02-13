@@ -1,4 +1,5 @@
 ﻿import React from 'react';
+import { hashHistory } from 'react-router';
 import ShowStore from '../../data/stores/showStore';
 import * as ShowActions from '../../data/actions/showActions';
 import { ListPanel, ListPanelItem } from '../../common/listPanel';
@@ -47,7 +48,8 @@ class ShowsBox extends React.Component {
     }
 
     handleAddShowClick(e){
-        alert("Add new show");
+        e.preventDefault();
+        hashHistory.push('/shows/add');
     }
 
     render() {

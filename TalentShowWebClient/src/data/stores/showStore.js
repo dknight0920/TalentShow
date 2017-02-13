@@ -34,6 +34,10 @@ showStore.load = function(showId){
     ShowApi.get(showId, showStore.pushShow);
 };
 
+showStore.add = function(newShow){
+    ShowApi.add(newShow, showStore.pushShow);
+};
+
 showStore.get = function(id){
     return StoreUtils.get(id, showStore.shows);
 };
@@ -45,6 +49,9 @@ showStore.handleAction = function(action){
             break;
         case "LOAD_SHOW":
             showStore.load(action.showId);
+            break;
+        case "ADD_SHOW":
+            showStore.add(action.newShow);
             break;
 
     }

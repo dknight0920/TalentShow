@@ -130,6 +130,7 @@
     <Content Include="src\data\stores\currentUserStore.js" />
     <Content Include="src\data\stores\utils\storeUtils.js" />
     <Content Include="src\modules\about.js" />
+    <Content Include="src\modules\ControlCenter\show\addShow.js" />
     <Content Include="src\modules\ControlCenter\show\contests.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contest.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestants.js" />
@@ -142,6 +143,7 @@
     <Content Include="src\modules\ControlCenter\show\contest\judges.js" />
     <Content Include="src\modules\ControlCenter\show\contest\judge\judgeUtil.js" />
     <Content Include="src\modules\ControlCenter\show\show.js" />
+    <Content Include="src\modules\ControlCenter\show\showEditor.js" />
     <Content Include="tsconfig.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

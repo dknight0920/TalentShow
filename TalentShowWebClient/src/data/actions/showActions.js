@@ -7,3 +7,7 @@ export function loadAllShows(){
 export function loadShow(showId){
     Dispatcher.dispatch({type: "LOAD_SHOW", showId: showId});
 };
+
+export function addShow(newShow){
+    Dispatcher.dispatch({type: "ADD_SHOW", newShow: newShow});
+};
