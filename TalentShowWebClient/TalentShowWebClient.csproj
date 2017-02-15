@@ -143,6 +143,7 @@
     <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCard\scoreCardUtil.js" />
     <Content Include="src\modules\ControlCenter\show\contest\judges.js" />
     <Content Include="src\modules\ControlCenter\show\contest\judge\judgeUtil.js" />
+    <Content Include="src\modules\ControlCenter\show\editShow.js" />
     <Content Include="src\modules\ControlCenter\show\show.js" />
     <Content Include="src\modules\ControlCenter\show\showEditor.js" />
     <Content Include="tsconfig.json" />

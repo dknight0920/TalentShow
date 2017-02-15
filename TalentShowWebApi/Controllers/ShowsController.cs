@@ -44,9 +44,11 @@ namespace TalentShowWebApi.Controllers
         }
 
         // PUT api/Shows/5
-        public void Put([FromBody]ShowDto show)
+        public ShowDto Put([FromBody]ShowDto show)
         {
-            ShowService.Update(show.ConvertFromDto());
+            var updatedShow = show.ConvertFromDto();
+            ShowService.Update(updatedShow);
+            return updatedShow.ConvertToDto();
         }
 
         // DELETE api/Shows/5

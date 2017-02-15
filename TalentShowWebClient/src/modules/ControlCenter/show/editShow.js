@@ -1,23 +1,28 @@
 ﻿import React from 'react';
 import { hashHistory } from 'react-router';
-import ContestsBox from './contests';
+import ShowEditor from './showEditor';
 import ShowStore from '../../../data/stores/showStore';
 import * as ShowActions from '../../../data/actions/showActions';
 import PageContent from '../../../common/pageContent';
-import Button from '../../../common/button';
+import RoleAwareComponent from '../../../common/roleAwareComponent';
 
-class ShowPage extends React.Component {
+
+class EditShowPage extends RoleAwareComponent {
     constructor(props) {
         super(props);
         this.getState = this.getState.bind(this);
         this.storeChanged = this.storeChanged.bind(this);
         this.getShow = this.getShow.bind(this);
         this.getShowId = this.getShowId.bind(this);
-        this.handleEditShowClick = this.handleEditShowClick.bind(this);
+        this.handleClickSave = this.handleClickSave.bind(this);
+        this.handleClickCancel = this.handleClickCancel.bind(this);
+        this.navigateToShowPage = this.navigateToShowPage.bind(this);
+        this.authorizedRoles = ["admin"];
         this.state = this.getState();
     }
 
     componentWillMount(){
+        this.redirectUnauthorizedUser();
         ShowStore.on("change", this.storeChanged);
         ShowActions.loadShow(this.getShowId());
     }
@@ -30,6 +35,19 @@ class ShowPage extends React.Component {
         this.setState(this.getState());
     }
 
+    handleClickSave(show) {
+        ShowActions.updateShow(show);
+        this.navigateToShowPage();
+    }
+
+    handleClickCancel() {
+        this.navigateToShowPage();
+    }
+
+    navigateToShowPage() {
+        hashHistory.push('/show/' + this.getShowId());
+    }
+    
     getState(){
         return { show: this.getShow() };
     }
@@ -42,28 +60,13 @@ class ShowPage extends React.Component {
         return this.props.params.showId;
     }
 
-    handleEditShowClick(e){
-        e.preventDefault();
-        hashHistory.push('/show/' + this.getShowId() + '/edit');
-    }
-
     render() {
-        var show = this.state.show;
-
-        if (!show){
-            return (
-                <PageContent title="Loading" description="The show's details are loading, please wait."></PageContent>
-            );
-        }
-
-        var editShowButton = ( <Button type="primary" authorizedRoles={["admin"]} name="editShow" value="Edit" onClick={this.handleEditShowClick} /> );
-
         return (
-            <PageContent title={show.Name} description={show.Description} button={editShowButton}>
-                <ContestsBox showId={show.Id} />
+            <PageContent title="Edit a Show" description="Use the form below to edit the show.">
+                <ShowEditor show={this.state.show} authorizedRoles={this.authorizedRoles} OnClickSave={this.handleClickSave} OnClickCancel={this.handleClickCancel}/>
             </PageContent>
         );
-            }
+    }
 }
 
-export default ShowPage;
+export default EditShowPage;

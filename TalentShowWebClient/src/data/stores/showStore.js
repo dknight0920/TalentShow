@@ -38,6 +38,10 @@ showStore.add = function(newShow){
     ShowApi.add(newShow, showStore.pushShow);
 };
 
+showStore.update = function(show){
+    ShowApi.update(show, showStore.pushShow);
+};
+
 showStore.get = function(id){
     return StoreUtils.get(id, showStore.shows);
 };
@@ -52,6 +56,9 @@ showStore.handleAction = function(action){
             break;
         case "ADD_SHOW":
             showStore.add(action.newShow);
+            break;
+        case "UPDATE_SHOW":
+            showStore.update(action.show);
             break;
 
     }

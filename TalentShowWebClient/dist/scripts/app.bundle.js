@@ -36047,6 +36047,10 @@ var _addShow = require('./modules/ControlCenter/show/addShow');
 
 var _addShow2 = _interopRequireDefault(_addShow);
 
+var _editShow = require('./modules/ControlCenter/show/editShow');
+
+var _editShow2 = _interopRequireDefault(_editShow);
+
 var _contest = require('./modules/ControlCenter/show/contest/contest');
 
 var _contest2 = _interopRequireDefault(_contest);
@@ -36149,6 +36153,7 @@ function getToken() {
             _react2.default.createElement(_reactRouter.Route, { path: '/shows', component: _shows2.default }),
             _react2.default.createElement(_reactRouter.Route, { path: '/shows/add', component: _addShow2.default }),
             _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId', component: _show2.default }),
+            _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/edit', component: _editShow2.default }),
             _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId', component: _contest2.default }),
             _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/contestant/:contestantId', component: _contestant2.default }),
             _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/contestant/:contestantId/scorecard/:scoreCardId', component: _scoreCard2.default }),
@@ -36158,7 +36163,7 @@ function getToken() {
     )
 ), document.getElementById('app'));
 
-},{"./common/unauthorizedUserPageContent":268,"./modules/ControlCenter/show/addShow":290,"./modules/ControlCenter/show/contest/contest":291,"./modules/ControlCenter/show/contest/contestant/contestant":292,"./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard":295,"./modules/ControlCenter/show/show":303,"./modules/ControlCenter/shows":305,"./modules/about":306,"./modules/judges":307,"./modules/login":308,"react":257,"react-dom":21,"react-router":198}],259:[function(require,module,exports){
+},{"./common/unauthorizedUserPageContent":268,"./modules/ControlCenter/show/addShow":290,"./modules/ControlCenter/show/contest/contest":291,"./modules/ControlCenter/show/contest/contestant/contestant":292,"./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard":295,"./modules/ControlCenter/show/editShow":303,"./modules/ControlCenter/show/show":304,"./modules/ControlCenter/shows":306,"./modules/about":307,"./modules/judges":308,"./modules/login":309,"react":257,"react-dom":21,"react-router":198}],259:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36628,6 +36633,9 @@ var PageContent = function (_React$Component) {
     _createClass(PageContent, [{
         key: 'render',
         value: function render() {
+
+            var button = this.props.button || null;
+
             return _react2.default.createElement(
                 'div',
                 null,
@@ -36641,6 +36649,7 @@ var PageContent = function (_React$Component) {
                     null,
                     this.props.description
                 ),
+                button,
                 _react2.default.createElement('hr', null),
                 this.props.children
             );
@@ -36957,6 +36966,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.loadAllShows = loadAllShows;
 exports.loadShow = loadShow;
 exports.addShow = addShow;
+exports.updateShow = updateShow;
 
 var _dispatcher = require("../dispatcher");
 
@@ -36974,6 +36984,10 @@ function loadShow(showId) {
 
 function addShow(newShow) {
     _dispatcher2.default.dispatch({ type: "ADD_SHOW", newShow: newShow });
+};
+
+function updateShow(show) {
+    _dispatcher2.default.dispatch({ type: "UPDATE_SHOW", show: show });
 };
 
 },{"../dispatcher":282}],275:[function(require,module,exports){
@@ -37298,7 +37312,17 @@ var add = function add(show, callback) {
     }, JSON.stringify(show));
 };
 
-var update = function update(show) {};
+var update = function update(show, callback) {
+    ApiHttpUtil.put({
+        url: "api/Shows/",
+        success: function success(result) {
+            callback(result);
+        },
+        error: function error(request, status, err) {
+            //TODO handle error
+        }
+    }, JSON.stringify(show));
+};
 
 var remove = function remove(show) {};
 
@@ -37653,7 +37677,7 @@ currentUserStore.isAuthenticated = function () {
 };
 
 currentUserStore.getUserRole = function () {
-    return "judge";
+    return "admin";
 };
 
 currentUserStore.authenticate = function (credentials) {
@@ -37958,6 +37982,10 @@ showStore.add = function (newShow) {
     ShowApi.add(newShow, showStore.pushShow);
 };
 
+showStore.update = function (show) {
+    ShowApi.update(show, showStore.pushShow);
+};
+
 showStore.get = function (id) {
     return StoreUtils.get(id, showStore.shows);
 };
@@ -37972,6 +38000,9 @@ showStore.handleAction = function (action) {
             break;
         case "ADD_SHOW":
             showStore.add(action.newShow);
+            break;
+        case "UPDATE_SHOW":
+            showStore.update(action.show);
             break;
 
     }
@@ -38112,7 +38143,7 @@ var AddShowPage = function (_RoleAwareComponent) {
 
 exports.default = AddShowPage;
 
-},{"../../../common/pageContent":265,"../../../common/roleAwareComponent":267,"../../../data/actions/showActions":274,"./showEditor":304,"react":257,"react-router":198}],291:[function(require,module,exports){
+},{"../../../common/pageContent":265,"../../../common/roleAwareComponent":267,"../../../data/actions/showActions":274,"./showEditor":305,"react":257,"react-router":198}],291:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39113,6 +39144,137 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouter = require('react-router');
+
+var _showEditor = require('./showEditor');
+
+var _showEditor2 = _interopRequireDefault(_showEditor);
+
+var _showStore = require('../../../data/stores/showStore');
+
+var _showStore2 = _interopRequireDefault(_showStore);
+
+var _showActions = require('../../../data/actions/showActions');
+
+var ShowActions = _interopRequireWildcard(_showActions);
+
+var _pageContent = require('../../../common/pageContent');
+
+var _pageContent2 = _interopRequireDefault(_pageContent);
+
+var _roleAwareComponent = require('../../../common/roleAwareComponent');
+
+var _roleAwareComponent2 = _interopRequireDefault(_roleAwareComponent);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var EditShowPage = function (_RoleAwareComponent) {
+    _inherits(EditShowPage, _RoleAwareComponent);
+
+    function EditShowPage(props) {
+        _classCallCheck(this, EditShowPage);
+
+        var _this = _possibleConstructorReturn(this, (EditShowPage.__proto__ || Object.getPrototypeOf(EditShowPage)).call(this, props));
+
+        _this.getState = _this.getState.bind(_this);
+        _this.storeChanged = _this.storeChanged.bind(_this);
+        _this.getShow = _this.getShow.bind(_this);
+        _this.getShowId = _this.getShowId.bind(_this);
+        _this.handleClickSave = _this.handleClickSave.bind(_this);
+        _this.handleClickCancel = _this.handleClickCancel.bind(_this);
+        _this.navigateToShowPage = _this.navigateToShowPage.bind(_this);
+        _this.authorizedRoles = ["admin"];
+        _this.state = _this.getState();
+        return _this;
+    }
+
+    _createClass(EditShowPage, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            this.redirectUnauthorizedUser();
+            _showStore2.default.on("change", this.storeChanged);
+            ShowActions.loadShow(this.getShowId());
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            _showStore2.default.off("change", this.storeChanged);
+        }
+    }, {
+        key: 'storeChanged',
+        value: function storeChanged() {
+            this.setState(this.getState());
+        }
+    }, {
+        key: 'handleClickSave',
+        value: function handleClickSave(show) {
+            ShowActions.updateShow(show);
+            this.navigateToShowPage();
+        }
+    }, {
+        key: 'handleClickCancel',
+        value: function handleClickCancel() {
+            this.navigateToShowPage();
+        }
+    }, {
+        key: 'navigateToShowPage',
+        value: function navigateToShowPage() {
+            _reactRouter.hashHistory.push('/show/' + this.getShowId());
+        }
+    }, {
+        key: 'getState',
+        value: function getState() {
+            return { show: this.getShow() };
+        }
+    }, {
+        key: 'getShow',
+        value: function getShow() {
+            return _showStore2.default.get(this.getShowId());
+        }
+    }, {
+        key: 'getShowId',
+        value: function getShowId() {
+            return this.props.params.showId;
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                _pageContent2.default,
+                { title: 'Edit a Show', description: 'Use the form below to edit the show.' },
+                _react2.default.createElement(_showEditor2.default, { show: this.state.show, authorizedRoles: this.authorizedRoles, OnClickSave: this.handleClickSave, OnClickCancel: this.handleClickCancel })
+            );
+        }
+    }]);
+
+    return EditShowPage;
+}(_roleAwareComponent2.default);
+
+exports.default = EditShowPage;
+
+},{"../../../common/pageContent":265,"../../../common/roleAwareComponent":267,"../../../data/actions/showActions":274,"../../../data/stores/showStore":288,"./showEditor":305,"react":257,"react-router":198}],304:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require('react-router');
+
 var _contests = require('./contests');
 
 var _contests2 = _interopRequireDefault(_contests);
@@ -39128,6 +39290,10 @@ var ShowActions = _interopRequireWildcard(_showActions);
 var _pageContent = require('../../../common/pageContent');
 
 var _pageContent2 = _interopRequireDefault(_pageContent);
+
+var _button = require('../../../common/button');
+
+var _button2 = _interopRequireDefault(_button);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -39151,6 +39317,7 @@ var ShowPage = function (_React$Component) {
         _this.storeChanged = _this.storeChanged.bind(_this);
         _this.getShow = _this.getShow.bind(_this);
         _this.getShowId = _this.getShowId.bind(_this);
+        _this.handleEditShowClick = _this.handleEditShowClick.bind(_this);
         _this.state = _this.getState();
         return _this;
     }
@@ -39187,6 +39354,12 @@ var ShowPage = function (_React$Component) {
             return this.props.params.showId;
         }
     }, {
+        key: 'handleEditShowClick',
+        value: function handleEditShowClick(e) {
+            e.preventDefault();
+            _reactRouter.hashHistory.push('/show/' + this.getShowId() + '/edit');
+        }
+    }, {
         key: 'render',
         value: function render() {
             var show = this.state.show;
@@ -39195,9 +39368,11 @@ var ShowPage = function (_React$Component) {
                 return _react2.default.createElement(_pageContent2.default, { title: 'Loading', description: 'The show\'s details are loading, please wait.' });
             }
 
+            var editShowButton = _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: ["admin"], name: 'editShow', value: 'Edit', onClick: this.handleEditShowClick });
+
             return _react2.default.createElement(
                 _pageContent2.default,
-                { title: show.Name, description: show.Description },
+                { title: show.Name, description: show.Description, button: editShowButton },
                 _react2.default.createElement(_contests2.default, { showId: show.Id })
             );
         }
@@ -39208,7 +39383,7 @@ var ShowPage = function (_React$Component) {
 
 exports.default = ShowPage;
 
-},{"../../../common/pageContent":265,"../../../data/actions/showActions":274,"../../../data/stores/showStore":288,"./contests":302,"react":257}],304:[function(require,module,exports){
+},{"../../../common/button":259,"../../../common/pageContent":265,"../../../data/actions/showActions":274,"../../../data/stores/showStore":288,"./contests":302,"react":257,"react-router":198}],305:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39287,14 +39462,14 @@ var ShowEditor = function (_RoleAwareComponent) {
         key: 'handleNameChange',
         value: function handleNameChange(e) {
             var show = this.state.show;
-            show.name = e.target.value;
+            show.Name = e.target.value;
             this.setState(show);
         }
     }, {
         key: 'handleDescriptionChange',
         value: function handleDescriptionChange(e) {
             var show = this.state.show;
-            show.description = e.target.value;
+            show.Description = e.target.value;
             this.setState(show);
         }
     }, {
@@ -39313,12 +39488,12 @@ var ShowEditor = function (_RoleAwareComponent) {
         key: 'getState',
         value: function getState() {
             if (this.props.show) {
-                return { show: show };
+                return { show: this.props.show };
             } else {
                 return { show: {
-                        id: 0,
-                        name: "",
-                        description: ""
+                        Id: 0,
+                        Name: "",
+                        Description: ""
                     } };
             }
         }
@@ -39332,13 +39507,13 @@ var ShowEditor = function (_RoleAwareComponent) {
                     name: 'name',
                     type: 'text',
                     label: 'Show Name',
-                    value: this.state.show.name,
+                    value: this.state.show.Name,
                     onChange: this.handleNameChange }),
                 _react2.default.createElement(_input2.default, {
                     name: 'description',
                     type: 'text',
                     label: 'Description',
-                    value: this.state.show.description,
+                    value: this.state.show.Description,
                     onChange: this.handleDescriptionChange }),
                 _react2.default.createElement(
                     _formGroup2.default,
@@ -39356,7 +39531,7 @@ var ShowEditor = function (_RoleAwareComponent) {
 
 exports.default = ShowEditor;
 
-},{"../../../common/button":259,"../../../common/formGroup":260,"../../../common/input":261,"../../../common/pageContent":265,"../../../common/roleAwareComponent":267,"../../../data/actions/showActions":274,"react":257,"react-router":198}],305:[function(require,module,exports){
+},{"../../../common/button":259,"../../../common/formGroup":260,"../../../common/input":261,"../../../common/pageContent":265,"../../../common/roleAwareComponent":267,"../../../data/actions/showActions":274,"react":257,"react-router":198}],306:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39486,7 +39661,7 @@ var ShowsBox = function (_React$Component2) {
 
 exports.default = ShowsPage;
 
-},{"../../common/button":259,"../../common/listPanel":264,"../../common/pageContent":265,"../../data/actions/showActions":274,"../../data/stores/showStore":288,"react":257,"react-router":198}],306:[function(require,module,exports){
+},{"../../common/button":259,"../../common/listPanel":264,"../../common/pageContent":265,"../../data/actions/showActions":274,"../../data/stores/showStore":288,"react":257,"react-router":198}],307:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39510,7 +39685,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"react":257}],307:[function(require,module,exports){
+},{"react":257}],308:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39714,7 +39889,7 @@ var JudgesPage = function (_React$Component2) {
 
 exports.default = JudgesPage;
 
-},{"../common/formGroup":260,"../common/input":261,"../data/actions/judgeActions":272,"../data/stores/judgeStore":286,"jquery":20,"react":257}],308:[function(require,module,exports){
+},{"../common/formGroup":260,"../common/input":261,"../data/actions/judgeActions":272,"../data/stores/judgeStore":286,"jquery":20,"react":257}],309:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

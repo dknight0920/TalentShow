@@ -11,3 +11,7 @@ export function loadShow(showId){
 export function addShow(newShow){
     Dispatcher.dispatch({type: "ADD_SHOW", newShow: newShow});
 };
+
+export function updateShow(show){
+    Dispatcher.dispatch({type: "UPDATE_SHOW", show: show});
+};

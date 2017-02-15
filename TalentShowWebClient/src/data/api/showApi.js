@@ -36,8 +36,16 @@ var add = function (show, callback) {
     }, JSON.stringify(show));
 };
 
-var update = function (show) {
-    
+var update = function (show, callback) {
+    ApiHttpUtil.put({
+        url:  "api/Shows/",
+        success: function(result){
+            callback(result);
+        },
+        error: function(request, status, err){
+            //TODO handle error
+        }
+    }, JSON.stringify(show));
 };
 
 var remove = function (show) {

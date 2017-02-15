@@ -28,13 +28,13 @@ class ShowEditor extends RoleAwareComponent {
 
     handleNameChange(e) {
         var show = this.state.show;
-        show.name = e.target.value;
+        show.Name = e.target.value;
         this.setState(show);
     }
 
     handleDescriptionChange(e) {
         var show = this.state.show;
-        show.description = e.target.value;
+        show.Description = e.target.value;
         this.setState(show);
     }
 
@@ -50,12 +50,12 @@ class ShowEditor extends RoleAwareComponent {
 
     getState() {
         if(this.props.show){
-            return { show: show };
+            return { show: this.props.show };
         } else {
             return { show: {
-                id: 0,
-                name: "",
-                description: ""
+                Id: 0,
+                Name: "",
+                Description: ""
             } };
         }
     }
@@ -67,14 +67,14 @@ class ShowEditor extends RoleAwareComponent {
                     name="name" 
                     type="text"
                     label="Show Name"
-                    value={this.state.show.name}
+                    value={this.state.show.Name}
                     onChange={this.handleNameChange} />
 
                 <Input 
                     name="description" 
                     type="text"
                     label="Description"
-                    value={this.state.show.description}
+                    value={this.state.show.Description}
                     onChange={this.handleDescriptionChange} />
 
                 <FormGroup>
