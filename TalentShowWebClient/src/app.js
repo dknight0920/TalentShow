@@ -4,6 +4,7 @@ import { Router, Route, hashHistory, IndexRoute, Link  } from 'react-router';
 import about from './modules/about';
 import login from './modules/login';
 import judges from './modules/judges';
+import unauthorized from './common/unauthorizedUserPageContent';
 import shows from './modules/ControlCenter/shows';
 import show from './modules/ControlCenter/show/show';
 import addShow from './modules/ControlCenter/show/addShow';
@@ -50,6 +51,7 @@ render((
         <Route path="/">
             <IndexRoute component={login} />
             <Route onEnter={requireAuth} component={Menu}>
+                <Route path="/unauthorized" component={unauthorized} />
                 <Route path="/shows" component={shows} />
                 <Route path="/shows/add" component={addShow} />
                 <Route path="/show/:showId" component={show} />

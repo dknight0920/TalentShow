@@ -5,8 +5,9 @@ import PageContent from '../../../common/pageContent';
 import FormGroup from '../../../common/formGroup'
 import Input from '../../../common/input';
 import Button from '../../../common/button';
+import RoleAwareComponent from '../../../common/roleAwareComponent';
 
-class ShowEditor extends React.Component {
+class ShowEditor extends RoleAwareComponent {
     constructor(props) {
         super(props);
         this.handleNameChange = this.handleNameChange.bind(this);
@@ -15,6 +16,14 @@ class ShowEditor extends React.Component {
         this.handleClickCancel = this.handleClickCancel.bind(this);
         this.getState = this.getState.bind(this);
         this.state =  this.getState();
+        this.authorizedRoles = [];
+    }
+
+    componentWillMount(){
+        if(this.props.authorizedRoles && this.props.authorizedRoles.length){
+            this.authorizedRoles = this.props.authorizedRoles;
+        }
+        this.redirectUnauthorizedUser();
     }
 
     handleNameChange(e) {
@@ -69,9 +78,9 @@ class ShowEditor extends React.Component {
                     onChange={this.handleDescriptionChange} />
 
                 <FormGroup>
-                    <Button type="primary" authorizedRoles={["admin"]} name="save" value="Save" onClick={this.handleClickSave} />
+                    <Button type="primary" authorizedRoles={this.authorizedRoles} name="save" value="Save" onClick={this.handleClickSave} />
                     {"  "}
-                    <Button type="default" authorizedRoles={["admin"]} name="cancel" value="Cancel" onClick={this.handleClickCancel} />
+                    <Button type="default" authorizedRoles={this.authorizedRoles} name="cancel" value="Cancel" onClick={this.handleClickCancel} />
                 </FormGroup>
             </div>
         );

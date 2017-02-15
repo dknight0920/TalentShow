@@ -1,10 +1,17 @@
 ﻿import React  from 'react';
+import { hashHistory } from 'react-router';
 import CurrentUserStore from '../data/stores/currentUserStore';
  
 class RoleAwareComponent extends React.Component {
     constructor(props) {
         super(props);
         this.authorizedRoles = [];
+    }
+
+    redirectUnauthorizedUser() {
+        if(!this.shouldBeVisible()) {
+            hashHistory.push('/unauthorized');
+        }
     }
  
     shouldBeVisible() {

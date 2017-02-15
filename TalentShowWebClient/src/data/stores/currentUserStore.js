@@ -16,7 +16,7 @@ currentUserStore.isAuthenticated = function(){
 }
 
 currentUserStore.getUserRole = function(){
-    return "admin";
+    return "judge";
 }
 
 currentUserStore.authenticate = function(credentials){
