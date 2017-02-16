@@ -44,7 +44,7 @@ var update = function (scoreCard, callback) {
     ApiHttpUtil.put({
         url:  "api/ScoreCards/",
         success: function(result){
-            callback(scoreCard);
+            callback(result);
         },
         error: function(request, status, err){
             //TODO handle error

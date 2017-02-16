@@ -1,4 +1,5 @@
 ﻿import React from 'react';
+import Clone from 'clone';
 import ScoreCardStore from '../../../../../../data/stores/scoreCardStore';
 import Panel from '../../../../../../common/panel';
 import Input from '../../../../../../common/input';
@@ -6,23 +7,23 @@ import Input from '../../../../../../common/input';
 class ScorableCriteria extends React.Component {
     constructor(props) {
         super(props);
-        this.getScorableCriteria = this.getScorableCriteria.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.state = { scorableCriteria: this.getScorableCriteria() };
+        this.getScoreCard = this.getScoreCard.bind(this);
+        this.handleChange = this.handleChange.bind(this);    
+        this.state = { scoreCard: this.getScoreCard() };
     }
 
-    getScorableCriteria() {
-        return ScoreCardStore.get(this.props.scoreCardId).ScorableCriteria;
+    getScoreCard() {
+        return Clone(ScoreCardStore.get(this.props.scoreCardId));
     }
     
     handleChange() {
-        this.props.onChange();
+        this.props.onChange(this.state.scoreCard);
     }
 
     render() {
         var key = 0;
         var changeHandler = this.handleChange;
-        var scorableCriteria = this.state.scorableCriteria.map(function (scorableCriterion) {
+        var scorableCriteria = this.state.scoreCard.ScorableCriteria.map(function (scorableCriterion) {
             return (<ScorableCriterion key={key++} scorableCriterion={scorableCriterion} onChange={changeHandler}/>);
             });
 

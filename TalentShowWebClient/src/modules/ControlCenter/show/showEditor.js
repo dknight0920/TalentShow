@@ -1,5 +1,6 @@
 ﻿import React from 'react';
 import { hashHistory } from 'react-router';
+import Clone from 'clone';
 import * as ShowActions from '../../../data/actions/showActions';
 import PageContent from '../../../common/pageContent';
 import FormGroup from '../../../common/formGroup'
@@ -50,13 +51,17 @@ class ShowEditor extends RoleAwareComponent {
 
     getState() {
         if(this.props.show){
-            return { show: this.props.show };
+            return { 
+                show: Clone(this.props.show)  
+            };
         } else {
-            return { show: {
-                Id: 0,
-                Name: "",
-                Description: ""
-            } };
+            return {
+                show: {
+                    Id: 0,
+                    Name: "",
+                    Description: ""
+                } 
+            };
         }
     }
 

@@ -5,6 +5,7 @@
   "main": "app.js",
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "clone": "^2.1.0",
     "event-emitter": "^0.3.4",
     "flux": "^3.1.2",
     "jquery": "^3.1.1",

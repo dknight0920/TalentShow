@@ -1,4 +1,6 @@
-﻿var get = function(id, items){
+﻿import Clone from 'clone';
+
+var get = function(id, items){
     var returnItem = null;
 
     for (var i = 0; i < items.length; i++){
@@ -12,19 +14,23 @@
     return returnItem;
 };
 
-var pushItem = function(item, items){
-     var replacedExisting = false;
-     for (var i = 0; i < items.length; i++){
-         var _item = items[i];
-         if(_item.Id === item.Id){
-             _item = item;
-             replacedExisting = true;
-             break;
-         }
-     }
-     if (!replacedExisting){
-         items.push(item);
-     }
+var pushItem = function(item, items, callback){
+    var clonedItems = Clone(items);
+
+    var replacedExisting = false;
+    for (var i = 0; i < clonedItems.length; i++){
+         if(clonedItems[i].Id == item.Id){
+            clonedItems[i] = item;
+            replacedExisting = true;
+            break;
+        }
+    }
+
+    if (!replacedExisting){
+        clonedItems.push(item);
+    }
+
+    callback(clonedItems);
 };
 
 export {get, pushItem};

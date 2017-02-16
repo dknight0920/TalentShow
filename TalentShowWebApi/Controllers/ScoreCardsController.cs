@@ -52,9 +52,11 @@ namespace TalentShowWebApi.Controllers
         }
 
         // PUT api/ScoreCards/5
-        public void Put([FromBody]ScoreCardDto scoreCard)
+        public ScoreCardDto Put([FromBody]ScoreCardDto scoreCard)
         {
-            ScoreCardService.Update(scoreCard.ConvertFromDto());
+            var updatedScoreCard = scoreCard.ConvertFromDto();
+            ScoreCardService.Update(updatedScoreCard);
+            return updatedScoreCard.ConvertToDto();
         }
 
         // DELETE api/ScoreCards/5

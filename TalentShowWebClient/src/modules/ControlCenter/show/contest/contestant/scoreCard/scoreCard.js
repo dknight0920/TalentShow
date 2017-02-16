@@ -41,8 +41,8 @@ class ScoreCardPage extends React.Component {
         return this.props.params.scoreCardId;
     }
 
-    handleScorableCriteriaChange() {
-        ScoreCardActions.updateScoreCard(this.state.scoreCard);  
+    handleScorableCriteriaChange(scoreCard) {
+        ScoreCardActions.updateScoreCard(scoreCard);  
     }
 
     render() {

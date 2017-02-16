@@ -36,6 +36,8 @@ class EditShowPage extends RoleAwareComponent {
     }
 
     handleClickSave(show) {
+        console.log("Show sent to actions:");
+        console.log(show);
         ShowActions.updateShow(show);
         this.navigateToShowPage();
     }
@@ -61,9 +63,17 @@ class EditShowPage extends RoleAwareComponent {
     }
 
     render() {
+        var show = this.state.show;
+
+        if (!show){
+            return (
+                <PageContent title="Loading" description="The show's details are loading, please wait."></PageContent>
+            );
+        }
+
         return (
             <PageContent title="Edit a Show" description="Use the form below to edit the show.">
-                <ShowEditor show={this.state.show} authorizedRoles={this.authorizedRoles} OnClickSave={this.handleClickSave} OnClickCancel={this.handleClickCancel}/>
+                <ShowEditor show={show} authorizedRoles={this.authorizedRoles} OnClickSave={this.handleClickSave} OnClickCancel={this.handleClickCancel}/>
             </PageContent>
         );
     }

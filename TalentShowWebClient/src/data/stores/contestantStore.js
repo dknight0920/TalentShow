@@ -18,8 +18,7 @@ contestantStore.setContestants = function(_contestants){
 };
 
 contestantStore.pushContestant = function(_contestant){
-    StoreUtils.pushItem(_contestant, contestantStore.contestants);
-    contestantStore.emit("change");
+    StoreUtils.pushItem(_contestant, contestantStore.contestants, contestantStore.setContestants);
 };
 
 contestantStore.getContestContestants = function(){

@@ -18,8 +18,7 @@ showStore.setShows = function(_shows){
 };
 
 showStore.pushShow = function(_show){
-    StoreUtils.pushItem(_show, showStore.shows);
-    showStore.emit("change");
+    StoreUtils.pushItem(_show, showStore.shows, showStore.setShows);
 };
 
 showStore.getAll = function(){

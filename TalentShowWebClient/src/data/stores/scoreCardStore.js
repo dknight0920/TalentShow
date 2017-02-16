@@ -18,8 +18,7 @@ scoreCardStore.setScoreCards = function(_scoreCards){
 };
 
 scoreCardStore.pushScoreCard = function(_scoreCard){
-    StoreUtils.pushItem(_scoreCard, scoreCardStore.scoreCards);
-    scoreCardStore.emit("change");
+    StoreUtils.pushItem(_scoreCard, scoreCardStore.scoreCards, scoreCardStore.setScoreCards);
 };
 
 scoreCardStore.getContestantScoreCards = function(){

@@ -14,7 +14,11 @@ class ShowPage extends React.Component {
         this.getShow = this.getShow.bind(this);
         this.getShowId = this.getShowId.bind(this);
         this.handleEditShowClick = this.handleEditShowClick.bind(this);
-        this.state = this.getState();
+        //this.state = this.getState();
+    }
+
+    shouldComponentUpdate(nextProps, nextState){
+        return true;
     }
 
     componentWillMount(){
@@ -28,6 +32,8 @@ class ShowPage extends React.Component {
 
     storeChanged(){
         this.setState(this.getState());
+        console.log("Show to render:");
+        console.log(this.state.show);
     }
 
     getState(){
@@ -48,13 +54,16 @@ class ShowPage extends React.Component {
     }
 
     render() {
-        var show = this.state.show;
-
-        if (!show){
+        if (!this.state || !this.state.show){
             return (
                 <PageContent title="Loading" description="The show's details are loading, please wait."></PageContent>
             );
         }
+
+        var show = this.state.show;
+
+        console.log("Show to render:");
+        console.log(show);
 
         var editShowButton = ( <Button type="primary" authorizedRoles={["admin"]} name="editShow" value="Edit" onClick={this.handleEditShowClick} /> );
 
@@ -63,7 +72,7 @@ class ShowPage extends React.Component {
                 <ContestsBox showId={show.Id} />
             </PageContent>
         );
-            }
+    }
 }
 
 export default ShowPage;

@@ -18,8 +18,7 @@ contestStore.setContests = function(_contests){
 };
 
 contestStore.pushContest = function(_contest){
-    StoreUtils.pushItem(_contest, contestStore.contests);
-    contestStore.emit("change");
+    StoreUtils.pushItem(_contest, contestStore.contests, contestStore.setContests);
 };
 
 contestStore.getShowContests = function(){
