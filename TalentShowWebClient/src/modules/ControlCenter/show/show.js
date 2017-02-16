@@ -14,7 +14,6 @@ class ShowPage extends React.Component {
         this.getShow = this.getShow.bind(this);
         this.getShowId = this.getShowId.bind(this);
         this.handleEditShowClick = this.handleEditShowClick.bind(this);
-        //this.state = this.getState();
     }
 
     shouldComponentUpdate(nextProps, nextState){

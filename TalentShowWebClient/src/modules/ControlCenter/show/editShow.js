@@ -36,8 +36,6 @@ class EditShowPage extends RoleAwareComponent {
     }
 
     handleClickSave(show) {
-        console.log("Show sent to actions:");
-        console.log(show);
         ShowActions.updateShow(show);
         this.navigateToShowPage();
     }
