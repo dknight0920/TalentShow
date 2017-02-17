@@ -1,5 +1,7 @@
 ﻿import React from 'react';
+import { hashHistory } from 'react-router';
 import { ListPanel, ListPanelItem } from '../../../common/listPanel';
+import Button from '../../../common/button';
 import ContestStore from '../../../data/stores/contestStore';
 import * as ContestActions from '../../../data/actions/contestActions';
 
@@ -9,6 +11,7 @@ class ContestsBox extends React.Component {
         super(props);
         this.getState = this.getState.bind(this);
         this.storeChanged = this.storeChanged.bind(this);
+        this.handleAddContestClick = this.handleAddContestClick.bind(this);
         this.state = this.getState();
     }
 
@@ -29,6 +32,11 @@ class ContestsBox extends React.Component {
         return { contests: ContestStore.getShowContests() };
     }
 
+    handleAddContestClick(e){
+        e.preventDefault();
+        hashHistory.push('show/' + this.props.showId + '/contests/add');
+    }
+
     render() {
         var showId = this.props.showId;
         var contests = this.state.contests.map(function (contest) {
@@ -41,7 +49,9 @@ class ContestsBox extends React.Component {
             );
         });
 
-        return ( <ListPanel title="Contests" items={contests} /> );
+        var addContestButton = ( <Button type="primary" authorizedRoles={["admin"]} name="addContest" value="Add" onClick={this.handleAddContestClick} /> );
+
+        return ( <ListPanel title="Contests" items={contests} button={addContestButton}/> );
     }
 }
 

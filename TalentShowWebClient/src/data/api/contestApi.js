@@ -36,12 +36,28 @@ var get = function (id, callback) {
     });
 };
 
-var add = function (contest) {
-    
+var add = function (contest, callback) {
+    ApiHttpUtil.post({
+        url:  "api/Contests/",
+        success: function(result){
+            callback(result);
+        },
+        error: function(request, status, err){
+            //TODO handle error
+        }
+    }, JSON.stringify(contest));
 };
 
-var update = function (contest) {
-    
+var update = function (contest, callback) {
+    ApiHttpUtil.put({
+        url:  "api/Contests/",
+        success: function(result){
+            callback(result);
+        },
+        error: function(request, status, err){
+            //TODO handle error
+        }
+    }, JSON.stringify(contest));
 };
 
 var remove = function (contest) {

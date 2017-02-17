@@ -33,6 +33,10 @@ contestStore.load = function(contestId){
     ContestApi.get(contestId, contestStore.pushContest);
 };
 
+contestStore.add = function(newContest){
+    ContestApi.add(newContest, contestStore.pushContest);
+};
+
 contestStore.get = function(id){
     return StoreUtils.get(id, contestStore.contests);
 };
@@ -44,6 +48,9 @@ contestStore.handleAction = function(action){
             break;
         case "LOAD_CONTEST":
             contestStore.load(action.contestId);
+            break;
+        case "ADD_CONTEST":
+            contestStore.add(action.newContest);
             break;
     }
 };

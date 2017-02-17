@@ -46,15 +46,19 @@ namespace TalentShowWebApi.Controllers
         }
 
         // POST api/Contests
-        public void Post([FromBody]ContestDto contest)
+        public ContestDto Post([FromBody]ContestDto contest)
         {
-            ContestService.Add(contest.ConvertFromDto());
+            var newContest = contest.ConvertFromDto();
+            ContestService.Add(newContest);
+            return newContest.ConvertToDto();
         }
 
         // PUT api/Contests/5
-        public void Put([FromBody]ContestDto contest)
+        public ContestDto Put([FromBody]ContestDto contest)
         {
-            ContestService.Update(contest.ConvertFromDto());
+            var updatedContest = contest.ConvertFromDto();
+            ContestService.Update(updatedContest);
+            return updatedContest.ConvertToDto();
         }
 
         // DELETE api/Contests/5

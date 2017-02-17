@@ -31,8 +31,6 @@ class ShowPage extends React.Component {
 
     storeChanged(){
         this.setState(this.getState());
-        console.log("Show to render:");
-        console.log(this.state.show);
     }
 
     getState(){
@@ -60,9 +58,6 @@ class ShowPage extends React.Component {
         }
 
         var show = this.state.show;
-
-        console.log("Show to render:");
-        console.log(show);
 
         var editShowButton = ( <Button type="primary" authorizedRoles={["admin"]} name="editShow" value="Edit" onClick={this.handleEditShowClick} /> );
 

@@ -10,6 +10,7 @@ import show from './modules/ControlCenter/show/show';
 import addShow from './modules/ControlCenter/show/addShow';
 import editShow from './modules/ControlCenter/show/editShow';
 import contest from './modules/ControlCenter/show/contest/contest';
+import addContest from './modules/ControlCenter/show/contest/addContest';
 import contestant from './modules/ControlCenter/show/contest/contestant/contestant';
 import scoreCard from './modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard';
 
@@ -57,6 +58,7 @@ render((
                 <Route path="/shows/add" component={addShow} />
                 <Route path="/show/:showId" component={show} />
                 <Route path="/show/:showId/edit" component={editShow} />
+                <Route path="/show/:showId/contests/add" component={addContest} />
                 <Route path="/show/:showId/contest/:contestId" component={contest} />
                 <Route path="/show/:showId/contest/:contestId/contestant/:contestantId" component={contestant} />
                 <Route path="/show/:showId/contest/:contestId/contestant/:contestantId/scorecard/:scoreCardId" component={scoreCard} />

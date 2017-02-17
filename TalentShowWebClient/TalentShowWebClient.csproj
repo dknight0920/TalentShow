@@ -133,6 +133,7 @@
     <Content Include="src\modules\about.js" />
     <Content Include="src\modules\ControlCenter\show\addShow.js" />
     <Content Include="src\modules\ControlCenter\show\contests.js" />
+    <Content Include="src\modules\ControlCenter\show\contest\addContest.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contest.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestants.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\contestant.js" />
@@ -141,6 +142,7 @@
     <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCard\scorableCriteria.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCard\scoreCard.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCard\scoreCardUtil.js" />
+    <Content Include="src\modules\ControlCenter\show\contest\contestEditor.js" />
     <Content Include="src\modules\ControlCenter\show\contest\judges.js" />
     <Content Include="src\modules\ControlCenter\show\contest\judge\judgeUtil.js" />
     <Content Include="src\modules\ControlCenter\show\editShow.js" />

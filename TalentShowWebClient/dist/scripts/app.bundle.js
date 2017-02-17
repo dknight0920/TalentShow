@@ -38318,6 +38318,10 @@ var _contest = require('./modules/ControlCenter/show/contest/contest');
 
 var _contest2 = _interopRequireDefault(_contest);
 
+var _addContest = require('./modules/ControlCenter/show/contest/addContest');
+
+var _addContest2 = _interopRequireDefault(_addContest);
+
 var _contestant = require('./modules/ControlCenter/show/contest/contestant/contestant');
 
 var _contestant2 = _interopRequireDefault(_contestant);
@@ -38417,6 +38421,7 @@ function getToken() {
             _react2.default.createElement(_reactRouter.Route, { path: '/shows/add', component: _addShow2.default }),
             _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId', component: _show2.default }),
             _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/edit', component: _editShow2.default }),
+            _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contests/add', component: _addContest2.default }),
             _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId', component: _contest2.default }),
             _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/contestant/:contestantId', component: _contestant2.default }),
             _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/contestant/:contestantId/scorecard/:scoreCardId', component: _scoreCard2.default }),
@@ -38426,7 +38431,7 @@ function getToken() {
     )
 ), document.getElementById('app'));
 
-},{"./common/unauthorizedUserPageContent":273,"./modules/ControlCenter/show/addShow":295,"./modules/ControlCenter/show/contest/contest":296,"./modules/ControlCenter/show/contest/contestant/contestant":297,"./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard":300,"./modules/ControlCenter/show/editShow":308,"./modules/ControlCenter/show/show":309,"./modules/ControlCenter/shows":311,"./modules/about":312,"./modules/judges":313,"./modules/login":314,"react":262,"react-dom":26,"react-router":203}],264:[function(require,module,exports){
+},{"./common/unauthorizedUserPageContent":273,"./modules/ControlCenter/show/addShow":295,"./modules/ControlCenter/show/contest/addContest":296,"./modules/ControlCenter/show/contest/contest":297,"./modules/ControlCenter/show/contest/contestant/contestant":299,"./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard":302,"./modules/ControlCenter/show/editShow":310,"./modules/ControlCenter/show/show":311,"./modules/ControlCenter/shows":313,"./modules/about":314,"./modules/judges":315,"./modules/login":316,"react":262,"react-dom":26,"react-router":203}],264:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39108,6 +39113,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.loadShowContests = loadShowContests;
 exports.loadContest = loadContest;
+exports.addContest = addContest;
 
 var _dispatcher = require("../dispatcher");
 
@@ -39121,6 +39127,10 @@ function loadShowContests(showId) {
 
 function loadContest(contestId) {
     _dispatcher2.default.dispatch({ type: "LOAD_CONTEST", contestId: contestId });
+};
+
+function addContest(newContest) {
+    _dispatcher2.default.dispatch({ type: "ADD_CONTEST", newContest: newContest });
 };
 
 },{"../dispatcher":287}],275:[function(require,module,exports){
@@ -39303,9 +39313,29 @@ var get = function get(id, callback) {
     });
 };
 
-var add = function add(contest) {};
+var add = function add(contest, callback) {
+    ApiHttpUtil.post({
+        url: "api/Contests/",
+        success: function success(result) {
+            callback(result);
+        },
+        error: function error(request, status, err) {
+            //TODO handle error
+        }
+    }, JSON.stringify(contest));
+};
 
-var update = function update(contest) {};
+var update = function update(contest, callback) {
+    ApiHttpUtil.put({
+        url: "api/Contests/",
+        success: function success(result) {
+            callback(result);
+        },
+        error: function error(request, status, err) {
+            //TODO handle error
+        }
+    }, JSON.stringify(contest));
+};
 
 var remove = function remove(contest) {};
 
@@ -39778,6 +39808,10 @@ contestStore.load = function (contestId) {
     ContestApi.get(contestId, contestStore.pushContest);
 };
 
+contestStore.add = function (newContest) {
+    ContestApi.add(newContest, contestStore.pushContest);
+};
+
 contestStore.get = function (id) {
     return StoreUtils.get(id, contestStore.contests);
 };
@@ -39789,6 +39823,9 @@ contestStore.handleAction = function (action) {
             break;
         case "LOAD_CONTEST":
             contestStore.load(action.contestId);
+            break;
+        case "ADD_CONTEST":
+            contestStore.add(action.newContest);
             break;
     }
 };
@@ -40414,7 +40451,100 @@ var AddShowPage = function (_RoleAwareComponent) {
 
 exports.default = AddShowPage;
 
-},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"./showEditor":310,"react":262,"react-router":203}],296:[function(require,module,exports){
+},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"./showEditor":312,"react":262,"react-router":203}],296:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require('react-router');
+
+var _contestEditor = require('./contestEditor');
+
+var _contestEditor2 = _interopRequireDefault(_contestEditor);
+
+var _contestActions = require('../../../../data/actions/contestActions');
+
+var ContestActions = _interopRequireWildcard(_contestActions);
+
+var _pageContent = require('../../../../common/pageContent');
+
+var _pageContent2 = _interopRequireDefault(_pageContent);
+
+var _roleAwareComponent = require('../../../../common/roleAwareComponent');
+
+var _roleAwareComponent2 = _interopRequireDefault(_roleAwareComponent);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var AddContestPage = function (_RoleAwareComponent) {
+    _inherits(AddContestPage, _RoleAwareComponent);
+
+    function AddContestPage(props) {
+        _classCallCheck(this, AddContestPage);
+
+        var _this = _possibleConstructorReturn(this, (AddContestPage.__proto__ || Object.getPrototypeOf(AddContestPage)).call(this, props));
+
+        _this.handleClickSave = _this.handleClickSave.bind(_this);
+        _this.handleClickCancel = _this.handleClickCancel.bind(_this);
+        _this.navigateToShowPage = _this.navigateToShowPage.bind(_this);
+        _this.authorizedRoles = ["admin"];
+        return _this;
+    }
+
+    _createClass(AddContestPage, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            this.redirectUnauthorizedUser();
+        }
+    }, {
+        key: 'handleClickSave',
+        value: function handleClickSave(newContest) {
+            ContestActions.addContest(newContest);
+            this.navigateToShowPage();
+        }
+    }, {
+        key: 'handleClickCancel',
+        value: function handleClickCancel() {
+            this.navigateToShowPage();
+        }
+    }, {
+        key: 'navigateToShowPage',
+        value: function navigateToShowPage() {
+            _reactRouter.hashHistory.push('/show/' + this.props.params.showId);
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                _pageContent2.default,
+                { title: 'Create a Contest', description: 'Use the form below to create a new contest.' },
+                _react2.default.createElement(_contestEditor2.default, { authorizedRoles: this.authorizedRoles, OnClickSave: this.handleClickSave, OnClickCancel: this.handleClickCancel })
+            );
+        }
+    }]);
+
+    return AddContestPage;
+}(_roleAwareComponent2.default);
+
+exports.default = AddContestPage;
+
+},{"../../../../common/pageContent":270,"../../../../common/roleAwareComponent":272,"../../../../data/actions/contestActions":274,"./contestEditor":298,"react":262,"react-router":203}],297:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40529,7 +40659,163 @@ var ContestPage = function (_React$Component) {
 
 exports.default = ContestPage;
 
-},{"../../../../common/pageContent":270,"../../../../data/actions/contestActions":274,"../../../../data/stores/contestStore":288,"./contestants":304,"./judges":306,"react":262}],297:[function(require,module,exports){
+},{"../../../../common/pageContent":270,"../../../../data/actions/contestActions":274,"../../../../data/stores/contestStore":288,"./contestants":306,"./judges":308,"react":262}],298:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require('react-router');
+
+var _clone = require('clone');
+
+var _clone2 = _interopRequireDefault(_clone);
+
+var _contestActions = require('../../../../data/actions/contestActions');
+
+var ContestActions = _interopRequireWildcard(_contestActions);
+
+var _pageContent = require('../../../../common/pageContent');
+
+var _pageContent2 = _interopRequireDefault(_pageContent);
+
+var _formGroup = require('../../../../common/formGroup');
+
+var _formGroup2 = _interopRequireDefault(_formGroup);
+
+var _input = require('../../../../common/input');
+
+var _input2 = _interopRequireDefault(_input);
+
+var _button = require('../../../../common/button');
+
+var _button2 = _interopRequireDefault(_button);
+
+var _roleAwareComponent = require('../../../../common/roleAwareComponent');
+
+var _roleAwareComponent2 = _interopRequireDefault(_roleAwareComponent);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ContestEditor = function (_RoleAwareComponent) {
+    _inherits(ContestEditor, _RoleAwareComponent);
+
+    function ContestEditor(props) {
+        _classCallCheck(this, ContestEditor);
+
+        var _this = _possibleConstructorReturn(this, (ContestEditor.__proto__ || Object.getPrototypeOf(ContestEditor)).call(this, props));
+
+        _this.handleNameChange = _this.handleNameChange.bind(_this);
+        _this.handleDescriptionChange = _this.handleDescriptionChange.bind(_this);
+        _this.handleClickSave = _this.handleClickSave.bind(_this);
+        _this.handleClickCancel = _this.handleClickCancel.bind(_this);
+        _this.getState = _this.getState.bind(_this);
+        _this.state = _this.getState();
+        _this.authorizedRoles = [];
+        return _this;
+    }
+
+    _createClass(ContestEditor, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            if (this.props.authorizedRoles && this.props.authorizedRoles.length) {
+                this.authorizedRoles = this.props.authorizedRoles;
+            }
+            this.redirectUnauthorizedUser();
+        }
+    }, {
+        key: 'handleNameChange',
+        value: function handleNameChange(e) {
+            var contest = this.state.contest;
+            contest.Name = e.target.value;
+            this.setState(contest);
+        }
+    }, {
+        key: 'handleDescriptionChange',
+        value: function handleDescriptionChange(e) {
+            var contest = this.state.contest;
+            contest.Description = e.target.value;
+            this.setState(contest);
+        }
+    }, {
+        key: 'handleClickSave',
+        value: function handleClickSave(e) {
+            e.preventDefault();
+            this.props.OnClickSave(this.state.contest);
+        }
+    }, {
+        key: 'handleClickCancel',
+        value: function handleClickCancel(e) {
+            e.preventDefault();
+            this.props.OnClickCancel();
+        }
+    }, {
+        key: 'getState',
+        value: function getState() {
+            if (this.props.contest) {
+                return {
+                    contest: (0, _clone2.default)(this.props.contest)
+                };
+            } else {
+                return {
+                    contest: {
+                        Id: 0,
+                        Name: "",
+                        Description: ""
+                    }
+                };
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(_input2.default, {
+                    name: 'name',
+                    type: 'text',
+                    label: 'Contest Name',
+                    value: this.state.contest.Name,
+                    onChange: this.handleNameChange }),
+                _react2.default.createElement(_input2.default, {
+                    name: 'description',
+                    type: 'text',
+                    label: 'Description',
+                    value: this.state.contest.Description,
+                    onChange: this.handleDescriptionChange }),
+                _react2.default.createElement(
+                    _formGroup2.default,
+                    null,
+                    _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: this.authorizedRoles, name: 'save', value: 'Save', onClick: this.handleClickSave }),
+                    "  ",
+                    _react2.default.createElement(_button2.default, { type: 'default', authorizedRoles: this.authorizedRoles, name: 'cancel', value: 'Cancel', onClick: this.handleClickCancel })
+                )
+            );
+        }
+    }]);
+
+    return ContestEditor;
+}(_roleAwareComponent2.default);
+
+exports.default = ContestEditor;
+
+},{"../../../../common/button":264,"../../../../common/formGroup":265,"../../../../common/input":266,"../../../../common/pageContent":270,"../../../../common/roleAwareComponent":272,"../../../../data/actions/contestActions":274,"clone":6,"react":262,"react-router":203}],299:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40641,7 +40927,7 @@ var ContestantPage = function (_React$Component) {
 
 exports.default = ContestantPage;
 
-},{"../../../../../common/pageContent":270,"../../../../../data/actions/contestantActions":275,"../../../../../data/stores/contestantStore":289,"./contestantUtil":298,"./scoreCards":302,"react":262}],298:[function(require,module,exports){
+},{"../../../../../common/pageContent":270,"../../../../../data/actions/contestantActions":275,"../../../../../data/stores/contestantStore":289,"./contestantUtil":300,"./scoreCards":304,"react":262}],300:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40668,7 +40954,7 @@ var getDescription = function getDescription(contestant) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],299:[function(require,module,exports){
+},{}],301:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40818,7 +41104,7 @@ var ScorableCriterion = function (_React$Component2) {
 
 exports.default = ScorableCriteria;
 
-},{"../../../../../../common/input":266,"../../../../../../common/panel":271,"../../../../../../data/stores/scoreCardStore":292,"clone":6,"react":262}],300:[function(require,module,exports){
+},{"../../../../../../common/input":266,"../../../../../../common/panel":271,"../../../../../../data/stores/scoreCardStore":292,"clone":6,"react":262}],302:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40936,7 +41222,7 @@ var ScoreCardPage = function (_React$Component) {
 
 exports.default = ScoreCardPage;
 
-},{"../../../../../../common/pageContent":270,"../../../../../../data/actions/scoreCardActions":278,"../../../../../../data/stores/scoreCardStore":292,"./scorableCriteria":299,"./scoreCardUtil":301,"react":262}],301:[function(require,module,exports){
+},{"../../../../../../common/pageContent":270,"../../../../../../data/actions/scoreCardActions":278,"../../../../../../data/stores/scoreCardStore":292,"./scorableCriteria":301,"./scoreCardUtil":303,"react":262}],303:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -41012,7 +41298,7 @@ var getDescription = function getDescription(scoreCard) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{"react":262}],302:[function(require,module,exports){
+},{"react":262}],304:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41108,9 +41394,9 @@ var ScoreCardsBox = function (_React$Component) {
 
 exports.default = ScoreCardsBox;
 
-},{"../../../../../common/listPanel":269,"../../../../../data/actions/scoreCardActions":278,"../../../../../data/stores/scoreCardStore":292,"./scorecard/scoreCardUtil":303,"react":262}],303:[function(require,module,exports){
-arguments[4][301][0].apply(exports,arguments)
-},{"dup":301,"react":262}],304:[function(require,module,exports){
+},{"../../../../../common/listPanel":269,"../../../../../data/actions/scoreCardActions":278,"../../../../../data/stores/scoreCardStore":292,"./scorecard/scoreCardUtil":305,"react":262}],305:[function(require,module,exports){
+arguments[4][303][0].apply(exports,arguments)
+},{"dup":303,"react":262}],306:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41205,7 +41491,7 @@ var ContestantsBox = function (_React$Component) {
 
 exports.default = ContestantsBox;
 
-},{"../../../../common/listPanel":269,"../../../../data/actions/contestantActions":275,"../../../../data/stores/contestantStore":289,"./contestant/contestantUtil":298,"react":262}],305:[function(require,module,exports){
+},{"../../../../common/listPanel":269,"../../../../data/actions/contestantActions":275,"../../../../data/stores/contestantStore":289,"./contestant/contestantUtil":300,"react":262}],307:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -41222,7 +41508,7 @@ var getDescription = function getDescription(judge) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],306:[function(require,module,exports){
+},{}],308:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41317,7 +41603,7 @@ var JudgesBox = function (_React$Component) {
 
 exports.default = JudgesBox;
 
-},{"../../../../common/listPanel":269,"../../../../data/actions/judgeActions":277,"../../../../data/stores/judgeStore":291,"./judge/judgeUtil":305,"react":262}],307:[function(require,module,exports){
+},{"../../../../common/listPanel":269,"../../../../data/actions/judgeActions":277,"../../../../data/stores/judgeStore":291,"./judge/judgeUtil":307,"react":262}],309:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41330,7 +41616,13 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouter = require('react-router');
+
 var _listPanel = require('../../../common/listPanel');
+
+var _button = require('../../../common/button');
+
+var _button2 = _interopRequireDefault(_button);
 
 var _contestStore = require('../../../data/stores/contestStore');
 
@@ -41360,6 +41652,7 @@ var ContestsBox = function (_React$Component) {
 
         _this.getState = _this.getState.bind(_this);
         _this.storeChanged = _this.storeChanged.bind(_this);
+        _this.handleAddContestClick = _this.handleAddContestClick.bind(_this);
         _this.state = _this.getState();
         return _this;
     }
@@ -41386,6 +41679,12 @@ var ContestsBox = function (_React$Component) {
             return { contests: _contestStore2.default.getShowContests() };
         }
     }, {
+        key: 'handleAddContestClick',
+        value: function handleAddContestClick(e) {
+            e.preventDefault();
+            _reactRouter.hashHistory.push('show/' + this.props.showId + '/contests/add');
+        }
+    }, {
         key: 'render',
         value: function render() {
             var showId = this.props.showId;
@@ -41397,7 +41696,9 @@ var ContestsBox = function (_React$Component) {
                     pathname: '/show/' + showId + '/contest/' + contest.Id });
             });
 
-            return _react2.default.createElement(_listPanel.ListPanel, { title: 'Contests', items: contests });
+            var addContestButton = _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: ["admin"], name: 'addContest', value: 'Add', onClick: this.handleAddContestClick });
+
+            return _react2.default.createElement(_listPanel.ListPanel, { title: 'Contests', items: contests, button: addContestButton });
         }
     }]);
 
@@ -41406,7 +41707,7 @@ var ContestsBox = function (_React$Component) {
 
 exports.default = ContestsBox;
 
-},{"../../../common/listPanel":269,"../../../data/actions/contestActions":274,"../../../data/stores/contestStore":288,"react":262}],308:[function(require,module,exports){
+},{"../../../common/button":264,"../../../common/listPanel":269,"../../../data/actions/contestActions":274,"../../../data/stores/contestStore":288,"react":262,"react-router":203}],310:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41491,8 +41792,6 @@ var EditShowPage = function (_RoleAwareComponent) {
     }, {
         key: 'handleClickSave',
         value: function handleClickSave(show) {
-            console.log("Show sent to actions:");
-            console.log(show);
             ShowActions.updateShow(show);
             this.navigateToShowPage();
         }
@@ -41543,7 +41842,7 @@ var EditShowPage = function (_RoleAwareComponent) {
 
 exports.default = EditShowPage;
 
-},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"../../../data/stores/showStore":293,"./showEditor":310,"react":262,"react-router":203}],309:[function(require,module,exports){
+},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"../../../data/stores/showStore":293,"./showEditor":312,"react":262,"react-router":203}],311:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41601,7 +41900,6 @@ var ShowPage = function (_React$Component) {
         _this.getShow = _this.getShow.bind(_this);
         _this.getShowId = _this.getShowId.bind(_this);
         _this.handleEditShowClick = _this.handleEditShowClick.bind(_this);
-        //this.state = this.getState();
         return _this;
     }
 
@@ -41625,8 +41923,6 @@ var ShowPage = function (_React$Component) {
         key: 'storeChanged',
         value: function storeChanged() {
             this.setState(this.getState());
-            console.log("Show to render:");
-            console.log(this.state.show);
         }
     }, {
         key: 'getState',
@@ -41658,9 +41954,6 @@ var ShowPage = function (_React$Component) {
 
             var show = this.state.show;
 
-            console.log("Show to render:");
-            console.log(show);
-
             var editShowButton = _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: ["admin"], name: 'editShow', value: 'Edit', onClick: this.handleEditShowClick });
 
             return _react2.default.createElement(
@@ -41676,7 +41969,7 @@ var ShowPage = function (_React$Component) {
 
 exports.default = ShowPage;
 
-},{"../../../common/button":264,"../../../common/pageContent":270,"../../../data/actions/showActions":279,"../../../data/stores/showStore":293,"./contests":307,"react":262,"react-router":203}],310:[function(require,module,exports){
+},{"../../../common/button":264,"../../../common/pageContent":270,"../../../data/actions/showActions":279,"../../../data/stores/showStore":293,"./contests":309,"react":262,"react-router":203}],312:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41832,7 +42125,7 @@ var ShowEditor = function (_RoleAwareComponent) {
 
 exports.default = ShowEditor;
 
-},{"../../../common/button":264,"../../../common/formGroup":265,"../../../common/input":266,"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"clone":6,"react":262,"react-router":203}],311:[function(require,module,exports){
+},{"../../../common/button":264,"../../../common/formGroup":265,"../../../common/input":266,"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"clone":6,"react":262,"react-router":203}],313:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41962,7 +42255,7 @@ var ShowsBox = function (_React$Component2) {
 
 exports.default = ShowsPage;
 
-},{"../../common/button":264,"../../common/listPanel":269,"../../common/pageContent":270,"../../data/actions/showActions":279,"../../data/stores/showStore":293,"react":262,"react-router":203}],312:[function(require,module,exports){
+},{"../../common/button":264,"../../common/listPanel":269,"../../common/pageContent":270,"../../data/actions/showActions":279,"../../data/stores/showStore":293,"react":262,"react-router":203}],314:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41986,7 +42279,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"react":262}],313:[function(require,module,exports){
+},{"react":262}],315:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42190,7 +42483,7 @@ var JudgesPage = function (_React$Component2) {
 
 exports.default = JudgesPage;
 
-},{"../common/formGroup":265,"../common/input":266,"../data/actions/judgeActions":277,"../data/stores/judgeStore":291,"jquery":25,"react":262}],314:[function(require,module,exports){
+},{"../common/formGroup":265,"../common/input":266,"../data/actions/judgeActions":277,"../data/stores/judgeStore":291,"jquery":25,"react":262}],316:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
