@@ -8,6 +8,6 @@ export function loadContest(contestId){
     Dispatcher.dispatch({type: "LOAD_CONTEST", contestId: contestId});
 };
 
-export function addContest(newContest){
-    Dispatcher.dispatch({type: "ADD_CONTEST", newContest: newContest});
+export function addContest(showId, newContest){
+    Dispatcher.dispatch({type: "ADD_CONTEST", showContest: {showId: showId, newContest: newContest}});
 };

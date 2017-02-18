@@ -39129,8 +39129,8 @@ function loadContest(contestId) {
     _dispatcher2.default.dispatch({ type: "LOAD_CONTEST", contestId: contestId });
 };
 
-function addContest(newContest) {
-    _dispatcher2.default.dispatch({ type: "ADD_CONTEST", newContest: newContest });
+function addContest(showId, newContest) {
+    _dispatcher2.default.dispatch({ type: "ADD_CONTEST", showContest: { showId: showId, newContest: newContest } });
 };
 
 },{"../dispatcher":287}],275:[function(require,module,exports){
@@ -39313,9 +39313,9 @@ var get = function get(id, callback) {
     });
 };
 
-var add = function add(contest, callback) {
+var add = function add(showId, contest, callback) {
     ApiHttpUtil.post({
-        url: "api/Contests/",
+        url: "api/Contests/Show/" + showId,
         success: function success(result) {
             callback(result);
         },
@@ -39808,8 +39808,8 @@ contestStore.load = function (contestId) {
     ContestApi.get(contestId, contestStore.pushContest);
 };
 
-contestStore.add = function (newContest) {
-    ContestApi.add(newContest, contestStore.pushContest);
+contestStore.add = function (showId, newContest) {
+    ContestApi.add(showId, newContest, contestStore.pushContest);
 };
 
 contestStore.get = function (id) {
@@ -39825,7 +39825,7 @@ contestStore.handleAction = function (action) {
             contestStore.load(action.contestId);
             break;
         case "ADD_CONTEST":
-            contestStore.add(action.newContest);
+            contestStore.add(action.showContest.showId, action.showContest.newContest);
             break;
     }
 };
@@ -40515,7 +40515,7 @@ var AddContestPage = function (_RoleAwareComponent) {
     }, {
         key: 'handleClickSave',
         value: function handleClickSave(newContest) {
-            ContestActions.addContest(newContest);
+            ContestActions.addContest(this.props.params.showId, newContest);
             this.navigateToShowPage();
         }
     }, {

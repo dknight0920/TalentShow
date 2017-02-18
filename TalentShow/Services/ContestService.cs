@@ -65,6 +65,12 @@ namespace TalentShow.Services
             ContestRepo.Delete(contest);
         }
 
+        public void AddShowContest(int showId, Contest contest)
+        {
+            Add(contest);
+            ShowContestRepo.Add(new ShowContest(showId, contest.Id));
+        }
+
         public void DeleteAll()
         {
             ContestRepo.DeleteAll();

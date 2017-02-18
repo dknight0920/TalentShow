@@ -36,9 +36,9 @@ var get = function (id, callback) {
     });
 };
 
-var add = function (contest, callback) {
+var add = function (showId, contest, callback) {
     ApiHttpUtil.post({
-        url:  "api/Contests/",
+        url:  "api/Contests/Show/" + showId,
         success: function(result){
             callback(result);
         },

@@ -53,6 +53,17 @@ namespace TalentShowWebApi.Controllers
             return newContest.ConvertToDto();
         }
 
+        // POST api/Contests/Show/5
+        [HttpPost]
+        [Route("api/Contests/Show/{id}")]
+        public ContestDto GetShowContests(int id, [FromBody]ContestDto contest)
+        {
+            var showId = id;
+            var newContest = contest.ConvertFromDto();
+            ContestService.AddShowContest(showId, newContest);
+            return newContest.ConvertToDto();
+        }
+
         // PUT api/Contests/5
         public ContestDto Put([FromBody]ContestDto contest)
         {

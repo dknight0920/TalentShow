@@ -33,8 +33,8 @@ contestStore.load = function(contestId){
     ContestApi.get(contestId, contestStore.pushContest);
 };
 
-contestStore.add = function(newContest){
-    ContestApi.add(newContest, contestStore.pushContest);
+contestStore.add = function(showId, newContest){
+    ContestApi.add(showId, newContest, contestStore.pushContest);
 };
 
 contestStore.get = function(id){
@@ -50,7 +50,7 @@ contestStore.handleAction = function(action){
             contestStore.load(action.contestId);
             break;
         case "ADD_CONTEST":
-            contestStore.add(action.newContest);
+            contestStore.add(action.showContest.showId, action.showContest.newContest);
             break;
     }
 };
