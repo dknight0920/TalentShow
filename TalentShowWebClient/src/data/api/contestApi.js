@@ -41,6 +41,7 @@ var add = function (showId, contest, callback) {
         url:  "api/Contests/Show/" + showId,
         success: function(result){
             callback(result);
+            broadcastChange();            
         },
         error: function(request, status, err){
             //TODO handle error
@@ -53,6 +54,7 @@ var update = function (contest, callback) {
         url:  "api/Contests/",
         success: function(result){
             callback(result);
+            broadcastChange();
         },
         error: function(request, status, err){
             //TODO handle error
@@ -62,6 +64,16 @@ var update = function (contest, callback) {
 
 var remove = function (contest) {
     
+};
+
+var broadcastChange = function(){
+    $.connection.hub.start()
+        .done(function(){
+            $.connection.contestsHub.server.contestsChanged();
+        })
+        .fail(function(){ 
+            console.log('Could not Connect to signalr ContestsHub!'); 
+        });
 };
 
 export {getShowContests, getAll, get, add, update, remove};

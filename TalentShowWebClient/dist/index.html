@@ -6,8 +6,12 @@
 </head>
 <body>
     <div id="app"></div>
+    <script src="../scripts/jquery-1.6.4.min.js"></script>
+    <script src="../scripts/jquery.signalR-2.2.1.min.js"></script>
+    <script src="http://localhost:59543/signalr/hubs"></script>
     <script>
         var globalWebApiBaseUrl = "http://localhost:59543/";
+        $.connection.hub.url = globalWebApiBaseUrl + "/signalr";
     </script>
     <script src="scripts/app.bundle.js"></script>
 </body>

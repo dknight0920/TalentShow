@@ -39318,6 +39318,7 @@ var add = function add(showId, contest, callback) {
         url: "api/Contests/Show/" + showId,
         success: function success(result) {
             callback(result);
+            broadcastChange();
         },
         error: function error(request, status, err) {
             //TODO handle error
@@ -39330,6 +39331,7 @@ var update = function update(contest, callback) {
         url: "api/Contests/",
         success: function success(result) {
             callback(result);
+            broadcastChange();
         },
         error: function error(request, status, err) {
             //TODO handle error
@@ -39338,6 +39340,14 @@ var update = function update(contest, callback) {
 };
 
 var remove = function remove(contest) {};
+
+var broadcastChange = function broadcastChange() {
+    $.connection.hub.start().done(function () {
+        $.connection.contestsHub.server.contestsChanged();
+    }).fail(function () {
+        console.log('Could not Connect to signalr ContestsHub!');
+    });
+};
 
 exports.getShowContests = getShowContests;
 exports.getAll = getAll;
@@ -41667,6 +41677,17 @@ var ContestsBox = function (_React$Component) {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
             _contestStore2.default.off("change", this.storeChanged);
+        }
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var self = this;
+
+            $.connection.contestsHub.client.contestsChanged = function () {
+                ContestActions.loadShowContests(self.props.showId);
+            };
+
+            $.connection.hub.start();
         }
     }, {
         key: 'storeChanged',

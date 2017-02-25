@@ -24,6 +24,16 @@ class ContestsBox extends React.Component {
         ContestStore.off("change", this.storeChanged);
     }
 
+    componentDidMount(){
+        var self = this;
+          
+         $.connection.contestsHub.client.contestsChanged = function () {
+            ContestActions.loadShowContests(self.props.showId);                
+        };  
+ 
+        $.connection.hub.start();
+    }
+
     storeChanged(){
         this.setState(this.getState());
     }
