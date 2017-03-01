@@ -13,10 +13,13 @@ class ContestsBox extends React.Component {
         this.storeChanged = this.storeChanged.bind(this);
         this.handleAddContestClick = this.handleAddContestClick.bind(this);
         this.state = this.getState();
+        this.hubConnection = $.hubConnection(globalWebApiBaseUrl);     
+        this.contestsHubProxy = this.hubConnection.createHubProxy('contestsHub')
     }
 
     componentWillMount(){
         ContestStore.on("change", this.storeChanged);
+        console.log("ContestsBox WillMount showId: " + this.props.showId);
         ContestActions.loadShowContests(this.props.showId);
     }
 
@@ -26,12 +29,21 @@ class ContestsBox extends React.Component {
 
     componentDidMount(){
         var self = this;
-          
-         $.connection.contestsHub.client.contestsChanged = function () {
-            ContestActions.loadShowContests(self.props.showId);                
-        };  
+
+        this.contestsHubProxy.on('contestsChanged', function() {
+            console.log('Client Function Invoked.');
+            console.log("contestsHubProxy DidMount showId: " + self.props.showId);
+            ContestActions.loadShowContests(self.props.showId); 
+        });
  
-        $.connection.hub.start();
+        this.hubConnection.start({ jsonp: true })
+            .done(function(){ 
+                console.log('Connected');
+                self.contestsHubProxy.invoke('JoinGroup', self.props.showId);
+            })
+            .fail(function(){ 
+                console.log('Could not connect'); 
+            });
     }
 
     storeChanged(){

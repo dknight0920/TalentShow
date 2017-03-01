@@ -8,9 +8,14 @@ namespace TalentShowWebApi.Hubs
 {
     public class ContestsHub : Hub
     {
-        public void ContestsChanged()
+        public void ContestsChanged(string groupName)
         {
-            Clients.All.contestsChanged();
+            Clients.Group(groupName).contestsChanged();
+        }
+
+        public void JoinGroup(string groupName)
+        {
+            Groups.Add(this.Context.ConnectionId, groupName);
         }
     }
 }

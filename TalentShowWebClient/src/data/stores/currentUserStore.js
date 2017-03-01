@@ -27,8 +27,6 @@ currentUserStore.authenticate = function(credentials){
     };
 
     TokenApi.getToken(credentials, function (data) {
-        sessionStorage.setItem("user", data.userName);
-        sessionStorage.setItem("token", data.access_token);
         currentUserStore.authenticated = true;
         currentUserStore.emit("change");
     });

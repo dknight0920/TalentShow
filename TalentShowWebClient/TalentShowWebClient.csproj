@@ -134,6 +134,7 @@
     <Content Include="src\data\api\scoreCardApi.js" />
     <Content Include="src\data\api\showApi.js" />
     <Content Include="src\data\api\tokenApi.js" />
+    <Content Include="src\data\api\utils\accessTokenUtil.js" />
     <Content Include="src\data\api\utils\httpUtil.js" />
     <Content Include="src\data\dispatcher.js" />
     <Content Include="src\data\stores\contestantStore.js" />

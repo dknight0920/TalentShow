@@ -1,6 +1,5 @@
 ﻿import EventEmitter from 'event-emitter';
 import Dispatcher from '../dispatcher';
-import * as ContestApi from '../api/contestApi';
 import * as StoreUtils from './utils/storeUtils';
 
 class ContestStore extends EventEmitter {
@@ -22,19 +21,7 @@ contestStore.pushContest = function(_contest){
 };
 
 contestStore.getShowContests = function(){
-    return this.contests;
-};
-
-contestStore.loadShowContests = function(showId){
-    ContestApi.getShowContests(showId, contestStore.setContests);
-};
-
-contestStore.load = function(contestId){
-    ContestApi.get(contestId, contestStore.pushContest);
-};
-
-contestStore.add = function(showId, newContest){
-    ContestApi.add(showId, newContest, contestStore.pushContest);
+    return contestStore.contests;
 };
 
 contestStore.get = function(id){
@@ -44,13 +31,31 @@ contestStore.get = function(id){
 contestStore.handleAction = function(action){
     switch(action.type){
         case "LOAD_SHOW_CONTESTS":
-            contestStore.loadShowContests(action.showId);
+            //TODO
+            break;
+        case "LOAD_SHOW_CONTESTS_SUCCESS":
+            contestStore.setContests(action.contests);
+            break;
+        case "LOAD_SHOW_CONTESTS_FAIL":
+            //TODO
             break;
         case "LOAD_CONTEST":
-            contestStore.load(action.contestId);
+            //TODO
+            break;
+        case "LOAD_CONTEST_SUCCESS":
+            contestStore.pushContest(action.contest);
+            break;
+        case "LOAD_CONTEST_FAIL":
+            //TODO
             break;
         case "ADD_CONTEST":
-            contestStore.add(action.showContest.showId, action.showContest.newContest);
+            //TODO
+            break;
+        case "ADD_CONTEST_SUCCESS":
+            contestStore.pushContest(action.contest);
+            break;
+        case "ADD_CONTEST_FAIL":
+            //TODO
             break;
     }
 };

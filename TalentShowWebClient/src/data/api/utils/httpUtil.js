@@ -1,17 +1,9 @@
 ﻿import $ from 'jquery';
-
-var getAccessTokenHttpHeader = function() {
-    var token = sessionStorage.getItem("token");
-    var headers = {};
-    if (token) {
-        headers.Authorization = 'Bearer ' + token;
-    }
-    return headers;
-}
+import * as AccessTokenUtil from './accessTokenUtil';
 
 var makeRequest = function (options, type, data) {
 
-    var headers = getAccessTokenHttpHeader();
+    var headers = AccessTokenUtil.getAccessTokenHeader();
 
     var httpOptions = {
         url: globalWebApiBaseUrl + options.url,

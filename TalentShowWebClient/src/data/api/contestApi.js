@@ -1,13 +1,13 @@
 ﻿import * as ApiHttpUtil from './utils/httpUtil.js'
 
-var getShowContests = function (showId, callback) {
+var getShowContests = function (showId, success, fail) {
     ApiHttpUtil.get({
         url: "api/Contests/Show/" + showId,
         success: function(result){
-            callback(result);
+            success(result);
         },
         error: function(request, status, err){
-            //TODO handle error
+            fail(err);
         }	
     });
 };
@@ -24,27 +24,27 @@ var getAll = function (callback) {
     });
 };
 
-var get = function (id, callback) {
+var get = function (id, success, fail) {
     ApiHttpUtil.get({
         url:  "api/Contests/" + id,
         success: function(result){
-            callback(result);
+            success(result);
         },
         error: function(request, status, err){
-            //TODO handle error
+            fail(err);
         }	
     });
 };
 
-var add = function (showId, contest, callback) {
+var add = function (showId, contest, success, fail) {
     ApiHttpUtil.post({
         url:  "api/Contests/Show/" + showId,
         success: function(result){
-            callback(result);
-            broadcastChange();            
+            success(result);
+            broadcastChange(showId);            
         },
         error: function(request, status, err){
-            //TODO handle error
+            fail(err);
         }
     }, JSON.stringify(contest));
 };
@@ -54,7 +54,7 @@ var update = function (contest, callback) {
         url:  "api/Contests/",
         success: function(result){
             callback(result);
-            broadcastChange();
+            broadcastChange("");
         },
         error: function(request, status, err){
             //TODO handle error
@@ -66,13 +66,16 @@ var remove = function (contest) {
     
 };
 
-var broadcastChange = function(){
-    $.connection.hub.start()
-        .done(function(){
-            $.connection.contestsHub.server.contestsChanged();
+var broadcastChange = function(groupName){
+    var hubConnection = $.hubConnection(globalWebApiBaseUrl);
+ 
+    hubConnection.start({ jsonp: true })
+        .done(function(){ 
+            var contestsHubProxy = hubConnection.createHubProxy('contestsHub'); 
+            contestsHubProxy.invoke('ContestsChanged', groupName);
         })
         .fail(function(){ 
-            console.log('Could not Connect to signalr ContestsHub!'); 
+            console.log('Could not connect'); 
         });
 };
 
