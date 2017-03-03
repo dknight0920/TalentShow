@@ -11,7 +11,10 @@
     <script src="http://localhost:59543/signalr/hubs"></script>
     <script>
         var globalWebApiBaseUrl = "http://localhost:59543/";
-        //$.connection.hub.url = globalWebApiBaseUrl + "/signalr";
+        //$.connection.hub.url = globalWebApiBaseUrl + "/signalr"; 
+        var hubConnection = $.hubConnection(globalWebApiBaseUrl);
+        var contestsHubProxy = hubConnection.createHubProxy('contestsHub');
+        contestsHubProxy.on('dummy', function() { });
     </script>
     <script src="scripts/app.bundle.js"></script>
 </body>

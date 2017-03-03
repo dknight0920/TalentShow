@@ -40,8 +40,7 @@ var add = function (showId, contest, success, fail) {
     ApiHttpUtil.post({
         url:  "api/Contests/Show/" + showId,
         success: function(result){
-            success(result);
-            broadcastChange(showId);            
+            success(result);          
         },
         error: function(request, status, err){
             fail(err);
@@ -54,7 +53,6 @@ var update = function (contest, callback) {
         url:  "api/Contests/",
         success: function(result){
             callback(result);
-            broadcastChange("");
         },
         error: function(request, status, err){
             //TODO handle error
@@ -64,19 +62,6 @@ var update = function (contest, callback) {
 
 var remove = function (contest) {
     
-};
-
-var broadcastChange = function(groupName){
-    var hubConnection = $.hubConnection(globalWebApiBaseUrl);
- 
-    hubConnection.start({ jsonp: true })
-        .done(function(){ 
-            var contestsHubProxy = hubConnection.createHubProxy('contestsHub'); 
-            contestsHubProxy.invoke('ContestsChanged', groupName);
-        })
-        .fail(function(){ 
-            console.log('Could not connect'); 
-        });
 };
 
 export {getShowContests, getAll, get, add, update, remove};

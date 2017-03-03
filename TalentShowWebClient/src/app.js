@@ -48,23 +48,28 @@ function getToken(){
     return sessionStorage.getItem("token");
 }
 
-render((
-    <Router history={hashHistory}>
-        <Route path="/">
-            <IndexRoute component={login} />
-            <Route onEnter={requireAuth} component={Menu}>
-                <Route path="/unauthorized" component={unauthorized} />
-                <Route path="/shows" component={shows} />
-                <Route path="/shows/add" component={addShow} />
-                <Route path="/show/:showId" component={show} />
-                <Route path="/show/:showId/edit" component={editShow} />
-                <Route path="/show/:showId/contests/add" component={addContest} />
-                <Route path="/show/:showId/contest/:contestId" component={contest} />
-                <Route path="/show/:showId/contest/:contestId/contestant/:contestantId" component={contestant} />
-                <Route path="/show/:showId/contest/:contestId/contestant/:contestantId/scorecard/:scoreCardId" component={scoreCard} />
-                <Route path="/about" component={about} />
-                <Route path="/judges" component={judges} />
-            </Route>
-        </Route>
-     </Router>
-), document.getElementById('app'));
+ hubConnection.start({ transport: ['webSockets'], jsonp: true })
+    .done(function(){
+        console.log("Connected");     
+
+        render((
+            <Router history={hashHistory}>
+                <Route path="/">
+                    <IndexRoute component={login} />
+                    <Route onEnter={requireAuth} component={Menu}>
+                        <Route path="/unauthorized" component={unauthorized} />
+                        <Route path="/shows" component={shows} />
+                        <Route path="/shows/add" component={addShow} />
+                        <Route path="/show/:showId" component={show} />
+                        <Route path="/show/:showId/edit" component={editShow} />
+                        <Route path="/show/:showId/contests/add" component={addContest} />
+                        <Route path="/show/:showId/contest/:contestId" component={contest} />
+                        <Route path="/show/:showId/contest/:contestId/contestant/:contestantId" component={contestant} />
+                        <Route path="/show/:showId/contest/:contestId/contestant/:contestantId/scorecard/:scoreCardId" component={scoreCard} />
+                        <Route path="/about" component={about} />
+                        <Route path="/judges" component={judges} />
+                    </Route>
+                </Route>
+                </Router>
+        ), document.getElementById('app'));
+ });

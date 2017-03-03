@@ -20,7 +20,9 @@ class AddContestPage extends RoleAwareComponent {
     }
 
     handleClickSave(newContest) {
-        ContestActions.addContest(this.props.params.showId, newContest);
+        var showId = this.props.params.showId;
+        var groupName = "show_" + showId;
+        ContestActions.addContest(showId, newContest, groupName);
         this.navigateToShowPage();
     }
 

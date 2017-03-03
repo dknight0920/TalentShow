@@ -25,14 +25,14 @@ export function loadContest(contestId){
         });
 };
 
-export function addContest(showId, newContest){
-    Dispatcher.dispatch({type: "ADD_CONTEST", showContest: {showId: showId, newContest: newContest}});
+export function addContest(showId, newContest, groupName){
+    Dispatcher.dispatch({type: "ADD_CONTEST", showContest: {showId: showId, newContest: newContest, groupName: groupName}});
 
     ContestApi.add(showId, newContest, 
         function success(contest){
-            Dispatcher.dispatch({type: "ADD_CONTEST_SUCCESS", contest: contest});
+            Dispatcher.dispatch({type: "ADD_CONTEST_SUCCESS", contest: contest, groupName: groupName, showId: showId});
         }, 
         function fail(err){
-            Dispatcher.dispatch({type: "ADD_CONTEST_FAIL", error: err});
+            Dispatcher.dispatch({type: "ADD_CONTEST_FAIL", error: err, groupName: groupName});
         });
 };

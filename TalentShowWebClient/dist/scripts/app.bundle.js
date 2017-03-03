@@ -38406,32 +38406,36 @@ function getToken() {
     return sessionStorage.getItem("token");
 }
 
-(0, _reactDom.render)(_react2.default.createElement(
-    _reactRouter.Router,
-    { history: _reactRouter.hashHistory },
-    _react2.default.createElement(
-        _reactRouter.Route,
-        { path: '/' },
-        _react2.default.createElement(_reactRouter.IndexRoute, { component: _login2.default }),
+hubConnection.start({ transport: ['webSockets'], jsonp: true }).done(function () {
+    console.log("Connected");
+
+    (0, _reactDom.render)(_react2.default.createElement(
+        _reactRouter.Router,
+        { history: _reactRouter.hashHistory },
         _react2.default.createElement(
             _reactRouter.Route,
-            { onEnter: requireAuth, component: Menu },
-            _react2.default.createElement(_reactRouter.Route, { path: '/unauthorized', component: _unauthorizedUserPageContent2.default }),
-            _react2.default.createElement(_reactRouter.Route, { path: '/shows', component: _shows2.default }),
-            _react2.default.createElement(_reactRouter.Route, { path: '/shows/add', component: _addShow2.default }),
-            _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId', component: _show2.default }),
-            _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/edit', component: _editShow2.default }),
-            _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contests/add', component: _addContest2.default }),
-            _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId', component: _contest2.default }),
-            _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/contestant/:contestantId', component: _contestant2.default }),
-            _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/contestant/:contestantId/scorecard/:scoreCardId', component: _scoreCard2.default }),
-            _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _about2.default }),
-            _react2.default.createElement(_reactRouter.Route, { path: '/judges', component: _judges2.default })
+            { path: '/' },
+            _react2.default.createElement(_reactRouter.IndexRoute, { component: _login2.default }),
+            _react2.default.createElement(
+                _reactRouter.Route,
+                { onEnter: requireAuth, component: Menu },
+                _react2.default.createElement(_reactRouter.Route, { path: '/unauthorized', component: _unauthorizedUserPageContent2.default }),
+                _react2.default.createElement(_reactRouter.Route, { path: '/shows', component: _shows2.default }),
+                _react2.default.createElement(_reactRouter.Route, { path: '/shows/add', component: _addShow2.default }),
+                _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId', component: _show2.default }),
+                _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/edit', component: _editShow2.default }),
+                _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contests/add', component: _addContest2.default }),
+                _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId', component: _contest2.default }),
+                _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/contestant/:contestantId', component: _contestant2.default }),
+                _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/contestant/:contestantId/scorecard/:scoreCardId', component: _scoreCard2.default }),
+                _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _about2.default }),
+                _react2.default.createElement(_reactRouter.Route, { path: '/judges', component: _judges2.default })
+            )
         )
-    )
-), document.getElementById('app'));
+    ), document.getElementById('app'));
+});
 
-},{"./common/unauthorizedUserPageContent":273,"./modules/ControlCenter/show/addShow":296,"./modules/ControlCenter/show/contest/addContest":297,"./modules/ControlCenter/show/contest/contest":298,"./modules/ControlCenter/show/contest/contestant/contestant":300,"./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard":303,"./modules/ControlCenter/show/editShow":311,"./modules/ControlCenter/show/show":312,"./modules/ControlCenter/shows":314,"./modules/about":315,"./modules/judges":316,"./modules/login":317,"react":262,"react-dom":26,"react-router":203}],264:[function(require,module,exports){
+},{"./common/unauthorizedUserPageContent":273,"./modules/ControlCenter/show/addShow":297,"./modules/ControlCenter/show/contest/addContest":298,"./modules/ControlCenter/show/contest/contest":299,"./modules/ControlCenter/show/contest/contestant/contestant":301,"./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard":304,"./modules/ControlCenter/show/editShow":312,"./modules/ControlCenter/show/show":313,"./modules/ControlCenter/shows":315,"./modules/about":316,"./modules/judges":317,"./modules/login":318,"react":262,"react-dom":26,"react-router":203}],264:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39147,13 +39151,13 @@ function loadContest(contestId) {
     });
 };
 
-function addContest(showId, newContest) {
-    _dispatcher2.default.dispatch({ type: "ADD_CONTEST", showContest: { showId: showId, newContest: newContest } });
+function addContest(showId, newContest, groupName) {
+    _dispatcher2.default.dispatch({ type: "ADD_CONTEST", showContest: { showId: showId, newContest: newContest, groupName: groupName } });
 
     ContestApi.add(showId, newContest, function success(contest) {
-        _dispatcher2.default.dispatch({ type: "ADD_CONTEST_SUCCESS", contest: contest });
+        _dispatcher2.default.dispatch({ type: "ADD_CONTEST_SUCCESS", contest: contest, groupName: groupName, showId: showId });
     }, function fail(err) {
-        _dispatcher2.default.dispatch({ type: "ADD_CONTEST_FAIL", error: err });
+        _dispatcher2.default.dispatch({ type: "ADD_CONTEST_FAIL", error: err, groupName: groupName });
     });
 };
 
@@ -39342,7 +39346,6 @@ var add = function add(showId, contest, _success3, fail) {
         url: "api/Contests/Show/" + showId,
         success: function success(result) {
             _success3(result);
-            broadcastChange(showId);
         },
         error: function error(request, status, err) {
             fail(err);
@@ -39355,7 +39358,6 @@ var update = function update(contest, callback) {
         url: "api/Contests/",
         success: function success(result) {
             callback(result);
-            broadcastChange("");
         },
         error: function error(request, status, err) {
             //TODO handle error
@@ -39364,17 +39366,6 @@ var update = function update(contest, callback) {
 };
 
 var remove = function remove(contest) {};
-
-var broadcastChange = function broadcastChange(groupName) {
-    var hubConnection = $.hubConnection(globalWebApiBaseUrl);
-
-    hubConnection.start({ jsonp: true }).done(function () {
-        var contestsHubProxy = hubConnection.createHubProxy('contestsHub');
-        contestsHubProxy.invoke('ContestsChanged', groupName);
-    }).fail(function () {
-        console.log('Could not connect');
-    });
-};
 
 exports.getShowContests = getShowContests;
 exports.getAll = getAll;
@@ -39824,6 +39815,14 @@ var _storeUtils = require('./utils/storeUtils');
 
 var StoreUtils = _interopRequireWildcard(_storeUtils);
 
+var _broadcastUtil = require('./utils/broadcastUtil');
+
+var BroadcastUtil = _interopRequireWildcard(_broadcastUtil);
+
+var _contestActions = require('../actions/contestActions');
+
+var ContestActions = _interopRequireWildcard(_contestActions);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -39834,6 +39833,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+contestsHubProxy.on('contestsChanged', function (showId) {
+    ContestActions.loadShowContests(showId);
+});
+
 var ContestStore = function (_EventEmitter) {
     _inherits(ContestStore, _EventEmitter);
 
@@ -39843,68 +39846,73 @@ var ContestStore = function (_EventEmitter) {
         var _this = _possibleConstructorReturn(this, (ContestStore.__proto__ || Object.getPrototypeOf(ContestStore)).call(this));
 
         _this.contests = [];
+
+        var self = _this;
+
+        _this.setContests = function (contests) {
+            self.contests = contests;
+            self.emit("change");
+        };
+
+        _this.pushContest = function (contest) {
+            StoreUtils.pushItem(contest, self.contests, self.setContests);
+        };
+
+        _this.getShowContests = function () {
+            return self.contests;
+        };
+
+        _this.get = function (id) {
+            return StoreUtils.get(id, self.contests);
+        };
+
+        _this.handleAction = function (action) {
+            switch (action.type) {
+                case "LOAD_SHOW_CONTESTS":
+                    //TODO
+                    break;
+                case "LOAD_SHOW_CONTESTS_SUCCESS":
+                    self.setContests(action.contests);
+                    break;
+                case "LOAD_SHOW_CONTESTS_FAIL":
+                    //TODO
+                    break;
+                case "LOAD_CONTEST":
+                    //TODO
+                    break;
+                case "LOAD_CONTEST_SUCCESS":
+                    this.pushContest(action.contest);
+                    break;
+                case "LOAD_CONTEST_FAIL":
+                    //TODO
+                    break;
+                case "ADD_CONTEST":
+                    //TODO
+                    break;
+                case "ADD_CONTEST_SUCCESS":
+                    self.pushContest(action.contest);
+                    broadcastChange(action.groupName, action.showId);
+                    break;
+                case "ADD_CONTEST_FAIL":
+                    //TODO
+                    break;
+            }
+        };
+
+        var broadcastChange = function broadcastChange(groupName, showId) {
+            BroadcastUtil.broadcastChange(contestsHubProxy, groupName, showId);
+        };
+
+        _dispatcher2.default.register(_this.handleAction.bind(_this));
         return _this;
     }
 
     return ContestStore;
 }(_eventEmitter2.default);
 
-var contestStore = new ContestStore();
+exports.default = new ContestStore();
 
-contestStore.setContests = function (_contests) {
-    contestStore.contests = _contests;
-    contestStore.emit("change");
-};
-
-contestStore.pushContest = function (_contest) {
-    StoreUtils.pushItem(_contest, contestStore.contests, contestStore.setContests);
-};
-
-contestStore.getShowContests = function () {
-    return contestStore.contests;
-};
-
-contestStore.get = function (id) {
-    return StoreUtils.get(id, contestStore.contests);
-};
-
-contestStore.handleAction = function (action) {
-    switch (action.type) {
-        case "LOAD_SHOW_CONTESTS":
-            //TODO
-            break;
-        case "LOAD_SHOW_CONTESTS_SUCCESS":
-            contestStore.setContests(action.contests);
-            break;
-        case "LOAD_SHOW_CONTESTS_FAIL":
-            //TODO
-            break;
-        case "LOAD_CONTEST":
-            //TODO
-            break;
-        case "LOAD_CONTEST_SUCCESS":
-            contestStore.pushContest(action.contest);
-            break;
-        case "LOAD_CONTEST_FAIL":
-            //TODO
-            break;
-        case "ADD_CONTEST":
-            //TODO
-            break;
-        case "ADD_CONTEST_SUCCESS":
-            contestStore.pushContest(action.contest);
-            break;
-        case "ADD_CONTEST_FAIL":
-            //TODO
-            break;
-    }
-};
-
-_dispatcher2.default.register(contestStore.handleAction.bind(contestStore));
-
-exports.default = contestStore;
-
-},{"../dispatcher":288,"./utils/storeUtils":295,"event-emitter":7}],290:[function(require,module,exports){
+},{"../actions/contestActions":274,"../dispatcher":288,"./utils/broadcastUtil":295,"./utils/storeUtils":296,"event-emitter":7}],290:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39994,7 +40002,7 @@ _dispatcher2.default.register(contestantStore.handleAction.bind(contestantStore)
 
 exports.default = contestantStore;
 
-},{"../api/contestantApi":281,"../dispatcher":288,"./utils/storeUtils":295,"event-emitter":7}],291:[function(require,module,exports){
+},{"../api/contestantApi":281,"../dispatcher":288,"./utils/storeUtils":296,"event-emitter":7}],291:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40174,7 +40182,7 @@ _dispatcher2.default.register(judgeStore.handleAction.bind(judgeStore));
 
 exports.default = judgeStore;
 
-},{"../api/judgeApi":282,"../dispatcher":288,"./utils/storeUtils":295,"event-emitter":7}],293:[function(require,module,exports){
+},{"../api/judgeApi":282,"../dispatcher":288,"./utils/storeUtils":296,"event-emitter":7}],293:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40271,7 +40279,7 @@ _dispatcher2.default.register(scoreCardStore.handleAction.bind(scoreCardStore));
 
 exports.default = scoreCardStore;
 
-},{"../api/scoreCardApi":283,"../dispatcher":288,"./utils/storeUtils":295,"event-emitter":7}],294:[function(require,module,exports){
+},{"../api/scoreCardApi":283,"../dispatcher":288,"./utils/storeUtils":296,"event-emitter":7}],294:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40376,7 +40384,19 @@ _dispatcher2.default.register(showStore.handleAction.bind(showStore));
 
 exports.default = showStore;
 
-},{"../api/showApi":284,"../dispatcher":288,"./utils/storeUtils":295,"event-emitter":7}],295:[function(require,module,exports){
+},{"../api/showApi":284,"../dispatcher":288,"./utils/storeUtils":296,"event-emitter":7}],295:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var broadcastChange = function broadcastChange(hubProxy, groupName, id) {
+    hubProxy.invoke('Changed', groupName, id);
+};
+
+exports.broadcastChange = broadcastChange;
+
+},{}],296:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40426,7 +40446,7 @@ var pushItem = function pushItem(item, items, callback) {
 exports.get = get;
 exports.pushItem = pushItem;
 
-},{"clone":6}],296:[function(require,module,exports){
+},{"clone":6}],297:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40519,7 +40539,7 @@ var AddShowPage = function (_RoleAwareComponent) {
 
 exports.default = AddShowPage;
 
-},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"./showEditor":313,"react":262,"react-router":203}],297:[function(require,module,exports){
+},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"./showEditor":314,"react":262,"react-router":203}],298:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40583,7 +40603,9 @@ var AddContestPage = function (_RoleAwareComponent) {
     }, {
         key: 'handleClickSave',
         value: function handleClickSave(newContest) {
-            ContestActions.addContest(this.props.params.showId, newContest);
+            var showId = this.props.params.showId;
+            var groupName = "show_" + showId;
+            ContestActions.addContest(showId, newContest, groupName);
             this.navigateToShowPage();
         }
     }, {
@@ -40612,7 +40634,7 @@ var AddContestPage = function (_RoleAwareComponent) {
 
 exports.default = AddContestPage;
 
-},{"../../../../common/pageContent":270,"../../../../common/roleAwareComponent":272,"../../../../data/actions/contestActions":274,"./contestEditor":299,"react":262,"react-router":203}],298:[function(require,module,exports){
+},{"../../../../common/pageContent":270,"../../../../common/roleAwareComponent":272,"../../../../data/actions/contestActions":274,"./contestEditor":300,"react":262,"react-router":203}],299:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40727,7 +40749,7 @@ var ContestPage = function (_React$Component) {
 
 exports.default = ContestPage;
 
-},{"../../../../common/pageContent":270,"../../../../data/actions/contestActions":274,"../../../../data/stores/contestStore":289,"./contestants":307,"./judges":309,"react":262}],299:[function(require,module,exports){
+},{"../../../../common/pageContent":270,"../../../../data/actions/contestActions":274,"../../../../data/stores/contestStore":289,"./contestants":308,"./judges":310,"react":262}],300:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40883,7 +40905,7 @@ var ContestEditor = function (_RoleAwareComponent) {
 
 exports.default = ContestEditor;
 
-},{"../../../../common/button":264,"../../../../common/formGroup":265,"../../../../common/input":266,"../../../../common/pageContent":270,"../../../../common/roleAwareComponent":272,"../../../../data/actions/contestActions":274,"clone":6,"react":262,"react-router":203}],300:[function(require,module,exports){
+},{"../../../../common/button":264,"../../../../common/formGroup":265,"../../../../common/input":266,"../../../../common/pageContent":270,"../../../../common/roleAwareComponent":272,"../../../../data/actions/contestActions":274,"clone":6,"react":262,"react-router":203}],301:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40995,7 +41017,7 @@ var ContestantPage = function (_React$Component) {
 
 exports.default = ContestantPage;
 
-},{"../../../../../common/pageContent":270,"../../../../../data/actions/contestantActions":275,"../../../../../data/stores/contestantStore":290,"./contestantUtil":301,"./scoreCards":305,"react":262}],301:[function(require,module,exports){
+},{"../../../../../common/pageContent":270,"../../../../../data/actions/contestantActions":275,"../../../../../data/stores/contestantStore":290,"./contestantUtil":302,"./scoreCards":306,"react":262}],302:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -41022,7 +41044,7 @@ var getDescription = function getDescription(contestant) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],302:[function(require,module,exports){
+},{}],303:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41172,7 +41194,7 @@ var ScorableCriterion = function (_React$Component2) {
 
 exports.default = ScorableCriteria;
 
-},{"../../../../../../common/input":266,"../../../../../../common/panel":271,"../../../../../../data/stores/scoreCardStore":293,"clone":6,"react":262}],303:[function(require,module,exports){
+},{"../../../../../../common/input":266,"../../../../../../common/panel":271,"../../../../../../data/stores/scoreCardStore":293,"clone":6,"react":262}],304:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41290,7 +41312,7 @@ var ScoreCardPage = function (_React$Component) {
 
 exports.default = ScoreCardPage;
 
-},{"../../../../../../common/pageContent":270,"../../../../../../data/actions/scoreCardActions":278,"../../../../../../data/stores/scoreCardStore":293,"./scorableCriteria":302,"./scoreCardUtil":304,"react":262}],304:[function(require,module,exports){
+},{"../../../../../../common/pageContent":270,"../../../../../../data/actions/scoreCardActions":278,"../../../../../../data/stores/scoreCardStore":293,"./scorableCriteria":303,"./scoreCardUtil":305,"react":262}],305:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -41366,7 +41388,7 @@ var getDescription = function getDescription(scoreCard) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{"react":262}],305:[function(require,module,exports){
+},{"react":262}],306:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41462,9 +41484,9 @@ var ScoreCardsBox = function (_React$Component) {
 
 exports.default = ScoreCardsBox;
 
-},{"../../../../../common/listPanel":269,"../../../../../data/actions/scoreCardActions":278,"../../../../../data/stores/scoreCardStore":293,"./scorecard/scoreCardUtil":306,"react":262}],306:[function(require,module,exports){
-arguments[4][304][0].apply(exports,arguments)
-},{"dup":304,"react":262}],307:[function(require,module,exports){
+},{"../../../../../common/listPanel":269,"../../../../../data/actions/scoreCardActions":278,"../../../../../data/stores/scoreCardStore":293,"./scorecard/scoreCardUtil":307,"react":262}],307:[function(require,module,exports){
+arguments[4][305][0].apply(exports,arguments)
+},{"dup":305,"react":262}],308:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41559,7 +41581,7 @@ var ContestantsBox = function (_React$Component) {
 
 exports.default = ContestantsBox;
 
-},{"../../../../common/listPanel":269,"../../../../data/actions/contestantActions":275,"../../../../data/stores/contestantStore":290,"./contestant/contestantUtil":301,"react":262}],308:[function(require,module,exports){
+},{"../../../../common/listPanel":269,"../../../../data/actions/contestantActions":275,"../../../../data/stores/contestantStore":290,"./contestant/contestantUtil":302,"react":262}],309:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -41576,7 +41598,7 @@ var getDescription = function getDescription(judge) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],309:[function(require,module,exports){
+},{}],310:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41671,7 +41693,7 @@ var JudgesBox = function (_React$Component) {
 
 exports.default = JudgesBox;
 
-},{"../../../../common/listPanel":269,"../../../../data/actions/judgeActions":277,"../../../../data/stores/judgeStore":292,"./judge/judgeUtil":308,"react":262}],310:[function(require,module,exports){
+},{"../../../../common/listPanel":269,"../../../../data/actions/judgeActions":277,"../../../../data/stores/judgeStore":292,"./judge/judgeUtil":309,"react":262}],311:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41722,8 +41744,7 @@ var ContestsBox = function (_React$Component) {
         _this.storeChanged = _this.storeChanged.bind(_this);
         _this.handleAddContestClick = _this.handleAddContestClick.bind(_this);
         _this.state = _this.getState();
-        _this.hubConnection = $.hubConnection(globalWebApiBaseUrl);
-        _this.contestsHubProxy = _this.hubConnection.createHubProxy('contestsHub');
+        _this.getcontestsHubGroupName = _this.getcontestsHubGroupName.bind(_this);
         return _this;
     }
 
@@ -41731,31 +41752,18 @@ var ContestsBox = function (_React$Component) {
         key: 'componentWillMount',
         value: function componentWillMount() {
             _contestStore2.default.on("change", this.storeChanged);
-            console.log("ContestsBox WillMount showId: " + this.props.showId);
             ContestActions.loadShowContests(this.props.showId);
         }
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
             _contestStore2.default.off("change", this.storeChanged);
+            contestsHubProxy.invoke('LeaveGroup', this.getcontestsHubGroupName());
         }
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
-            var self = this;
-
-            this.contestsHubProxy.on('contestsChanged', function () {
-                console.log('Client Function Invoked.');
-                console.log("contestsHubProxy DidMount showId: " + self.props.showId);
-                ContestActions.loadShowContests(self.props.showId);
-            });
-
-            this.hubConnection.start({ jsonp: true }).done(function () {
-                console.log('Connected');
-                self.contestsHubProxy.invoke('JoinGroup', self.props.showId);
-            }).fail(function () {
-                console.log('Could not connect');
-            });
+            contestsHubProxy.invoke('JoinGroup', this.getcontestsHubGroupName());
         }
     }, {
         key: 'storeChanged',
@@ -41766,6 +41774,11 @@ var ContestsBox = function (_React$Component) {
         key: 'getState',
         value: function getState() {
             return { contests: _contestStore2.default.getShowContests() };
+        }
+    }, {
+        key: 'getcontestsHubGroupName',
+        value: function getcontestsHubGroupName() {
+            return "show_" + this.props.showId;
         }
     }, {
         key: 'handleAddContestClick',
@@ -41796,7 +41809,7 @@ var ContestsBox = function (_React$Component) {
 
 exports.default = ContestsBox;
 
-},{"../../../common/button":264,"../../../common/listPanel":269,"../../../data/actions/contestActions":274,"../../../data/stores/contestStore":289,"react":262,"react-router":203}],311:[function(require,module,exports){
+},{"../../../common/button":264,"../../../common/listPanel":269,"../../../data/actions/contestActions":274,"../../../data/stores/contestStore":289,"react":262,"react-router":203}],312:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41931,7 +41944,7 @@ var EditShowPage = function (_RoleAwareComponent) {
 
 exports.default = EditShowPage;
 
-},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"../../../data/stores/showStore":294,"./showEditor":313,"react":262,"react-router":203}],312:[function(require,module,exports){
+},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"../../../data/stores/showStore":294,"./showEditor":314,"react":262,"react-router":203}],313:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42058,7 +42071,7 @@ var ShowPage = function (_React$Component) {
 
 exports.default = ShowPage;
 
-},{"../../../common/button":264,"../../../common/pageContent":270,"../../../data/actions/showActions":279,"../../../data/stores/showStore":294,"./contests":310,"react":262,"react-router":203}],313:[function(require,module,exports){
+},{"../../../common/button":264,"../../../common/pageContent":270,"../../../data/actions/showActions":279,"../../../data/stores/showStore":294,"./contests":311,"react":262,"react-router":203}],314:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42214,7 +42227,7 @@ var ShowEditor = function (_RoleAwareComponent) {
 
 exports.default = ShowEditor;
 
-},{"../../../common/button":264,"../../../common/formGroup":265,"../../../common/input":266,"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"clone":6,"react":262,"react-router":203}],314:[function(require,module,exports){
+},{"../../../common/button":264,"../../../common/formGroup":265,"../../../common/input":266,"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"clone":6,"react":262,"react-router":203}],315:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42344,7 +42357,7 @@ var ShowsBox = function (_React$Component2) {
 
 exports.default = ShowsPage;
 
-},{"../../common/button":264,"../../common/listPanel":269,"../../common/pageContent":270,"../../data/actions/showActions":279,"../../data/stores/showStore":294,"react":262,"react-router":203}],315:[function(require,module,exports){
+},{"../../common/button":264,"../../common/listPanel":269,"../../common/pageContent":270,"../../data/actions/showActions":279,"../../data/stores/showStore":294,"react":262,"react-router":203}],316:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42368,7 +42381,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"react":262}],316:[function(require,module,exports){
+},{"react":262}],317:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42572,7 +42585,7 @@ var JudgesPage = function (_React$Component2) {
 
 exports.default = JudgesPage;
 
-},{"../common/formGroup":265,"../common/input":266,"../data/actions/judgeActions":277,"../data/stores/judgeStore":292,"jquery":25,"react":262}],317:[function(require,module,exports){
+},{"../common/formGroup":265,"../common/input":266,"../data/actions/judgeActions":277,"../data/stores/judgeStore":292,"jquery":25,"react":262}],318:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

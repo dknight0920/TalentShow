@@ -12,38 +12,22 @@ class ContestsBox extends React.Component {
         this.getState = this.getState.bind(this);
         this.storeChanged = this.storeChanged.bind(this);
         this.handleAddContestClick = this.handleAddContestClick.bind(this);
-        this.state = this.getState();
-        this.hubConnection = $.hubConnection(globalWebApiBaseUrl);     
-        this.contestsHubProxy = this.hubConnection.createHubProxy('contestsHub')
+        this.state = this.getState();  
+        this.getcontestsHubGroupName = this.getcontestsHubGroupName.bind(this);
     }
 
     componentWillMount(){
         ContestStore.on("change", this.storeChanged);
-        console.log("ContestsBox WillMount showId: " + this.props.showId);
         ContestActions.loadShowContests(this.props.showId);
     }
 
     componentWillUnmount(){
         ContestStore.off("change", this.storeChanged);
+        contestsHubProxy.invoke('LeaveGroup', this.getcontestsHubGroupName());
     }
 
-    componentDidMount(){
-        var self = this;
-
-        this.contestsHubProxy.on('contestsChanged', function() {
-            console.log('Client Function Invoked.');
-            console.log("contestsHubProxy DidMount showId: " + self.props.showId);
-            ContestActions.loadShowContests(self.props.showId); 
-        });
- 
-        this.hubConnection.start({ jsonp: true })
-            .done(function(){ 
-                console.log('Connected');
-                self.contestsHubProxy.invoke('JoinGroup', self.props.showId);
-            })
-            .fail(function(){ 
-                console.log('Could not connect'); 
-            });
+    componentDidMount(){ 
+        contestsHubProxy.invoke('JoinGroup', this.getcontestsHubGroupName());
     }
 
     storeChanged(){
@@ -52,6 +36,10 @@ class ContestsBox extends React.Component {
 
     getState(){
         return { contests: ContestStore.getShowContests() };
+    }
+
+    getcontestsHubGroupName(){
+        return "show_" + this.props.showId;
     }
 
     handleAddContestClick(e){
