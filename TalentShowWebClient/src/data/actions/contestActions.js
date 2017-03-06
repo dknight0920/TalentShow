@@ -1,7 +1,8 @@
 ﻿import Dispatcher from '../dispatcher';
 import * as ContestApi from '../api/contestApi';
+import * as Hubs from '../signalr/hubs';
 
-export function loadShowContests(showId){
+var loadShowContests = function(showId){
     Dispatcher.dispatch({type: "LOAD_SHOW_CONTESTS", showId: showId});
 
     ContestApi.getShowContests(showId, 
@@ -13,7 +14,7 @@ export function loadShowContests(showId){
         });
 };
 
-export function loadContest(contestId){
+var loadContest = function(contestId){
     Dispatcher.dispatch({type: "LOAD_CONTEST", contestId: contestId});
 
     ContestApi.get(contestId, 
@@ -25,7 +26,7 @@ export function loadContest(contestId){
         });
 };
 
-export function addContest(showId, newContest, groupName){
+var addContest = function(showId, newContest, groupName){
     Dispatcher.dispatch({type: "ADD_CONTEST", showContest: {showId: showId, newContest: newContest, groupName: groupName}});
 
     ContestApi.add(showId, newContest, 
@@ -36,3 +37,21 @@ export function addContest(showId, newContest, groupName){
             Dispatcher.dispatch({type: "ADD_CONTEST_FAIL", error: err, groupName: groupName});
         });
 };
+
+var removeContest = function(showId, contestId, groupName){
+    Dispatcher.dispatch({type: "REMOVE_CONTEST", showContest: {showId: showId, contestId: contestId, groupName: groupName}});
+
+    ContestApi.remove(contestId, 
+        function success(){
+            Dispatcher.dispatch({type: "REMOVE_CONTEST_SUCCESS", contestId: contestId, groupName: groupName, showId: showId});
+        }, 
+        function fail(err){
+            Dispatcher.dispatch({type: "REMOVE_CONTEST_FAIL", error: err, groupName: groupName});
+        });
+};
+
+Hubs.contestsHubProxy.on('contestsChanged', function(showId) {
+    loadShowContests(showId); 
+});
+
+export {loadShowContests, loadContest, addContest, removeContest};

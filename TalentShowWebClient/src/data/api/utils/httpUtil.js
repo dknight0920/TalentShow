@@ -33,8 +33,8 @@ var put = function (options, data) {
     makeRequest(options, "PUT", data);
 };
 
-var remove = function (options, data) {
-    makeRequest(options, "DELETE", data);
+var remove = function (options) {
+    makeRequest(options, "DELETE");
 };
 
 export {get, post, put, remove};

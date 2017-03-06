@@ -59,10 +59,10 @@ class ShowPage extends React.Component {
 
         var show = this.state.show;
 
-        var editShowButton = ( <Button type="primary" authorizedRoles={["admin"]} name="editShow" value="Edit" onClick={this.handleEditShowClick} /> );
+        var editShowButton = ( <Button key="editShow" type="primary" authorizedRoles={["admin"]} name="editShow" value="Edit" onClick={this.handleEditShowClick} /> );
 
         return (
-            <PageContent title={show.Name} description={show.Description} button={editShowButton}>
+            <PageContent title={show.Name} description={show.Description} buttons={[editShowButton]}>
                 <ContestsBox showId={show.Id} />
             </PageContent>
         );

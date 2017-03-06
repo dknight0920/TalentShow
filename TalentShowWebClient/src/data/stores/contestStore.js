@@ -2,11 +2,7 @@
 import Dispatcher from '../dispatcher';
 import * as StoreUtils from './utils/storeUtils';
 import * as BroadcastUtil from './utils/broadcastUtil';
-import * as ContestActions from '../actions/contestActions';
-
-contestsHubProxy.on('contestsChanged', function(showId) {
-    ContestActions.loadShowContests(showId); 
-});
+import * as Hubs from '../signalr/hubs';
 
 class ContestStore extends EventEmitter {
     constructor(){
@@ -22,6 +18,10 @@ class ContestStore extends EventEmitter {
 
         this.pushContest = function(contest){
             StoreUtils.pushItem(contest, self.contests, self.setContests);
+        };
+
+        this.removeContest = function(contestId){
+            StoreUtils.removeItem(contestId, self.contests, self.setContests);
         };
 
         this.getShowContests = function(){
@@ -62,11 +62,21 @@ class ContestStore extends EventEmitter {
                 case "ADD_CONTEST_FAIL":
                     //TODO
                     break;
+                case "REMOVE_CONTEST":
+                    //TODO
+                    break;
+                case "REMOVE_CONTEST_SUCCESS":
+                    self.removeContest(action.contestId);
+                    broadcastChange(action.groupName, action.showId);
+                    break;
+                case "REMOVE_CONTEST_FAIL":
+                    //TODO
+                    break;
             }
         };
 
         var broadcastChange = function(groupName, showId){
-            BroadcastUtil.broadcastChange(contestsHubProxy, groupName, showId);
+            BroadcastUtil.broadcastChange(Hubs.contestsHubProxy, groupName, showId);
         };
 
         Dispatcher.register(this.handleAction.bind(this));

@@ -33,4 +33,17 @@ var pushItem = function(item, items, callback){
     callback(clonedItems);
 };
 
-export {get, pushItem};
+var removeItem = function(id, items, callback){
+    var clonedItems = Clone(items);
+    var results = [];
+
+    for (var i = 0; i < clonedItems.length; i++){
+         if(clonedItems[i].Id !== id){
+            results.push(clonedItems[i]);
+        }
+    }
+
+    callback(results);
+};
+
+export {get, pushItem, removeItem};

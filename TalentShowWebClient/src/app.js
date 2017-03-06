@@ -13,6 +13,7 @@ import contest from './modules/ControlCenter/show/contest/contest';
 import addContest from './modules/ControlCenter/show/contest/addContest';
 import contestant from './modules/ControlCenter/show/contest/contestant/contestant';
 import scoreCard from './modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard';
+import * as Hubs from './data/signalr/hubs';
 
 var Menu = React.createClass({
     render: function () {
@@ -48,7 +49,7 @@ function getToken(){
     return sessionStorage.getItem("token");
 }
 
- hubConnection.start({ transport: ['webSockets'], jsonp: true })
+ Hubs.hubConnection.start({ transport: ['webSockets'], jsonp: true })
     .done(function(){
         console.log("Connected");     
 

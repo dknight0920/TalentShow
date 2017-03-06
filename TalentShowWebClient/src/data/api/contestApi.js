@@ -60,8 +60,16 @@ var update = function (contest, callback) {
     }, JSON.stringify(contest));
 };
 
-var remove = function (contest) {
-    
+var remove = function (contestId, success, fail) {
+    ApiHttpUtil.remove({
+        url:  "api/Contests/" + contestId,
+        success: function(){
+            success();          
+        },
+        error: function(request, status, err){
+            fail(err);
+        }
+    });
 };
 
 export {getShowContests, getAll, get, add, update, remove};

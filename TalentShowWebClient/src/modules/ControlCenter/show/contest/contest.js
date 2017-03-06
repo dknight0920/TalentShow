@@ -1,9 +1,11 @@
 ﻿import React from 'react';
+import { hashHistory } from 'react-router';
 import ContestantsBox from './contestants';
 import JudgesBox from './judges';
 import ContestStore from '../../../../data/stores/contestStore';
 import * as ContestActions from '../../../../data/actions/contestActions';
 import PageContent from '../../../../common/pageContent';
+import Button from '../../../../common/button';
 
 class ContestPage extends React.Component {
     constructor(props) {
@@ -12,6 +14,9 @@ class ContestPage extends React.Component {
         this.storeChanged = this.storeChanged.bind(this);
         this.getContest = this.getContest.bind(this);
         this.getContestId = this.getContestId.bind(this);
+        this.getShowId = this.getShowId.bind(this);
+        this.handleEditContestClick = this.handleEditContestClick.bind(this);
+        this.handleRemoveContestClick = this.handleRemoveContestClick.bind(this);
         this.state = this.getState();
     }
 
@@ -40,10 +45,27 @@ class ContestPage extends React.Component {
         return this.props.params.contestId;
     }
 
+    getShowId() {
+        return this.props.params.showId;
+    }
+
+    handleEditContestClick(e){
+        e.preventDefault();
+        alert("TODO edit contest");
+        //hashHistory.push('/show/' + this.getShowId() + '/edit'); //TODO
+    }
+
+    handleRemoveContestClick(e){
+        e.preventDefault();
+        var groupName = "show_" + this.getShowId();
+        ContestActions.removeContest(this.getShowId(), this.getContestId(), groupName);
+        hashHistory.push('/show/' + this.getShowId());
+    }
+
     render() {
         var contest = this.state.contest;
-        var showId = this.props.params.showId;
-        var contestId = this.props.params.contestId;
+        var showId = this.getShowId();
+        var contestId = this.getContestId();
 
         if (!contest){
             return (
@@ -51,8 +73,13 @@ class ContestPage extends React.Component {
             );
         }
 
+        var authorizedRolesForButtons = ["admin"];
+        var editContestButton = ( <Button key="editContest" type="primary" authorizedRoles={authorizedRolesForButtons} name="editContest" value="Edit" onClick={this.handleEditContestClick} /> );
+        var removeContestButton = ( <Button key="removeContest" type="primary" authorizedRoles={authorizedRolesForButtons} name="removeContest" value="Remove" onClick={this.handleRemoveContestClick} /> );
+        var contestPageButtons = [editContestButton, removeContestButton];
+
         return (
-            <PageContent title={contest.Name} description={contest.Description}>
+            <PageContent title={contest.Name} description={contest.Description} buttons={contestPageButtons}>
                 <ContestantsBox showId={showId} contestId={contestId} />         
                 <JudgesBox showId={showId} contestId={contestId} />
             </PageContent>

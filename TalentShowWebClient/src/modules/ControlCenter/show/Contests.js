@@ -4,6 +4,7 @@ import { ListPanel, ListPanelItem } from '../../../common/listPanel';
 import Button from '../../../common/button';
 import ContestStore from '../../../data/stores/contestStore';
 import * as ContestActions from '../../../data/actions/contestActions';
+import * as Hubs from '../../../data/signalr/hubs';
 
 class ContestsBox extends React.Component {
 
@@ -23,11 +24,11 @@ class ContestsBox extends React.Component {
 
     componentWillUnmount(){
         ContestStore.off("change", this.storeChanged);
-        contestsHubProxy.invoke('LeaveGroup', this.getcontestsHubGroupName());
+        Hubs.contestsHubProxy.invoke('LeaveGroup', this.getcontestsHubGroupName());
     }
 
     componentDidMount(){ 
-        contestsHubProxy.invoke('JoinGroup', this.getcontestsHubGroupName());
+        Hubs.contestsHubProxy.invoke('JoinGroup', this.getcontestsHubGroupName());
     }
 
     storeChanged(){
