@@ -51,8 +51,7 @@ class ContestPage extends React.Component {
 
     handleEditContestClick(e){
         e.preventDefault();
-        alert("TODO edit contest");
-        //hashHistory.push('/show/' + this.getShowId() + '/edit'); //TODO
+        hashHistory.push('/show/' + this.getShowId() + '/contests/' + this.getContestId() + '/edit');
     }
 
     handleRemoveContestClick(e){

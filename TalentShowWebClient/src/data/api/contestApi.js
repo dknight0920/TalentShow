@@ -48,14 +48,14 @@ var add = function (showId, contest, success, fail) {
     }, JSON.stringify(contest));
 };
 
-var update = function (contest, callback) {
+var update = function (contest, success, fail) {
     ApiHttpUtil.put({
         url:  "api/Contests/",
         success: function(result){
-            callback(result);
+            success(result);
         },
         error: function(request, status, err){
-            //TODO handle error
+            fail(err);
         }
     }, JSON.stringify(contest));
 };

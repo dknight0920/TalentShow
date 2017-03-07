@@ -38322,6 +38322,10 @@ var _addContest = require('./modules/ControlCenter/show/contest/addContest');
 
 var _addContest2 = _interopRequireDefault(_addContest);
 
+var _editContest = require('./modules/ControlCenter/show/contest/editContest');
+
+var _editContest2 = _interopRequireDefault(_editContest);
+
 var _contestant = require('./modules/ControlCenter/show/contest/contestant/contestant');
 
 var _contestant2 = _interopRequireDefault(_contestant);
@@ -38432,6 +38436,7 @@ Hubs.hubConnection.start({ transport: ['webSockets'], jsonp: true }).done(functi
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/edit', component: _editShow2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contests/add', component: _addContest2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId', component: _contest2.default }),
+                _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contests/:contestId/edit', component: _editContest2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/contestant/:contestantId', component: _contestant2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/contestant/:contestantId/scorecard/:scoreCardId', component: _scoreCard2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _about2.default }),
@@ -38441,7 +38446,7 @@ Hubs.hubConnection.start({ transport: ['webSockets'], jsonp: true }).done(functi
     ), document.getElementById('app'));
 });
 
-},{"./common/unauthorizedUserPageContent":273,"./data/signalr/hubs":289,"./modules/ControlCenter/show/addShow":298,"./modules/ControlCenter/show/contest/addContest":299,"./modules/ControlCenter/show/contest/contest":300,"./modules/ControlCenter/show/contest/contestant/contestant":302,"./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard":305,"./modules/ControlCenter/show/editShow":313,"./modules/ControlCenter/show/show":314,"./modules/ControlCenter/shows":316,"./modules/about":317,"./modules/judges":318,"./modules/login":319,"react":262,"react-dom":26,"react-router":203}],264:[function(require,module,exports){
+},{"./common/unauthorizedUserPageContent":273,"./data/signalr/hubs":289,"./modules/ControlCenter/show/addShow":298,"./modules/ControlCenter/show/contest/addContest":299,"./modules/ControlCenter/show/contest/contest":300,"./modules/ControlCenter/show/contest/contestant/contestant":302,"./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard":305,"./modules/ControlCenter/show/contest/editContest":310,"./modules/ControlCenter/show/editShow":314,"./modules/ControlCenter/show/show":315,"./modules/ControlCenter/shows":317,"./modules/about":318,"./modules/judges":319,"./modules/login":320,"react":262,"react-dom":26,"react-router":203}],264:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39121,7 +39126,7 @@ exports.default = UnauthorizedUserPageContent;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.removeContest = exports.addContest = exports.loadContest = exports.loadShowContests = undefined;
+exports.removeContest = exports.updateContest = exports.addContest = exports.loadContest = exports.loadShowContests = undefined;
 
 var _dispatcher = require('../dispatcher');
 
@@ -39140,21 +39145,27 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var loadShowContests = function loadShowContests(showId) {
+    console.log("LOAD_SHOW_CONTESTS");
     _dispatcher2.default.dispatch({ type: "LOAD_SHOW_CONTESTS", showId: showId });
 
     ContestApi.getShowContests(showId, function success(contests) {
+        console.log("LOAD_SHOW_CONTESTS_SUCCESS");
         _dispatcher2.default.dispatch({ type: "LOAD_SHOW_CONTESTS_SUCCESS", contests: contests });
     }, function fail(err) {
+        console.log("LOAD_SHOW_CONTESTS_FAIL");
         _dispatcher2.default.dispatch({ type: "LOAD_SHOW_CONTESTS_FAIL", error: err });
     });
 };
 
 var loadContest = function loadContest(contestId) {
+    console.log("LOAD_CONTEST");
     _dispatcher2.default.dispatch({ type: "LOAD_CONTEST", contestId: contestId });
 
     ContestApi.get(contestId, function success(contest) {
+        console.log("LOAD_CONTEST_SUCCESS");
         _dispatcher2.default.dispatch({ type: "LOAD_CONTEST_SUCCESS", contest: contest });
     }, function fail(err) {
+        console.log("LOAD_CONTEST_FAIL");
         _dispatcher2.default.dispatch({ type: "LOAD_CONTEST_FAIL", error: err });
     });
 };
@@ -39166,6 +39177,16 @@ var addContest = function addContest(showId, newContest, groupName) {
         _dispatcher2.default.dispatch({ type: "ADD_CONTEST_SUCCESS", contest: contest, groupName: groupName, showId: showId });
     }, function fail(err) {
         _dispatcher2.default.dispatch({ type: "ADD_CONTEST_FAIL", error: err, groupName: groupName });
+    });
+};
+
+var updateContest = function updateContest(showId, contest, groupName) {
+    _dispatcher2.default.dispatch({ type: "UPDATE_CONTEST", showContest: { showId: showId, contest: contest, groupName: groupName } });
+
+    ContestApi.update(contest, function success(contest) {
+        _dispatcher2.default.dispatch({ type: "UPDATE_CONTEST_SUCCESS", contest: contest, groupName: groupName, showId: showId });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "UPDATE_CONTEST_FAIL", error: err, groupName: groupName });
     });
 };
 
@@ -39186,6 +39207,7 @@ Hubs.contestsHubProxy.on('contestsChanged', function (showId) {
 exports.loadShowContests = loadShowContests;
 exports.loadContest = loadContest;
 exports.addContest = addContest;
+exports.updateContest = updateContest;
 exports.removeContest = removeContest;
 
 },{"../api/contestApi":280,"../dispatcher":288,"../signalr/hubs":289}],275:[function(require,module,exports){
@@ -39204,10 +39226,12 @@ var _dispatcher2 = _interopRequireDefault(_dispatcher);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function loadContestContestants(contestId) {
+    console.log("LOAD_CONTEST_CONTESTANTS");
     _dispatcher2.default.dispatch({ type: "LOAD_CONTEST_CONTESTANTS", contestId: contestId });
 };
 
 function loadContestant(contestantId) {
+    console.log("LOAD_CONTESTANT");
     _dispatcher2.default.dispatch({ type: "LOAD_CONTESTANT", contestantId: contestantId });
 };
 
@@ -39380,23 +39404,23 @@ var add = function add(showId, contest, _success3, fail) {
     }, JSON.stringify(contest));
 };
 
-var update = function update(contest, callback) {
+var update = function update(contest, _success4, fail) {
     ApiHttpUtil.put({
         url: "api/Contests/",
         success: function success(result) {
-            callback(result);
+            _success4(result);
         },
         error: function error(request, status, err) {
-            //TODO handle error
+            fail(err);
         }
     }, JSON.stringify(contest));
 };
 
-var remove = function remove(contestId, _success4, fail) {
+var remove = function remove(contestId, _success5, fail) {
     ApiHttpUtil.remove({
         url: "api/Contests/" + contestId,
         success: function success() {
-            _success4();
+            _success5();
         },
         error: function error(request, status, err) {
             fail(err);
@@ -39944,6 +39968,16 @@ var ContestStore = function (_EventEmitter) {
                     broadcastChange(action.groupName, action.showId);
                     break;
                 case "ADD_CONTEST_FAIL":
+                    //TODO
+                    break;
+                case "UPDATE_CONTEST":
+                    //TODO
+                    break;
+                case "UPDATE_CONTEST_SUCCESS":
+                    self.pushContest(action.contest);
+                    broadcastChange(action.groupName, action.showId);
+                    break;
+                case "UPDATE_CONTEST_FAIL":
                     //TODO
                     break;
                 case "REMOVE_CONTEST":
@@ -40613,7 +40647,7 @@ var AddShowPage = function (_RoleAwareComponent) {
 
 exports.default = AddShowPage;
 
-},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"./showEditor":315,"react":262,"react-router":203}],299:[function(require,module,exports){
+},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"./showEditor":316,"react":262,"react-router":203}],299:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40816,8 +40850,7 @@ var ContestPage = function (_React$Component) {
         key: 'handleEditContestClick',
         value: function handleEditContestClick(e) {
             e.preventDefault();
-            alert("TODO edit contest");
-            //hashHistory.push('/show/' + this.getShowId() + '/edit'); //TODO
+            _reactRouter.hashHistory.push('/show/' + this.getShowId() + '/contests/' + this.getContestId() + '/edit');
         }
     }, {
         key: 'handleRemoveContestClick',
@@ -40857,7 +40890,7 @@ var ContestPage = function (_React$Component) {
 
 exports.default = ContestPage;
 
-},{"../../../../common/button":264,"../../../../common/pageContent":270,"../../../../data/actions/contestActions":274,"../../../../data/stores/contestStore":290,"./contestants":309,"./judges":311,"react":262,"react-router":203}],301:[function(require,module,exports){
+},{"../../../../common/button":264,"../../../../common/pageContent":270,"../../../../data/actions/contestActions":274,"../../../../data/stores/contestStore":290,"./contestants":309,"./judges":312,"react":262,"react-router":203}],301:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41690,6 +41723,148 @@ var ContestantsBox = function (_React$Component) {
 exports.default = ContestantsBox;
 
 },{"../../../../common/listPanel":269,"../../../../data/actions/contestantActions":275,"../../../../data/stores/contestantStore":291,"./contestant/contestantUtil":303,"react":262}],310:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require('react-router');
+
+var _contestEditor = require('./contestEditor');
+
+var _contestEditor2 = _interopRequireDefault(_contestEditor);
+
+var _contestStore = require('../../../../data/stores/contestStore');
+
+var _contestStore2 = _interopRequireDefault(_contestStore);
+
+var _contestActions = require('../../../../data/actions/contestActions');
+
+var ContestActions = _interopRequireWildcard(_contestActions);
+
+var _pageContent = require('../../../../common/pageContent');
+
+var _pageContent2 = _interopRequireDefault(_pageContent);
+
+var _roleAwareComponent = require('../../../../common/roleAwareComponent');
+
+var _roleAwareComponent2 = _interopRequireDefault(_roleAwareComponent);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var EditContestPage = function (_RoleAwareComponent) {
+    _inherits(EditContestPage, _RoleAwareComponent);
+
+    function EditContestPage(props) {
+        _classCallCheck(this, EditContestPage);
+
+        var _this = _possibleConstructorReturn(this, (EditContestPage.__proto__ || Object.getPrototypeOf(EditContestPage)).call(this, props));
+
+        _this.getState = _this.getState.bind(_this);
+        _this.storeChanged = _this.storeChanged.bind(_this);
+        _this.getContest = _this.getContest.bind(_this);
+        _this.getContestId = _this.getContestId.bind(_this);
+        _this.getShowId = _this.getShowId.bind(_this);
+        _this.handleClickSave = _this.handleClickSave.bind(_this);
+        _this.handleClickCancel = _this.handleClickCancel.bind(_this);
+        _this.navigateToContestPage = _this.navigateToContestPage.bind(_this);
+        _this.authorizedRoles = ["admin"];
+        _this.state = _this.getState();
+        return _this;
+    }
+
+    _createClass(EditContestPage, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            this.redirectUnauthorizedUser();
+            _contestStore2.default.on("change", this.storeChanged);
+            ContestActions.loadContest(this.getContestId());
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            _contestStore2.default.off("change", this.storeChanged);
+        }
+    }, {
+        key: 'storeChanged',
+        value: function storeChanged() {
+            this.setState(this.getState());
+        }
+    }, {
+        key: 'handleClickSave',
+        value: function handleClickSave(contest) {
+            var groupName = "show_" + this.getShowId();
+            ContestActions.updateContest(this.getShowId(), contest, groupName);
+            this.navigateToContestPage();
+        }
+    }, {
+        key: 'handleClickCancel',
+        value: function handleClickCancel() {
+            this.navigateToContestPage();
+        }
+    }, {
+        key: 'navigateToContestPage',
+        value: function navigateToContestPage() {
+            _reactRouter.hashHistory.push('/show/' + this.getShowId() + "/contest/" + this.getContestId());
+        }
+    }, {
+        key: 'getState',
+        value: function getState() {
+            return { contest: this.getContest() };
+        }
+    }, {
+        key: 'getContest',
+        value: function getContest() {
+            return _contestStore2.default.get(this.getContestId());
+        }
+    }, {
+        key: 'getContestId',
+        value: function getContestId() {
+            return this.props.params.contestId;
+        }
+    }, {
+        key: 'getShowId',
+        value: function getShowId() {
+            return this.props.params.showId;
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var contest = this.state.contest;
+
+            if (!contest) {
+                return _react2.default.createElement(_pageContent2.default, { title: 'Loading', description: 'The contest\'s details are loading, please wait.' });
+            }
+
+            return _react2.default.createElement(
+                _pageContent2.default,
+                { title: 'Edit a Contest', description: 'Use the form below to edit the contest.' },
+                _react2.default.createElement(_contestEditor2.default, { contest: contest, authorizedRoles: this.authorizedRoles, OnClickSave: this.handleClickSave, OnClickCancel: this.handleClickCancel })
+            );
+        }
+    }]);
+
+    return EditContestPage;
+}(_roleAwareComponent2.default);
+
+exports.default = EditContestPage;
+
+},{"../../../../common/pageContent":270,"../../../../common/roleAwareComponent":272,"../../../../data/actions/contestActions":274,"../../../../data/stores/contestStore":290,"./contestEditor":301,"react":262,"react-router":203}],311:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -41706,7 +41881,7 @@ var getDescription = function getDescription(judge) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],311:[function(require,module,exports){
+},{}],312:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41801,7 +41976,7 @@ var JudgesBox = function (_React$Component) {
 
 exports.default = JudgesBox;
 
-},{"../../../../common/listPanel":269,"../../../../data/actions/judgeActions":277,"../../../../data/stores/judgeStore":293,"./judge/judgeUtil":310,"react":262}],312:[function(require,module,exports){
+},{"../../../../common/listPanel":269,"../../../../data/actions/judgeActions":277,"../../../../data/stores/judgeStore":293,"./judge/judgeUtil":311,"react":262}],313:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41921,7 +42096,7 @@ var ContestsBox = function (_React$Component) {
 
 exports.default = ContestsBox;
 
-},{"../../../common/button":264,"../../../common/listPanel":269,"../../../data/actions/contestActions":274,"../../../data/signalr/hubs":289,"../../../data/stores/contestStore":290,"react":262,"react-router":203}],313:[function(require,module,exports){
+},{"../../../common/button":264,"../../../common/listPanel":269,"../../../data/actions/contestActions":274,"../../../data/signalr/hubs":289,"../../../data/stores/contestStore":290,"react":262,"react-router":203}],314:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42056,7 +42231,7 @@ var EditShowPage = function (_RoleAwareComponent) {
 
 exports.default = EditShowPage;
 
-},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"../../../data/stores/showStore":295,"./showEditor":315,"react":262,"react-router":203}],314:[function(require,module,exports){
+},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"../../../data/stores/showStore":295,"./showEditor":316,"react":262,"react-router":203}],315:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42183,7 +42358,7 @@ var ShowPage = function (_React$Component) {
 
 exports.default = ShowPage;
 
-},{"../../../common/button":264,"../../../common/pageContent":270,"../../../data/actions/showActions":279,"../../../data/stores/showStore":295,"./contests":312,"react":262,"react-router":203}],315:[function(require,module,exports){
+},{"../../../common/button":264,"../../../common/pageContent":270,"../../../data/actions/showActions":279,"../../../data/stores/showStore":295,"./contests":313,"react":262,"react-router":203}],316:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42339,7 +42514,7 @@ var ShowEditor = function (_RoleAwareComponent) {
 
 exports.default = ShowEditor;
 
-},{"../../../common/button":264,"../../../common/formGroup":265,"../../../common/input":266,"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"clone":6,"react":262,"react-router":203}],316:[function(require,module,exports){
+},{"../../../common/button":264,"../../../common/formGroup":265,"../../../common/input":266,"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"clone":6,"react":262,"react-router":203}],317:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42469,7 +42644,7 @@ var ShowsBox = function (_React$Component2) {
 
 exports.default = ShowsPage;
 
-},{"../../common/button":264,"../../common/listPanel":269,"../../common/pageContent":270,"../../data/actions/showActions":279,"../../data/stores/showStore":295,"react":262,"react-router":203}],317:[function(require,module,exports){
+},{"../../common/button":264,"../../common/listPanel":269,"../../common/pageContent":270,"../../data/actions/showActions":279,"../../data/stores/showStore":295,"react":262,"react-router":203}],318:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42493,7 +42668,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"react":262}],318:[function(require,module,exports){
+},{"react":262}],319:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42697,7 +42872,7 @@ var JudgesPage = function (_React$Component2) {
 
 exports.default = JudgesPage;
 
-},{"../common/formGroup":265,"../common/input":266,"../data/actions/judgeActions":277,"../data/stores/judgeStore":293,"jquery":25,"react":262}],319:[function(require,module,exports){
+},{"../common/formGroup":265,"../common/input":266,"../data/actions/judgeActions":277,"../data/stores/judgeStore":293,"jquery":25,"react":262}],320:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

@@ -62,6 +62,16 @@ class ContestStore extends EventEmitter {
                 case "ADD_CONTEST_FAIL":
                     //TODO
                     break;
+                case "UPDATE_CONTEST":
+                    //TODO
+                    break;
+                case "UPDATE_CONTEST_SUCCESS":
+                    self.pushContest(action.contest);
+                    broadcastChange(action.groupName, action.showId);
+                    break;
+                case "UPDATE_CONTEST_FAIL":
+                    //TODO
+                    break;
                 case "REMOVE_CONTEST":
                     //TODO
                     break;
