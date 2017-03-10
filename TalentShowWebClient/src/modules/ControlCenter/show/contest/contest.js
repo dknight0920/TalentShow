@@ -4,8 +4,11 @@ import ContestantsBox from './contestants';
 import JudgesBox from './judges';
 import ContestStore from '../../../../data/stores/contestStore';
 import * as ContestActions from '../../../../data/actions/contestActions';
+import * as ContestantActions from '../../../../data/actions/contestantActions';
+import * as JudgeActions from '../../../../data/actions/judgeActions';
 import PageContent from '../../../../common/pageContent';
 import Button from '../../../../common/button';
+import * as Hubs from '../../../../data/signalr/hubs';
 
 class ContestPage extends React.Component {
     constructor(props) {
@@ -17,16 +20,26 @@ class ContestPage extends React.Component {
         this.getShowId = this.getShowId.bind(this);
         this.handleEditContestClick = this.handleEditContestClick.bind(this);
         this.handleRemoveContestClick = this.handleRemoveContestClick.bind(this);
+        this.timeout = null;
+        this.hasTimedOut = false;
         this.state = this.getState();
+        this.getcontestsHubGroupName = this.getcontestsHubGroupName.bind(this);   
     }
 
     componentWillMount(){
         ContestStore.on("change", this.storeChanged);
         ContestActions.loadContest(this.getContestId());
+        ContestantActions.loadContestContestants(this.getContestId());
+        JudgeActions.loadContestJudges(this.getContestId());
     }
 
     componentWillUnmount(){
         ContestStore.off("change", this.storeChanged);
+        Hubs.contestsHubProxy.invoke('LeaveGroup', this.getcontestsHubGroupName());
+    }
+
+    componentDidMount(){ 
+        Hubs.contestsHubProxy.invoke('JoinGroup', this.getcontestsHubGroupName());
     }
 
     storeChanged(){
@@ -34,7 +47,7 @@ class ContestPage extends React.Component {
     }
 
     getState(){
-        return { contest: this.getContest() };
+        return { contest: this.getContest(), hasTimedOut: this.hasTimedOut };
     }
 
     getContest() {
@@ -47,6 +60,10 @@ class ContestPage extends React.Component {
 
     getShowId() {
         return this.props.params.showId;
+    }
+
+    getcontestsHubGroupName(){
+        return "show_" + this.getShowId();
     }
 
     handleEditContestClick(e){
@@ -66,7 +83,23 @@ class ContestPage extends React.Component {
         var showId = this.getShowId();
         var contestId = this.getContestId();
 
-        if (!contest){
+        if(this.timeout){
+            clearTimeout(this.timeout);
+        }
+
+        if (this.hasTimedOut){
+        return (
+                <PageContent title="Failed to Load Contest" description="The requested contest could not be loaded in a timely manner. The contest may not exist."></PageContent>
+            );
+        }
+
+        if (!contest){     
+            var self = this;
+            this.timeout = setTimeout(function(){
+                self.hasTimedOut = true;
+                self.setState(self.getState());
+            }, 10000);
+
             return (
                 <PageContent title="Loading" description="The contest's details are loading, please wait."></PageContent>
             );

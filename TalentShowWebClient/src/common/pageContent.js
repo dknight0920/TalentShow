@@ -4,6 +4,7 @@ class PageContent extends React.Component {
 
     constructor(props) {
         super(props);
+        this.timeout = null;
     }
 
     render() {

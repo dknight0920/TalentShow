@@ -1,7 +1,6 @@
 ﻿import React from 'react';
 import { ListPanel, ListPanelItem } from '../../../../common/listPanel';
 import ContestantStore from '../../../../data/stores/contestantStore';
-import * as ContestantActions from '../../../../data/actions/contestantActions';
 import * as ContestantUtil from './contestant/contestantUtil';
 
 class ContestantsBox extends React.Component {
@@ -15,7 +14,6 @@ class ContestantsBox extends React.Component {
 
     componentWillMount(){
         ContestantStore.on("change", this.storeChanged);
-        ContestantActions.loadContestContestants(this.props.contestId);
     }
 
     componentWillUnmount(){

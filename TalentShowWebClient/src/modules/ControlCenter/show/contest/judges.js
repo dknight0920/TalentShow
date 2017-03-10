@@ -1,7 +1,6 @@
 ﻿import React from 'react';
 import { ListPanel, ListPanelItem } from '../../../../common/listPanel';
 import JudgeStore from '../../../../data/stores/judgeStore';
-import * as JudgeActions from '../../../../data/actions/judgeActions';
 import * as JudgeUtil from './judge/judgeUtil';
 
 class JudgesBox extends React.Component {
@@ -15,7 +14,6 @@ class JudgesBox extends React.Component {
 
     componentWillMount(){
         JudgeStore.on("change", this.storeChanged);
-        JudgeActions.loadContestJudges(this.props.contestId);
     }
 
     componentWillUnmount(){

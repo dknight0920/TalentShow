@@ -3,31 +3,25 @@ import * as ContestApi from '../api/contestApi';
 import * as Hubs from '../signalr/hubs';
 
 var loadShowContests = function(showId){
-    console.log("LOAD_SHOW_CONTESTS");
     Dispatcher.dispatch({type: "LOAD_SHOW_CONTESTS", showId: showId});
 
     ContestApi.getShowContests(showId, 
         function success(contests){
-            console.log("LOAD_SHOW_CONTESTS_SUCCESS");
             Dispatcher.dispatch({type: "LOAD_SHOW_CONTESTS_SUCCESS", contests: contests});
         }, 
         function fail(err){
-            console.log("LOAD_SHOW_CONTESTS_FAIL");
             Dispatcher.dispatch({type: "LOAD_SHOW_CONTESTS_FAIL", error: err});
         });
 };
 
 var loadContest = function(contestId){
-    console.log("LOAD_CONTEST");
     Dispatcher.dispatch({type: "LOAD_CONTEST", contestId: contestId});
 
     ContestApi.get(contestId, 
         function success(contest){
-            console.log("LOAD_CONTEST_SUCCESS");
             Dispatcher.dispatch({type: "LOAD_CONTEST_SUCCESS", contest: contest});
         }, 
         function fail(err){
-            console.log("LOAD_CONTEST_FAIL");
             Dispatcher.dispatch({type: "LOAD_CONTEST_FAIL", error: err});
         });
 };

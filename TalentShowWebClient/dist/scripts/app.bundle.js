@@ -38910,7 +38910,10 @@ var PageContent = function (_React$Component) {
     function PageContent(props) {
         _classCallCheck(this, PageContent);
 
-        return _possibleConstructorReturn(this, (PageContent.__proto__ || Object.getPrototypeOf(PageContent)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (PageContent.__proto__ || Object.getPrototypeOf(PageContent)).call(this, props));
+
+        _this.timeout = null;
+        return _this;
     }
 
     _createClass(PageContent, [{
@@ -39145,27 +39148,21 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var loadShowContests = function loadShowContests(showId) {
-    console.log("LOAD_SHOW_CONTESTS");
     _dispatcher2.default.dispatch({ type: "LOAD_SHOW_CONTESTS", showId: showId });
 
     ContestApi.getShowContests(showId, function success(contests) {
-        console.log("LOAD_SHOW_CONTESTS_SUCCESS");
         _dispatcher2.default.dispatch({ type: "LOAD_SHOW_CONTESTS_SUCCESS", contests: contests });
     }, function fail(err) {
-        console.log("LOAD_SHOW_CONTESTS_FAIL");
         _dispatcher2.default.dispatch({ type: "LOAD_SHOW_CONTESTS_FAIL", error: err });
     });
 };
 
 var loadContest = function loadContest(contestId) {
-    console.log("LOAD_CONTEST");
     _dispatcher2.default.dispatch({ type: "LOAD_CONTEST", contestId: contestId });
 
     ContestApi.get(contestId, function success(contest) {
-        console.log("LOAD_CONTEST_SUCCESS");
         _dispatcher2.default.dispatch({ type: "LOAD_CONTEST_SUCCESS", contest: contest });
     }, function fail(err) {
-        console.log("LOAD_CONTEST_FAIL");
         _dispatcher2.default.dispatch({ type: "LOAD_CONTEST_FAIL", error: err });
     });
 };
@@ -39226,12 +39223,10 @@ var _dispatcher2 = _interopRequireDefault(_dispatcher);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function loadContestContestants(contestId) {
-    console.log("LOAD_CONTEST_CONTESTANTS");
     _dispatcher2.default.dispatch({ type: "LOAD_CONTEST_CONTESTANTS", contestId: contestId });
 };
 
 function loadContestant(contestantId) {
-    console.log("LOAD_CONTESTANT");
     _dispatcher2.default.dispatch({ type: "LOAD_CONTESTANT", contestantId: contestantId });
 };
 
@@ -40773,6 +40768,14 @@ var _contestActions = require('../../../../data/actions/contestActions');
 
 var ContestActions = _interopRequireWildcard(_contestActions);
 
+var _contestantActions = require('../../../../data/actions/contestantActions');
+
+var ContestantActions = _interopRequireWildcard(_contestantActions);
+
+var _judgeActions = require('../../../../data/actions/judgeActions');
+
+var JudgeActions = _interopRequireWildcard(_judgeActions);
+
 var _pageContent = require('../../../../common/pageContent');
 
 var _pageContent2 = _interopRequireDefault(_pageContent);
@@ -40780,6 +40783,10 @@ var _pageContent2 = _interopRequireDefault(_pageContent);
 var _button = require('../../../../common/button');
 
 var _button2 = _interopRequireDefault(_button);
+
+var _hubs = require('../../../../data/signalr/hubs');
+
+var Hubs = _interopRequireWildcard(_hubs);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -40806,7 +40813,10 @@ var ContestPage = function (_React$Component) {
         _this.getShowId = _this.getShowId.bind(_this);
         _this.handleEditContestClick = _this.handleEditContestClick.bind(_this);
         _this.handleRemoveContestClick = _this.handleRemoveContestClick.bind(_this);
+        _this.timeout = null;
+        _this.hasTimedOut = false;
         _this.state = _this.getState();
+        _this.getcontestsHubGroupName = _this.getcontestsHubGroupName.bind(_this);
         return _this;
     }
 
@@ -40815,11 +40825,19 @@ var ContestPage = function (_React$Component) {
         value: function componentWillMount() {
             _contestStore2.default.on("change", this.storeChanged);
             ContestActions.loadContest(this.getContestId());
+            ContestantActions.loadContestContestants(this.getContestId());
+            JudgeActions.loadContestJudges(this.getContestId());
         }
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
             _contestStore2.default.off("change", this.storeChanged);
+            Hubs.contestsHubProxy.invoke('LeaveGroup', this.getcontestsHubGroupName());
+        }
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            Hubs.contestsHubProxy.invoke('JoinGroup', this.getcontestsHubGroupName());
         }
     }, {
         key: 'storeChanged',
@@ -40829,7 +40847,7 @@ var ContestPage = function (_React$Component) {
     }, {
         key: 'getState',
         value: function getState() {
-            return { contest: this.getContest() };
+            return { contest: this.getContest(), hasTimedOut: this.hasTimedOut };
         }
     }, {
         key: 'getContest',
@@ -40845,6 +40863,11 @@ var ContestPage = function (_React$Component) {
         key: 'getShowId',
         value: function getShowId() {
             return this.props.params.showId;
+        }
+    }, {
+        key: 'getcontestsHubGroupName',
+        value: function getcontestsHubGroupName() {
+            return "show_" + this.getShowId();
         }
     }, {
         key: 'handleEditContestClick',
@@ -40867,7 +40890,21 @@ var ContestPage = function (_React$Component) {
             var showId = this.getShowId();
             var contestId = this.getContestId();
 
+            if (this.timeout) {
+                clearTimeout(this.timeout);
+            }
+
+            if (this.hasTimedOut) {
+                return _react2.default.createElement(_pageContent2.default, { title: 'Failed to Load Contest', description: 'The requested contest could not be loaded in a timely manner. The contest may not exist.' });
+            }
+
             if (!contest) {
+                var self = this;
+                this.timeout = setTimeout(function () {
+                    self.hasTimedOut = true;
+                    self.setState(self.getState());
+                }, 10000);
+
                 return _react2.default.createElement(_pageContent2.default, { title: 'Loading', description: 'The contest\'s details are loading, please wait.' });
             }
 
@@ -40890,7 +40927,7 @@ var ContestPage = function (_React$Component) {
 
 exports.default = ContestPage;
 
-},{"../../../../common/button":264,"../../../../common/pageContent":270,"../../../../data/actions/contestActions":274,"../../../../data/stores/contestStore":290,"./contestants":309,"./judges":312,"react":262,"react-router":203}],301:[function(require,module,exports){
+},{"../../../../common/button":264,"../../../../common/pageContent":270,"../../../../data/actions/contestActions":274,"../../../../data/actions/contestantActions":275,"../../../../data/actions/judgeActions":277,"../../../../data/signalr/hubs":289,"../../../../data/stores/contestStore":290,"./contestants":309,"./judges":312,"react":262,"react-router":203}],301:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41646,10 +41683,6 @@ var _contestantStore = require('../../../../data/stores/contestantStore');
 
 var _contestantStore2 = _interopRequireDefault(_contestantStore);
 
-var _contestantActions = require('../../../../data/actions/contestantActions');
-
-var ContestantActions = _interopRequireWildcard(_contestantActions);
-
 var _contestantUtil = require('./contestant/contestantUtil');
 
 var ContestantUtil = _interopRequireWildcard(_contestantUtil);
@@ -41682,7 +41715,6 @@ var ContestantsBox = function (_React$Component) {
         key: 'componentWillMount',
         value: function componentWillMount() {
             _contestantStore2.default.on("change", this.storeChanged);
-            ContestantActions.loadContestContestants(this.props.contestId);
         }
     }, {
         key: 'componentWillUnmount',
@@ -41722,7 +41754,7 @@ var ContestantsBox = function (_React$Component) {
 
 exports.default = ContestantsBox;
 
-},{"../../../../common/listPanel":269,"../../../../data/actions/contestantActions":275,"../../../../data/stores/contestantStore":291,"./contestant/contestantUtil":303,"react":262}],310:[function(require,module,exports){
+},{"../../../../common/listPanel":269,"../../../../data/stores/contestantStore":291,"./contestant/contestantUtil":303,"react":262}],310:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41900,10 +41932,6 @@ var _judgeStore = require('../../../../data/stores/judgeStore');
 
 var _judgeStore2 = _interopRequireDefault(_judgeStore);
 
-var _judgeActions = require('../../../../data/actions/judgeActions');
-
-var JudgeActions = _interopRequireWildcard(_judgeActions);
-
 var _judgeUtil = require('./judge/judgeUtil');
 
 var JudgeUtil = _interopRequireWildcard(_judgeUtil);
@@ -41936,7 +41964,6 @@ var JudgesBox = function (_React$Component) {
         key: 'componentWillMount',
         value: function componentWillMount() {
             _judgeStore2.default.on("change", this.storeChanged);
-            JudgeActions.loadContestJudges(this.props.contestId);
         }
     }, {
         key: 'componentWillUnmount',
@@ -41976,7 +42003,7 @@ var JudgesBox = function (_React$Component) {
 
 exports.default = JudgesBox;
 
-},{"../../../../common/listPanel":269,"../../../../data/actions/judgeActions":277,"../../../../data/stores/judgeStore":293,"./judge/judgeUtil":311,"react":262}],313:[function(require,module,exports){
+},{"../../../../common/listPanel":269,"../../../../data/stores/judgeStore":293,"./judge/judgeUtil":311,"react":262}],313:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
