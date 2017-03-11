@@ -5,13 +5,13 @@ import * as ContestActions from '../../../../data/actions/contestActions';
 import PageContent from '../../../../common/pageContent';
 import RoleAwareComponent from '../../../../common/roleAwareComponent';
 
-
 class AddContestPage extends RoleAwareComponent {
     constructor(props) {
         super(props);
         this.handleClickSave = this.handleClickSave.bind(this);
         this.handleClickCancel = this.handleClickCancel.bind(this);
-        this.navigateToShowPage = this.navigateToShowPage.bind(this);
+        this.navigateToShowPage = this.navigateToShowPage.bind(this); 
+        this.getShowId = this.getShowId.bind(this);
         this.authorizedRoles = ["admin"];
     }
 
@@ -20,9 +20,7 @@ class AddContestPage extends RoleAwareComponent {
     }
 
     handleClickSave(newContest) {
-        var showId = this.props.params.showId;
-        var groupName = "show_" + showId;
-        ContestActions.addContest(showId, newContest, groupName);
+        ContestActions.addContest(this.getShowId(), newContest);
         this.navigateToShowPage();
     }
 
@@ -31,7 +29,11 @@ class AddContestPage extends RoleAwareComponent {
     }
 
     navigateToShowPage() {
-        hashHistory.push('/show/' + this.props.params.showId);
+        hashHistory.push('/show/' + this.getShowId());
+    }
+
+    getShowId() {
+        return this.props.params.showId;
     }
 
     render() {

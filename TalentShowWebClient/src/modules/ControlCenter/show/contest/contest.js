@@ -8,7 +8,6 @@ import * as ContestantActions from '../../../../data/actions/contestantActions';
 import * as JudgeActions from '../../../../data/actions/judgeActions';
 import PageContent from '../../../../common/pageContent';
 import Button from '../../../../common/button';
-import * as Hubs from '../../../../data/signalr/hubs';
 
 class ContestPage extends React.Component {
     constructor(props) {
@@ -22,8 +21,7 @@ class ContestPage extends React.Component {
         this.handleRemoveContestClick = this.handleRemoveContestClick.bind(this);
         this.timeout = null;
         this.hasTimedOut = false;
-        this.state = this.getState();
-        this.getcontestsHubGroupName = this.getcontestsHubGroupName.bind(this);   
+        this.state = this.getState(); 
     }
 
     componentWillMount(){
@@ -31,15 +29,12 @@ class ContestPage extends React.Component {
         ContestActions.loadContest(this.getContestId());
         ContestantActions.loadContestContestants(this.getContestId());
         JudgeActions.loadContestJudges(this.getContestId());
+        ContestActions.joinHubGroup(this.getShowId());
     }
 
     componentWillUnmount(){
         ContestStore.off("change", this.storeChanged);
-        Hubs.contestsHubProxy.invoke('LeaveGroup', this.getcontestsHubGroupName());
-    }
-
-    componentDidMount(){ 
-        Hubs.contestsHubProxy.invoke('JoinGroup', this.getcontestsHubGroupName());
+        ContestActions.leaveHubGroup(this.getShowId());
     }
 
     storeChanged(){
@@ -62,10 +57,6 @@ class ContestPage extends React.Component {
         return this.props.params.showId;
     }
 
-    getcontestsHubGroupName(){
-        return "show_" + this.getShowId();
-    }
-
     handleEditContestClick(e){
         e.preventDefault();
         hashHistory.push('/show/' + this.getShowId() + '/contests/' + this.getContestId() + '/edit');
@@ -73,8 +64,7 @@ class ContestPage extends React.Component {
 
     handleRemoveContestClick(e){
         e.preventDefault();
-        var groupName = "show_" + this.getShowId();
-        ContestActions.removeContest(this.getShowId(), this.getContestId(), groupName);
+        ContestActions.removeContest(this.getShowId(), this.getContestId());
         hashHistory.push('/show/' + this.getShowId());
     }
 

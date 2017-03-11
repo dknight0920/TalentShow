@@ -38446,7 +38446,7 @@ Hubs.hubConnection.start({ transport: ['webSockets'], jsonp: true }).done(functi
     ), document.getElementById('app'));
 });
 
-},{"./common/unauthorizedUserPageContent":273,"./data/signalr/hubs":289,"./modules/ControlCenter/show/addShow":298,"./modules/ControlCenter/show/contest/addContest":299,"./modules/ControlCenter/show/contest/contest":300,"./modules/ControlCenter/show/contest/contestant/contestant":302,"./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard":305,"./modules/ControlCenter/show/contest/editContest":310,"./modules/ControlCenter/show/editShow":314,"./modules/ControlCenter/show/show":315,"./modules/ControlCenter/shows":317,"./modules/about":318,"./modules/judges":319,"./modules/login":320,"react":262,"react-dom":26,"react-router":203}],264:[function(require,module,exports){
+},{"./common/unauthorizedUserPageContent":273,"./data/signalr/hubs":289,"./modules/ControlCenter/show/addShow":299,"./modules/ControlCenter/show/contest/addContest":300,"./modules/ControlCenter/show/contest/contest":301,"./modules/ControlCenter/show/contest/contestant/contestant":303,"./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard":306,"./modules/ControlCenter/show/contest/editContest":311,"./modules/ControlCenter/show/editShow":315,"./modules/ControlCenter/show/show":316,"./modules/ControlCenter/shows":318,"./modules/about":319,"./modules/judges":320,"./modules/login":321,"react":262,"react-dom":26,"react-router":203}],264:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39077,7 +39077,7 @@ var RoleAwareComponent = function (_React$Component) {
 
 exports.default = RoleAwareComponent;
 
-},{"../data/stores/currentUserStore":292,"react":262,"react-router":203}],273:[function(require,module,exports){
+},{"../data/stores/currentUserStore":293,"react":262,"react-router":203}],273:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39129,7 +39129,7 @@ exports.default = UnauthorizedUserPageContent;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.removeContest = exports.updateContest = exports.addContest = exports.loadContest = exports.loadShowContests = undefined;
+exports.leaveHubGroup = exports.joinHubGroup = exports.removeContest = exports.updateContest = exports.addContest = exports.loadContest = exports.loadShowContests = undefined;
 
 var _dispatcher = require('../dispatcher');
 
@@ -39142,6 +39142,10 @@ var ContestApi = _interopRequireWildcard(_contestApi);
 var _hubs = require('../signalr/hubs');
 
 var Hubs = _interopRequireWildcard(_hubs);
+
+var _groupNameUtil = require('../signalr/utils/groupNameUtil');
+
+var GroupNameUtil = _interopRequireWildcard(_groupNameUtil);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -39167,7 +39171,9 @@ var loadContest = function loadContest(contestId) {
     });
 };
 
-var addContest = function addContest(showId, newContest, groupName) {
+var addContest = function addContest(showId, newContest) {
+    var groupName = getHubGroupName(showId);
+
     _dispatcher2.default.dispatch({ type: "ADD_CONTEST", showContest: { showId: showId, newContest: newContest, groupName: groupName } });
 
     ContestApi.add(showId, newContest, function success(contest) {
@@ -39177,7 +39183,9 @@ var addContest = function addContest(showId, newContest, groupName) {
     });
 };
 
-var updateContest = function updateContest(showId, contest, groupName) {
+var updateContest = function updateContest(showId, contest) {
+    var groupName = getHubGroupName(showId);
+
     _dispatcher2.default.dispatch({ type: "UPDATE_CONTEST", showContest: { showId: showId, contest: contest, groupName: groupName } });
 
     ContestApi.update(contest, function success(contest) {
@@ -39187,7 +39195,9 @@ var updateContest = function updateContest(showId, contest, groupName) {
     });
 };
 
-var removeContest = function removeContest(showId, contestId, groupName) {
+var removeContest = function removeContest(showId, contestId) {
+    var groupName = getHubGroupName(showId);
+
     _dispatcher2.default.dispatch({ type: "REMOVE_CONTEST", showContest: { showId: showId, contestId: contestId, groupName: groupName } });
 
     ContestApi.remove(contestId, function success() {
@@ -39195,6 +39205,18 @@ var removeContest = function removeContest(showId, contestId, groupName) {
     }, function fail(err) {
         _dispatcher2.default.dispatch({ type: "REMOVE_CONTEST_FAIL", error: err, groupName: groupName });
     });
+};
+
+var joinHubGroup = function joinHubGroup(showId) {
+    Hubs.contestsHubProxy.invoke('JoinGroup', getHubGroupName(showId));
+};
+
+var leaveHubGroup = function leaveHubGroup(showId) {
+    Hubs.contestsHubProxy.invoke('LeaveGroup', getHubGroupName(showId));
+};
+
+var getHubGroupName = function getHubGroupName(showId) {
+    return GroupNameUtil.getShowGroupName(showId);
 };
 
 Hubs.contestsHubProxy.on('contestsChanged', function (showId) {
@@ -39206,8 +39228,10 @@ exports.loadContest = loadContest;
 exports.addContest = addContest;
 exports.updateContest = updateContest;
 exports.removeContest = removeContest;
+exports.joinHubGroup = joinHubGroup;
+exports.leaveHubGroup = leaveHubGroup;
 
-},{"../api/contestApi":280,"../dispatcher":288,"../signalr/hubs":289}],275:[function(require,module,exports){
+},{"../api/contestApi":280,"../dispatcher":288,"../signalr/hubs":289,"../signalr/utils/groupNameUtil":290}],275:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39866,6 +39890,18 @@ exports.hubConnection = hubConnection;
 exports.contestsHubProxy = contestsHubProxy;
 
 },{}],290:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var getShowGroupName = function getShowGroupName(showId) {
+    return "show_" + showId;
+};
+
+exports.getShowGroupName = getShowGroupName;
+
+},{}],291:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40001,7 +40037,7 @@ var ContestStore = function (_EventEmitter) {
 
 exports.default = new ContestStore();
 
-},{"../dispatcher":288,"../signalr/hubs":289,"./utils/broadcastUtil":296,"./utils/storeUtils":297,"event-emitter":7}],291:[function(require,module,exports){
+},{"../dispatcher":288,"../signalr/hubs":289,"./utils/broadcastUtil":297,"./utils/storeUtils":298,"event-emitter":7}],292:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40091,7 +40127,7 @@ _dispatcher2.default.register(contestantStore.handleAction.bind(contestantStore)
 
 exports.default = contestantStore;
 
-},{"../api/contestantApi":281,"../dispatcher":288,"./utils/storeUtils":297,"event-emitter":7}],292:[function(require,module,exports){
+},{"../api/contestantApi":281,"../dispatcher":288,"./utils/storeUtils":298,"event-emitter":7}],293:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40170,7 +40206,7 @@ _dispatcher2.default.register(currentUserStore.handleAction.bind(currentUserStor
 
 exports.default = currentUserStore;
 
-},{"../api/tokenApi":285,"../dispatcher":288,"event-emitter":7}],293:[function(require,module,exports){
+},{"../api/tokenApi":285,"../dispatcher":288,"event-emitter":7}],294:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40271,7 +40307,7 @@ _dispatcher2.default.register(judgeStore.handleAction.bind(judgeStore));
 
 exports.default = judgeStore;
 
-},{"../api/judgeApi":282,"../dispatcher":288,"./utils/storeUtils":297,"event-emitter":7}],294:[function(require,module,exports){
+},{"../api/judgeApi":282,"../dispatcher":288,"./utils/storeUtils":298,"event-emitter":7}],295:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40368,7 +40404,7 @@ _dispatcher2.default.register(scoreCardStore.handleAction.bind(scoreCardStore));
 
 exports.default = scoreCardStore;
 
-},{"../api/scoreCardApi":283,"../dispatcher":288,"./utils/storeUtils":297,"event-emitter":7}],295:[function(require,module,exports){
+},{"../api/scoreCardApi":283,"../dispatcher":288,"./utils/storeUtils":298,"event-emitter":7}],296:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40473,7 +40509,7 @@ _dispatcher2.default.register(showStore.handleAction.bind(showStore));
 
 exports.default = showStore;
 
-},{"../api/showApi":284,"../dispatcher":288,"./utils/storeUtils":297,"event-emitter":7}],296:[function(require,module,exports){
+},{"../api/showApi":284,"../dispatcher":288,"./utils/storeUtils":298,"event-emitter":7}],297:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40485,7 +40521,7 @@ var broadcastChange = function broadcastChange(hubProxy, groupName, id) {
 
 exports.broadcastChange = broadcastChange;
 
-},{}],297:[function(require,module,exports){
+},{}],298:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40549,7 +40585,7 @@ exports.get = get;
 exports.pushItem = pushItem;
 exports.removeItem = removeItem;
 
-},{"clone":6}],298:[function(require,module,exports){
+},{"clone":6}],299:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40642,7 +40678,7 @@ var AddShowPage = function (_RoleAwareComponent) {
 
 exports.default = AddShowPage;
 
-},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"./showEditor":316,"react":262,"react-router":203}],299:[function(require,module,exports){
+},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"./showEditor":317,"react":262,"react-router":203}],300:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40694,6 +40730,7 @@ var AddContestPage = function (_RoleAwareComponent) {
         _this.handleClickSave = _this.handleClickSave.bind(_this);
         _this.handleClickCancel = _this.handleClickCancel.bind(_this);
         _this.navigateToShowPage = _this.navigateToShowPage.bind(_this);
+        _this.getShowId = _this.getShowId.bind(_this);
         _this.authorizedRoles = ["admin"];
         return _this;
     }
@@ -40706,9 +40743,7 @@ var AddContestPage = function (_RoleAwareComponent) {
     }, {
         key: 'handleClickSave',
         value: function handleClickSave(newContest) {
-            var showId = this.props.params.showId;
-            var groupName = "show_" + showId;
-            ContestActions.addContest(showId, newContest, groupName);
+            ContestActions.addContest(this.getShowId(), newContest);
             this.navigateToShowPage();
         }
     }, {
@@ -40719,7 +40754,12 @@ var AddContestPage = function (_RoleAwareComponent) {
     }, {
         key: 'navigateToShowPage',
         value: function navigateToShowPage() {
-            _reactRouter.hashHistory.push('/show/' + this.props.params.showId);
+            _reactRouter.hashHistory.push('/show/' + this.getShowId());
+        }
+    }, {
+        key: 'getShowId',
+        value: function getShowId() {
+            return this.props.params.showId;
         }
     }, {
         key: 'render',
@@ -40737,7 +40777,7 @@ var AddContestPage = function (_RoleAwareComponent) {
 
 exports.default = AddContestPage;
 
-},{"../../../../common/pageContent":270,"../../../../common/roleAwareComponent":272,"../../../../data/actions/contestActions":274,"./contestEditor":301,"react":262,"react-router":203}],300:[function(require,module,exports){
+},{"../../../../common/pageContent":270,"../../../../common/roleAwareComponent":272,"../../../../data/actions/contestActions":274,"./contestEditor":302,"react":262,"react-router":203}],301:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40784,10 +40824,6 @@ var _button = require('../../../../common/button');
 
 var _button2 = _interopRequireDefault(_button);
 
-var _hubs = require('../../../../data/signalr/hubs');
-
-var Hubs = _interopRequireWildcard(_hubs);
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -40816,7 +40852,6 @@ var ContestPage = function (_React$Component) {
         _this.timeout = null;
         _this.hasTimedOut = false;
         _this.state = _this.getState();
-        _this.getcontestsHubGroupName = _this.getcontestsHubGroupName.bind(_this);
         return _this;
     }
 
@@ -40827,17 +40862,13 @@ var ContestPage = function (_React$Component) {
             ContestActions.loadContest(this.getContestId());
             ContestantActions.loadContestContestants(this.getContestId());
             JudgeActions.loadContestJudges(this.getContestId());
+            ContestActions.joinHubGroup(this.getShowId());
         }
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
             _contestStore2.default.off("change", this.storeChanged);
-            Hubs.contestsHubProxy.invoke('LeaveGroup', this.getcontestsHubGroupName());
-        }
-    }, {
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            Hubs.contestsHubProxy.invoke('JoinGroup', this.getcontestsHubGroupName());
+            ContestActions.leaveHubGroup(this.getShowId());
         }
     }, {
         key: 'storeChanged',
@@ -40865,11 +40896,6 @@ var ContestPage = function (_React$Component) {
             return this.props.params.showId;
         }
     }, {
-        key: 'getcontestsHubGroupName',
-        value: function getcontestsHubGroupName() {
-            return "show_" + this.getShowId();
-        }
-    }, {
         key: 'handleEditContestClick',
         value: function handleEditContestClick(e) {
             e.preventDefault();
@@ -40879,8 +40905,7 @@ var ContestPage = function (_React$Component) {
         key: 'handleRemoveContestClick',
         value: function handleRemoveContestClick(e) {
             e.preventDefault();
-            var groupName = "show_" + this.getShowId();
-            ContestActions.removeContest(this.getShowId(), this.getContestId(), groupName);
+            ContestActions.removeContest(this.getShowId(), this.getContestId());
             _reactRouter.hashHistory.push('/show/' + this.getShowId());
         }
     }, {
@@ -40927,7 +40952,7 @@ var ContestPage = function (_React$Component) {
 
 exports.default = ContestPage;
 
-},{"../../../../common/button":264,"../../../../common/pageContent":270,"../../../../data/actions/contestActions":274,"../../../../data/actions/contestantActions":275,"../../../../data/actions/judgeActions":277,"../../../../data/signalr/hubs":289,"../../../../data/stores/contestStore":290,"./contestants":309,"./judges":312,"react":262,"react-router":203}],301:[function(require,module,exports){
+},{"../../../../common/button":264,"../../../../common/pageContent":270,"../../../../data/actions/contestActions":274,"../../../../data/actions/contestantActions":275,"../../../../data/actions/judgeActions":277,"../../../../data/stores/contestStore":291,"./contestants":310,"./judges":313,"react":262,"react-router":203}],302:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41083,7 +41108,7 @@ var ContestEditor = function (_RoleAwareComponent) {
 
 exports.default = ContestEditor;
 
-},{"../../../../common/button":264,"../../../../common/formGroup":265,"../../../../common/input":266,"../../../../common/pageContent":270,"../../../../common/roleAwareComponent":272,"../../../../data/actions/contestActions":274,"clone":6,"react":262,"react-router":203}],302:[function(require,module,exports){
+},{"../../../../common/button":264,"../../../../common/formGroup":265,"../../../../common/input":266,"../../../../common/pageContent":270,"../../../../common/roleAwareComponent":272,"../../../../data/actions/contestActions":274,"clone":6,"react":262,"react-router":203}],303:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41195,7 +41220,7 @@ var ContestantPage = function (_React$Component) {
 
 exports.default = ContestantPage;
 
-},{"../../../../../common/pageContent":270,"../../../../../data/actions/contestantActions":275,"../../../../../data/stores/contestantStore":291,"./contestantUtil":303,"./scoreCards":307,"react":262}],303:[function(require,module,exports){
+},{"../../../../../common/pageContent":270,"../../../../../data/actions/contestantActions":275,"../../../../../data/stores/contestantStore":292,"./contestantUtil":304,"./scoreCards":308,"react":262}],304:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -41222,7 +41247,7 @@ var getDescription = function getDescription(contestant) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],304:[function(require,module,exports){
+},{}],305:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41372,7 +41397,7 @@ var ScorableCriterion = function (_React$Component2) {
 
 exports.default = ScorableCriteria;
 
-},{"../../../../../../common/input":266,"../../../../../../common/panel":271,"../../../../../../data/stores/scoreCardStore":294,"clone":6,"react":262}],305:[function(require,module,exports){
+},{"../../../../../../common/input":266,"../../../../../../common/panel":271,"../../../../../../data/stores/scoreCardStore":295,"clone":6,"react":262}],306:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41490,7 +41515,7 @@ var ScoreCardPage = function (_React$Component) {
 
 exports.default = ScoreCardPage;
 
-},{"../../../../../../common/pageContent":270,"../../../../../../data/actions/scoreCardActions":278,"../../../../../../data/stores/scoreCardStore":294,"./scorableCriteria":304,"./scoreCardUtil":306,"react":262}],306:[function(require,module,exports){
+},{"../../../../../../common/pageContent":270,"../../../../../../data/actions/scoreCardActions":278,"../../../../../../data/stores/scoreCardStore":295,"./scorableCriteria":305,"./scoreCardUtil":307,"react":262}],307:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -41566,7 +41591,7 @@ var getDescription = function getDescription(scoreCard) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{"react":262}],307:[function(require,module,exports){
+},{"react":262}],308:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41662,9 +41687,9 @@ var ScoreCardsBox = function (_React$Component) {
 
 exports.default = ScoreCardsBox;
 
-},{"../../../../../common/listPanel":269,"../../../../../data/actions/scoreCardActions":278,"../../../../../data/stores/scoreCardStore":294,"./scorecard/scoreCardUtil":308,"react":262}],308:[function(require,module,exports){
-arguments[4][306][0].apply(exports,arguments)
-},{"dup":306,"react":262}],309:[function(require,module,exports){
+},{"../../../../../common/listPanel":269,"../../../../../data/actions/scoreCardActions":278,"../../../../../data/stores/scoreCardStore":295,"./scorecard/scoreCardUtil":309,"react":262}],309:[function(require,module,exports){
+arguments[4][307][0].apply(exports,arguments)
+},{"dup":307,"react":262}],310:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41754,7 +41779,7 @@ var ContestantsBox = function (_React$Component) {
 
 exports.default = ContestantsBox;
 
-},{"../../../../common/listPanel":269,"../../../../data/stores/contestantStore":291,"./contestant/contestantUtil":303,"react":262}],310:[function(require,module,exports){
+},{"../../../../common/listPanel":269,"../../../../data/stores/contestantStore":292,"./contestant/contestantUtil":304,"react":262}],311:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41840,8 +41865,7 @@ var EditContestPage = function (_RoleAwareComponent) {
     }, {
         key: 'handleClickSave',
         value: function handleClickSave(contest) {
-            var groupName = "show_" + this.getShowId();
-            ContestActions.updateContest(this.getShowId(), contest, groupName);
+            ContestActions.updateContest(this.getShowId(), contest);
             this.navigateToContestPage();
         }
     }, {
@@ -41896,7 +41920,7 @@ var EditContestPage = function (_RoleAwareComponent) {
 
 exports.default = EditContestPage;
 
-},{"../../../../common/pageContent":270,"../../../../common/roleAwareComponent":272,"../../../../data/actions/contestActions":274,"../../../../data/stores/contestStore":290,"./contestEditor":301,"react":262,"react-router":203}],311:[function(require,module,exports){
+},{"../../../../common/pageContent":270,"../../../../common/roleAwareComponent":272,"../../../../data/actions/contestActions":274,"../../../../data/stores/contestStore":291,"./contestEditor":302,"react":262,"react-router":203}],312:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -41913,7 +41937,7 @@ var getDescription = function getDescription(judge) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],312:[function(require,module,exports){
+},{}],313:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42003,7 +42027,7 @@ var JudgesBox = function (_React$Component) {
 
 exports.default = JudgesBox;
 
-},{"../../../../common/listPanel":269,"../../../../data/stores/judgeStore":293,"./judge/judgeUtil":311,"react":262}],313:[function(require,module,exports){
+},{"../../../../common/listPanel":269,"../../../../data/stores/judgeStore":294,"./judge/judgeUtil":312,"react":262}],314:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42032,10 +42056,6 @@ var _contestActions = require('../../../data/actions/contestActions');
 
 var ContestActions = _interopRequireWildcard(_contestActions);
 
-var _hubs = require('../../../data/signalr/hubs');
-
-var Hubs = _interopRequireWildcard(_hubs);
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -42057,8 +42077,8 @@ var ContestsBox = function (_React$Component) {
         _this.getState = _this.getState.bind(_this);
         _this.storeChanged = _this.storeChanged.bind(_this);
         _this.handleAddContestClick = _this.handleAddContestClick.bind(_this);
+        _this.getShowId = _this.getShowId.bind(_this);
         _this.state = _this.getState();
-        _this.getcontestsHubGroupName = _this.getcontestsHubGroupName.bind(_this);
         return _this;
     }
 
@@ -42066,18 +42086,16 @@ var ContestsBox = function (_React$Component) {
         key: 'componentWillMount',
         value: function componentWillMount() {
             _contestStore2.default.on("change", this.storeChanged);
-            ContestActions.loadShowContests(this.props.showId);
+            var showId = this.getShowId();
+            ContestActions.loadShowContests(showId);
+            ContestActions.joinHubGroup(showId);
         }
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
             _contestStore2.default.off("change", this.storeChanged);
-            Hubs.contestsHubProxy.invoke('LeaveGroup', this.getcontestsHubGroupName());
-        }
-    }, {
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            Hubs.contestsHubProxy.invoke('JoinGroup', this.getcontestsHubGroupName());
+            var showId = this.getShowId();
+            ContestActions.leaveHubGroup(showId);
         }
     }, {
         key: 'storeChanged',
@@ -42090,20 +42108,20 @@ var ContestsBox = function (_React$Component) {
             return { contests: _contestStore2.default.getShowContests() };
         }
     }, {
-        key: 'getcontestsHubGroupName',
-        value: function getcontestsHubGroupName() {
-            return "show_" + this.props.showId;
+        key: 'getShowId',
+        value: function getShowId() {
+            return this.props.showId;
         }
     }, {
         key: 'handleAddContestClick',
         value: function handleAddContestClick(e) {
             e.preventDefault();
-            _reactRouter.hashHistory.push('show/' + this.props.showId + '/contests/add');
+            _reactRouter.hashHistory.push('show/' + this.getShowId() + '/contests/add');
         }
     }, {
         key: 'render',
         value: function render() {
-            var showId = this.props.showId;
+            var showId = this.getShowId();
             var contests = this.state.contests.map(function (contest) {
                 return _react2.default.createElement(_listPanel.ListPanelItem, {
                     key: contest.Id,
@@ -42123,7 +42141,7 @@ var ContestsBox = function (_React$Component) {
 
 exports.default = ContestsBox;
 
-},{"../../../common/button":264,"../../../common/listPanel":269,"../../../data/actions/contestActions":274,"../../../data/signalr/hubs":289,"../../../data/stores/contestStore":290,"react":262,"react-router":203}],314:[function(require,module,exports){
+},{"../../../common/button":264,"../../../common/listPanel":269,"../../../data/actions/contestActions":274,"../../../data/stores/contestStore":291,"react":262,"react-router":203}],315:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42258,7 +42276,7 @@ var EditShowPage = function (_RoleAwareComponent) {
 
 exports.default = EditShowPage;
 
-},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"../../../data/stores/showStore":295,"./showEditor":316,"react":262,"react-router":203}],315:[function(require,module,exports){
+},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"../../../data/stores/showStore":296,"./showEditor":317,"react":262,"react-router":203}],316:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42385,7 +42403,7 @@ var ShowPage = function (_React$Component) {
 
 exports.default = ShowPage;
 
-},{"../../../common/button":264,"../../../common/pageContent":270,"../../../data/actions/showActions":279,"../../../data/stores/showStore":295,"./contests":313,"react":262,"react-router":203}],316:[function(require,module,exports){
+},{"../../../common/button":264,"../../../common/pageContent":270,"../../../data/actions/showActions":279,"../../../data/stores/showStore":296,"./contests":314,"react":262,"react-router":203}],317:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42541,7 +42559,7 @@ var ShowEditor = function (_RoleAwareComponent) {
 
 exports.default = ShowEditor;
 
-},{"../../../common/button":264,"../../../common/formGroup":265,"../../../common/input":266,"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"clone":6,"react":262,"react-router":203}],317:[function(require,module,exports){
+},{"../../../common/button":264,"../../../common/formGroup":265,"../../../common/input":266,"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"clone":6,"react":262,"react-router":203}],318:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42671,7 +42689,7 @@ var ShowsBox = function (_React$Component2) {
 
 exports.default = ShowsPage;
 
-},{"../../common/button":264,"../../common/listPanel":269,"../../common/pageContent":270,"../../data/actions/showActions":279,"../../data/stores/showStore":295,"react":262,"react-router":203}],318:[function(require,module,exports){
+},{"../../common/button":264,"../../common/listPanel":269,"../../common/pageContent":270,"../../data/actions/showActions":279,"../../data/stores/showStore":296,"react":262,"react-router":203}],319:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42695,7 +42713,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"react":262}],319:[function(require,module,exports){
+},{"react":262}],320:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42899,7 +42917,7 @@ var JudgesPage = function (_React$Component2) {
 
 exports.default = JudgesPage;
 
-},{"../common/formGroup":265,"../common/input":266,"../data/actions/judgeActions":277,"../data/stores/judgeStore":293,"jquery":25,"react":262}],320:[function(require,module,exports){
+},{"../common/formGroup":265,"../common/input":266,"../data/actions/judgeActions":277,"../data/stores/judgeStore":294,"jquery":25,"react":262}],321:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43081,4 +43099,4 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"../common/formGroup":265,"../common/input":266,"../data/actions/currentUserActions":276,"../data/stores/currentUserStore":292,"jquery":25,"react":262,"react-router":203}]},{},[263]);
+},{"../common/formGroup":265,"../common/input":266,"../data/actions/currentUserActions":276,"../data/stores/currentUserStore":293,"jquery":25,"react":262,"react-router":203}]},{},[263]);

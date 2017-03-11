@@ -138,6 +138,7 @@
     <Content Include="src\data\api\utils\httpUtil.js" />
     <Content Include="src\data\dispatcher.js" />
     <Content Include="src\data\signalr\hubs.js" />
+    <Content Include="src\data\signalr\utils\groupNameUtil.js" />
     <Content Include="src\data\stores\contestantStore.js" />
     <Content Include="src\data\stores\contestStore.js" />
     <Content Include="src\data\stores\judgeStore.js" />

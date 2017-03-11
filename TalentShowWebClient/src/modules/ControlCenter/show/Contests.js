@@ -4,7 +4,6 @@ import { ListPanel, ListPanelItem } from '../../../common/listPanel';
 import Button from '../../../common/button';
 import ContestStore from '../../../data/stores/contestStore';
 import * as ContestActions from '../../../data/actions/contestActions';
-import * as Hubs from '../../../data/signalr/hubs';
 
 class ContestsBox extends React.Component {
 
@@ -12,23 +11,22 @@ class ContestsBox extends React.Component {
         super(props);
         this.getState = this.getState.bind(this);
         this.storeChanged = this.storeChanged.bind(this);
-        this.handleAddContestClick = this.handleAddContestClick.bind(this);
-        this.state = this.getState();  
-        this.getcontestsHubGroupName = this.getcontestsHubGroupName.bind(this);
+        this.handleAddContestClick = this.handleAddContestClick.bind(this); 
+        this.getShowId = this.getShowId.bind(this);
+        this.state = this.getState();
     }
 
     componentWillMount(){
         ContestStore.on("change", this.storeChanged);
-        ContestActions.loadShowContests(this.props.showId);
+        var showId = this.getShowId();
+        ContestActions.loadShowContests(showId);
+        ContestActions.joinHubGroup(showId);
     }
 
     componentWillUnmount(){
         ContestStore.off("change", this.storeChanged);
-        Hubs.contestsHubProxy.invoke('LeaveGroup', this.getcontestsHubGroupName());
-    }
-
-    componentDidMount(){ 
-        Hubs.contestsHubProxy.invoke('JoinGroup', this.getcontestsHubGroupName());
+        var showId = this.getShowId();
+        ContestActions.leaveHubGroup(showId);
     }
 
     storeChanged(){
@@ -39,17 +37,17 @@ class ContestsBox extends React.Component {
         return { contests: ContestStore.getShowContests() };
     }
 
-    getcontestsHubGroupName(){
-        return "show_" + this.props.showId;
+    getShowId(){
+        return this.props.showId;
     }
 
     handleAddContestClick(e){
         e.preventDefault();
-        hashHistory.push('show/' + this.props.showId + '/contests/add');
+        hashHistory.push('show/' + this.getShowId() + '/contests/add');
     }
 
     render() {
-        var showId = this.props.showId;
+        var showId = this.getShowId();
         var contests = this.state.contests.map(function (contest) {
             return (
                 <ListPanelItem 

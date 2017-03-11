@@ -1,6 +1,7 @@
 ﻿import Dispatcher from '../dispatcher';
 import * as ContestApi from '../api/contestApi';
 import * as Hubs from '../signalr/hubs';
+import * as GroupNameUtil from '../signalr/utils/groupNameUtil';
 
 var loadShowContests = function(showId){
     Dispatcher.dispatch({type: "LOAD_SHOW_CONTESTS", showId: showId});
@@ -26,7 +27,9 @@ var loadContest = function(contestId){
         });
 };
 
-var addContest = function(showId, newContest, groupName){
+var addContest = function(showId, newContest){
+    var groupName = getHubGroupName(showId);
+
     Dispatcher.dispatch({type: "ADD_CONTEST", showContest: {showId: showId, newContest: newContest, groupName: groupName}});
 
     ContestApi.add(showId, newContest, 
@@ -38,7 +41,9 @@ var addContest = function(showId, newContest, groupName){
         });
 };
 
-var updateContest = function(showId, contest, groupName){
+var updateContest = function(showId, contest){
+    var groupName = getHubGroupName(showId);
+
     Dispatcher.dispatch({type: "UPDATE_CONTEST", showContest: {showId: showId, contest: contest, groupName: groupName}});
 
     ContestApi.update(contest, 
@@ -50,7 +55,9 @@ var updateContest = function(showId, contest, groupName){
         });
 };
 
-var removeContest = function(showId, contestId, groupName){
+var removeContest = function(showId, contestId){
+    var groupName = getHubGroupName(showId);
+
     Dispatcher.dispatch({type: "REMOVE_CONTEST", showContest: {showId: showId, contestId: contestId, groupName: groupName}});
 
     ContestApi.remove(contestId, 
@@ -62,8 +69,20 @@ var removeContest = function(showId, contestId, groupName){
         });
 };
 
+var joinHubGroup = function(showId){
+    Hubs.contestsHubProxy.invoke('JoinGroup', getHubGroupName(showId));
+};
+
+var leaveHubGroup = function(showId){
+    Hubs.contestsHubProxy.invoke('LeaveGroup', getHubGroupName(showId));
+};
+
+var getHubGroupName = function(showId){
+    return GroupNameUtil.getShowGroupName(showId);
+}
+
 Hubs.contestsHubProxy.on('contestsChanged', function(showId) {
     loadShowContests(showId); 
 });
 
-export {loadShowContests, loadContest, addContest, updateContest, removeContest};
+export {loadShowContests, loadContest, addContest, updateContest, removeContest, joinHubGroup, leaveHubGroup};

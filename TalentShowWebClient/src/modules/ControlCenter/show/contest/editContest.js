@@ -6,7 +6,6 @@ import * as ContestActions from '../../../../data/actions/contestActions';
 import PageContent from '../../../../common/pageContent';
 import RoleAwareComponent from '../../../../common/roleAwareComponent';
 
-
 class EditContestPage extends RoleAwareComponent {
     constructor(props) {
         super(props);
@@ -37,8 +36,7 @@ class EditContestPage extends RoleAwareComponent {
     }
 
     handleClickSave(contest) {
-        var groupName = "show_" + this.getShowId();
-        ContestActions.updateContest(this.getShowId(), contest, groupName);
+        ContestActions.updateContest(this.getShowId(), contest);
         this.navigateToContestPage();
     }
 
