@@ -57,7 +57,7 @@ class ContestPage extends React.Component {
         return this.props.params.showId;
     }
 
-    handleEditContestClick(e){
+    handleEditContestClick(e) {
         e.preventDefault();
         hashHistory.push('/show/' + this.getShowId() + '/contests/' + this.getContestId() + '/edit');
     }
