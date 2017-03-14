@@ -166,6 +166,7 @@
     <Content Include="src\modules\ControlCenter\show\editShow.js" />
     <Content Include="src\modules\ControlCenter\show\show.js" />
     <Content Include="src\modules\ControlCenter\show\showEditor.js" />
+    <Content Include="src\routing\navigation.js" />
     <Content Include="tsconfig.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { hashHistory } from 'react-router';
+import * as Nav from '../../../../routing/navigation';
 import ContestEditor from './contestEditor';
 import ContestStore from '../../../../data/stores/contestStore';
 import * as ContestActions from '../../../../data/actions/contestActions';
@@ -45,7 +45,7 @@ class EditContestPage extends RoleAwareComponent {
     }
 
     navigateToContestPage() {
-        hashHistory.push('/show/' + this.getShowId() + "/contest/" + this.getContestId());
+        Nav.goToContest(this.getShowId(), this.getContestId());
     }
     
     getState(){

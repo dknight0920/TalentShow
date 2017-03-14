@@ -66,7 +66,7 @@ function getToken(){
                         <Route path="/show/:showId/edit" component={editShow} />
                         <Route path="/show/:showId/contests/add" component={addContest} />
                         <Route path="/show/:showId/contest/:contestId" component={contest} />
-                        <Route path="/show/:showId/contests/:contestId/edit" component={editContest} />
+                        <Route path="/show/:showId/contest/:contestId/edit" component={editContest} />
                         <Route path="/show/:showId/contest/:contestId/contestant/:contestantId" component={contestant} />
                         <Route path="/show/:showId/contest/:contestId/contestant/:contestantId/scorecard/:scoreCardId" component={scoreCard} />
                         <Route path="/about" component={about} />

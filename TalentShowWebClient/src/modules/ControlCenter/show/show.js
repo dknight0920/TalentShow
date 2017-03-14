@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { hashHistory } from 'react-router';
+import * as Nav from '../../../routing/navigation';
 import ContestsBox from './contests';
 import ShowStore from '../../../data/stores/showStore';
 import * as ShowActions from '../../../data/actions/showActions';
@@ -47,7 +47,7 @@ class ShowPage extends React.Component {
 
     handleEditShowClick(e){
         e.preventDefault();
-        hashHistory.push('/show/' + this.getShowId() + '/edit');
+        Nav.goToEditShow(this.getShowId());
     }
 
     render() {

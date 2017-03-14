@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { hashHistory } from 'react-router';
+import * as Nav from '../../../routing/navigation';
 import { ListPanel, ListPanelItem } from '../../../common/listPanel';
 import Button from '../../../common/button';
 import ContestStore from '../../../data/stores/contestStore';
@@ -43,7 +43,7 @@ class ContestsBox extends React.Component {
 
     handleAddContestClick(e){
         e.preventDefault();
-        hashHistory.push('show/' + this.getShowId() + '/contests/add');
+        Nav.goToAddContest(this.getShowId());
     }
 
     render() {

@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { hashHistory } from 'react-router';
+import * as Nav from '../../../../routing/navigation';
 import ContestantsBox from './contestants';
 import JudgesBox from './judges';
 import ContestStore from '../../../../data/stores/contestStore';
@@ -21,6 +21,9 @@ class ContestPage extends React.Component {
         this.handleRemoveContestClick = this.handleRemoveContestClick.bind(this);
         this.timeout = null;
         this.hasTimedOut = false;
+        this.resetTimeout = this.resetTimeout.bind(this);
+        this.getLoadingPageContent = this.getLoadingPageContent.bind(this);
+        this.getFailedToLoadPageContent = this.getFailedToLoadPageContent.bind(this);
         this.state = this.getState(); 
     }
 
@@ -33,6 +36,7 @@ class ContestPage extends React.Component {
     }
 
     componentWillUnmount(){
+        this.resetTimeout();
         ContestStore.off("change", this.storeChanged);
         ContestActions.leaveHubGroup(this.getShowId());
     }
@@ -57,49 +61,68 @@ class ContestPage extends React.Component {
         return this.props.params.showId;
     }
 
+    resetTimeout() {
+        if(this.timeout){
+            clearTimeout(this.timeout);
+        }
+    }
+
+    getLoadingPageContent() {
+        var self = this;
+        self.timeout = setTimeout(function(){
+            self.hasTimedOut = true;
+            self.setState(self.getState());
+        }, 10000);
+
+        return (
+            <PageContent title="Loading" description="The contest's details are loading, please wait."></PageContent>
+        );
+    }
+
+    getFailedToLoadPageContent() {
+        var self = this;
+        self.timeout = setTimeout(function(){
+            Nav.goToShow(self.getShowId());
+        }, 5000);
+
+        return (
+            <PageContent title="Failed to Load Contest" description="The requested contest could not be loaded in a timely manner. The contest may not exist. You will be automatically redirected shortly."></PageContent>
+        );
+    }
+
     handleEditContestClick(e) {
         e.preventDefault();
-        hashHistory.push('/show/' + this.getShowId() + '/contests/' + this.getContestId() + '/edit');
+        Nav.goToEditContest(this.getShowId(), this.getContestId());
     }
 
     handleRemoveContestClick(e){
         e.preventDefault();
         ContestActions.removeContest(this.getShowId(), this.getContestId());
-        hashHistory.push('/show/' + this.getShowId());
+        Nav.goToShow(this.getShowId());
     }
 
     render() {
-        var contest = this.state.contest;
-        var showId = this.getShowId();
-        var contestId = this.getContestId();
-
-        if(this.timeout){
-            clearTimeout(this.timeout);
-        }
+        this.resetTimeout();
 
         if (this.hasTimedOut){
-        return (
-                <PageContent title="Failed to Load Contest" description="The requested contest could not be loaded in a timely manner. The contest may not exist."></PageContent>
-            );
+            return this.getFailedToLoadPageContent();
         }
 
-        if (!contest){     
-            var self = this;
-            this.timeout = setTimeout(function(){
-                self.hasTimedOut = true;
-                self.setState(self.getState());
-            }, 10000);
+        var contest = this.state.contest;
 
-            return (
-                <PageContent title="Loading" description="The contest's details are loading, please wait."></PageContent>
-            );
+        if (!contest){      
+            return this.getLoadingPageContent();
         }
 
+        var showId = this.getShowId();
+        var contestId = this.getContestId();
         var authorizedRolesForButtons = ["admin"];
-        var editContestButton = ( <Button key="editContest" type="primary" authorizedRoles={authorizedRolesForButtons} name="editContest" value="Edit" onClick={this.handleEditContestClick} /> );
-        var removeContestButton = ( <Button key="removeContest" type="primary" authorizedRoles={authorizedRolesForButtons} name="removeContest" value="Remove" onClick={this.handleRemoveContestClick} /> );
-        var contestPageButtons = [editContestButton, removeContestButton];
-
+        var contestPageButtons = ( 
+            <span>
+                <Button type="primary" authorizedRoles={authorizedRolesForButtons} name="editContest" value="Edit" onClick={this.handleEditContestClick} /> <Button type="primary" authorizedRoles={authorizedRolesForButtons} name="removeContest" value="Remove" onClick={this.handleRemoveContestClick} />
+            </span>
+        );
+  
         return (
             <PageContent title={contest.Name} description={contest.Description} buttons={contestPageButtons}>
                 <ContestantsBox showId={showId} contestId={contestId} />         

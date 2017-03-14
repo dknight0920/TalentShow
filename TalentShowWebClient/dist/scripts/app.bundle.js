@@ -38436,7 +38436,7 @@ Hubs.hubConnection.start({ transport: ['webSockets'], jsonp: true }).done(functi
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/edit', component: _editShow2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contests/add', component: _addContest2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId', component: _contest2.default }),
-                _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contests/:contestId/edit', component: _editContest2.default }),
+                _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/edit', component: _editContest2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/contestant/:contestantId', component: _contestant2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/contestant/:contestantId/scorecard/:scoreCardId', component: _scoreCard2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _about2.default }),
@@ -40691,7 +40691,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouter = require('react-router');
+var _navigation = require('../../../../routing/navigation');
+
+var Nav = _interopRequireWildcard(_navigation);
 
 var _contestEditor = require('./contestEditor');
 
@@ -40754,7 +40756,7 @@ var AddContestPage = function (_RoleAwareComponent) {
     }, {
         key: 'navigateToShowPage',
         value: function navigateToShowPage() {
-            _reactRouter.hashHistory.push('/show/' + this.getShowId());
+            Nav.goToShow(this.getShowId());
         }
     }, {
         key: 'getShowId',
@@ -40777,7 +40779,7 @@ var AddContestPage = function (_RoleAwareComponent) {
 
 exports.default = AddContestPage;
 
-},{"../../../../common/pageContent":270,"../../../../common/roleAwareComponent":272,"../../../../data/actions/contestActions":274,"./contestEditor":302,"react":262,"react-router":203}],301:[function(require,module,exports){
+},{"../../../../common/pageContent":270,"../../../../common/roleAwareComponent":272,"../../../../data/actions/contestActions":274,"../../../../routing/navigation":322,"./contestEditor":302,"react":262}],301:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40790,7 +40792,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouter = require('react-router');
+var _navigation = require('../../../../routing/navigation');
+
+var Nav = _interopRequireWildcard(_navigation);
 
 var _contestants = require('./contestants');
 
@@ -40851,6 +40855,9 @@ var ContestPage = function (_React$Component) {
         _this.handleRemoveContestClick = _this.handleRemoveContestClick.bind(_this);
         _this.timeout = null;
         _this.hasTimedOut = false;
+        _this.resetTimeout = _this.resetTimeout.bind(_this);
+        _this.getLoadingPageContent = _this.getLoadingPageContent.bind(_this);
+        _this.getFailedToLoadPageContent = _this.getFailedToLoadPageContent.bind(_this);
         _this.state = _this.getState();
         return _this;
     }
@@ -40867,6 +40874,7 @@ var ContestPage = function (_React$Component) {
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
+            this.resetTimeout();
             _contestStore2.default.off("change", this.storeChanged);
             ContestActions.leaveHubGroup(this.getShowId());
         }
@@ -40896,47 +40904,71 @@ var ContestPage = function (_React$Component) {
             return this.props.params.showId;
         }
     }, {
+        key: 'resetTimeout',
+        value: function resetTimeout() {
+            if (this.timeout) {
+                clearTimeout(this.timeout);
+            }
+        }
+    }, {
+        key: 'getLoadingPageContent',
+        value: function getLoadingPageContent() {
+            var self = this;
+            self.timeout = setTimeout(function () {
+                self.hasTimedOut = true;
+                self.setState(self.getState());
+            }, 10000);
+
+            return _react2.default.createElement(_pageContent2.default, { title: 'Loading', description: 'The contest\'s details are loading, please wait.' });
+        }
+    }, {
+        key: 'getFailedToLoadPageContent',
+        value: function getFailedToLoadPageContent() {
+            var self = this;
+            self.timeout = setTimeout(function () {
+                Nav.goToShow(self.getShowId());
+            }, 5000);
+
+            return _react2.default.createElement(_pageContent2.default, { title: 'Failed to Load Contest', description: 'The requested contest could not be loaded in a timely manner. The contest may not exist. You will be automatically redirected shortly.' });
+        }
+    }, {
         key: 'handleEditContestClick',
         value: function handleEditContestClick(e) {
             e.preventDefault();
-            _reactRouter.hashHistory.push('/show/' + this.getShowId() + '/contests/' + this.getContestId() + '/edit');
+            Nav.goToEditContest(this.getShowId(), this.getContestId());
         }
     }, {
         key: 'handleRemoveContestClick',
         value: function handleRemoveContestClick(e) {
             e.preventDefault();
             ContestActions.removeContest(this.getShowId(), this.getContestId());
-            _reactRouter.hashHistory.push('/show/' + this.getShowId());
+            Nav.goToShow(this.getShowId());
         }
     }, {
         key: 'render',
         value: function render() {
-            var contest = this.state.contest;
-            var showId = this.getShowId();
-            var contestId = this.getContestId();
-
-            if (this.timeout) {
-                clearTimeout(this.timeout);
-            }
+            this.resetTimeout();
 
             if (this.hasTimedOut) {
-                return _react2.default.createElement(_pageContent2.default, { title: 'Failed to Load Contest', description: 'The requested contest could not be loaded in a timely manner. The contest may not exist.' });
+                return this.getFailedToLoadPageContent();
             }
+
+            var contest = this.state.contest;
 
             if (!contest) {
-                var self = this;
-                this.timeout = setTimeout(function () {
-                    self.hasTimedOut = true;
-                    self.setState(self.getState());
-                }, 10000);
-
-                return _react2.default.createElement(_pageContent2.default, { title: 'Loading', description: 'The contest\'s details are loading, please wait.' });
+                return this.getLoadingPageContent();
             }
 
+            var showId = this.getShowId();
+            var contestId = this.getContestId();
             var authorizedRolesForButtons = ["admin"];
-            var editContestButton = _react2.default.createElement(_button2.default, { key: 'editContest', type: 'primary', authorizedRoles: authorizedRolesForButtons, name: 'editContest', value: 'Edit', onClick: this.handleEditContestClick });
-            var removeContestButton = _react2.default.createElement(_button2.default, { key: 'removeContest', type: 'primary', authorizedRoles: authorizedRolesForButtons, name: 'removeContest', value: 'Remove', onClick: this.handleRemoveContestClick });
-            var contestPageButtons = [editContestButton, removeContestButton];
+            var contestPageButtons = _react2.default.createElement(
+                'span',
+                null,
+                _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: authorizedRolesForButtons, name: 'editContest', value: 'Edit', onClick: this.handleEditContestClick }),
+                ' ',
+                _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: authorizedRolesForButtons, name: 'removeContest', value: 'Remove', onClick: this.handleRemoveContestClick })
+            );
 
             return _react2.default.createElement(
                 _pageContent2.default,
@@ -40952,7 +40984,7 @@ var ContestPage = function (_React$Component) {
 
 exports.default = ContestPage;
 
-},{"../../../../common/button":264,"../../../../common/pageContent":270,"../../../../data/actions/contestActions":274,"../../../../data/actions/contestantActions":275,"../../../../data/actions/judgeActions":277,"../../../../data/stores/contestStore":291,"./contestants":310,"./judges":313,"react":262,"react-router":203}],302:[function(require,module,exports){
+},{"../../../../common/button":264,"../../../../common/pageContent":270,"../../../../data/actions/contestActions":274,"../../../../data/actions/contestantActions":275,"../../../../data/actions/judgeActions":277,"../../../../data/stores/contestStore":291,"../../../../routing/navigation":322,"./contestants":310,"./judges":313,"react":262}],302:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41792,7 +41824,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouter = require('react-router');
+var _navigation = require('../../../../routing/navigation');
+
+var Nav = _interopRequireWildcard(_navigation);
 
 var _contestEditor = require('./contestEditor');
 
@@ -41876,7 +41910,7 @@ var EditContestPage = function (_RoleAwareComponent) {
     }, {
         key: 'navigateToContestPage',
         value: function navigateToContestPage() {
-            _reactRouter.hashHistory.push('/show/' + this.getShowId() + "/contest/" + this.getContestId());
+            Nav.goToContest(this.getShowId(), this.getContestId());
         }
     }, {
         key: 'getState',
@@ -41920,7 +41954,7 @@ var EditContestPage = function (_RoleAwareComponent) {
 
 exports.default = EditContestPage;
 
-},{"../../../../common/pageContent":270,"../../../../common/roleAwareComponent":272,"../../../../data/actions/contestActions":274,"../../../../data/stores/contestStore":291,"./contestEditor":302,"react":262,"react-router":203}],312:[function(require,module,exports){
+},{"../../../../common/pageContent":270,"../../../../common/roleAwareComponent":272,"../../../../data/actions/contestActions":274,"../../../../data/stores/contestStore":291,"../../../../routing/navigation":322,"./contestEditor":302,"react":262}],312:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -42040,7 +42074,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouter = require('react-router');
+var _navigation = require('../../../routing/navigation');
+
+var Nav = _interopRequireWildcard(_navigation);
 
 var _listPanel = require('../../../common/listPanel');
 
@@ -42116,7 +42152,7 @@ var ContestsBox = function (_React$Component) {
         key: 'handleAddContestClick',
         value: function handleAddContestClick(e) {
             e.preventDefault();
-            _reactRouter.hashHistory.push('show/' + this.getShowId() + '/contests/add');
+            Nav.goToAddContest(this.getShowId());
         }
     }, {
         key: 'render',
@@ -42141,7 +42177,7 @@ var ContestsBox = function (_React$Component) {
 
 exports.default = ContestsBox;
 
-},{"../../../common/button":264,"../../../common/listPanel":269,"../../../data/actions/contestActions":274,"../../../data/stores/contestStore":291,"react":262,"react-router":203}],315:[function(require,module,exports){
+},{"../../../common/button":264,"../../../common/listPanel":269,"../../../data/actions/contestActions":274,"../../../data/stores/contestStore":291,"../../../routing/navigation":322,"react":262}],315:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42289,7 +42325,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouter = require('react-router');
+var _navigation = require('../../../routing/navigation');
+
+var Nav = _interopRequireWildcard(_navigation);
 
 var _contests = require('./contests');
 
@@ -42377,7 +42415,7 @@ var ShowPage = function (_React$Component) {
         key: 'handleEditShowClick',
         value: function handleEditShowClick(e) {
             e.preventDefault();
-            _reactRouter.hashHistory.push('/show/' + this.getShowId() + '/edit');
+            Nav.goToEditShow(this.getShowId());
         }
     }, {
         key: 'render',
@@ -42403,7 +42441,7 @@ var ShowPage = function (_React$Component) {
 
 exports.default = ShowPage;
 
-},{"../../../common/button":264,"../../../common/pageContent":270,"../../../data/actions/showActions":279,"../../../data/stores/showStore":296,"./contests":314,"react":262,"react-router":203}],317:[function(require,module,exports){
+},{"../../../common/button":264,"../../../common/pageContent":270,"../../../data/actions/showActions":279,"../../../data/stores/showStore":296,"../../../routing/navigation":322,"./contests":314,"react":262}],317:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43099,4 +43137,64 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"../common/formGroup":265,"../common/input":266,"../data/actions/currentUserActions":276,"../data/stores/currentUserStore":293,"jquery":25,"react":262,"react-router":203}]},{},[263]);
+},{"../common/formGroup":265,"../common/input":266,"../data/actions/currentUserActions":276,"../data/stores/currentUserStore":293,"jquery":25,"react":262,"react-router":203}],322:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.goToShows = goToShows;
+exports.goToAddShow = goToAddShow;
+exports.goToShow = goToShow;
+exports.goToEditShow = goToEditShow;
+exports.goToAddContest = goToAddContest;
+exports.goToContest = goToContest;
+exports.goToEditContest = goToEditContest;
+exports.goToContestant = goToContestant;
+exports.goToScorecard = goToScorecard;
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require('react-router');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function goToShows() {
+    _reactRouter.hashHistory.push('/shows');
+};
+
+function goToAddShow() {
+    _reactRouter.hashHistory.push('/shows/add');
+};
+
+function goToShow(showId) {
+    _reactRouter.hashHistory.push('/show/' + showId);
+};
+
+function goToEditShow(showId) {
+    _reactRouter.hashHistory.push('/show/' + showId + '/edit');
+};
+
+function goToAddContest(showId) {
+    _reactRouter.hashHistory.push('/show/' + showId + '/contests/add');
+};
+
+function goToContest(showId, contestId) {
+    _reactRouter.hashHistory.push('/show/' + showId + '/contest/' + contestId);
+};
+
+function goToEditContest(showId, contestId) {
+    _reactRouter.hashHistory.push('/show/' + showId + '/contest/' + contestId + '/edit');
+};
+
+function goToContestant(showId, contestId, contestantId) {
+    _reactRouter.hashHistory.push('/show/' + showId + '/contest/' + contestId + '/contestant/' + contestantId);
+};
+
+function goToScorecard(showId, contestId, contestantId, scorecardId) {
+    _reactRouter.hashHistory.push('/show/' + showId + '/contest/' + contestId + '/contestant/' + contestantId + '/scorecard/' + scorecardId);
+};
+
+},{"react":262,"react-router":203}]},{},[263]);
