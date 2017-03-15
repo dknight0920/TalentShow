@@ -4,7 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using TalentShow;
+using TalentShow.CrossReferences;
 using TalentShow.Repos;
 using TalentShow.Services;
 using TalentShowDataStorage;
@@ -19,7 +21,7 @@ namespace TalentShowWebApi.Controllers
         private readonly ShowService ShowService;
 
         public ShowsController()
-        {
+        {        
             ShowService = new ShowService(new ShowRepo());
         }
 

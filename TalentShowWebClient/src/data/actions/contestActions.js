@@ -70,18 +70,18 @@ var removeContest = function(showId, contestId){
 };
 
 var joinHubGroup = function(showId){
-    Hubs.contestsHubProxy.invoke('JoinGroup', getHubGroupName(showId));
+    Hubs.controlCenterHubProxy.invoke('JoinGroup', getHubGroupName(showId));
 };
 
 var leaveHubGroup = function(showId){
-    Hubs.contestsHubProxy.invoke('LeaveGroup', getHubGroupName(showId));
+    Hubs.controlCenterHubProxy.invoke('LeaveGroup', getHubGroupName(showId));
 };
 
 var getHubGroupName = function(showId){
     return GroupNameUtil.getShowGroupName(showId);
 }
 
-Hubs.contestsHubProxy.on('contestsChanged', function(showId) {
+Hubs.controlCenterHubProxy.on('contestsChanged', function(showId) {
     loadShowContests(showId); 
 });
 

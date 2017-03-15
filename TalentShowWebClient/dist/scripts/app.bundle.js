@@ -39212,18 +39212,18 @@ var removeContest = function removeContest(showId, contestId) {
 };
 
 var joinHubGroup = function joinHubGroup(showId) {
-    Hubs.contestsHubProxy.invoke('JoinGroup', getHubGroupName(showId));
+    Hubs.controlCenterHubProxy.invoke('JoinGroup', getHubGroupName(showId));
 };
 
 var leaveHubGroup = function leaveHubGroup(showId) {
-    Hubs.contestsHubProxy.invoke('LeaveGroup', getHubGroupName(showId));
+    Hubs.controlCenterHubProxy.invoke('LeaveGroup', getHubGroupName(showId));
 };
 
 var getHubGroupName = function getHubGroupName(showId) {
     return GroupNameUtil.getShowGroupName(showId);
 };
 
-Hubs.contestsHubProxy.on('contestsChanged', function (showId) {
+Hubs.controlCenterHubProxy.on('contestsChanged', function (showId) {
     loadShowContests(showId);
 });
 
@@ -39333,39 +39333,114 @@ function updateScoreCard(scoreCard) {
 };
 
 },{"../dispatcher":288}],279:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.loadAllShows = loadAllShows;
-exports.loadShow = loadShow;
-exports.addShow = addShow;
-exports.updateShow = updateShow;
+exports.leaveHubGroup = exports.joinHubGroup = exports.removeShow = exports.updateShow = exports.addShow = exports.loadShow = exports.loadShows = undefined;
 
-var _dispatcher = require("../dispatcher");
+var _dispatcher = require('../dispatcher');
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
+var _showApi = require('../api/showApi');
+
+var ShowApi = _interopRequireWildcard(_showApi);
+
+var _hubs = require('../signalr/hubs');
+
+var Hubs = _interopRequireWildcard(_hubs);
+
+var _groupNameUtil = require('../signalr/utils/groupNameUtil');
+
+var GroupNameUtil = _interopRequireWildcard(_groupNameUtil);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function loadAllShows() {
-    _dispatcher2.default.dispatch({ type: "LOAD_ALL_SHOWS" });
+var loadShows = function loadShows() {
+    _dispatcher2.default.dispatch({ type: "LOAD_SHOWS" });
+
+    ShowApi.getShows(function success(shows) {
+        _dispatcher2.default.dispatch({ type: "LOAD_SHOWS_SUCCESS", shows: shows });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "LOAD_SHOWS_FAIL", error: err });
+    });
 };
 
-function loadShow(showId) {
+var loadShow = function loadShow(showId) {
     _dispatcher2.default.dispatch({ type: "LOAD_SHOW", showId: showId });
+
+    ShowApi.get(showId, function success(show) {
+        _dispatcher2.default.dispatch({ type: "LOAD_SHOW_SUCCESS", show: show });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "LOAD_SHOW_FAIL", error: err });
+    });
 };
 
-function addShow(newShow) {
-    _dispatcher2.default.dispatch({ type: "ADD_SHOW", newShow: newShow });
+var addShow = function addShow(newShow) {
+    var groupName = getHubGroupName();
+
+    _dispatcher2.default.dispatch({ type: "ADD_SHOW", newShow: newShow, groupName: groupName });
+
+    ShowApi.add(newShow, function success(show) {
+        _dispatcher2.default.dispatch({ type: "ADD_SHOW_SUCCESS", show: show, groupName: groupName });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "ADD_SHOW_FAIL", error: err, groupName: groupName });
+    });
 };
 
-function updateShow(show) {
-    _dispatcher2.default.dispatch({ type: "UPDATE_SHOW", show: show });
+var updateShow = function updateShow(show) {
+    var groupName = getHubGroupName();
+
+    _dispatcher2.default.dispatch({ type: "UPDATE_SHOW", show: show, groupName: groupName });
+
+    ShowApi.update(show, function success(show) {
+        _dispatcher2.default.dispatch({ type: "UPDATE_SHOW_SUCCESS", show: show, groupName: groupName });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "UPDATE_SHOW_FAIL", error: err, groupName: groupName });
+    });
 };
 
-},{"../dispatcher":288}],280:[function(require,module,exports){
+var removeShow = function removeShow(showId) {
+    var groupName = getHubGroupName();
+
+    _dispatcher2.default.dispatch({ type: "REMOVE_SHOW", showId: showId, groupName: groupName });
+
+    ShowApi.remove(showId, function success() {
+        _dispatcher2.default.dispatch({ type: "REMOVE_SHOW_SUCCESS", showId: showId, groupName: groupName });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "REMOVE_SHOW_FAIL", error: err, groupName: groupName });
+    });
+};
+
+var joinHubGroup = function joinHubGroup() {
+    Hubs.controlCenterHubProxy.invoke('JoinGroup', getHubGroupName());
+};
+
+var leaveHubGroup = function leaveHubGroup() {
+    Hubs.controlCenterHubProxy.invoke('LeaveGroup', getHubGroupName());
+};
+
+var getHubGroupName = function getHubGroupName() {
+    return GroupNameUtil.getContolCenterGroupName();
+};
+
+Hubs.controlCenterHubProxy.on('showsChanged', function () {
+    loadShows();
+});
+
+exports.loadShows = loadShows;
+exports.loadShow = loadShow;
+exports.addShow = addShow;
+exports.updateShow = updateShow;
+exports.removeShow = removeShow;
+exports.joinHubGroup = joinHubGroup;
+exports.leaveHubGroup = leaveHubGroup;
+
+},{"../api/showApi":284,"../dispatcher":288,"../signalr/hubs":289,"../signalr/utils/groupNameUtil":290}],280:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39673,13 +39748,25 @@ exports.remove = remove;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.remove = exports.update = exports.add = exports.get = exports.getAll = undefined;
+exports.remove = exports.update = exports.add = exports.get = exports.getAll = exports.getShows = undefined;
 
 var _httpUtil = require("./utils/httpUtil.js");
 
 var ApiHttpUtil = _interopRequireWildcard(_httpUtil);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var getShows = function getShows(_success, fail) {
+    ApiHttpUtil.get({
+        url: "api/Shows",
+        success: function success(result) {
+            _success(result);
+        },
+        error: function error(request, status, err) {
+            fail(err);
+        }
+    });
+};
 
 var getAll = function getAll(callback) {
     ApiHttpUtil.get({
@@ -39693,44 +39780,55 @@ var getAll = function getAll(callback) {
     });
 };
 
-var get = function get(id, callback) {
+var get = function get(id, _success2, fail) {
     ApiHttpUtil.get({
         url: "api/Shows/" + id,
         success: function success(result) {
-            callback(result);
+            _success2(result);
         },
         error: function error(request, status, err) {
-            //TODO handle error
+            fail(err);
         }
     });
 };
 
-var add = function add(show, callback) {
+var add = function add(show, _success3, fail) {
     ApiHttpUtil.post({
-        url: "api/Shows/",
+        url: "api/Shows",
         success: function success(result) {
-            callback(result);
+            _success3(result);
         },
         error: function error(request, status, err) {
-            //TODO handle error
+            fail(err);
         }
     }, JSON.stringify(show));
 };
 
-var update = function update(show, callback) {
+var update = function update(show, _success4, fail) {
     ApiHttpUtil.put({
-        url: "api/Shows/",
+        url: "api/Shows",
         success: function success(result) {
-            callback(result);
+            _success4(result);
         },
         error: function error(request, status, err) {
-            //TODO handle error
+            fail(err);
         }
     }, JSON.stringify(show));
 };
 
-var remove = function remove(show) {};
+var remove = function remove(showId, _success5, fail) {
+    ApiHttpUtil.remove({
+        url: "api/Shows/" + showId,
+        success: function success() {
+            _success5();
+        },
+        error: function error(request, status, err) {
+            fail(err);
+        }
+    });
+};
 
+exports.getShows = getShows;
 exports.getAll = getAll;
 exports.get = get;
 exports.add = add;
@@ -39887,11 +39985,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var hubConnection = $.hubConnection(globalWebApiBaseUrl);
-var contestsHubProxy = hubConnection.createHubProxy('contestsHub');
-contestsHubProxy.on('dummy', function () {});
+var controlCenterHubProxy = hubConnection.createHubProxy('controlCenterHub');
+controlCenterHubProxy.on('dummy', function () {});
 
 exports.hubConnection = hubConnection;
-exports.contestsHubProxy = contestsHubProxy;
+exports.controlCenterHubProxy = controlCenterHubProxy;
 
 },{}],290:[function(require,module,exports){
 "use strict";
@@ -39899,10 +39997,15 @@ exports.contestsHubProxy = contestsHubProxy;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+var getContolCenterGroupName = function getContolCenterGroupName() {
+    return "controlcenter";
+};
+
 var getShowGroupName = function getShowGroupName(showId) {
     return "show_" + showId;
 };
 
+exports.getContolCenterGroupName = getContolCenterGroupName;
 exports.getShowGroupName = getShowGroupName;
 
 },{}],291:[function(require,module,exports){
@@ -40029,7 +40132,7 @@ var ContestStore = function (_EventEmitter) {
         };
 
         var broadcastChange = function broadcastChange(groupName, showId) {
-            BroadcastUtil.broadcastChange(Hubs.contestsHubProxy, groupName, showId);
+            BroadcastUtil.broadcastChange(Hubs.controlCenterHubProxy, groupName, showId);
         };
 
         _dispatcher2.default.register(_this.handleAction.bind(_this));
@@ -40423,13 +40526,17 @@ var _dispatcher = require('../dispatcher');
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
-var _showApi = require('../api/showApi');
-
-var ShowApi = _interopRequireWildcard(_showApi);
-
 var _storeUtils = require('./utils/storeUtils');
 
 var StoreUtils = _interopRequireWildcard(_storeUtils);
+
+var _broadcastUtil = require('./utils/broadcastUtil');
+
+var BroadcastUtil = _interopRequireWildcard(_broadcastUtil);
+
+var _hubs = require('../signalr/hubs');
+
+var Hubs = _interopRequireWildcard(_hubs);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -40450,70 +40557,97 @@ var ShowStore = function (_EventEmitter) {
         var _this = _possibleConstructorReturn(this, (ShowStore.__proto__ || Object.getPrototypeOf(ShowStore)).call(this));
 
         _this.shows = [];
+
+        var self = _this;
+
+        _this.setShows = function (shows) {
+            self.shows = shows;
+            self.emit("change");
+        };
+
+        _this.pushShow = function (show) {
+            StoreUtils.pushItem(show, self.shows, self.setShows);
+        };
+
+        _this.removeShow = function (showId) {
+            StoreUtils.removeItem(showId, self.shows, self.setShows);
+        };
+
+        _this.getShows = function () {
+            return self.shows;
+        };
+
+        _this.get = function (id) {
+            return StoreUtils.get(id, self.shows);
+        };
+
+        _this.handleAction = function (action) {
+            switch (action.type) {
+                case "LOAD_SHOWS":
+                    //TODO
+                    break;
+                case "LOAD_SHOWS_SUCCESS":
+                    self.setShows(action.shows);
+                    break;
+                case "LOAD_SHOWS_FAIL":
+                    //TODO
+                    break;
+                case "LOAD_SHOW":
+                    //TODO
+                    break;
+                case "LOAD_SHOW_SUCCESS":
+                    self.pushShow(action.show);
+                    break;
+                case "LOAD_SHOW_FAIL":
+                    //TODO
+                    break;
+                case "ADD_SHOW":
+                    //TODO
+                    break;
+                case "ADD_SHOW_SUCCESS":
+                    self.pushShow(action.show);
+                    broadcastChange(action.groupName, action.showId);
+                    break;
+                case "ADD_SHOW_FAIL":
+                    //TODO
+                    break;
+                case "UPDATE_SHOW":
+                    //TODO
+                    break;
+                case "UPDATE_SHOW_SUCCESS":
+                    self.pushShow(action.show);
+                    broadcastChange(action.groupName, action.showId);
+                    break;
+                case "UPDATE_SHOW_FAIL":
+                    //TODO
+                    break;
+                case "REMOVE_SHOW":
+                    //TODO
+                    break;
+                case "REMOVE_SHOW_SUCCESS":
+                    self.removeShow(action.showId);
+                    broadcastChange(action.groupName, action.showId);
+                    break;
+                case "REMOVE_SHOW_FAIL":
+                    //TODO
+                    break;
+            }
+        };
+
+        var broadcastChange = function broadcastChange(groupName, showId) {
+            BroadcastUtil.broadcastChange(Hubs.controlCenterHubProxy, groupName, showId);
+        };
+
+        _dispatcher2.default.register(_this.handleAction.bind(_this));
         return _this;
     }
 
     return ShowStore;
 }(_eventEmitter2.default);
 
-var showStore = new ShowStore();
+exports.default = new ShowStore();
 
-showStore.setShows = function (_shows) {
-    showStore.shows = _shows;
-    showStore.emit("change");
-};
-
-showStore.pushShow = function (_show) {
-    StoreUtils.pushItem(_show, showStore.shows, showStore.setShows);
-};
-
-showStore.getAll = function () {
-    return showStore.shows;
-};
-
-showStore.loadAll = function () {
-    ShowApi.getAll(showStore.setShows);
-};
-
-showStore.load = function (showId) {
-    ShowApi.get(showId, showStore.pushShow);
-};
-
-showStore.add = function (newShow) {
-    ShowApi.add(newShow, showStore.pushShow);
-};
-
-showStore.update = function (show) {
-    ShowApi.update(show, showStore.pushShow);
-};
-
-showStore.get = function (id) {
-    return StoreUtils.get(id, showStore.shows);
-};
-
-showStore.handleAction = function (action) {
-    switch (action.type) {
-        case "LOAD_ALL_SHOWS":
-            showStore.loadAll();
-            break;
-        case "LOAD_SHOW":
-            showStore.load(action.showId);
-            break;
-        case "ADD_SHOW":
-            showStore.add(action.newShow);
-            break;
-        case "UPDATE_SHOW":
-            showStore.update(action.show);
-            break;
-
-    }
-};
-
-_dispatcher2.default.register(showStore.handleAction.bind(showStore));
-
-exports.default = showStore;
-
-},{"../api/showApi":284,"../dispatcher":288,"./utils/storeUtils":298,"event-emitter":7}],297:[function(require,module,exports){
+},{"../dispatcher":288,"../signalr/hubs":289,"./utils/broadcastUtil":297,"./utils/storeUtils":298,"event-emitter":7}],297:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42668,7 +42802,7 @@ var ShowsBox = function (_React$Component2) {
         key: 'componentWillMount',
         value: function componentWillMount() {
             _showStore2.default.on("change", this.storeChanged);
-            ShowActions.loadAllShows();
+            ShowActions.loadShows();
         }
     }, {
         key: 'componentWillUnmount',
@@ -42683,7 +42817,7 @@ var ShowsBox = function (_React$Component2) {
     }, {
         key: 'getState',
         value: function getState() {
-            return { shows: _showStore2.default.getAll() };
+            return { shows: _showStore2.default.getShows() };
         }
     }, {
         key: 'handleAddShowClick',

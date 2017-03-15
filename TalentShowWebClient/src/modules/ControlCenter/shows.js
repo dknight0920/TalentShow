@@ -32,7 +32,7 @@ class ShowsBox extends React.Component {
 
     componentWillMount(){
         ShowStore.on("change", this.storeChanged);
-        ShowActions.loadAllShows();
+        ShowActions.loadShows();
     }
 
     componentWillUnmount(){
@@ -44,7 +44,7 @@ class ShowsBox extends React.Component {
     }
 
     getState(){
-        return { shows: ShowStore.getAll() };
+        return { shows: ShowStore.getShows() };
     }
 
     handleAddShowClick(e){

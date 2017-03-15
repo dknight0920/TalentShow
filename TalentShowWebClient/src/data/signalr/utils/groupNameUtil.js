@@ -1,5 +1,9 @@
-﻿var getShowGroupName = function(showId){
+﻿var getContolCenterGroupName = function(){
+    return "controlcenter";
+};
+
+var getShowGroupName = function(showId){
     return "show_" + showId;
 };
 
-export {getShowGroupName};
+export {getContolCenterGroupName, getShowGroupName};

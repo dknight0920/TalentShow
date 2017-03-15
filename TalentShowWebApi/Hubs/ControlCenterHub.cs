@@ -6,7 +6,7 @@ using System.Web;
 
 namespace TalentShowWebApi.Hubs
 {
-    public class ContestsHub : Hub
+    public class ControlCenterHub : Hub
     {
         public void Changed(string groupName, int showId)
         {

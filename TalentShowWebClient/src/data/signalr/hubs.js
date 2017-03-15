@@ -1,5 +1,5 @@
 ﻿var hubConnection = $.hubConnection(globalWebApiBaseUrl);
-var contestsHubProxy = hubConnection.createHubProxy('contestsHub');
-contestsHubProxy.on('dummy', function() { });
+var controlCenterHubProxy = hubConnection.createHubProxy('controlCenterHub');
+controlCenterHubProxy.on('dummy', function() { });
 
-export {hubConnection, contestsHubProxy};
+export {hubConnection, controlCenterHubProxy};
