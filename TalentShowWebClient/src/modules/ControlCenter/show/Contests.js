@@ -3,7 +3,6 @@ import * as Nav from '../../../routing/navigation';
 import { ListPanel, ListPanelItem } from '../../../common/listPanel';
 import Button from '../../../common/button';
 import ContestStore from '../../../data/stores/contestStore';
-import * as ContestActions from '../../../data/actions/contestActions';
 
 class ContestsBox extends React.Component {
 
@@ -18,15 +17,10 @@ class ContestsBox extends React.Component {
 
     componentWillMount(){
         ContestStore.on("change", this.storeChanged);
-        var showId = this.getShowId();
-        ContestActions.loadShowContests(showId);
-        ContestActions.joinHubGroup(showId);
     }
 
     componentWillUnmount(){
         ContestStore.off("change", this.storeChanged);
-        var showId = this.getShowId();
-        ContestActions.leaveHubGroup(showId);
     }
 
     storeChanged(){

@@ -1,5 +1,5 @@
 ﻿import React  from 'react';
-import { hashHistory } from 'react-router';
+import * as Nav from '../routing/navigation';
 import CurrentUserStore from '../data/stores/currentUserStore';
  
 class RoleAwareComponent extends React.Component {
@@ -10,7 +10,7 @@ class RoleAwareComponent extends React.Component {
 
     redirectUnauthorizedUser() {
         if(!this.shouldBeVisible()) {
-            hashHistory.push('/unauthorized');
+            Nav.goToUnauthorized();
         }
     }
  

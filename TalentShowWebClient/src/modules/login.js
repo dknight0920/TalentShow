@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { hashHistory } from 'react-router';
+import * as Nav from '../routing/navigation';
 import Input from '../common/input';
 import FormGroup from '../common/formGroup'
 import $ from 'jquery';
@@ -33,7 +33,7 @@ class LoginBox extends React.Component {
 
     redirect(){
         if(this.state.data === true){
-            hashHistory.push('/shows');
+            Nav.goToShows();
         }
     }
     

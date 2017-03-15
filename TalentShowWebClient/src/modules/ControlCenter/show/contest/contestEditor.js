@@ -1,8 +1,5 @@
 ﻿import React from 'react';
-import { hashHistory } from 'react-router';
 import Clone from 'clone';
-import * as ContestActions from '../../../../data/actions/contestActions';
-import PageContent from '../../../../common/pageContent';
 import FormGroup from '../../../../common/formGroup'
 import Input from '../../../../common/input';
 import Button from '../../../../common/button';

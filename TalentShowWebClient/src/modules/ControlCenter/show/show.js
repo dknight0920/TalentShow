@@ -3,6 +3,7 @@ import * as Nav from '../../../routing/navigation';
 import ContestsBox from './contests';
 import ShowStore from '../../../data/stores/showStore';
 import * as ShowActions from '../../../data/actions/showActions';
+import * as ContestActions from '../../../data/actions/contestActions';
 import PageContent from '../../../common/pageContent';
 import Button from '../../../common/button';
 
@@ -22,11 +23,15 @@ class ShowPage extends React.Component {
 
     componentWillMount(){
         ShowStore.on("change", this.storeChanged);
-        ShowActions.loadShow(this.getShowId());
+        var showId = this.getShowId();
+        ShowActions.loadShow(showId);
+        ContestActions.loadShowContests(showId);
+        ContestActions.joinHubGroup(showId);
     }
 
     componentWillUnmount(){
         ShowStore.off("change", this.storeChanged);
+        ContestActions.leaveHubGroup(this.getShowId());
     }
 
     storeChanged(){

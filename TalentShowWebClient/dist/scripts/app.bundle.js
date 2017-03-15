@@ -39024,11 +39024,15 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouter = require('react-router');
+var _navigation = require('../routing/navigation');
+
+var Nav = _interopRequireWildcard(_navigation);
 
 var _currentUserStore = require('../data/stores/currentUserStore');
 
 var _currentUserStore2 = _interopRequireDefault(_currentUserStore);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39054,7 +39058,7 @@ var RoleAwareComponent = function (_React$Component) {
         key: 'redirectUnauthorizedUser',
         value: function redirectUnauthorizedUser() {
             if (!this.shouldBeVisible()) {
-                _reactRouter.hashHistory.push('/unauthorized');
+                Nav.goToUnauthorized();
             }
         }
     }, {
@@ -39077,7 +39081,7 @@ var RoleAwareComponent = function (_React$Component) {
 
 exports.default = RoleAwareComponent;
 
-},{"../data/stores/currentUserStore":293,"react":262,"react-router":203}],273:[function(require,module,exports){
+},{"../data/stores/currentUserStore":293,"../routing/navigation":322,"react":262}],273:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40598,7 +40602,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouter = require('react-router');
+var _navigation = require('../../../routing/navigation');
+
+var Nav = _interopRequireWildcard(_navigation);
 
 var _showEditor = require('./showEditor');
 
@@ -40660,7 +40666,7 @@ var AddShowPage = function (_RoleAwareComponent) {
     }, {
         key: 'navigateToShowsPage',
         value: function navigateToShowsPage() {
-            _reactRouter.hashHistory.push('/shows');
+            Nav.goToShows();
         }
     }, {
         key: 'render',
@@ -40678,7 +40684,7 @@ var AddShowPage = function (_RoleAwareComponent) {
 
 exports.default = AddShowPage;
 
-},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"./showEditor":317,"react":262,"react-router":203}],300:[function(require,module,exports){
+},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"../../../routing/navigation":322,"./showEditor":317,"react":262}],300:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40997,19 +41003,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouter = require('react-router');
-
 var _clone = require('clone');
 
 var _clone2 = _interopRequireDefault(_clone);
-
-var _contestActions = require('../../../../data/actions/contestActions');
-
-var ContestActions = _interopRequireWildcard(_contestActions);
-
-var _pageContent = require('../../../../common/pageContent');
-
-var _pageContent2 = _interopRequireDefault(_pageContent);
 
 var _formGroup = require('../../../../common/formGroup');
 
@@ -41026,8 +41022,6 @@ var _button2 = _interopRequireDefault(_button);
 var _roleAwareComponent = require('../../../../common/roleAwareComponent');
 
 var _roleAwareComponent2 = _interopRequireDefault(_roleAwareComponent);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -41140,7 +41134,7 @@ var ContestEditor = function (_RoleAwareComponent) {
 
 exports.default = ContestEditor;
 
-},{"../../../../common/button":264,"../../../../common/formGroup":265,"../../../../common/input":266,"../../../../common/pageContent":270,"../../../../common/roleAwareComponent":272,"../../../../data/actions/contestActions":274,"clone":6,"react":262,"react-router":203}],303:[function(require,module,exports){
+},{"../../../../common/button":264,"../../../../common/formGroup":265,"../../../../common/input":266,"../../../../common/roleAwareComponent":272,"clone":6,"react":262}],303:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41164,6 +41158,10 @@ var _contestantStore2 = _interopRequireDefault(_contestantStore);
 var _contestantActions = require('../../../../../data/actions/contestantActions');
 
 var ContestantActions = _interopRequireWildcard(_contestantActions);
+
+var _scoreCardActions = require('../../../../../data/actions/scoreCardActions');
+
+var ScoreCardActions = _interopRequireWildcard(_scoreCardActions);
 
 var _contestantUtil = require('./contestantUtil');
 
@@ -41203,7 +41201,9 @@ var ContestantPage = function (_React$Component) {
         key: 'componentWillMount',
         value: function componentWillMount() {
             _contestantStore2.default.on("change", this.storeChanged);
-            ContestantActions.loadContestant(this.getContestantId());
+            var contestantId = this.getContestantId();
+            ContestantActions.loadContestant(contestantId);
+            ScoreCardActions.loadContestantScoreCards(contestantId);
         }
     }, {
         key: 'componentWillUnmount',
@@ -41252,7 +41252,7 @@ var ContestantPage = function (_React$Component) {
 
 exports.default = ContestantPage;
 
-},{"../../../../../common/pageContent":270,"../../../../../data/actions/contestantActions":275,"../../../../../data/stores/contestantStore":292,"./contestantUtil":304,"./scoreCards":308,"react":262}],304:[function(require,module,exports){
+},{"../../../../../common/pageContent":270,"../../../../../data/actions/contestantActions":275,"../../../../../data/actions/scoreCardActions":278,"../../../../../data/stores/contestantStore":292,"./contestantUtil":304,"./scoreCards":308,"react":262}],304:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -41642,10 +41642,6 @@ var _scoreCardStore = require('../../../../../data/stores/scoreCardStore');
 
 var _scoreCardStore2 = _interopRequireDefault(_scoreCardStore);
 
-var _scoreCardActions = require('../../../../../data/actions/scoreCardActions');
-
-var ScoreCardActions = _interopRequireWildcard(_scoreCardActions);
-
 var _scoreCardUtil = require('./scorecard/scoreCardUtil');
 
 var ScoreCardUtil = _interopRequireWildcard(_scoreCardUtil);
@@ -41678,7 +41674,6 @@ var ScoreCardsBox = function (_React$Component) {
         key: 'componentWillMount',
         value: function componentWillMount() {
             _scoreCardStore2.default.on("change", this.storeChanged);
-            ScoreCardActions.loadContestantScoreCards(this.props.contestantId);
         }
     }, {
         key: 'componentWillUnmount',
@@ -41719,7 +41714,7 @@ var ScoreCardsBox = function (_React$Component) {
 
 exports.default = ScoreCardsBox;
 
-},{"../../../../../common/listPanel":269,"../../../../../data/actions/scoreCardActions":278,"../../../../../data/stores/scoreCardStore":295,"./scorecard/scoreCardUtil":309,"react":262}],309:[function(require,module,exports){
+},{"../../../../../common/listPanel":269,"../../../../../data/stores/scoreCardStore":295,"./scorecard/scoreCardUtil":309,"react":262}],309:[function(require,module,exports){
 arguments[4][307][0].apply(exports,arguments)
 },{"dup":307,"react":262}],310:[function(require,module,exports){
 'use strict';
@@ -42088,10 +42083,6 @@ var _contestStore = require('../../../data/stores/contestStore');
 
 var _contestStore2 = _interopRequireDefault(_contestStore);
 
-var _contestActions = require('../../../data/actions/contestActions');
-
-var ContestActions = _interopRequireWildcard(_contestActions);
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -42122,16 +42113,11 @@ var ContestsBox = function (_React$Component) {
         key: 'componentWillMount',
         value: function componentWillMount() {
             _contestStore2.default.on("change", this.storeChanged);
-            var showId = this.getShowId();
-            ContestActions.loadShowContests(showId);
-            ContestActions.joinHubGroup(showId);
         }
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
             _contestStore2.default.off("change", this.storeChanged);
-            var showId = this.getShowId();
-            ContestActions.leaveHubGroup(showId);
         }
     }, {
         key: 'storeChanged',
@@ -42177,7 +42163,7 @@ var ContestsBox = function (_React$Component) {
 
 exports.default = ContestsBox;
 
-},{"../../../common/button":264,"../../../common/listPanel":269,"../../../data/actions/contestActions":274,"../../../data/stores/contestStore":291,"../../../routing/navigation":322,"react":262}],315:[function(require,module,exports){
+},{"../../../common/button":264,"../../../common/listPanel":269,"../../../data/stores/contestStore":291,"../../../routing/navigation":322,"react":262}],315:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42190,7 +42176,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouter = require('react-router');
+var _navigation = require('../../../routing/navigation');
+
+var Nav = _interopRequireWildcard(_navigation);
 
 var _showEditor = require('./showEditor');
 
@@ -42273,7 +42261,7 @@ var EditShowPage = function (_RoleAwareComponent) {
     }, {
         key: 'navigateToShowPage',
         value: function navigateToShowPage() {
-            _reactRouter.hashHistory.push('/show/' + this.getShowId());
+            Nav.goToShow(this.getShowId());
         }
     }, {
         key: 'getState',
@@ -42312,7 +42300,7 @@ var EditShowPage = function (_RoleAwareComponent) {
 
 exports.default = EditShowPage;
 
-},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"../../../data/stores/showStore":296,"./showEditor":317,"react":262,"react-router":203}],316:[function(require,module,exports){
+},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"../../../data/stores/showStore":296,"../../../routing/navigation":322,"./showEditor":317,"react":262}],316:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42340,6 +42328,10 @@ var _showStore2 = _interopRequireDefault(_showStore);
 var _showActions = require('../../../data/actions/showActions');
 
 var ShowActions = _interopRequireWildcard(_showActions);
+
+var _contestActions = require('../../../data/actions/contestActions');
+
+var ContestActions = _interopRequireWildcard(_contestActions);
 
 var _pageContent = require('../../../common/pageContent');
 
@@ -42384,12 +42376,16 @@ var ShowPage = function (_React$Component) {
         key: 'componentWillMount',
         value: function componentWillMount() {
             _showStore2.default.on("change", this.storeChanged);
-            ShowActions.loadShow(this.getShowId());
+            var showId = this.getShowId();
+            ShowActions.loadShow(showId);
+            ContestActions.loadShowContests(showId);
+            ContestActions.joinHubGroup(showId);
         }
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
             _showStore2.default.off("change", this.storeChanged);
+            ContestActions.leaveHubGroup(this.getShowId());
         }
     }, {
         key: 'storeChanged',
@@ -42441,7 +42437,7 @@ var ShowPage = function (_React$Component) {
 
 exports.default = ShowPage;
 
-},{"../../../common/button":264,"../../../common/pageContent":270,"../../../data/actions/showActions":279,"../../../data/stores/showStore":296,"../../../routing/navigation":322,"./contests":314,"react":262}],317:[function(require,module,exports){
+},{"../../../common/button":264,"../../../common/pageContent":270,"../../../data/actions/contestActions":274,"../../../data/actions/showActions":279,"../../../data/stores/showStore":296,"../../../routing/navigation":322,"./contests":314,"react":262}],317:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42454,19 +42450,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouter = require('react-router');
-
 var _clone = require('clone');
 
 var _clone2 = _interopRequireDefault(_clone);
-
-var _showActions = require('../../../data/actions/showActions');
-
-var ShowActions = _interopRequireWildcard(_showActions);
-
-var _pageContent = require('../../../common/pageContent');
-
-var _pageContent2 = _interopRequireDefault(_pageContent);
 
 var _formGroup = require('../../../common/formGroup');
 
@@ -42483,8 +42469,6 @@ var _button2 = _interopRequireDefault(_button);
 var _roleAwareComponent = require('../../../common/roleAwareComponent');
 
 var _roleAwareComponent2 = _interopRequireDefault(_roleAwareComponent);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42597,7 +42581,7 @@ var ShowEditor = function (_RoleAwareComponent) {
 
 exports.default = ShowEditor;
 
-},{"../../../common/button":264,"../../../common/formGroup":265,"../../../common/input":266,"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":279,"clone":6,"react":262,"react-router":203}],318:[function(require,module,exports){
+},{"../../../common/button":264,"../../../common/formGroup":265,"../../../common/input":266,"../../../common/roleAwareComponent":272,"clone":6,"react":262}],318:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42610,7 +42594,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouter = require('react-router');
+var _navigation = require('../../routing/navigation');
+
+var Nav = _interopRequireWildcard(_navigation);
 
 var _showStore = require('../../data/stores/showStore');
 
@@ -42703,7 +42689,7 @@ var ShowsBox = function (_React$Component2) {
         key: 'handleAddShowClick',
         value: function handleAddShowClick(e) {
             e.preventDefault();
-            _reactRouter.hashHistory.push('/shows/add');
+            Nav.goToAddShow();
         }
     }, {
         key: 'render',
@@ -42727,7 +42713,7 @@ var ShowsBox = function (_React$Component2) {
 
 exports.default = ShowsPage;
 
-},{"../../common/button":264,"../../common/listPanel":269,"../../common/pageContent":270,"../../data/actions/showActions":279,"../../data/stores/showStore":296,"react":262,"react-router":203}],319:[function(require,module,exports){
+},{"../../common/button":264,"../../common/listPanel":269,"../../common/pageContent":270,"../../data/actions/showActions":279,"../../data/stores/showStore":296,"../../routing/navigation":322,"react":262}],319:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42968,7 +42954,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouter = require('react-router');
+var _navigation = require('../routing/navigation');
+
+var Nav = _interopRequireWildcard(_navigation);
 
 var _input = require('../common/input');
 
@@ -43036,7 +43024,7 @@ var LoginBox = function (_React$Component) {
         key: 'redirect',
         value: function redirect() {
             if (this.state.data === true) {
-                _reactRouter.hashHistory.push('/shows');
+                Nav.goToShows();
             }
         }
     }, {
@@ -43137,12 +43125,13 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"../common/formGroup":265,"../common/input":266,"../data/actions/currentUserActions":276,"../data/stores/currentUserStore":293,"jquery":25,"react":262,"react-router":203}],322:[function(require,module,exports){
+},{"../common/formGroup":265,"../common/input":266,"../data/actions/currentUserActions":276,"../data/stores/currentUserStore":293,"../routing/navigation":322,"jquery":25,"react":262}],322:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.goToUnauthorized = goToUnauthorized;
 exports.goToShows = goToShows;
 exports.goToAddShow = goToAddShow;
 exports.goToShow = goToShow;
@@ -43160,6 +43149,10 @@ var _react2 = _interopRequireDefault(_react);
 var _reactRouter = require('react-router');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function goToUnauthorized() {
+    _reactRouter.hashHistory.push('/unauthorized');
+};
 
 function goToShows() {
     _reactRouter.hashHistory.push('/shows');

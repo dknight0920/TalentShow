@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { hashHistory } from 'react-router';
+import * as Nav from '../../../routing/navigation';
 import ShowEditor from './showEditor';
 import ShowStore from '../../../data/stores/showStore';
 import * as ShowActions from '../../../data/actions/showActions';
@@ -45,7 +45,7 @@ class EditShowPage extends RoleAwareComponent {
     }
 
     navigateToShowPage() {
-        hashHistory.push('/show/' + this.getShowId());
+        Nav.goToShow(this.getShowId());
     }
     
     getState(){

@@ -2,6 +2,7 @@
 import ScoreCardsBox from './scoreCards';
 import ContestantStore from '../../../../../data/stores/contestantStore';
 import * as ContestantActions from '../../../../../data/actions/contestantActions';
+import * as ScoreCardActions from '../../../../../data/actions/scoreCardActions';
 import * as ContestantUtil from './contestantUtil';
 import PageContent from '../../../../../common/pageContent';
 
@@ -17,7 +18,9 @@ class ContestantPage extends React.Component {
 
     componentWillMount(){
         ContestantStore.on("change", this.storeChanged);
-        ContestantActions.loadContestant(this.getContestantId());
+        var contestantId = this.getContestantId();
+        ContestantActions.loadContestant(contestantId);       
+        ScoreCardActions.loadContestantScoreCards(contestantId);
     }
 
     componentWillUnmount(){

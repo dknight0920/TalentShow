@@ -1,7 +1,6 @@
 ﻿import React from 'react';
 import { ListPanel, ListPanelItem } from '../../../../../common/listPanel';
 import ScoreCardStore from '../../../../../data/stores/scoreCardStore';
-import * as ScoreCardActions from '../../../../../data/actions/scoreCardActions';
 import * as ScoreCardUtil from './scorecard/scoreCardUtil'
 
 class ScoreCardsBox extends React.Component {
@@ -15,7 +14,6 @@ class ScoreCardsBox extends React.Component {
 
     componentWillMount(){
         ScoreCardStore.on("change", this.storeChanged);
-        ScoreCardActions.loadContestantScoreCards(this.props.contestantId);
     }
 
     componentWillUnmount(){

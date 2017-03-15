@@ -1,10 +1,9 @@
 ﻿import React from 'react';
-import { hashHistory } from 'react-router';
+import * as Nav from '../../../routing/navigation';
 import ShowEditor from './showEditor';
 import * as ShowActions from '../../../data/actions/showActions';
 import PageContent from '../../../common/pageContent';
 import RoleAwareComponent from '../../../common/roleAwareComponent';
-
 
 class AddShowPage extends RoleAwareComponent {
     constructor(props) {
@@ -29,7 +28,7 @@ class AddShowPage extends RoleAwareComponent {
     }
 
     navigateToShowsPage() {
-        hashHistory.push('/shows');
+        Nav.goToShows();
     }
 
     render() {
