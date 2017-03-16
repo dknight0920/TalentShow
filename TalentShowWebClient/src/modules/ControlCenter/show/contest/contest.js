@@ -8,8 +8,9 @@ import * as ContestantActions from '../../../../data/actions/contestantActions';
 import * as JudgeActions from '../../../../data/actions/judgeActions';
 import PageContent from '../../../../common/pageContent';
 import Button from '../../../../common/button';
+import TimeoutComponent from '../../../../common/timeoutComponent';
 
-class ContestPage extends React.Component {
+class ContestPage extends TimeoutComponent {
     constructor(props) {
         super(props);
         this.getState = this.getState.bind(this);
@@ -19,9 +20,6 @@ class ContestPage extends React.Component {
         this.getShowId = this.getShowId.bind(this);
         this.handleEditContestClick = this.handleEditContestClick.bind(this);
         this.handleRemoveContestClick = this.handleRemoveContestClick.bind(this);
-        this.timeout = null;
-        this.hasTimedOut = false;
-        this.resetTimeout = this.resetTimeout.bind(this);
         this.getLoadingPageContent = this.getLoadingPageContent.bind(this);
         this.getFailedToLoadPageContent = this.getFailedToLoadPageContent.bind(this);
         this.state = this.getState(); 
@@ -61,18 +59,8 @@ class ContestPage extends React.Component {
         return this.props.params.showId;
     }
 
-    resetTimeout() {
-        if(this.timeout){
-            clearTimeout(this.timeout);
-        }
-    }
-
     getLoadingPageContent() {
-        var self = this;
-        self.timeout = setTimeout(function(){
-            self.hasTimedOut = true;
-            self.setState(self.getState());
-        }, 10000);
+        this.initTimeout(10000);
 
         return (
             <PageContent title="Loading" description="The contest's details are loading, please wait."></PageContent>
@@ -81,9 +69,9 @@ class ContestPage extends React.Component {
 
     getFailedToLoadPageContent() {
         var self = this;
-        self.timeout = setTimeout(function(){
+        this.initTimeout(5000, function(){
             Nav.goToShow(self.getShowId());
-        }, 5000);
+        });
 
         return (
             <PageContent title="Failed to Load Contest" description="The requested contest could not be loaded in a timely manner. The contest may not exist. You will be automatically redirected shortly."></PageContent>

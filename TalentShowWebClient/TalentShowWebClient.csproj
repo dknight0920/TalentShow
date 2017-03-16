@@ -121,6 +121,7 @@
     <Content Include="src\common\pageContent.js" />
     <Content Include="src\common\panel.js" />
     <Content Include="src\common\roleAwareComponent.js" />
+    <Content Include="src\common\timeoutComponent.js" />
     <Content Include="src\common\unauthorizedUserPageContent.js" />
     <Content Include="src\data\actions\contestActions.js" />
     <Content Include="src\data\actions\contestantActions.js" />

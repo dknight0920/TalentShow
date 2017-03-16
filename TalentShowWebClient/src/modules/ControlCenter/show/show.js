@@ -6,14 +6,17 @@ import * as ShowActions from '../../../data/actions/showActions';
 import * as ContestActions from '../../../data/actions/contestActions';
 import PageContent from '../../../common/pageContent';
 import Button from '../../../common/button';
+import TimeoutComponent from '../../../common/timeoutComponent';
 
-class ShowPage extends React.Component {
+class ShowPage extends TimeoutComponent {
     constructor(props) {
         super(props);
         this.getState = this.getState.bind(this);
         this.storeChanged = this.storeChanged.bind(this);
         this.getShow = this.getShow.bind(this);
         this.getShowId = this.getShowId.bind(this);
+        this.getLoadingPageContent = this.getLoadingPageContent.bind(this);
+        this.getFailedToLoadPageContent = this.getFailedToLoadPageContent.bind(this);
         this.handleEditShowClick = this.handleEditShowClick.bind(this);
         this.handleRemoveShowClick = this.handleRemoveShowClick.bind(this);
     }
@@ -32,6 +35,7 @@ class ShowPage extends React.Component {
     }
 
     componentWillUnmount(){
+        this.resetTimeout();
         ShowStore.off("change", this.storeChanged);
         ShowActions.leaveHubGroup();
         ContestActions.leaveHubGroup(this.getShowId());
@@ -53,6 +57,24 @@ class ShowPage extends React.Component {
         return this.props.params.showId;
     }
 
+    getLoadingPageContent() {
+        this.initTimeout(10000);
+
+        return (
+            <PageContent title="Loading" description="The show's details are loading, please wait."></PageContent>
+        );
+    }
+
+    getFailedToLoadPageContent() {
+        this.initTimeout(5000, function(){
+            Nav.goToShows();
+        });
+
+        return (
+            <PageContent title="Failed to Load Show" description="The requested show could not be loaded in a timely manner. The show may not exist. You will be automatically redirected shortly."></PageContent>
+        );
+    }
+
     handleEditShowClick(e){
         e.preventDefault();
         Nav.goToEditShow(this.getShowId());
@@ -65,10 +87,14 @@ class ShowPage extends React.Component {
     }
 
     render() {
-        if (!this.state || !this.state.show){
-            return (
-                <PageContent title="Loading" description="The show's details are loading, please wait."></PageContent>
-            );
+        this.resetTimeout();
+
+        if (this.hasTimedOut){
+            return this.getFailedToLoadPageContent();
+        }
+
+        if (!this.state || !this.state.show){      
+            return this.getLoadingPageContent();
         }
 
         var show = this.state.show;
