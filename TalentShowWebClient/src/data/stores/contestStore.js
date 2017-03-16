@@ -2,7 +2,6 @@
 import Dispatcher from '../dispatcher';
 import * as StoreUtils from './utils/storeUtils';
 import * as BroadcastUtil from './utils/broadcastUtil';
-import * as Hubs from '../signalr/hubs';
 
 class ContestStore extends EventEmitter {
     constructor(){
@@ -57,7 +56,7 @@ class ContestStore extends EventEmitter {
                     break;
                 case "ADD_CONTEST_SUCCESS":
                     self.pushContest(action.contest);
-                    broadcastChange(action.groupName, action.showId);
+                    BroadcastUtil.broadcastContestChange(action.groupName, action.showId);
                     break;
                 case "ADD_CONTEST_FAIL":
                     //TODO
@@ -67,7 +66,7 @@ class ContestStore extends EventEmitter {
                     break;
                 case "UPDATE_CONTEST_SUCCESS":
                     self.pushContest(action.contest);
-                    broadcastChange(action.groupName, action.showId);
+                    BroadcastUtil.broadcastContestChange(action.groupName, action.showId);
                     break;
                 case "UPDATE_CONTEST_FAIL":
                     //TODO
@@ -77,16 +76,12 @@ class ContestStore extends EventEmitter {
                     break;
                 case "REMOVE_CONTEST_SUCCESS":
                     self.removeContest(action.contestId);
-                    broadcastChange(action.groupName, action.showId);
+                    BroadcastUtil.broadcastContestChange(action.groupName, action.showId);
                     break;
                 case "REMOVE_CONTEST_FAIL":
                     //TODO
                     break;
             }
-        };
-
-        var broadcastChange = function(groupName, showId){
-            BroadcastUtil.broadcastContestChange(Hubs.controlCenterHubProxy, groupName, showId);
         };
 
         Dispatcher.register(this.handleAction.bind(this));

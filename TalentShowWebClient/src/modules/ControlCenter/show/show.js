@@ -26,12 +26,14 @@ class ShowPage extends React.Component {
         ShowStore.on("change", this.storeChanged);
         var showId = this.getShowId();
         ShowActions.loadShow(showId);
+        ShowActions.joinHubGroup();
         ContestActions.loadShowContests(showId);
         ContestActions.joinHubGroup(showId);
     }
 
     componentWillUnmount(){
         ShowStore.off("change", this.storeChanged);
+        ShowActions.leaveHubGroup();
         ContestActions.leaveHubGroup(this.getShowId());
     }
 

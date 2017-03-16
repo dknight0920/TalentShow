@@ -1,9 +1,9 @@
-﻿var broadcastShowChange = function(hubProxy, groupName){
-    hubProxy.invoke('ShowChanged', groupName);
+﻿import * as Hubs from '../../signalr/hubs';
+
+export function broadcastShowChange(groupName){
+    Hubs.controlCenterHubProxy.invoke('ShowChanged', groupName);
 };
 
-var broadcastContestChange = function(hubProxy, groupName, id){
-    hubProxy.invoke('ContestChanged', groupName, id);
+export function broadcastContestChange(groupName, id){
+    Hubs.controlCenterHubProxy.invoke('ContestChanged', groupName, id);
 };
-
-export {broadcastShowChange, broadcastContestChange};

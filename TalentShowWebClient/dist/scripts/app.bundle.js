@@ -40031,10 +40031,6 @@ var _broadcastUtil = require('./utils/broadcastUtil');
 
 var BroadcastUtil = _interopRequireWildcard(_broadcastUtil);
 
-var _hubs = require('../signalr/hubs');
-
-var Hubs = _interopRequireWildcard(_hubs);
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -40103,7 +40099,7 @@ var ContestStore = function (_EventEmitter) {
                     break;
                 case "ADD_CONTEST_SUCCESS":
                     self.pushContest(action.contest);
-                    broadcastChange(action.groupName, action.showId);
+                    BroadcastUtil.broadcastContestChange(action.groupName, action.showId);
                     break;
                 case "ADD_CONTEST_FAIL":
                     //TODO
@@ -40113,7 +40109,7 @@ var ContestStore = function (_EventEmitter) {
                     break;
                 case "UPDATE_CONTEST_SUCCESS":
                     self.pushContest(action.contest);
-                    broadcastChange(action.groupName, action.showId);
+                    BroadcastUtil.broadcastContestChange(action.groupName, action.showId);
                     break;
                 case "UPDATE_CONTEST_FAIL":
                     //TODO
@@ -40123,16 +40119,12 @@ var ContestStore = function (_EventEmitter) {
                     break;
                 case "REMOVE_CONTEST_SUCCESS":
                     self.removeContest(action.contestId);
-                    broadcastChange(action.groupName, action.showId);
+                    BroadcastUtil.broadcastContestChange(action.groupName, action.showId);
                     break;
                 case "REMOVE_CONTEST_FAIL":
                     //TODO
                     break;
             }
-        };
-
-        var broadcastChange = function broadcastChange(groupName, showId) {
-            BroadcastUtil.broadcastContestChange(Hubs.controlCenterHubProxy, groupName, showId);
         };
 
         _dispatcher2.default.register(_this.handleAction.bind(_this));
@@ -40144,7 +40136,7 @@ var ContestStore = function (_EventEmitter) {
 
 exports.default = new ContestStore();
 
-},{"../dispatcher":288,"../signalr/hubs":289,"./utils/broadcastUtil":297,"./utils/storeUtils":298,"event-emitter":7}],292:[function(require,module,exports){
+},{"../dispatcher":288,"./utils/broadcastUtil":297,"./utils/storeUtils":298,"event-emitter":7}],292:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40534,10 +40526,6 @@ var _broadcastUtil = require('./utils/broadcastUtil');
 
 var BroadcastUtil = _interopRequireWildcard(_broadcastUtil);
 
-var _hubs = require('../signalr/hubs');
-
-var Hubs = _interopRequireWildcard(_hubs);
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -40606,7 +40594,7 @@ var ShowStore = function (_EventEmitter) {
                     break;
                 case "ADD_SHOW_SUCCESS":
                     self.pushShow(action.show);
-                    broadcastChange(action.groupName);
+                    BroadcastUtil.broadcastShowChange(action.groupName);
                     break;
                 case "ADD_SHOW_FAIL":
                     //TODO
@@ -40616,7 +40604,7 @@ var ShowStore = function (_EventEmitter) {
                     break;
                 case "UPDATE_SHOW_SUCCESS":
                     self.pushShow(action.show);
-                    broadcastChange(action.groupName);
+                    BroadcastUtil.broadcastShowChange(action.groupName);
                     break;
                 case "UPDATE_SHOW_FAIL":
                     //TODO
@@ -40626,16 +40614,12 @@ var ShowStore = function (_EventEmitter) {
                     break;
                 case "REMOVE_SHOW_SUCCESS":
                     self.removeShow(action.showId);
-                    broadcastChange(action.groupName);
+                    BroadcastUtil.broadcastShowChange(action.groupName);
                     break;
                 case "REMOVE_SHOW_FAIL":
                     //TODO
                     break;
             }
-        };
-
-        var broadcastChange = function broadcastChange(groupName) {
-            BroadcastUtil.broadcastShowChange(Hubs.controlCenterHubProxy, groupName);
         };
 
         _dispatcher2.default.register(_this.handleAction.bind(_this));
@@ -40647,24 +40631,30 @@ var ShowStore = function (_EventEmitter) {
 
 exports.default = new ShowStore();
 
-},{"../dispatcher":288,"../signalr/hubs":289,"./utils/broadcastUtil":297,"./utils/storeUtils":298,"event-emitter":7}],297:[function(require,module,exports){
+},{"../dispatcher":288,"./utils/broadcastUtil":297,"./utils/storeUtils":298,"event-emitter":7}],297:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var broadcastShowChange = function broadcastShowChange(hubProxy, groupName) {
-    hubProxy.invoke('ShowChanged', groupName);
-};
-
-var broadcastContestChange = function broadcastContestChange(hubProxy, groupName, id) {
-    hubProxy.invoke('ContestChanged', groupName, id);
-};
-
 exports.broadcastShowChange = broadcastShowChange;
 exports.broadcastContestChange = broadcastContestChange;
 
-},{}],298:[function(require,module,exports){
+var _hubs = require('../../signalr/hubs');
+
+var Hubs = _interopRequireWildcard(_hubs);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function broadcastShowChange(groupName) {
+    Hubs.controlCenterHubProxy.invoke('ShowChanged', groupName);
+};
+
+function broadcastContestChange(groupName, id) {
+    Hubs.controlCenterHubProxy.invoke('ContestChanged', groupName, id);
+};
+
+},{"../../signalr/hubs":289}],298:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42518,6 +42508,7 @@ var ShowPage = function (_React$Component) {
             _showStore2.default.on("change", this.storeChanged);
             var showId = this.getShowId();
             ShowActions.loadShow(showId);
+            ShowActions.joinHubGroup();
             ContestActions.loadShowContests(showId);
             ContestActions.joinHubGroup(showId);
         }
@@ -42525,6 +42516,7 @@ var ShowPage = function (_React$Component) {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
             _showStore2.default.off("change", this.storeChanged);
+            ShowActions.leaveHubGroup();
             ContestActions.leaveHubGroup(this.getShowId());
         }
     }, {

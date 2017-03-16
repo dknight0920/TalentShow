@@ -2,7 +2,6 @@
 import Dispatcher from '../dispatcher';
 import * as StoreUtils from './utils/storeUtils';
 import * as BroadcastUtil from './utils/broadcastUtil';
-import * as Hubs from '../signalr/hubs';
 
 class ShowStore extends EventEmitter {
     constructor(){
@@ -57,7 +56,7 @@ class ShowStore extends EventEmitter {
                     break;
                 case "ADD_SHOW_SUCCESS":
                     self.pushShow(action.show);
-                    broadcastChange(action.groupName);
+                    BroadcastUtil.broadcastShowChange(action.groupName);
                     break;
                 case "ADD_SHOW_FAIL":
                     //TODO
@@ -67,7 +66,7 @@ class ShowStore extends EventEmitter {
                     break;
                 case "UPDATE_SHOW_SUCCESS":
                     self.pushShow(action.show);
-                    broadcastChange(action.groupName);
+                    BroadcastUtil.broadcastShowChange(action.groupName);
                     break;
                 case "UPDATE_SHOW_FAIL":
                     //TODO
@@ -77,16 +76,12 @@ class ShowStore extends EventEmitter {
                     break;
                 case "REMOVE_SHOW_SUCCESS":
                     self.removeShow(action.showId);
-                    broadcastChange(action.groupName);
+                    BroadcastUtil.broadcastShowChange(action.groupName);
                     break;
                 case "REMOVE_SHOW_FAIL":
                     //TODO
                     break;
             }
-        };
-
-        var broadcastChange = function(groupName){
-            BroadcastUtil.broadcastShowChange(Hubs.controlCenterHubProxy, groupName);
         };
 
         Dispatcher.register(this.handleAction.bind(this));
