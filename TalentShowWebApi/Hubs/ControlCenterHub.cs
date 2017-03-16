@@ -8,7 +8,12 @@ namespace TalentShowWebApi.Hubs
 {
     public class ControlCenterHub : Hub
     {
-        public void Changed(string groupName, int showId)
+        public void ShowChanged(string groupName)
+        {
+            Clients.Group(groupName).showsChanged();
+        }
+
+        public void ContestChanged(string groupName, int showId)
         {
             Clients.Group(groupName).contestsChanged(showId);
         }

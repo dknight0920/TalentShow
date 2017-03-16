@@ -15,6 +15,7 @@ class ShowPage extends React.Component {
         this.getShow = this.getShow.bind(this);
         this.getShowId = this.getShowId.bind(this);
         this.handleEditShowClick = this.handleEditShowClick.bind(this);
+        this.handleRemoveShowClick = this.handleRemoveShowClick.bind(this);
     }
 
     shouldComponentUpdate(nextProps, nextState){
@@ -55,6 +56,12 @@ class ShowPage extends React.Component {
         Nav.goToEditShow(this.getShowId());
     }
 
+    handleRemoveShowClick(e){
+        e.preventDefault();
+        ShowActions.removeShow(this.getShowId());
+        Nav.goToShows();
+    }
+
     render() {
         if (!this.state || !this.state.show){
             return (
@@ -64,10 +71,15 @@ class ShowPage extends React.Component {
 
         var show = this.state.show;
 
-        var editShowButton = ( <Button key="editShow" type="primary" authorizedRoles={["admin"]} name="editShow" value="Edit" onClick={this.handleEditShowClick} /> );
+        var authorizedRolesForButtons = ["admin"];
+        var showPageButtons = ( 
+            <span>
+                <Button type="primary" authorizedRoles={authorizedRolesForButtons} name="editShow" value="Edit" onClick={this.handleEditShowClick} /> <Button type="primary" authorizedRoles={authorizedRolesForButtons} name="removeShow" value="Remove" onClick={this.handleRemoveShowClick} />
+            </span>
+        );
 
         return (
-            <PageContent title={show.Name} description={show.Description} buttons={[editShowButton]}>
+            <PageContent title={show.Name} description={show.Description} buttons={showPageButtons}>
                 <ContestsBox showId={show.Id} />
             </PageContent>
         );

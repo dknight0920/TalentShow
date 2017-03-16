@@ -86,7 +86,7 @@ class ContestStore extends EventEmitter {
         };
 
         var broadcastChange = function(groupName, showId){
-            BroadcastUtil.broadcastChange(Hubs.controlCenterHubProxy, groupName, showId);
+            BroadcastUtil.broadcastContestChange(Hubs.controlCenterHubProxy, groupName, showId);
         };
 
         Dispatcher.register(this.handleAction.bind(this));

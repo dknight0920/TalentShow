@@ -1,5 +1,9 @@
-﻿var broadcastChange = function(hubProxy, groupName, id){
-    hubProxy.invoke('Changed', groupName, id);
+﻿var broadcastShowChange = function(hubProxy, groupName){
+    hubProxy.invoke('ShowChanged', groupName);
 };
 
-export {broadcastChange};
+var broadcastContestChange = function(hubProxy, groupName, id){
+    hubProxy.invoke('ContestChanged', groupName, id);
+};
+
+export {broadcastShowChange, broadcastContestChange};

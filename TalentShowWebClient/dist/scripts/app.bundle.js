@@ -40132,7 +40132,7 @@ var ContestStore = function (_EventEmitter) {
         };
 
         var broadcastChange = function broadcastChange(groupName, showId) {
-            BroadcastUtil.broadcastChange(Hubs.controlCenterHubProxy, groupName, showId);
+            BroadcastUtil.broadcastContestChange(Hubs.controlCenterHubProxy, groupName, showId);
         };
 
         _dispatcher2.default.register(_this.handleAction.bind(_this));
@@ -40606,7 +40606,7 @@ var ShowStore = function (_EventEmitter) {
                     break;
                 case "ADD_SHOW_SUCCESS":
                     self.pushShow(action.show);
-                    broadcastChange(action.groupName, action.showId);
+                    broadcastChange(action.groupName);
                     break;
                 case "ADD_SHOW_FAIL":
                     //TODO
@@ -40616,7 +40616,7 @@ var ShowStore = function (_EventEmitter) {
                     break;
                 case "UPDATE_SHOW_SUCCESS":
                     self.pushShow(action.show);
-                    broadcastChange(action.groupName, action.showId);
+                    broadcastChange(action.groupName);
                     break;
                 case "UPDATE_SHOW_FAIL":
                     //TODO
@@ -40626,7 +40626,7 @@ var ShowStore = function (_EventEmitter) {
                     break;
                 case "REMOVE_SHOW_SUCCESS":
                     self.removeShow(action.showId);
-                    broadcastChange(action.groupName, action.showId);
+                    broadcastChange(action.groupName);
                     break;
                 case "REMOVE_SHOW_FAIL":
                     //TODO
@@ -40634,8 +40634,8 @@ var ShowStore = function (_EventEmitter) {
             }
         };
 
-        var broadcastChange = function broadcastChange(groupName, showId) {
-            BroadcastUtil.broadcastChange(Hubs.controlCenterHubProxy, groupName, showId);
+        var broadcastChange = function broadcastChange(groupName) {
+            BroadcastUtil.broadcastShowChange(Hubs.controlCenterHubProxy, groupName);
         };
 
         _dispatcher2.default.register(_this.handleAction.bind(_this));
@@ -40653,11 +40653,16 @@ exports.default = new ShowStore();
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var broadcastChange = function broadcastChange(hubProxy, groupName, id) {
-    hubProxy.invoke('Changed', groupName, id);
+var broadcastShowChange = function broadcastShowChange(hubProxy, groupName) {
+    hubProxy.invoke('ShowChanged', groupName);
 };
 
-exports.broadcastChange = broadcastChange;
+var broadcastContestChange = function broadcastContestChange(hubProxy, groupName, id) {
+    hubProxy.invoke('ContestChanged', groupName, id);
+};
+
+exports.broadcastShowChange = broadcastShowChange;
+exports.broadcastContestChange = broadcastContestChange;
 
 },{}],298:[function(require,module,exports){
 'use strict';
@@ -42498,6 +42503,7 @@ var ShowPage = function (_React$Component) {
         _this.getShow = _this.getShow.bind(_this);
         _this.getShowId = _this.getShowId.bind(_this);
         _this.handleEditShowClick = _this.handleEditShowClick.bind(_this);
+        _this.handleRemoveShowClick = _this.handleRemoveShowClick.bind(_this);
         return _this;
     }
 
@@ -42548,6 +42554,13 @@ var ShowPage = function (_React$Component) {
             Nav.goToEditShow(this.getShowId());
         }
     }, {
+        key: 'handleRemoveShowClick',
+        value: function handleRemoveShowClick(e) {
+            e.preventDefault();
+            ShowActions.removeShow(this.getShowId());
+            Nav.goToShows();
+        }
+    }, {
         key: 'render',
         value: function render() {
             if (!this.state || !this.state.show) {
@@ -42556,11 +42569,18 @@ var ShowPage = function (_React$Component) {
 
             var show = this.state.show;
 
-            var editShowButton = _react2.default.createElement(_button2.default, { key: 'editShow', type: 'primary', authorizedRoles: ["admin"], name: 'editShow', value: 'Edit', onClick: this.handleEditShowClick });
+            var authorizedRolesForButtons = ["admin"];
+            var showPageButtons = _react2.default.createElement(
+                'span',
+                null,
+                _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: authorizedRolesForButtons, name: 'editShow', value: 'Edit', onClick: this.handleEditShowClick }),
+                ' ',
+                _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: authorizedRolesForButtons, name: 'removeShow', value: 'Remove', onClick: this.handleRemoveShowClick })
+            );
 
             return _react2.default.createElement(
                 _pageContent2.default,
-                { title: show.Name, description: show.Description, buttons: [editShowButton] },
+                { title: show.Name, description: show.Description, buttons: showPageButtons },
                 _react2.default.createElement(_contests2.default, { showId: show.Id })
             );
         }
@@ -42803,11 +42823,13 @@ var ShowsBox = function (_React$Component2) {
         value: function componentWillMount() {
             _showStore2.default.on("change", this.storeChanged);
             ShowActions.loadShows();
+            ShowActions.joinHubGroup();
         }
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
             _showStore2.default.off("change", this.storeChanged);
+            ShowActions.leaveHubGroup();
         }
     }, {
         key: 'storeChanged',

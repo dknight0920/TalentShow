@@ -33,10 +33,12 @@ class ShowsBox extends React.Component {
     componentWillMount(){
         ShowStore.on("change", this.storeChanged);
         ShowActions.loadShows();
+        ShowActions.joinHubGroup();
     }
 
     componentWillUnmount(){
         ShowStore.off("change", this.storeChanged);
+        ShowActions.leaveHubGroup();
     }
 
     storeChanged(){
