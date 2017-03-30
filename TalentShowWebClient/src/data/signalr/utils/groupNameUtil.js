@@ -6,4 +6,8 @@ var getShowGroupName = function(showId){
     return "show_" + showId;
 };
 
-export {getContolCenterGroupName, getShowGroupName};
+var getContestGroupName = function(contestId){
+    return "contest_" + contestId;
+};
+
+export {getContolCenterGroupName, getShowGroupName, getContestGroupName};

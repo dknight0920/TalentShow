@@ -38330,6 +38330,10 @@ var _contestant = require('./modules/ControlCenter/show/contest/contestant/conte
 
 var _contestant2 = _interopRequireDefault(_contestant);
 
+var _judge = require('./modules/ControlCenter/show/contest/judge/judge');
+
+var _judge2 = _interopRequireDefault(_judge);
+
 var _scoreCard = require('./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard');
 
 var _scoreCard2 = _interopRequireDefault(_scoreCard);
@@ -38439,6 +38443,7 @@ Hubs.hubConnection.start({ transport: ['webSockets'], jsonp: true }).done(functi
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/edit', component: _editContest2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/contestant/:contestantId', component: _contestant2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/contestant/:contestantId/scorecard/:scoreCardId', component: _scoreCard2.default }),
+                _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/judge/:judgeId', component: _judge2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _about2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/judges', component: _judges2.default })
             )
@@ -38446,7 +38451,7 @@ Hubs.hubConnection.start({ transport: ['webSockets'], jsonp: true }).done(functi
     ), document.getElementById('app'));
 });
 
-},{"./common/unauthorizedUserPageContent":274,"./data/signalr/hubs":290,"./modules/ControlCenter/show/addShow":300,"./modules/ControlCenter/show/contest/addContest":301,"./modules/ControlCenter/show/contest/contest":302,"./modules/ControlCenter/show/contest/contestant/contestant":304,"./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard":307,"./modules/ControlCenter/show/contest/editContest":312,"./modules/ControlCenter/show/editShow":316,"./modules/ControlCenter/show/show":317,"./modules/ControlCenter/shows":319,"./modules/about":320,"./modules/judges":321,"./modules/login":322,"react":262,"react-dom":26,"react-router":203}],264:[function(require,module,exports){
+},{"./common/unauthorizedUserPageContent":274,"./data/signalr/hubs":290,"./modules/ControlCenter/show/addShow":300,"./modules/ControlCenter/show/contest/addContest":301,"./modules/ControlCenter/show/contest/contest":302,"./modules/ControlCenter/show/contest/contestant/contestant":304,"./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard":307,"./modules/ControlCenter/show/contest/editContest":312,"./modules/ControlCenter/show/contest/judge/judge":313,"./modules/ControlCenter/show/editShow":317,"./modules/ControlCenter/show/show":318,"./modules/ControlCenter/shows":320,"./modules/about":321,"./modules/judges":322,"./modules/login":323,"react":262,"react-dom":26,"react-router":203}],264:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39081,7 +39086,7 @@ var RoleAwareComponent = function (_React$Component) {
 
 exports.default = RoleAwareComponent;
 
-},{"../data/stores/currentUserStore":294,"../routing/navigation":323,"react":262}],273:[function(require,module,exports){
+},{"../data/stores/currentUserStore":294,"../routing/navigation":324,"react":262}],273:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39340,34 +39345,114 @@ function authenticate(credentials) {
 };
 
 },{"../dispatcher":289}],278:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.add = add;
-exports.loadAllJudges = loadAllJudges;
-exports.loadContestJudges = loadContestJudges;
+exports.leaveHubGroup = exports.joinHubGroup = exports.removeJudge = exports.updateJudge = exports.addJudge = exports.loadJudge = exports.loadContestJudges = undefined;
 
-var _dispatcher = require("../dispatcher");
+var _dispatcher = require('../dispatcher');
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
+var _judgeApi = require('../api/judgeApi');
+
+var JudgeApi = _interopRequireWildcard(_judgeApi);
+
+var _hubs = require('../signalr/hubs');
+
+var Hubs = _interopRequireWildcard(_hubs);
+
+var _groupNameUtil = require('../signalr/utils/groupNameUtil');
+
+var GroupNameUtil = _interopRequireWildcard(_groupNameUtil);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function add(judge) {
-    _dispatcher2.default.dispatch({ type: "ADD_JUDGE", data: judge });
-};
-
-function loadAllJudges() {
-    _dispatcher2.default.dispatch({ type: "LOAD_ALL_JUDGES" });
-};
-
-function loadContestJudges(contestId) {
+var loadContestJudges = function loadContestJudges(contestId) {
     _dispatcher2.default.dispatch({ type: "LOAD_CONTEST_JUDGES", contestId: contestId });
+
+    JudgeApi.getContestJudges(contestId, function success(judges) {
+        _dispatcher2.default.dispatch({ type: "LOAD_CONTEST_JUDGES_SUCCESS", judges: judges });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "LOAD_CONTEST_JUDGES_FAIL", error: err });
+    });
 };
 
-},{"../dispatcher":289}],279:[function(require,module,exports){
+var loadJudge = function loadJudge(judgeId) {
+    _dispatcher2.default.dispatch({ type: "LOAD_JUDGE", judgeId: judgeId });
+
+    JudgeApi.get(judgeId, function success(judge) {
+        _dispatcher2.default.dispatch({ type: "LOAD_JUDGE_SUCCESS", judge: judge });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "LOAD_JUDGE_FAIL", error: err });
+    });
+};
+
+var addJudge = function addJudge(contestId, newJudge) {
+    var groupName = getHubGroupName(contestId);
+
+    _dispatcher2.default.dispatch({ type: "ADD_JUDGE", contestJudge: { contestId: contestId, newJudge: newJudge, groupName: groupName } });
+
+    JudgeApi.add(contestId, newJudge, function success(judge) {
+        _dispatcher2.default.dispatch({ type: "ADD_JUDGE_SUCCESS", judge: judge, groupName: groupName, contestId: contestId });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "ADD_JUDGE_FAIL", error: err, groupName: groupName });
+    });
+};
+
+var updateJudge = function updateJudge(contestId, judge) {
+    var groupName = getHubGroupName(contestId);
+
+    _dispatcher2.default.dispatch({ type: "UPDATE_JUDGE", contestJudge: { contestId: contestId, judge: judge, groupName: groupName } });
+
+    JudgeApi.update(judge, function success(judge) {
+        _dispatcher2.default.dispatch({ type: "UPDATE_JUDGE_SUCCESS", judge: judge, groupName: groupName, contestId: contestId });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "UPDATE_JUDGE_FAIL", error: err, groupName: groupName });
+    });
+};
+
+var removeJudge = function removeJudge(contestId, judgeId) {
+    var groupName = getHubGroupName(contestId);
+
+    _dispatcher2.default.dispatch({ type: "REMOVE_JUDGE", contestJudge: { contestId: contestId, judgeId: judgeId, groupName: groupName } });
+
+    JudgeApi.remove(judgeId, function success() {
+        _dispatcher2.default.dispatch({ type: "REMOVE_JUDGE_SUCCESS", judgeId: judgeId, groupName: groupName, contestId: contestId });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "REMOVE_JUDGE_FAIL", error: err, groupName: groupName });
+    });
+};
+
+var joinHubGroup = function joinHubGroup(contestId) {
+    Hubs.controlCenterHubProxy.invoke('JoinGroup', getHubGroupName(contestId));
+};
+
+var leaveHubGroup = function leaveHubGroup(contestId) {
+    Hubs.controlCenterHubProxy.invoke('LeaveGroup', getHubGroupName(contestId));
+};
+
+var getHubGroupName = function getHubGroupName(contestId) {
+    return GroupNameUtil.getContestGroupName(contestId);
+};
+
+Hubs.controlCenterHubProxy.on('judgesChanged', function (contestId) {
+    loadContestJudges(contestId);
+});
+
+exports.loadContestJudges = loadContestJudges;
+exports.loadJudge = loadJudge;
+exports.addJudge = addJudge;
+exports.updateJudge = updateJudge;
+exports.removeJudge = removeJudge;
+exports.joinHubGroup = joinHubGroup;
+exports.leaveHubGroup = leaveHubGroup;
+
+},{"../api/judgeApi":283,"../dispatcher":289,"../signalr/hubs":290,"../signalr/utils/groupNameUtil":291}],279:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39673,14 +39758,14 @@ var ApiHttpUtil = _interopRequireWildcard(_httpUtil);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-var getContestJudges = function getContestJudges(contestId, callback) {
+var getContestJudges = function getContestJudges(contestId, _success, fail) {
     ApiHttpUtil.get({
         url: "api/Judges/Contest/" + contestId,
         success: function success(result) {
-            callback(result);
+            _success(result);
         },
         error: function error(request, status, err) {
-            //TODO handle error
+            fail(err);
         }
     });
 };
@@ -39697,33 +39782,53 @@ var getAll = function getAll(callback) {
     });
 };
 
-var get = function get(id, callback) {
+var get = function get(id, _success2, fail) {
     ApiHttpUtil.get({
         url: "api/Judges/" + id,
         success: function success(result) {
-            callback(result);
+            _success2(result);
         },
         error: function error(request, status, err) {
-            //TODO handle error
+            fail(err);
         }
     });
 };
 
-var add = function add(judge, callback) {
+var add = function add(contestId, judge, _success3, fail) {
     ApiHttpUtil.post({
-        url: "api/Judges",
+        url: "api/Judges/Contest/" + contestId,
         success: function success(result) {
-            callback(result);
+            _success3(result);
         },
         error: function error(request, status, err) {
-            //TODO handle error
+            fail(err);
         }
     }, JSON.stringify(judge));
 };
 
-var update = function update(judge) {};
+var update = function update(judge, _success4, fail) {
+    ApiHttpUtil.put({
+        url: "api/Judges/",
+        success: function success(result) {
+            _success4(result);
+        },
+        error: function error(request, status, err) {
+            fail(err);
+        }
+    }, JSON.stringify(judge));
+};
 
-var remove = function remove(judge) {};
+var remove = function remove(judgeId, _success5, fail) {
+    ApiHttpUtil.remove({
+        url: "api/Judges/" + judgeId,
+        success: function success() {
+            _success5();
+        },
+        error: function error(request, status, err) {
+            fail(err);
+        }
+    });
+};
 
 exports.getContestJudges = getContestJudges;
 exports.getAll = getAll;
@@ -40068,8 +40173,13 @@ var getShowGroupName = function getShowGroupName(showId) {
     return "show_" + showId;
 };
 
+var getContestGroupName = function getContestGroupName(contestId) {
+    return "contest_" + contestId;
+};
+
 exports.getContolCenterGroupName = getContolCenterGroupName;
 exports.getShowGroupName = getShowGroupName;
+exports.getContestGroupName = getContestGroupName;
 
 },{}],292:[function(require,module,exports){
 'use strict';
@@ -40379,10 +40489,6 @@ var _eventEmitter = require('event-emitter');
 
 var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
 
-var _judgeApi = require('../api/judgeApi');
-
-var JudgeApi = _interopRequireWildcard(_judgeApi);
-
 var _dispatcher = require('../dispatcher');
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
@@ -40390,6 +40496,10 @@ var _dispatcher2 = _interopRequireDefault(_dispatcher);
 var _storeUtils = require('./utils/storeUtils');
 
 var StoreUtils = _interopRequireWildcard(_storeUtils);
+
+var _broadcastUtil = require('./utils/broadcastUtil');
+
+var BroadcastUtil = _interopRequireWildcard(_broadcastUtil);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -40410,66 +40520,93 @@ var JudgeStore = function (_EventEmitter) {
         var _this = _possibleConstructorReturn(this, (JudgeStore.__proto__ || Object.getPrototypeOf(JudgeStore)).call(this));
 
         _this.judges = [];
+
+        var self = _this;
+
+        _this.setJudges = function (judges) {
+            self.judges = judges;
+            self.emit("change");
+        };
+
+        _this.pushJudge = function (judge) {
+            StoreUtils.pushItem(judge, self.judges, self.setJudges);
+        };
+
+        _this.removeJudge = function (judgeId) {
+            StoreUtils.removeItem(judgeId, self.judges, self.setJudges);
+        };
+
+        _this.getContestJudges = function () {
+            return self.judges;
+        };
+
+        _this.get = function (id) {
+            return StoreUtils.get(id, self.judges);
+        };
+
+        _this.handleAction = function (action) {
+            switch (action.type) {
+                case "LOAD_CONTEST_JUDGES":
+                    //TODO
+                    break;
+                case "LOAD_CONTEST_JUDGES_SUCCESS":
+                    self.setJudges(action.judges);
+                    break;
+                case "LOAD_CONTEST_JUDGES_FAIL":
+                    //TODO
+                    break;
+                case "LOAD_JUDGE":
+                    //TODO
+                    break;
+                case "LOAD_JUDGE_SUCCESS":
+                    this.pushJudge(action.judge);
+                    break;
+                case "LOAD_JUDGE_FAIL":
+                    //TODO
+                    break;
+                case "ADD_JUDGE":
+                    //TODO
+                    break;
+                case "ADD_JUDGE_SUCCESS":
+                    self.pushJudge(action.judge);
+                    BroadcastUtil.broadcastJudgeChange(action.groupName, action.showId);
+                    break;
+                case "ADD_JUDGE_FAIL":
+                    //TODO
+                    break;
+                case "UPDATE_JUDGE":
+                    //TODO
+                    break;
+                case "UPDATE_JUDGE_SUCCESS":
+                    self.pushJudge(action.judge);
+                    BroadcastUtil.broadcastJudgeChange(action.groupName, action.showId);
+                    break;
+                case "UPDATE_JUDGE_FAIL":
+                    //TODO
+                    break;
+                case "REMOVE_JUDGE":
+                    //TODO
+                    break;
+                case "REMOVE_JUDGE_SUCCESS":
+                    self.removeJudge(action.judgeId);
+                    BroadcastUtil.broadcastJudgeChange(action.groupName, action.showId);
+                    break;
+                case "REMOVE_JUDGE_FAIL":
+                    //TODO
+                    break;
+            }
+        };
+
+        _dispatcher2.default.register(_this.handleAction.bind(_this));
         return _this;
     }
 
     return JudgeStore;
 }(_eventEmitter2.default);
 
-var judgeStore = new JudgeStore();
+exports.default = new JudgeStore();
 
-judgeStore.setJudges = function (_judges) {
-    judgeStore.judges = _judges;
-    judgeStore.emit("change");
-};
-
-judgeStore.getContestJudges = function () {
-    return this.judges;
-};
-
-judgeStore.loadContestJudges = function (contestId) {
-    JudgeApi.getContestJudges(contestId, judgeStore.setJudges);
-};
-
-judgeStore.getAll = function () {
-    //TODO probably remove this function
-    return this.judges;
-};
-
-judgeStore.loadAllJudges = function () {
-    JudgeApi.getAll(judgeStore.setJudges);
-};
-
-judgeStore.get = function (id) {
-    return StoreUtils.get(id, judgeStore.judges);
-};
-
-judgeStore.add = function (judge) {
-    JudgeApi.add(judge, function (result) {
-        judgeStore.loadAllJudges();
-    });
-};
-
-judgeStore.handleAction = function (action) {
-    switch (action.type) {
-        case "ADD_JUDGE":
-            judgeStore.add(action.data);
-            break;
-        case "LOAD_ALL_JUDGES":
-            judgeStore.loadAllJudges();
-            break;
-        case "LOAD_CONTEST_JUDGES":
-            judgeStore.loadContestJudges(action.contestId);
-            break;
-
-    }
-};
-
-_dispatcher2.default.register(judgeStore.handleAction.bind(judgeStore));
-
-exports.default = judgeStore;
-
-},{"../api/judgeApi":283,"../dispatcher":289,"./utils/storeUtils":299,"event-emitter":7}],296:[function(require,module,exports){
+},{"../dispatcher":289,"./utils/broadcastUtil":298,"./utils/storeUtils":299,"event-emitter":7}],296:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40876,7 +41013,7 @@ var AddShowPage = function (_RoleAwareComponent) {
 
 exports.default = AddShowPage;
 
-},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":280,"../../../routing/navigation":323,"./showEditor":318,"react":262}],301:[function(require,module,exports){
+},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":280,"../../../routing/navigation":324,"./showEditor":319,"react":262}],301:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40977,7 +41114,7 @@ var AddContestPage = function (_RoleAwareComponent) {
 
 exports.default = AddContestPage;
 
-},{"../../../../common/pageContent":270,"../../../../common/roleAwareComponent":272,"../../../../data/actions/contestActions":275,"../../../../routing/navigation":323,"./contestEditor":303,"react":262}],302:[function(require,module,exports){
+},{"../../../../common/pageContent":270,"../../../../common/roleAwareComponent":272,"../../../../data/actions/contestActions":275,"../../../../routing/navigation":324,"./contestEditor":303,"react":262}],302:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41085,7 +41222,7 @@ var ContestPage = function (_TimeoutComponent) {
     }, {
         key: 'getState',
         value: function getState() {
-            return { contest: this.getContest(), hasTimedOut: this.hasTimedOut };
+            return { contest: this.getContest() };
         }
     }, {
         key: 'getContest',
@@ -41172,7 +41309,7 @@ var ContestPage = function (_TimeoutComponent) {
 
 exports.default = ContestPage;
 
-},{"../../../../common/button":264,"../../../../common/pageContent":270,"../../../../common/timeoutComponent":273,"../../../../data/actions/contestActions":275,"../../../../data/actions/contestantActions":276,"../../../../data/actions/judgeActions":278,"../../../../data/stores/contestStore":292,"../../../../routing/navigation":323,"./contestants":311,"./judges":314,"react":262}],303:[function(require,module,exports){
+},{"../../../../common/button":264,"../../../../common/pageContent":270,"../../../../common/timeoutComponent":273,"../../../../data/actions/contestActions":275,"../../../../data/actions/contestantActions":276,"../../../../data/actions/judgeActions":278,"../../../../data/stores/contestStore":292,"../../../../routing/navigation":324,"./contestants":311,"./judges":315,"react":262}],303:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42131,7 +42268,187 @@ var EditContestPage = function (_RoleAwareComponent) {
 
 exports.default = EditContestPage;
 
-},{"../../../../common/pageContent":270,"../../../../common/roleAwareComponent":272,"../../../../data/actions/contestActions":275,"../../../../data/stores/contestStore":292,"../../../../routing/navigation":323,"./contestEditor":303,"react":262}],313:[function(require,module,exports){
+},{"../../../../common/pageContent":270,"../../../../common/roleAwareComponent":272,"../../../../data/actions/contestActions":275,"../../../../data/stores/contestStore":292,"../../../../routing/navigation":324,"./contestEditor":303,"react":262}],313:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _navigation = require('../../../../../routing/navigation');
+
+var Nav = _interopRequireWildcard(_navigation);
+
+var _judgeStore = require('../../../../../data/stores/judgeStore');
+
+var _judgeStore2 = _interopRequireDefault(_judgeStore);
+
+var _judgeActions = require('../../../../../data/actions/judgeActions');
+
+var JudgeActions = _interopRequireWildcard(_judgeActions);
+
+var _contestActions = require('../../../../../data/actions/contestActions');
+
+var ContestActions = _interopRequireWildcard(_contestActions);
+
+var _pageContent = require('../../../../../common/pageContent');
+
+var _pageContent2 = _interopRequireDefault(_pageContent);
+
+var _button = require('../../../../../common/button');
+
+var _button2 = _interopRequireDefault(_button);
+
+var _timeoutComponent = require('../../../../../common/timeoutComponent');
+
+var _timeoutComponent2 = _interopRequireDefault(_timeoutComponent);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var JudgePage = function (_TimeoutComponent) {
+    _inherits(JudgePage, _TimeoutComponent);
+
+    function JudgePage(props) {
+        _classCallCheck(this, JudgePage);
+
+        var _this = _possibleConstructorReturn(this, (JudgePage.__proto__ || Object.getPrototypeOf(JudgePage)).call(this, props));
+
+        _this.getState = _this.getState.bind(_this);
+        _this.storeChanged = _this.storeChanged.bind(_this);
+        _this.getJudge = _this.getJudge.bind(_this);
+        _this.getJudgeId = _this.getJudgeId.bind(_this);
+        _this.getContestId = _this.getContestId.bind(_this);
+        _this.getShowId = _this.getShowId.bind(_this);
+        _this.handleEditJudgeClick = _this.handleEditJudgeClick.bind(_this);
+        _this.handleRemoveJudgeClick = _this.handleRemoveJudgeClick.bind(_this);
+        _this.getLoadingPageContent = _this.getLoadingPageContent.bind(_this);
+        _this.getFailedToLoadPageContent = _this.getFailedToLoadPageContent.bind(_this);
+        _this.state = _this.getState();
+        return _this;
+    }
+
+    _createClass(JudgePage, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            _judgeStore2.default.on("change", this.storeChanged);
+            JudgeActions.loadJudge(this.getJudgeId());
+            ContestActions.joinHubGroup(this.getShowId());
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            this.resetTimeout();
+            _judgeStore2.default.off("change", this.storeChanged);
+            ContestActions.leaveHubGroup(this.getShowId());
+        }
+    }, {
+        key: 'storeChanged',
+        value: function storeChanged() {
+            this.setState(this.getState());
+        }
+    }, {
+        key: 'getState',
+        value: function getState() {
+            return { judge: this.getJudge() };
+        }
+    }, {
+        key: 'getJudge',
+        value: function getJudge() {
+            return _judgeStore2.default.get(this.getJudgeId());
+        }
+    }, {
+        key: 'getJudgeId',
+        value: function getJudgeId() {
+            return this.props.params.judgeId;
+        }
+    }, {
+        key: 'getContestId',
+        value: function getContestId() {
+            return this.props.params.contestId;
+        }
+    }, {
+        key: 'getShowId',
+        value: function getShowId() {
+            return this.props.params.showId;
+        }
+    }, {
+        key: 'getLoadingPageContent',
+        value: function getLoadingPageContent() {
+            this.initTimeout(10000);
+
+            return _react2.default.createElement(_pageContent2.default, { title: 'Loading', description: 'The judge\'s details are loading, please wait.' });
+        }
+    }, {
+        key: 'getFailedToLoadPageContent',
+        value: function getFailedToLoadPageContent() {
+            var self = this;
+            this.initTimeout(5000, function () {
+                Nav.goToContest(self.getContestId());
+            });
+
+            return _react2.default.createElement(_pageContent2.default, { title: 'Failed to Load Judge', description: 'The requested judge could not be loaded in a timely manner. The judge may not exist. You will be automatically redirected shortly.' });
+        }
+    }, {
+        key: 'handleEditJudgeClick',
+        value: function handleEditJudgeClick(e) {
+            e.preventDefault();
+            //Nav.goToEditJudge(this.getShowId(), this.getJudgeId());
+        }
+    }, {
+        key: 'handleRemoveJudgeClick',
+        value: function handleRemoveJudgeClick(e) {
+            e.preventDefault();
+            //JudgeStore.removeJudge(this.getShowId(), this.getJudgeId());
+            //Nav.goToContest(this.getContestId());
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            this.resetTimeout();
+
+            if (this.hasTimedOut) {
+                return this.getFailedToLoadPageContent();
+            }
+
+            var judge = this.state.judge;
+
+            if (!judge) {
+                return this.getLoadingPageContent();
+            }
+
+            var authorizedRolesForButtons = ["admin"];
+            var judgePageButtons = _react2.default.createElement(
+                'span',
+                null,
+                _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: authorizedRolesForButtons, name: 'editJudge', value: 'Edit', onClick: this.handleEditJudgeClick }),
+                ' ',
+                _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: authorizedRolesForButtons, name: 'removeJudge', value: 'Remove', onClick: this.handleRemoveJudgeClick })
+            );
+
+            return _react2.default.createElement(_pageContent2.default, { title: judge.Name.FirstName + " " + judge.Name.LastName, description: judge.Affiliation.Name, buttons: judgePageButtons });
+        }
+    }]);
+
+    return JudgePage;
+}(_timeoutComponent2.default);
+
+exports.default = JudgePage;
+
+},{"../../../../../common/button":264,"../../../../../common/pageContent":270,"../../../../../common/timeoutComponent":273,"../../../../../data/actions/contestActions":275,"../../../../../data/actions/judgeActions":278,"../../../../../data/stores/judgeStore":295,"../../../../../routing/navigation":324,"react":262}],314:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -42148,7 +42465,7 @@ var getDescription = function getDescription(judge) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],314:[function(require,module,exports){
+},{}],315:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42238,7 +42555,7 @@ var JudgesBox = function (_React$Component) {
 
 exports.default = JudgesBox;
 
-},{"../../../../common/listPanel":269,"../../../../data/stores/judgeStore":295,"./judge/judgeUtil":313,"react":262}],315:[function(require,module,exports){
+},{"../../../../common/listPanel":269,"../../../../data/stores/judgeStore":295,"./judge/judgeUtil":314,"react":262}],316:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42345,7 +42662,7 @@ var ContestsBox = function (_React$Component) {
 
 exports.default = ContestsBox;
 
-},{"../../../common/button":264,"../../../common/listPanel":269,"../../../data/stores/contestStore":292,"../../../routing/navigation":323,"react":262}],316:[function(require,module,exports){
+},{"../../../common/button":264,"../../../common/listPanel":269,"../../../data/stores/contestStore":292,"../../../routing/navigation":324,"react":262}],317:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42482,7 +42799,7 @@ var EditShowPage = function (_RoleAwareComponent) {
 
 exports.default = EditShowPage;
 
-},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":280,"../../../data/stores/showStore":297,"../../../routing/navigation":323,"./showEditor":318,"react":262}],317:[function(require,module,exports){
+},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":280,"../../../data/stores/showStore":297,"../../../routing/navigation":324,"./showEditor":319,"react":262}],318:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42665,7 +42982,7 @@ var ShowPage = function (_TimeoutComponent) {
 
 exports.default = ShowPage;
 
-},{"../../../common/button":264,"../../../common/pageContent":270,"../../../common/timeoutComponent":273,"../../../data/actions/contestActions":275,"../../../data/actions/showActions":280,"../../../data/stores/showStore":297,"../../../routing/navigation":323,"./contests":315,"react":262}],318:[function(require,module,exports){
+},{"../../../common/button":264,"../../../common/pageContent":270,"../../../common/timeoutComponent":273,"../../../data/actions/contestActions":275,"../../../data/actions/showActions":280,"../../../data/stores/showStore":297,"../../../routing/navigation":324,"./contests":316,"react":262}],319:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42809,7 +43126,7 @@ var ShowEditor = function (_RoleAwareComponent) {
 
 exports.default = ShowEditor;
 
-},{"../../../common/button":264,"../../../common/formGroup":265,"../../../common/input":266,"../../../common/roleAwareComponent":272,"clone":6,"react":262}],319:[function(require,module,exports){
+},{"../../../common/button":264,"../../../common/formGroup":265,"../../../common/input":266,"../../../common/roleAwareComponent":272,"clone":6,"react":262}],320:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42943,7 +43260,7 @@ var ShowsBox = function (_React$Component2) {
 
 exports.default = ShowsPage;
 
-},{"../../common/button":264,"../../common/listPanel":269,"../../common/pageContent":270,"../../data/actions/showActions":280,"../../data/stores/showStore":297,"../../routing/navigation":323,"react":262}],320:[function(require,module,exports){
+},{"../../common/button":264,"../../common/listPanel":269,"../../common/pageContent":270,"../../data/actions/showActions":280,"../../data/stores/showStore":297,"../../routing/navigation":324,"react":262}],321:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42967,7 +43284,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"react":262}],321:[function(require,module,exports){
+},{"react":262}],322:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43171,7 +43488,7 @@ var JudgesPage = function (_React$Component2) {
 
 exports.default = JudgesPage;
 
-},{"../common/formGroup":265,"../common/input":266,"../data/actions/judgeActions":278,"../data/stores/judgeStore":295,"jquery":25,"react":262}],322:[function(require,module,exports){
+},{"../common/formGroup":265,"../common/input":266,"../data/actions/judgeActions":278,"../data/stores/judgeStore":295,"jquery":25,"react":262}],323:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43355,7 +43672,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"../common/formGroup":265,"../common/input":266,"../data/actions/currentUserActions":277,"../data/stores/currentUserStore":294,"../routing/navigation":323,"jquery":25,"react":262}],323:[function(require,module,exports){
+},{"../common/formGroup":265,"../common/input":266,"../data/actions/currentUserActions":277,"../data/stores/currentUserStore":294,"../routing/navigation":324,"jquery":25,"react":262}],324:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

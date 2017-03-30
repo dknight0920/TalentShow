@@ -44,7 +44,7 @@ class ContestPage extends TimeoutComponent {
     }
 
     getState(){
-        return { contest: this.getContest(), hasTimedOut: this.hasTimedOut };
+        return { contest: this.getContest() };
     }
 
     getContest() {
