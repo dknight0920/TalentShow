@@ -51,9 +51,11 @@ namespace TalentShowWebApi.Controllers
         }
 
         // PUT api/Judges/5
-        public void Put([FromBody]JudgeDto judge)
+        public JudgeDto Put([FromBody]JudgeDto judge)
         {
-            JudgeService.Update(judge.ConvertFromDto());
+            var updatedJudge = judge.ConvertFromDto();
+            JudgeService.Update(updatedJudge);
+            return updatedJudge.ConvertToDto();
         }
 
         // DELETE api/Judges/5

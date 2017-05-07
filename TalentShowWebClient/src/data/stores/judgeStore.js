@@ -56,7 +56,7 @@ class JudgeStore extends EventEmitter {
                     break;
                 case "ADD_JUDGE_SUCCESS":
                     self.pushJudge(action.judge);
-                    BroadcastUtil.broadcastJudgeChange(action.groupName, action.showId);
+                    BroadcastUtil.broadcastJudgeChange(action.groupName, action.contestId);
                     break;
                 case "ADD_JUDGE_FAIL":
                     //TODO
@@ -66,7 +66,7 @@ class JudgeStore extends EventEmitter {
                     break;
                 case "UPDATE_JUDGE_SUCCESS":
                     self.pushJudge(action.judge);
-                    BroadcastUtil.broadcastJudgeChange(action.groupName, action.showId);
+                    BroadcastUtil.broadcastJudgeChange(action.groupName, action.contestId);
                     break;
                 case "UPDATE_JUDGE_FAIL":
                     //TODO
@@ -76,7 +76,7 @@ class JudgeStore extends EventEmitter {
                     break;
                 case "REMOVE_JUDGE_SUCCESS":
                     self.removeJudge(action.judgeId);
-                    BroadcastUtil.broadcastJudgeChange(action.groupName, action.showId);
+                    BroadcastUtil.broadcastJudgeChange(action.groupName, action.contestId);
                     break;
                 case "REMOVE_JUDGE_FAIL":
                     //TODO

@@ -62,6 +62,8 @@ namespace TalentShow.Services
         public void Update(Judge judge)
         {
             Validate(judge);
+            PersonNameRepo.Update(judge.Name);
+            OrganizationRepo.Update(judge.Affiliation);
             JudgeRepo.Update(judge);
         }
 

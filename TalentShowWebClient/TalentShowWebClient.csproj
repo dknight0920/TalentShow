@@ -163,7 +163,9 @@
     <Content Include="src\modules\ControlCenter\show\contest\contestEditor.js" />
     <Content Include="src\modules\ControlCenter\show\contest\editContest.js" />
     <Content Include="src\modules\ControlCenter\show\contest\judges.js" />
+    <Content Include="src\modules\ControlCenter\show\contest\judge\editJudge.js" />
     <Content Include="src\modules\ControlCenter\show\contest\judge\judge.js" />
+    <Content Include="src\modules\ControlCenter\show\contest\judge\judgeEditor.js" />
     <Content Include="src\modules\ControlCenter\show\contest\judge\judgeUtil.js" />
     <Content Include="src\modules\ControlCenter\show\editShow.js" />
     <Content Include="src\modules\ControlCenter\show\show.js" />

@@ -37,6 +37,14 @@ export function goToContestant(showId, contestId, contestantId) {
     hashHistory.push('/show/' + showId + '/contest/' + contestId + '/contestant/' + contestantId);
 };
 
+export function goToJudge(showId, contestId, judgeId) {
+    hashHistory.push('/show/' + showId + '/contest/' + contestId + '/judge/' + judgeId);
+};
+
+export function goToEditJudge(showId, contestId, judgeId) {
+    hashHistory.push('/show/' + showId + '/contest/' + contestId + '/judge/' + judgeId + '/edit');
+};
+
 export function goToScorecard(showId, contestId, contestantId, scorecardId) {
     hashHistory.push('/show/' + showId + '/contest/' + contestId + '/contestant/' + contestantId + '/scorecard/' + scorecardId);
 };

@@ -80,13 +80,13 @@ class JudgePage extends TimeoutComponent {
 
     handleEditJudgeClick(e) {
         e.preventDefault();
-        //Nav.goToEditJudge(this.getShowId(), this.getJudgeId());
+        Nav.goToEditJudge(this.getShowId(), this.getContestId(), this.getJudgeId());
     }
 
     handleRemoveJudgeClick(e){
         e.preventDefault();
-        //JudgeStore.removeJudge(this.getShowId(), this.getJudgeId());
-        //Nav.goToContest(this.getContestId());
+        JudgeStore.removeJudge(this.getContestId(), this.getJudgeId());
+        Nav.goToContest(this.getContestId());
     }
 
     render() {
