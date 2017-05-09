@@ -26,10 +26,12 @@ class EditJudgePage extends RoleAwareComponent {
         this.redirectUnauthorizedUser();
         JudgeStore.on("change", this.storeChanged);
         JudgeActions.loadJudge(this.getJudgeId());
+        JudgeActions.joinHubGroup(this.getContestId());
     }
 
     componentWillUnmount(){
         JudgeStore.off("change", this.storeChanged);
+        JudgeActions.leaveHubGroup(this.getContestId());
     }
 
     storeChanged(){

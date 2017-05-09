@@ -26,13 +26,13 @@ class JudgePage extends TimeoutComponent {
     componentWillMount(){
         JudgeStore.on("change", this.storeChanged);
         JudgeActions.loadJudge(this.getJudgeId());
-        ContestActions.joinHubGroup(this.getShowId());
+        JudgeActions.joinHubGroup(this.getContestId());
     }
 
     componentWillUnmount(){
         this.resetTimeout();
         JudgeStore.off("change", this.storeChanged);
-        ContestActions.leaveHubGroup(this.getShowId());
+        JudgeActions.leaveHubGroup(this.getShowId());
     }
 
     storeChanged(){

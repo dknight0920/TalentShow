@@ -41216,6 +41216,7 @@ var ContestPage = function (_TimeoutComponent) {
             ContestantActions.loadContestContestants(this.getContestId());
             JudgeActions.loadContestJudges(this.getContestId());
             ContestActions.joinHubGroup(this.getShowId());
+            JudgeActions.joinHubGroup(this.getContestId());
         }
     }, {
         key: 'componentWillUnmount',
@@ -41223,6 +41224,7 @@ var ContestPage = function (_TimeoutComponent) {
             this.resetTimeout();
             _contestStore2.default.off("change", this.storeChanged);
             ContestActions.leaveHubGroup(this.getShowId());
+            JudgeActions.leaveHubGroup(this.getContestId());
         }
     }, {
         key: 'storeChanged',
@@ -42353,11 +42355,13 @@ var EditJudgePage = function (_RoleAwareComponent) {
             this.redirectUnauthorizedUser();
             _judgeStore2.default.on("change", this.storeChanged);
             JudgeActions.loadJudge(this.getJudgeId());
+            JudgeActions.joinHubGroup(this.getContestId());
         }
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
             _judgeStore2.default.off("change", this.storeChanged);
+            JudgeActions.leaveHubGroup(this.getContestId());
         }
     }, {
         key: 'storeChanged',
@@ -42505,14 +42509,14 @@ var JudgePage = function (_TimeoutComponent) {
         value: function componentWillMount() {
             _judgeStore2.default.on("change", this.storeChanged);
             JudgeActions.loadJudge(this.getJudgeId());
-            ContestActions.joinHubGroup(this.getShowId());
+            JudgeActions.joinHubGroup(this.getContestId());
         }
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
             this.resetTimeout();
             _judgeStore2.default.off("change", this.storeChanged);
-            ContestActions.leaveHubGroup(this.getShowId());
+            JudgeActions.leaveHubGroup(this.getShowId());
         }
     }, {
         key: 'storeChanged',

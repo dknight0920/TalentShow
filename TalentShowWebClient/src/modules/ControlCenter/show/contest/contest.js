@@ -31,12 +31,14 @@ class ContestPage extends TimeoutComponent {
         ContestantActions.loadContestContestants(this.getContestId());
         JudgeActions.loadContestJudges(this.getContestId());
         ContestActions.joinHubGroup(this.getShowId());
+        JudgeActions.joinHubGroup(this.getContestId());
     }
 
     componentWillUnmount(){
         this.resetTimeout();
         ContestStore.off("change", this.storeChanged);
         ContestActions.leaveHubGroup(this.getShowId());
+        JudgeActions.leaveHubGroup(this.getContestId());
     }
 
     storeChanged(){
