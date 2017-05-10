@@ -8,19 +8,19 @@ var loadContestJudges = function(contestId){
 
     JudgeApi.getContestJudges(contestId, 
         function success(judges){
-            Dispatcher.dispatch({type: "LOAD_CONTEST_JUDGES_SUCCESS", judges: judges});
+            Dispatcher.dispatch({type: "LOAD_CONTEST_JUDGES_SUCCESS", judges: judges, contestId: contestId});
         }, 
         function fail(err){
             Dispatcher.dispatch({type: "LOAD_CONTEST_JUDGES_FAIL", error: err});
         });
 };
 
-var loadJudge = function(judgeId){
+var loadJudge = function(contestId, judgeId){
     Dispatcher.dispatch({type: "LOAD_JUDGE", judgeId: judgeId});
 
     JudgeApi.get(judgeId, 
         function success(judge){
-            Dispatcher.dispatch({type: "LOAD_JUDGE_SUCCESS", judge: judge});
+            Dispatcher.dispatch({type: "LOAD_JUDGE_SUCCESS", judge: judge, contestId: contestId});
         }, 
         function fail(err){
             Dispatcher.dispatch({type: "LOAD_JUDGE_FAIL", error: err});

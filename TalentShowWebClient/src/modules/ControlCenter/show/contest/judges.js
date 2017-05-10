@@ -25,7 +25,7 @@ class JudgesBox extends React.Component {
     }
 
     getState(){
-        return { judges: JudgeStore.getContestJudges() };
+        return { judges: JudgeStore.getContestJudges(this.props.contestId) };
     }
 
     render() {

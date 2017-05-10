@@ -1,30 +1,65 @@
-﻿import EventEmitter from 'event-emitter';
+﻿import Clone from 'clone';
+import EventEmitter from 'event-emitter';
 import Dispatcher from '../dispatcher';
 import * as StoreUtils from './utils/storeUtils';
 import * as BroadcastUtil from './utils/broadcastUtil';
 
 class JudgeStore extends EventEmitter {
-    constructor(){
+    constructor(contestId){
         super();
         this.judges = [];
 
         var self = this;
 
         this.setJudges = function(judges){
-            self.judges = judges;
+            self.judges = judges;         
             self.emit("change");
         };
 
-        this.pushJudge = function(judge){
-            StoreUtils.pushItem(judge, self.judges, self.setJudges);
+        this.pushJudges = function(contestId, _judges){
+            for (var i = 0; i < _judges.length; i++){
+                this.pushJudge(contestId, _judges[i]);
+            }
         };
 
-        this.removeJudge = function(judgeId){
-            StoreUtils.removeItem(judgeId, self.judges, self.setJudges);
+        this.pushJudge = function(contestId, judge){
+            judge.contestId = contestId;
+
+            var clonedJudges = Clone(self.judges);
+
+            var replacedExisting = false;
+
+            for (var i = 0; i < clonedJudges.length; i++){
+                 if(clonedJudges[i].Id == judge.Id && clonedJudges[i].contestId == contestId){
+                    clonedJudges[i] = judge;
+                    replacedExisting = true;
+                    break;
+                }
+            }
+
+            if (!replacedExisting){
+                clonedJudges.push(judge);
+            }
+
+            self.setJudges(clonedJudges);
         };
 
-        this.getContestJudges = function(){
-            return self.judges;
+        this.removeJudge = function(contestId, judgeId){
+            //TODO remove judge by judgeId and ContestId
+            //StoreUtils.removeItem(judgeId, self.judges, self.setJudges);
+        };
+
+        this.getContestJudges = function(contestId){
+            var results = [];
+
+            for (var i = 0; i < self.judges.length; i++){
+                var judge = self.judges[i];
+                if(judge.contestId == contestId){
+                    results.push(judge);
+                }
+            }
+
+            return results;
         };
 
         this.get = function(id){
@@ -37,7 +72,7 @@ class JudgeStore extends EventEmitter {
                     //TODO
                     break;
                 case "LOAD_CONTEST_JUDGES_SUCCESS":
-                    self.setJudges(action.judges);
+                        self.pushJudges(action.contestId, action.judges);
                     break;
                 case "LOAD_CONTEST_JUDGES_FAIL":
                     //TODO
@@ -46,7 +81,7 @@ class JudgeStore extends EventEmitter {
                     //TODO
                     break;
                 case "LOAD_JUDGE_SUCCESS":
-                    this.pushJudge(action.judge);
+                    this.pushJudge(action.contestId, action.judge);
                     break;
                 case "LOAD_JUDGE_FAIL":
                     //TODO
@@ -55,7 +90,7 @@ class JudgeStore extends EventEmitter {
                     //TODO
                     break;
                 case "ADD_JUDGE_SUCCESS":
-                    self.pushJudge(action.judge);
+                    self.pushJudge(action.contestId, action.judge);
                     BroadcastUtil.broadcastJudgeChange(action.groupName, action.contestId);
                     break;
                 case "ADD_JUDGE_FAIL":
@@ -65,7 +100,7 @@ class JudgeStore extends EventEmitter {
                     //TODO
                     break;
                 case "UPDATE_JUDGE_SUCCESS":
-                    self.pushJudge(action.judge);
+                    self.pushJudge(action.contestId, action.judge);
                     BroadcastUtil.broadcastJudgeChange(action.groupName, action.contestId);
                     break;
                 case "UPDATE_JUDGE_FAIL":
@@ -75,7 +110,7 @@ class JudgeStore extends EventEmitter {
                     //TODO
                     break;
                 case "REMOVE_JUDGE_SUCCESS":
-                    self.removeJudge(action.judgeId);
+                    self.removeJudge(action.contestId, action.judgeId);
                     BroadcastUtil.broadcastJudgeChange(action.groupName, action.contestId);
                     break;
                 case "REMOVE_JUDGE_FAIL":

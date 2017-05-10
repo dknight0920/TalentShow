@@ -39381,17 +39381,17 @@ var loadContestJudges = function loadContestJudges(contestId) {
     _dispatcher2.default.dispatch({ type: "LOAD_CONTEST_JUDGES", contestId: contestId });
 
     JudgeApi.getContestJudges(contestId, function success(judges) {
-        _dispatcher2.default.dispatch({ type: "LOAD_CONTEST_JUDGES_SUCCESS", judges: judges });
+        _dispatcher2.default.dispatch({ type: "LOAD_CONTEST_JUDGES_SUCCESS", judges: judges, contestId: contestId });
     }, function fail(err) {
         _dispatcher2.default.dispatch({ type: "LOAD_CONTEST_JUDGES_FAIL", error: err });
     });
 };
 
-var loadJudge = function loadJudge(judgeId) {
+var loadJudge = function loadJudge(contestId, judgeId) {
     _dispatcher2.default.dispatch({ type: "LOAD_JUDGE", judgeId: judgeId });
 
     JudgeApi.get(judgeId, function success(judge) {
-        _dispatcher2.default.dispatch({ type: "LOAD_JUDGE_SUCCESS", judge: judge });
+        _dispatcher2.default.dispatch({ type: "LOAD_JUDGE_SUCCESS", judge: judge, contestId: contestId });
     }, function fail(err) {
         _dispatcher2.default.dispatch({ type: "LOAD_JUDGE_FAIL", error: err });
     });
@@ -40490,6 +40490,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _clone = require('clone');
+
+var _clone2 = _interopRequireDefault(_clone);
+
 var _eventEmitter = require('event-emitter');
 
 var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
@@ -40519,7 +40523,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var JudgeStore = function (_EventEmitter) {
     _inherits(JudgeStore, _EventEmitter);
 
-    function JudgeStore() {
+    function JudgeStore(contestId) {
         _classCallCheck(this, JudgeStore);
 
         var _this = _possibleConstructorReturn(this, (JudgeStore.__proto__ || Object.getPrototypeOf(JudgeStore)).call(this));
@@ -40533,16 +40537,50 @@ var JudgeStore = function (_EventEmitter) {
             self.emit("change");
         };
 
-        _this.pushJudge = function (judge) {
-            StoreUtils.pushItem(judge, self.judges, self.setJudges);
+        _this.pushJudges = function (contestId, _judges) {
+            for (var i = 0; i < _judges.length; i++) {
+                this.pushJudge(contestId, _judges[i]);
+            }
         };
 
-        _this.removeJudge = function (judgeId) {
-            StoreUtils.removeItem(judgeId, self.judges, self.setJudges);
+        _this.pushJudge = function (contestId, judge) {
+            judge.contestId = contestId;
+
+            var clonedJudges = (0, _clone2.default)(self.judges);
+
+            var replacedExisting = false;
+
+            for (var i = 0; i < clonedJudges.length; i++) {
+                if (clonedJudges[i].Id == judge.Id && clonedJudges[i].contestId == contestId) {
+                    clonedJudges[i] = judge;
+                    replacedExisting = true;
+                    break;
+                }
+            }
+
+            if (!replacedExisting) {
+                clonedJudges.push(judge);
+            }
+
+            self.setJudges(clonedJudges);
         };
 
-        _this.getContestJudges = function () {
-            return self.judges;
+        _this.removeJudge = function (contestId, judgeId) {
+            //TODO remove judge by judgeId and ContestId
+            //StoreUtils.removeItem(judgeId, self.judges, self.setJudges);
+        };
+
+        _this.getContestJudges = function (contestId) {
+            var results = [];
+
+            for (var i = 0; i < self.judges.length; i++) {
+                var judge = self.judges[i];
+                if (judge.contestId == contestId) {
+                    results.push(judge);
+                }
+            }
+
+            return results;
         };
 
         _this.get = function (id) {
@@ -40555,7 +40593,7 @@ var JudgeStore = function (_EventEmitter) {
                     //TODO
                     break;
                 case "LOAD_CONTEST_JUDGES_SUCCESS":
-                    self.setJudges(action.judges);
+                    self.pushJudges(action.contestId, action.judges);
                     break;
                 case "LOAD_CONTEST_JUDGES_FAIL":
                     //TODO
@@ -40564,7 +40602,7 @@ var JudgeStore = function (_EventEmitter) {
                     //TODO
                     break;
                 case "LOAD_JUDGE_SUCCESS":
-                    this.pushJudge(action.judge);
+                    this.pushJudge(action.contestId, action.judge);
                     break;
                 case "LOAD_JUDGE_FAIL":
                     //TODO
@@ -40573,7 +40611,7 @@ var JudgeStore = function (_EventEmitter) {
                     //TODO
                     break;
                 case "ADD_JUDGE_SUCCESS":
-                    self.pushJudge(action.judge);
+                    self.pushJudge(action.contestId, action.judge);
                     BroadcastUtil.broadcastJudgeChange(action.groupName, action.contestId);
                     break;
                 case "ADD_JUDGE_FAIL":
@@ -40583,7 +40621,7 @@ var JudgeStore = function (_EventEmitter) {
                     //TODO
                     break;
                 case "UPDATE_JUDGE_SUCCESS":
-                    self.pushJudge(action.judge);
+                    self.pushJudge(action.contestId, action.judge);
                     BroadcastUtil.broadcastJudgeChange(action.groupName, action.contestId);
                     break;
                 case "UPDATE_JUDGE_FAIL":
@@ -40593,7 +40631,7 @@ var JudgeStore = function (_EventEmitter) {
                     //TODO
                     break;
                 case "REMOVE_JUDGE_SUCCESS":
-                    self.removeJudge(action.judgeId);
+                    self.removeJudge(action.contestId, action.judgeId);
                     BroadcastUtil.broadcastJudgeChange(action.groupName, action.contestId);
                     break;
                 case "REMOVE_JUDGE_FAIL":
@@ -40611,7 +40649,7 @@ var JudgeStore = function (_EventEmitter) {
 
 exports.default = new JudgeStore();
 
-},{"../dispatcher":289,"./utils/broadcastUtil":298,"./utils/storeUtils":299,"event-emitter":7}],296:[function(require,module,exports){
+},{"../dispatcher":289,"./utils/broadcastUtil":298,"./utils/storeUtils":299,"clone":6,"event-emitter":7}],296:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42354,7 +42392,7 @@ var EditJudgePage = function (_RoleAwareComponent) {
         value: function componentWillMount() {
             this.redirectUnauthorizedUser();
             _judgeStore2.default.on("change", this.storeChanged);
-            JudgeActions.loadJudge(this.getJudgeId());
+            JudgeActions.loadJudge(this.getContestId(), this.getJudgeId());
             JudgeActions.joinHubGroup(this.getContestId());
         }
     }, {
@@ -42508,7 +42546,7 @@ var JudgePage = function (_TimeoutComponent) {
         key: 'componentWillMount',
         value: function componentWillMount() {
             _judgeStore2.default.on("change", this.storeChanged);
-            JudgeActions.loadJudge(this.getJudgeId());
+            JudgeActions.loadJudge(this.getContestId(), this.getJudgeId());
             JudgeActions.joinHubGroup(this.getContestId());
         }
     }, {
@@ -42861,7 +42899,7 @@ var JudgesBox = function (_React$Component) {
     }, {
         key: 'getState',
         value: function getState() {
-            return { judges: _judgeStore2.default.getContestJudges() };
+            return { judges: _judgeStore2.default.getContestJudges(this.props.contestId) };
         }
     }, {
         key: 'render',
