@@ -50,6 +50,17 @@ namespace TalentShowWebApi.Controllers
             JudgeService.Add(judge.ConvertFromDto());
         }
 
+        // POST api/Judges/Contest/5
+        [HttpPost]
+        [Route("api/Judges/Contest/{id}")]
+        public JudgeDto GetShowContests(int id, [FromBody]JudgeDto judge)
+        {
+            var contestId = id;
+            var newJudge = judge.ConvertFromDto();
+            JudgeService.AddContestJudge(contestId, newJudge);
+            return newJudge.ConvertToDto();
+        }
+
         // PUT api/Judges/5
         public JudgeDto Put([FromBody]JudgeDto judge)
         {

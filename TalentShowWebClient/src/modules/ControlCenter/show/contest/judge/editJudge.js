@@ -56,7 +56,7 @@ class EditJudgePage extends RoleAwareComponent {
     }
 
     getJudge() {
-        return JudgeStore.get(this.getJudgeId());
+        return JudgeStore.get(this.getContestId(), this.getJudgeId());
     }
 
     getJudgeId() {

@@ -1,6 +1,8 @@
 ﻿import React from 'react';
+import * as Nav from '../../../../routing/navigation';
 import { ListPanel, ListPanelItem } from '../../../../common/listPanel';
 import JudgeStore from '../../../../data/stores/judgeStore';
+import Button from '../../../../common/button';
 import * as JudgeUtil from './judge/judgeUtil';
 
 class JudgesBox extends React.Component {
@@ -9,6 +11,9 @@ class JudgesBox extends React.Component {
         super(props);
         this.getState = this.getState.bind(this);
         this.storeChanged = this.storeChanged.bind(this);
+        this.handleAddJudgeClick = this.handleAddJudgeClick.bind(this); 
+        this.getContestId = this.getContestId.bind(this); 
+        this.getShowId = this.getShowId.bind(this);
         this.state = this.getState();
     }
 
@@ -25,12 +30,25 @@ class JudgesBox extends React.Component {
     }
 
     getState(){
-        return { judges: JudgeStore.getContestJudges(this.props.contestId) };
+        return { judges: JudgeStore.getContestJudges(this.getContestId()) };
+    }
+
+    getContestId(){
+        return this.props.contestId;
+    }
+
+    getShowId(){
+        return this.props.showId;
+    }
+
+    handleAddJudgeClick(e){
+        e.preventDefault();
+        Nav.goToAddJudge(this.getShowId(), this.getContestId());
     }
 
     render() {
-        var showId = this.props.showId;
-        var contestId =  this.props.contestId;
+        var showId = this.getShowId();
+        var contestId =  this.getContestId();
 
         var judges = this.state.judges.map(function (judge) {
             return (
@@ -40,9 +58,11 @@ class JudgesBox extends React.Component {
                     description={JudgeUtil.getDescription(judge)} 
                     pathname={ '/show/' + showId + '/contest/' + contestId + '/judge/' + judge.Id } />
             );
-    });
+        });
 
-    return ( <ListPanel title="Judges" items={judges} /> );
+        var addJudgeButton = ( <Button type="primary" authorizedRoles={["admin"]} name="addJudge" value="Add" onClick={this.handleAddJudgeClick} /> );
+
+        return ( <ListPanel title="Judges" items={judges} button={addJudgeButton} /> );
     }
 }
 

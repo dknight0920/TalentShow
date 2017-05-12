@@ -38334,6 +38334,10 @@ var _judge = require('./modules/ControlCenter/show/contest/judge/judge');
 
 var _judge2 = _interopRequireDefault(_judge);
 
+var _addJudge = require('./modules/ControlCenter/show/contest/judge/addJudge');
+
+var _addJudge2 = _interopRequireDefault(_addJudge);
+
 var _editJudge = require('./modules/ControlCenter/show/contest/judge/editJudge');
 
 var _editJudge2 = _interopRequireDefault(_editJudge);
@@ -38447,6 +38451,7 @@ Hubs.hubConnection.start({ transport: ['webSockets'], jsonp: true }).done(functi
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/edit', component: _editContest2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/contestant/:contestantId', component: _contestant2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/contestant/:contestantId/scorecard/:scoreCardId', component: _scoreCard2.default }),
+                _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/judges/add', component: _addJudge2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/judge/:judgeId', component: _judge2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/judge/:judgeId/edit', component: _editJudge2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _about2.default }),
@@ -38456,7 +38461,7 @@ Hubs.hubConnection.start({ transport: ['webSockets'], jsonp: true }).done(functi
     ), document.getElementById('app'));
 });
 
-},{"./common/unauthorizedUserPageContent":274,"./data/signalr/hubs":290,"./modules/ControlCenter/show/addShow":300,"./modules/ControlCenter/show/contest/addContest":301,"./modules/ControlCenter/show/contest/contest":302,"./modules/ControlCenter/show/contest/contestant/contestant":304,"./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard":307,"./modules/ControlCenter/show/contest/editContest":312,"./modules/ControlCenter/show/contest/judge/editJudge":313,"./modules/ControlCenter/show/contest/judge/judge":314,"./modules/ControlCenter/show/editShow":319,"./modules/ControlCenter/show/show":320,"./modules/ControlCenter/shows":322,"./modules/about":323,"./modules/judges":324,"./modules/login":325,"react":262,"react-dom":26,"react-router":203}],264:[function(require,module,exports){
+},{"./common/unauthorizedUserPageContent":274,"./data/signalr/hubs":290,"./modules/ControlCenter/show/addShow":300,"./modules/ControlCenter/show/contest/addContest":301,"./modules/ControlCenter/show/contest/contest":302,"./modules/ControlCenter/show/contest/contestant/contestant":304,"./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard":307,"./modules/ControlCenter/show/contest/editContest":312,"./modules/ControlCenter/show/contest/judge/addJudge":313,"./modules/ControlCenter/show/contest/judge/editJudge":314,"./modules/ControlCenter/show/contest/judge/judge":315,"./modules/ControlCenter/show/editShow":320,"./modules/ControlCenter/show/show":321,"./modules/ControlCenter/shows":323,"./modules/about":324,"./modules/judges":325,"./modules/login":326,"react":262,"react-dom":26,"react-router":203}],264:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39091,7 +39096,7 @@ var RoleAwareComponent = function (_React$Component) {
 
 exports.default = RoleAwareComponent;
 
-},{"../data/stores/currentUserStore":294,"../routing/navigation":326,"react":262}],273:[function(require,module,exports){
+},{"../data/stores/currentUserStore":294,"../routing/navigation":327,"react":262}],273:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -40551,7 +40556,7 @@ var JudgeStore = function (_EventEmitter) {
             var replacedExisting = false;
 
             for (var i = 0; i < clonedJudges.length; i++) {
-                if (clonedJudges[i].Id == judge.Id && clonedJudges[i].contestId == contestId) {
+                if (self.isMatchingJudge(clonedJudges[i], contestId, judge.Id)) {
                     clonedJudges[i] = judge;
                     replacedExisting = true;
                     break;
@@ -40566,8 +40571,21 @@ var JudgeStore = function (_EventEmitter) {
         };
 
         _this.removeJudge = function (contestId, judgeId) {
-            //TODO remove judge by judgeId and ContestId
-            //StoreUtils.removeItem(judgeId, self.judges, self.setJudges);
+            var clonedJudges = (0, _clone2.default)(self.judges);
+            var results = [];
+
+            for (var i = 0; i < clonedJudges.length; i++) {
+                var judge = clonedJudges[i];
+                if (!self.isMatchingJudge(judge, contestId, judgeId)) {
+                    results.push(judge);
+                }
+            }
+
+            self.setJudges(results);
+        };
+
+        _this.isMatchingJudge = function (judge, contestId, judgeId) {
+            return judge.Id == judgeId && judge.contestId == contestId;
         };
 
         _this.getContestJudges = function (contestId) {
@@ -40583,8 +40601,17 @@ var JudgeStore = function (_EventEmitter) {
             return results;
         };
 
-        _this.get = function (id) {
-            return StoreUtils.get(id, self.judges);
+        _this.get = function (contestId, judgeId) {
+            var clonedJudges = (0, _clone2.default)(self.judges);
+
+            for (var i = 0; i < clonedJudges.length; i++) {
+                var judge = clonedJudges[i];
+                if (self.isMatchingJudge(judge, contestId, judgeId)) {
+                    return judge;
+                }
+            }
+
+            return null;
         };
 
         _this.handleAction = function (action) {
@@ -41061,7 +41088,7 @@ var AddShowPage = function (_RoleAwareComponent) {
 
 exports.default = AddShowPage;
 
-},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":280,"../../../routing/navigation":326,"./showEditor":321,"react":262}],301:[function(require,module,exports){
+},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":280,"../../../routing/navigation":327,"./showEditor":322,"react":262}],301:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41162,7 +41189,7 @@ var AddContestPage = function (_RoleAwareComponent) {
 
 exports.default = AddContestPage;
 
-},{"../../../../common/pageContent":270,"../../../../common/roleAwareComponent":272,"../../../../data/actions/contestActions":275,"../../../../routing/navigation":326,"./contestEditor":303,"react":262}],302:[function(require,module,exports){
+},{"../../../../common/pageContent":270,"../../../../common/roleAwareComponent":272,"../../../../data/actions/contestActions":275,"../../../../routing/navigation":327,"./contestEditor":303,"react":262}],302:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41359,7 +41386,7 @@ var ContestPage = function (_TimeoutComponent) {
 
 exports.default = ContestPage;
 
-},{"../../../../common/button":264,"../../../../common/pageContent":270,"../../../../common/timeoutComponent":273,"../../../../data/actions/contestActions":275,"../../../../data/actions/contestantActions":276,"../../../../data/actions/judgeActions":278,"../../../../data/stores/contestStore":292,"../../../../routing/navigation":326,"./contestants":311,"./judges":317,"react":262}],303:[function(require,module,exports){
+},{"../../../../common/button":264,"../../../../common/pageContent":270,"../../../../common/timeoutComponent":273,"../../../../data/actions/contestActions":275,"../../../../data/actions/contestantActions":276,"../../../../data/actions/judgeActions":278,"../../../../data/stores/contestStore":292,"../../../../routing/navigation":327,"./contestants":311,"./judges":318,"react":262}],303:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42318,7 +42345,114 @@ var EditContestPage = function (_RoleAwareComponent) {
 
 exports.default = EditContestPage;
 
-},{"../../../../common/pageContent":270,"../../../../common/roleAwareComponent":272,"../../../../data/actions/contestActions":275,"../../../../data/stores/contestStore":292,"../../../../routing/navigation":326,"./contestEditor":303,"react":262}],313:[function(require,module,exports){
+},{"../../../../common/pageContent":270,"../../../../common/roleAwareComponent":272,"../../../../data/actions/contestActions":275,"../../../../data/stores/contestStore":292,"../../../../routing/navigation":327,"./contestEditor":303,"react":262}],313:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _navigation = require('../../../../../routing/navigation');
+
+var Nav = _interopRequireWildcard(_navigation);
+
+var _judgeEditor = require('./judgeEditor');
+
+var _judgeEditor2 = _interopRequireDefault(_judgeEditor);
+
+var _judgeActions = require('../../../../../data/actions/judgeActions');
+
+var JudgeActions = _interopRequireWildcard(_judgeActions);
+
+var _pageContent = require('../../../../../common/pageContent');
+
+var _pageContent2 = _interopRequireDefault(_pageContent);
+
+var _roleAwareComponent = require('../../../../../common/roleAwareComponent');
+
+var _roleAwareComponent2 = _interopRequireDefault(_roleAwareComponent);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var AddJudgePage = function (_RoleAwareComponent) {
+    _inherits(AddJudgePage, _RoleAwareComponent);
+
+    function AddJudgePage(props) {
+        _classCallCheck(this, AddJudgePage);
+
+        var _this = _possibleConstructorReturn(this, (AddJudgePage.__proto__ || Object.getPrototypeOf(AddJudgePage)).call(this, props));
+
+        _this.handleClickSave = _this.handleClickSave.bind(_this);
+        _this.handleClickCancel = _this.handleClickCancel.bind(_this);
+        _this.navigateToContestPage = _this.navigateToContestPage.bind(_this);
+        _this.getContestId = _this.getContestId.bind(_this);
+        _this.getShowId = _this.getShowId.bind(_this);
+        _this.authorizedRoles = ["admin"];
+        return _this;
+    }
+
+    _createClass(AddJudgePage, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            this.redirectUnauthorizedUser();
+        }
+    }, {
+        key: 'handleClickSave',
+        value: function handleClickSave(newJudge) {
+            JudgeActions.addJudge(this.getContestId(), newJudge);
+            this.navigateToContestPage();
+        }
+    }, {
+        key: 'handleClickCancel',
+        value: function handleClickCancel() {
+            this.navigateToContestPage();
+        }
+    }, {
+        key: 'navigateToContestPage',
+        value: function navigateToContestPage() {
+            Nav.goToContest(this.getShowId(), this.getContestId());
+        }
+    }, {
+        key: 'getContestId',
+        value: function getContestId() {
+            return this.props.params.contestId;
+        }
+    }, {
+        key: 'getShowId',
+        value: function getShowId() {
+            return this.props.params.showId;
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                _pageContent2.default,
+                { title: 'Create a Judge', description: 'Use the form below to create a new judge.' },
+                _react2.default.createElement(_judgeEditor2.default, { authorizedRoles: this.authorizedRoles, OnClickSave: this.handleClickSave, OnClickCancel: this.handleClickCancel })
+            );
+        }
+    }]);
+
+    return AddJudgePage;
+}(_roleAwareComponent2.default);
+
+exports.default = AddJudgePage;
+
+},{"../../../../../common/pageContent":270,"../../../../../common/roleAwareComponent":272,"../../../../../data/actions/judgeActions":278,"../../../../../routing/navigation":327,"./judgeEditor":316,"react":262}],314:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42430,7 +42564,7 @@ var EditJudgePage = function (_RoleAwareComponent) {
     }, {
         key: 'getJudge',
         value: function getJudge() {
-            return _judgeStore2.default.get(this.getJudgeId());
+            return _judgeStore2.default.get(this.getContestId(), this.getJudgeId());
         }
     }, {
         key: 'getJudgeId',
@@ -42469,7 +42603,7 @@ var EditJudgePage = function (_RoleAwareComponent) {
 
 exports.default = EditJudgePage;
 
-},{"../../../../../common/pageContent":270,"../../../../../common/roleAwareComponent":272,"../../../../../data/actions/judgeActions":278,"../../../../../data/stores/judgeStore":295,"../../../../../routing/navigation":326,"./judgeEditor":315,"react":262}],314:[function(require,module,exports){
+},{"../../../../../common/pageContent":270,"../../../../../common/roleAwareComponent":272,"../../../../../data/actions/judgeActions":278,"../../../../../data/stores/judgeStore":295,"../../../../../routing/navigation":327,"./judgeEditor":316,"react":262}],315:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42569,7 +42703,7 @@ var JudgePage = function (_TimeoutComponent) {
     }, {
         key: 'getJudge',
         value: function getJudge() {
-            return _judgeStore2.default.get(this.getJudgeId());
+            return _judgeStore2.default.get(this.getContestId(), this.getJudgeId());
         }
     }, {
         key: 'getJudgeId',
@@ -42649,7 +42783,7 @@ var JudgePage = function (_TimeoutComponent) {
 
 exports.default = JudgePage;
 
-},{"../../../../../common/button":264,"../../../../../common/pageContent":270,"../../../../../common/timeoutComponent":273,"../../../../../data/actions/contestActions":275,"../../../../../data/actions/judgeActions":278,"../../../../../data/stores/judgeStore":295,"../../../../../routing/navigation":326,"react":262}],315:[function(require,module,exports){
+},{"../../../../../common/button":264,"../../../../../common/pageContent":270,"../../../../../common/timeoutComponent":273,"../../../../../data/actions/contestActions":275,"../../../../../data/actions/judgeActions":278,"../../../../../data/stores/judgeStore":295,"../../../../../routing/navigation":327,"react":262}],316:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42703,6 +42837,7 @@ var JudgeEditor = function (_RoleAwareComponent) {
         _this.handleAffiliationChange = _this.handleAffiliationChange.bind(_this);
         _this.handleClickSave = _this.handleClickSave.bind(_this);
         _this.handleClickCancel = _this.handleClickCancel.bind(_this);
+        _this.getAffiliationName = _this.getAffiliationName.bind(_this);
         _this.getState = _this.getState.bind(_this);
         _this.state = _this.getState();
         _this.authorizedRoles = [];
@@ -42766,14 +42901,24 @@ var JudgeEditor = function (_RoleAwareComponent) {
                             FirstName: "",
                             LastName: ""
                         },
-                        Affiliation: {
-                            Id: 0,
-                            Name: "",
-                            Affiliation: null
-                        }
+                        Affiliation: null
+                        //Affiliation: {
+                        //    Id: 0,
+                        //    Name: "",
+                        //    Affiliation: null
+                        //}
                     }
                 };
             }
+        }
+    }, {
+        key: 'getAffiliationName',
+        value: function getAffiliationName() {
+            var judge = this.state.judge;
+            if (judge && judge.Affiliation && judge.Affiliation.Name) {
+                return judge.Affiliation.Name;
+            }
+            return "";
         }
     }, {
         key: 'render',
@@ -42799,7 +42944,7 @@ var JudgeEditor = function (_RoleAwareComponent) {
                     name: 'affiliation',
                     type: 'text',
                     label: 'Affiliation',
-                    value: judge.Affiliation.Name,
+                    value: this.getAffiliationName(),
                     onChange: this.handleAffiliationChange }),
                 _react2.default.createElement(
                     _formGroup2.default,
@@ -42817,7 +42962,7 @@ var JudgeEditor = function (_RoleAwareComponent) {
 
 exports.default = JudgeEditor;
 
-},{"../../../../../common/button":264,"../../../../../common/formGroup":265,"../../../../../common/input":266,"../../../../../common/roleAwareComponent":272,"clone":6,"react":262}],316:[function(require,module,exports){
+},{"../../../../../common/button":264,"../../../../../common/formGroup":265,"../../../../../common/input":266,"../../../../../common/roleAwareComponent":272,"clone":6,"react":262}],317:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -42834,7 +42979,7 @@ var getDescription = function getDescription(judge) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],317:[function(require,module,exports){
+},{}],318:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42847,11 +42992,19 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _navigation = require('../../../../routing/navigation');
+
+var Nav = _interopRequireWildcard(_navigation);
+
 var _listPanel = require('../../../../common/listPanel');
 
 var _judgeStore = require('../../../../data/stores/judgeStore');
 
 var _judgeStore2 = _interopRequireDefault(_judgeStore);
+
+var _button = require('../../../../common/button');
+
+var _button2 = _interopRequireDefault(_button);
 
 var _judgeUtil = require('./judge/judgeUtil');
 
@@ -42877,6 +43030,9 @@ var JudgesBox = function (_React$Component) {
 
         _this.getState = _this.getState.bind(_this);
         _this.storeChanged = _this.storeChanged.bind(_this);
+        _this.handleAddJudgeClick = _this.handleAddJudgeClick.bind(_this);
+        _this.getContestId = _this.getContestId.bind(_this);
+        _this.getShowId = _this.getShowId.bind(_this);
         _this.state = _this.getState();
         return _this;
     }
@@ -42899,13 +43055,29 @@ var JudgesBox = function (_React$Component) {
     }, {
         key: 'getState',
         value: function getState() {
-            return { judges: _judgeStore2.default.getContestJudges(this.props.contestId) };
+            return { judges: _judgeStore2.default.getContestJudges(this.getContestId()) };
+        }
+    }, {
+        key: 'getContestId',
+        value: function getContestId() {
+            return this.props.contestId;
+        }
+    }, {
+        key: 'getShowId',
+        value: function getShowId() {
+            return this.props.showId;
+        }
+    }, {
+        key: 'handleAddJudgeClick',
+        value: function handleAddJudgeClick(e) {
+            e.preventDefault();
+            Nav.goToAddJudge(this.getShowId(), this.getContestId());
         }
     }, {
         key: 'render',
         value: function render() {
-            var showId = this.props.showId;
-            var contestId = this.props.contestId;
+            var showId = this.getShowId();
+            var contestId = this.getContestId();
 
             var judges = this.state.judges.map(function (judge) {
                 return _react2.default.createElement(_listPanel.ListPanelItem, {
@@ -42915,7 +43087,9 @@ var JudgesBox = function (_React$Component) {
                     pathname: '/show/' + showId + '/contest/' + contestId + '/judge/' + judge.Id });
             });
 
-            return _react2.default.createElement(_listPanel.ListPanel, { title: 'Judges', items: judges });
+            var addJudgeButton = _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: ["admin"], name: 'addJudge', value: 'Add', onClick: this.handleAddJudgeClick });
+
+            return _react2.default.createElement(_listPanel.ListPanel, { title: 'Judges', items: judges, button: addJudgeButton });
         }
     }]);
 
@@ -42924,7 +43098,7 @@ var JudgesBox = function (_React$Component) {
 
 exports.default = JudgesBox;
 
-},{"../../../../common/listPanel":269,"../../../../data/stores/judgeStore":295,"./judge/judgeUtil":316,"react":262}],318:[function(require,module,exports){
+},{"../../../../common/button":264,"../../../../common/listPanel":269,"../../../../data/stores/judgeStore":295,"../../../../routing/navigation":327,"./judge/judgeUtil":317,"react":262}],319:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43031,7 +43205,7 @@ var ContestsBox = function (_React$Component) {
 
 exports.default = ContestsBox;
 
-},{"../../../common/button":264,"../../../common/listPanel":269,"../../../data/stores/contestStore":292,"../../../routing/navigation":326,"react":262}],319:[function(require,module,exports){
+},{"../../../common/button":264,"../../../common/listPanel":269,"../../../data/stores/contestStore":292,"../../../routing/navigation":327,"react":262}],320:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43168,7 +43342,7 @@ var EditShowPage = function (_RoleAwareComponent) {
 
 exports.default = EditShowPage;
 
-},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":280,"../../../data/stores/showStore":297,"../../../routing/navigation":326,"./showEditor":321,"react":262}],320:[function(require,module,exports){
+},{"../../../common/pageContent":270,"../../../common/roleAwareComponent":272,"../../../data/actions/showActions":280,"../../../data/stores/showStore":297,"../../../routing/navigation":327,"./showEditor":322,"react":262}],321:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43351,7 +43525,7 @@ var ShowPage = function (_TimeoutComponent) {
 
 exports.default = ShowPage;
 
-},{"../../../common/button":264,"../../../common/pageContent":270,"../../../common/timeoutComponent":273,"../../../data/actions/contestActions":275,"../../../data/actions/showActions":280,"../../../data/stores/showStore":297,"../../../routing/navigation":326,"./contests":318,"react":262}],321:[function(require,module,exports){
+},{"../../../common/button":264,"../../../common/pageContent":270,"../../../common/timeoutComponent":273,"../../../data/actions/contestActions":275,"../../../data/actions/showActions":280,"../../../data/stores/showStore":297,"../../../routing/navigation":327,"./contests":319,"react":262}],322:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43495,7 +43669,7 @@ var ShowEditor = function (_RoleAwareComponent) {
 
 exports.default = ShowEditor;
 
-},{"../../../common/button":264,"../../../common/formGroup":265,"../../../common/input":266,"../../../common/roleAwareComponent":272,"clone":6,"react":262}],322:[function(require,module,exports){
+},{"../../../common/button":264,"../../../common/formGroup":265,"../../../common/input":266,"../../../common/roleAwareComponent":272,"clone":6,"react":262}],323:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43629,7 +43803,7 @@ var ShowsBox = function (_React$Component2) {
 
 exports.default = ShowsPage;
 
-},{"../../common/button":264,"../../common/listPanel":269,"../../common/pageContent":270,"../../data/actions/showActions":280,"../../data/stores/showStore":297,"../../routing/navigation":326,"react":262}],323:[function(require,module,exports){
+},{"../../common/button":264,"../../common/listPanel":269,"../../common/pageContent":270,"../../data/actions/showActions":280,"../../data/stores/showStore":297,"../../routing/navigation":327,"react":262}],324:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43653,7 +43827,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"react":262}],324:[function(require,module,exports){
+},{"react":262}],325:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43857,7 +44031,7 @@ var JudgesPage = function (_React$Component2) {
 
 exports.default = JudgesPage;
 
-},{"../common/formGroup":265,"../common/input":266,"../data/actions/judgeActions":278,"../data/stores/judgeStore":295,"jquery":25,"react":262}],325:[function(require,module,exports){
+},{"../common/formGroup":265,"../common/input":266,"../data/actions/judgeActions":278,"../data/stores/judgeStore":295,"jquery":25,"react":262}],326:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -44041,7 +44215,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"../common/formGroup":265,"../common/input":266,"../data/actions/currentUserActions":277,"../data/stores/currentUserStore":294,"../routing/navigation":326,"jquery":25,"react":262}],326:[function(require,module,exports){
+},{"../common/formGroup":265,"../common/input":266,"../data/actions/currentUserActions":277,"../data/stores/currentUserStore":294,"../routing/navigation":327,"jquery":25,"react":262}],327:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -44056,6 +44230,7 @@ exports.goToAddContest = goToAddContest;
 exports.goToContest = goToContest;
 exports.goToEditContest = goToEditContest;
 exports.goToContestant = goToContestant;
+exports.goToAddJudge = goToAddJudge;
 exports.goToJudge = goToJudge;
 exports.goToEditJudge = goToEditJudge;
 exports.goToScorecard = goToScorecard;
@@ -44102,6 +44277,10 @@ function goToEditContest(showId, contestId) {
 
 function goToContestant(showId, contestId, contestantId) {
     _reactRouter.hashHistory.push('/show/' + showId + '/contest/' + contestId + '/contestant/' + contestantId);
+};
+
+function goToAddJudge(showId, contestId) {
+    _reactRouter.hashHistory.push('/show/' + showId + '/contest/' + contestId + '/judges/add');
 };
 
 function goToJudge(showId, contestId, judgeId) {

@@ -65,6 +65,8 @@ namespace TalentShowWebApi.DataTransferObjects.Helpers
 
         public static Organization ConvertFromDto(this OrganizationDto organizationDto)
         {
+            if (organizationDto == null) return null;
+
             Organization parent = null;
 
             if (organizationDto.Parent != null)

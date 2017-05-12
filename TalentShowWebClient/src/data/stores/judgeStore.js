@@ -30,7 +30,7 @@ class JudgeStore extends EventEmitter {
             var replacedExisting = false;
 
             for (var i = 0; i < clonedJudges.length; i++){
-                 if(clonedJudges[i].Id == judge.Id && clonedJudges[i].contestId == contestId){
+                 if(self.isMatchingJudge(clonedJudges[i], contestId, judge.Id)){
                     clonedJudges[i] = judge;
                     replacedExisting = true;
                     break;
@@ -45,8 +45,21 @@ class JudgeStore extends EventEmitter {
         };
 
         this.removeJudge = function(contestId, judgeId){
-            //TODO remove judge by judgeId and ContestId
-            //StoreUtils.removeItem(judgeId, self.judges, self.setJudges);
+            var clonedJudges = Clone(self.judges);
+            var results = [];
+
+            for (var i = 0; i < clonedJudges.length; i++){
+                var judge = clonedJudges[i];
+                 if(!self.isMatchingJudge(judge, contestId, judgeId)){
+                    results.push(judge);
+                }
+            }
+
+            self.setJudges(results);
+        };
+
+        this.isMatchingJudge = function(judge, contestId, judgeId){
+            return (judge.Id == judgeId && judge.contestId == contestId);
         };
 
         this.getContestJudges = function(contestId){
@@ -62,8 +75,17 @@ class JudgeStore extends EventEmitter {
             return results;
         };
 
-        this.get = function(id){
-            return StoreUtils.get(id, self.judges);
+        this.get = function(contestId, judgeId){
+            var clonedJudges = Clone(self.judges);
+
+            for (var i = 0; i < clonedJudges.length; i++){
+                var judge = clonedJudges[i];
+                 if(self.isMatchingJudge(judge, contestId, judgeId)){
+                    return judge;
+                }
+            }
+
+            return null;
         };
 
         this.handleAction = function(action){

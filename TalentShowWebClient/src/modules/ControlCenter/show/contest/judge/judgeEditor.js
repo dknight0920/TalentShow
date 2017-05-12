@@ -12,7 +12,8 @@ class JudgeEditor extends RoleAwareComponent {
         this.handleLastNameChange = this.handleLastNameChange.bind(this);
         this.handleAffiliationChange = this.handleAffiliationChange.bind(this);
         this.handleClickSave = this.handleClickSave.bind(this);
-        this.handleClickCancel = this.handleClickCancel.bind(this);
+        this.handleClickCancel = this.handleClickCancel.bind(this);    
+        this.getAffiliationName = this.getAffiliationName.bind(this);
         this.getState = this.getState.bind(this);
         this.state =  this.getState();
         this.authorizedRoles = [];
@@ -67,14 +68,23 @@ class JudgeEditor extends RoleAwareComponent {
                         FirstName: "",
                         LastName: ""
                     },
-                    Affiliation: {
-                        Id: 0,
-                        Name: "",
-                        Affiliation: null
-                    }
+                    Affiliation: null
+                    //Affiliation: {
+                    //    Id: 0,
+                    //    Name: "",
+                    //    Affiliation: null
+                    //}
                 } 
             };
         }
+    }
+
+    getAffiliationName() {
+        var judge = this.state.judge;
+        if(judge && judge.Affiliation && judge.Affiliation.Name){
+            return judge.Affiliation.Name;
+        }
+        return "";
     }
 
     render() {
@@ -100,7 +110,7 @@ class JudgeEditor extends RoleAwareComponent {
                     name="affiliation" 
                     type="text"
                     label="Affiliation"
-                    value={judge.Affiliation.Name}
+                    value={this.getAffiliationName()}
                     onChange={this.handleAffiliationChange} />
 
                 <FormGroup>

@@ -43,6 +43,12 @@ namespace TalentShow.Services
             return judges;
         }
 
+        public void AddContestJudge(int contestId, Judge judge)
+        {
+            Add(judge);
+            ContestJudgeRepo.Add(new ContestJudge(contestId, judge.Id));
+        }
+
         public ICollection<Judge> GetAll()
         {
             return JudgeRepo.GetAll();
@@ -84,9 +90,9 @@ namespace TalentShow.Services
 
         private void Validate(Judge judge)
         {
-            if (!PersonNameRepo.Exists(judge.Name.Id))
+            if (judge.Name != null && !PersonNameRepo.Exists(judge.Name.Id))
                 PersonNameRepo.Add(judge.Name);
-            if (!OrganizationRepo.Exists(judge.Affiliation.Id))
+            if (judge.Affiliation != null && !OrganizationRepo.Exists(judge.Affiliation.Id))
                 OrganizationRepo.Add(judge.Affiliation);
         }
     }
