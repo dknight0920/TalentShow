@@ -1,4 +1,5 @@
-﻿import * as ApiHttpUtil from './utils/httpUtil.js'
+﻿'use strict';
+import * as ApiHttpUtil from './utils/httpUtil.js';
 
 var getContestantScoreCards = function (contestantId, callback) {
     ApiHttpUtil.get({

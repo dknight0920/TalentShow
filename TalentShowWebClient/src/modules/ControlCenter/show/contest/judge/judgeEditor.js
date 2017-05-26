@@ -1,8 +1,11 @@
 ﻿import React from 'react';
 import Clone from 'clone';
+import Select from 'react-select';
+import OrganizationStore from '../../../../../data/stores/organizationStore';
 import FormGroup from '../../../../../common/formGroup'
 import Input from '../../../../../common/input';
 import Button from '../../../../../common/button';
+import Label from '../../../../../common/label';
 import RoleAwareComponent from '../../../../../common/roleAwareComponent';
 
 class JudgeEditor extends RoleAwareComponent {
@@ -15,15 +18,26 @@ class JudgeEditor extends RoleAwareComponent {
         this.handleClickCancel = this.handleClickCancel.bind(this);    
         this.getAffiliationName = this.getAffiliationName.bind(this);
         this.getState = this.getState.bind(this);
+        this.storeChanged = this.storeChanged.bind(this);
+        this.getOrganizationOptions = this.getOrganizationOptions.bind(this);
         this.state =  this.getState();
         this.authorizedRoles = [];
     }
 
-    componentWillMount(){
+    componentWillMount(){  
+        OrganizationStore.on("change", this.storeChanged);
         if(this.props.authorizedRoles && this.props.authorizedRoles.length){
             this.authorizedRoles = this.props.authorizedRoles;
         }
         this.redirectUnauthorizedUser();
+    }
+
+    componentWillUnmount(){
+        OrganizationStore.off("change", this.storeChanged);
+    }
+
+    storeChanged(){
+        this.setState(this.getState());
     }
 
     handleFirstNameChange(e) {
@@ -38,9 +52,9 @@ class JudgeEditor extends RoleAwareComponent {
         this.setState(judge);
     }
 
-    handleAffiliationChange(e) {
+    handleAffiliationChange(selectedOption) {
         var judge = this.state.judge;
-        //TODO
+        judge.Affiliation = selectedOption.organization;
         this.setState(judge);
     }
 
@@ -57,7 +71,8 @@ class JudgeEditor extends RoleAwareComponent {
     getState() {
         if(this.props.judge){
             return { 
-                judge: Clone(this.props.judge)  
+                judge: Clone(this.props.judge),
+                organizations: OrganizationStore.getOrganizations()     
             };
         } else {
             return {
@@ -74,9 +89,26 @@ class JudgeEditor extends RoleAwareComponent {
                     //    Name: "",
                     //    Affiliation: null
                     //}
-                } 
+                },
+                organizations: OrganizationStore.getOrganizations()
             };
         }
+    }
+
+    getOrganizationOptions() {
+        var organizations = this.state.organizations;
+        var options = [];
+
+        for (var i = 0; i < organizations.length; i++) {
+            var organization = organizations[i];
+            options.push({
+                value: organization.Name, 
+                label: organization.Name,
+                organization: organization
+            });
+        }
+
+        return options;
     }
 
     getAffiliationName() {
@@ -106,12 +138,14 @@ class JudgeEditor extends RoleAwareComponent {
                     value={judge.Name.LastName}
                     onChange={this.handleLastNameChange} />
 
-                <Input 
-                    name="affiliation" 
-                    type="text"
-                    label="Affiliation"
-                    value={this.getAffiliationName()}
-                    onChange={this.handleAffiliationChange} />
+                <FormGroup>
+                    <Label>Affiliation</Label>
+                    <Select
+                        name="affiliation"
+                        value={this.getAffiliationName()}
+                        options={this.getOrganizationOptions()}
+                        onChange={this.handleAffiliationChange} />
+                </FormGroup>
 
                 <FormGroup>
                     <Button type="primary" authorizedRoles={this.authorizedRoles} name="save" value="Save" onClick={this.handleClickSave} />

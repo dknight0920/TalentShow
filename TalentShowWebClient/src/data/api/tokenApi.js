@@ -1,4 +1,5 @@
-﻿import * as ApiHttpUtil from './utils/httpUtil.js'
+﻿'use strict';
+import * as ApiHttpUtil from './utils/httpUtil.js';
 import * as AccessTokenUtil from './utils/accessTokenUtil';
 
 var getToken = function (credentials, callback) {

@@ -1,6 +1,6 @@
 ﻿import React from 'react';
-import FormGroup from './formGroup'
-import Label from './label'
+import FormGroup from './formGroup';
+import Label from './label';
 
 class Input extends React.Component {
 

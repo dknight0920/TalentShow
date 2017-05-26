@@ -3,6 +3,7 @@ import * as Nav from '../../../../../routing/navigation';
 import JudgeEditor from './judgeEditor';
 import JudgeStore from '../../../../../data/stores/judgeStore';
 import * as JudgeActions from '../../../../../data/actions/judgeActions';
+import * as OrganizationActions from '../../../../../data/actions/organizationActions';
 import PageContent from '../../../../../common/pageContent';
 import RoleAwareComponent from '../../../../../common/roleAwareComponent';
 
@@ -27,11 +28,14 @@ class EditJudgePage extends RoleAwareComponent {
         JudgeStore.on("change", this.storeChanged);
         JudgeActions.loadJudge(this.getContestId(), this.getJudgeId());
         JudgeActions.joinHubGroup(this.getContestId());
+        OrganizationActions.loadOrganizations();
+        OrganizationActions.joinHubGroup();
     }
 
     componentWillUnmount(){
         JudgeStore.off("change", this.storeChanged);
         JudgeActions.leaveHubGroup(this.getContestId());
+        OrganizationActions.leaveHubGroup();
     }
 
     storeChanged(){

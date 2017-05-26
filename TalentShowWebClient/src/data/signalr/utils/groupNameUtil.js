@@ -10,4 +10,8 @@ var getContestGroupName = function(contestId){
     return "contest_" + contestId;
 };
 
-export {getContolCenterGroupName, getShowGroupName, getContestGroupName};
+var getOrganizationsGroupName = function(){
+    return "organizations";
+};
+
+export {getContolCenterGroupName, getShowGroupName, getContestGroupName, getOrganizationsGroupName};

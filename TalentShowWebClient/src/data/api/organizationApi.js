@@ -1,69 +1,57 @@
 ﻿'use strict';
 import * as ApiHttpUtil from './utils/httpUtil.js';
 
-var getContestJudges = function (contestId, success, fail) {
+var getOrganizations = function (success, fail) {
     ApiHttpUtil.get({
-        url: "api/Judges/Contest/" + contestId,
+        url:  "api/Organizations",
         success: function(result){
             success(result);
         },
         error: function(request, status, err){
             fail(err);
-        }	
-    });
-};
-
-var getAll = function (callback) {
-    ApiHttpUtil.get({
-        url:  "api/Judges",
-        success: function(result){
-            callback(result);
-        },
-        error: function(request, status, err){
-            //TODO handle error
-        }	
+        }   
     });
 };
 
 var get = function (id, success, fail) {
     ApiHttpUtil.get({
-        url:  "api/Judges/" + id,
+        url:  "api/Organizations/" + id,
         success: function(result){
             success(result);
         },
         error: function(request, status, err){
             fail(err);
-        }	
+        }   
     });
 };
 
-var add = function (contestId, judge, success, fail) {
+var add = function (contestId, organization, success, fail) {
     ApiHttpUtil.post({
-        url:  "api/Judges/Contest/" + contestId,
+        url:  "api/Organizations/Contest/" + contestId,
         success: function(result){
             success(result);          
         },
         error: function(request, status, err){
             fail(err);
         }
-    }, JSON.stringify(judge));
+    }, JSON.stringify(organization));
 };
 
-var update = function (judge, success, fail) {
+var update = function (organization, success, fail) {
     ApiHttpUtil.put({
-        url:  "api/Judges/",
+        url:  "api/Organizations/",
         success: function(result){
             success(result);
         },
         error: function(request, status, err){
             fail(err);
         }
-    }, JSON.stringify(judge));
+    }, JSON.stringify(organization));
 };
 
-var remove = function (judgeId, success, fail) {
+var remove = function (organizationId, success, fail) {
     ApiHttpUtil.remove({
-        url:  "api/Judges/" + judgeId,
+        url:  "api/Organizations/" + organizationId,
         success: function(){
             success();          
         },
@@ -73,4 +61,4 @@ var remove = function (judgeId, success, fail) {
     });
 };
 
-export {getContestJudges, getAll, get, add, update, remove};
+export {getOrganizations, get, add, update, remove};

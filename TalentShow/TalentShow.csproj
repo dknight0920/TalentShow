@@ -68,6 +68,7 @@
     <Compile Include="Services\ContestantService.cs" />
     <Compile Include="Services\ContestService.cs" />
     <Compile Include="Services\JudgeService.cs" />
+    <Compile Include="Services\OrganizationService.cs" />
     <Compile Include="Services\ScoreCardService.cs" />
     <Compile Include="Services\ShowService.cs" />
     <Compile Include="Show.cs" />

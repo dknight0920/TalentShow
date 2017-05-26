@@ -1,11 +1,10 @@
 ﻿import Clone from 'clone';
 import EventEmitter from 'event-emitter';
 import Dispatcher from '../dispatcher';
-import * as StoreUtils from './utils/storeUtils';
 import * as BroadcastUtil from './utils/broadcastUtil';
 
 class JudgeStore extends EventEmitter {
-    constructor(contestId){
+    constructor(){
         super();
         this.judges = [];
 
@@ -145,4 +144,4 @@ class JudgeStore extends EventEmitter {
     }  
 }
 
-export default  new JudgeStore;
+export default  new JudgeStore();

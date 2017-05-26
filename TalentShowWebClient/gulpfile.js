@@ -13,7 +13,8 @@ var config = {
         js: "./src/**/*.{ts,js,jsx}",
         css: [
             "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-            "./node_modules/bootstrap/dist/css/bootstrap-theme.min.css"
+            "./node_modules/bootstrap/dist/css/bootstrap-theme.min.css",
+            "./node_modules/react-select/dist/react-select.min.css"
         ],
         appJs: "./src/app.js",
         dist: "./dist"

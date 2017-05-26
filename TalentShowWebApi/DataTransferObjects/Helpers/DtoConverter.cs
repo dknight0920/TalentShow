@@ -305,6 +305,16 @@ namespace TalentShowWebApi.DataTransferObjects.Helpers
             return new PersonNameDto() { Id = name.Id, FirstName = name.FirstName, LastName = name.LastName };
         }
 
+        public static ICollection<OrganizationDto> ConvertToDto(this ICollection<Organization> organizations)
+        {
+            var dtos = new List<OrganizationDto>();
+
+            foreach (var organization in organizations)
+                dtos.Add(ConvertToDto(organization));
+
+            return dtos;
+        }
+
         public static OrganizationDto ConvertToDto(this Organization organization)
         {
             OrganizationDto parent = null;
