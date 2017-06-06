@@ -85,8 +85,8 @@ class JudgePage extends TimeoutComponent {
 
     handleRemoveJudgeClick(e){
         e.preventDefault();
-        JudgeStore.removeJudge(this.getContestId(), this.getJudgeId());
-        Nav.goToContest(this.getContestId());
+        JudgeActions.removeJudge(this.getContestId(), this.getJudgeId());
+        Nav.goToContest(this.getShowId(), this.getContestId());
     }
 
     render() {

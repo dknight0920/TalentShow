@@ -45148,16 +45148,10 @@ var JudgeStore = function (_EventEmitter) {
 
         _this.removeJudge = function (contestId, judgeId) {
             var clonedJudges = (0, _clone2.default)(self.judges);
-            var results = [];
-
-            for (var i = 0; i < clonedJudges.length; i++) {
-                var judge = clonedJudges[i];
-                if (!self.isMatchingJudge(judge, contestId, judgeId)) {
-                    results.push(judge);
-                }
-            }
-
-            self.setJudges(results);
+            var remainingJudges = clonedJudges.filter(function (judge) {
+                return !self.isMatchingJudge(judge, contestId, judgeId);
+            });
+            self.setJudges(remainingJudges);
         };
 
         _this.isMatchingJudge = function (judge, contestId, judgeId) {
@@ -45165,26 +45159,18 @@ var JudgeStore = function (_EventEmitter) {
         };
 
         _this.getContestJudges = function (contestId) {
-            var results = [];
-
-            for (var i = 0; i < self.judges.length; i++) {
-                var judge = self.judges[i];
-                if (judge.contestId == contestId) {
-                    results.push(judge);
-                }
-            }
-
-            return results;
+            return self.judges.filter(function (judge) {
+                return judge.contestId == contestId;
+            });
         };
 
         _this.get = function (contestId, judgeId) {
-            var clonedJudges = (0, _clone2.default)(self.judges);
+            var clonedJudges = (0, _clone2.default)(self.judges).filter(function (judge) {
+                return self.isMatchingJudge(judge, contestId, judgeId);
+            });
 
-            for (var i = 0; i < clonedJudges.length; i++) {
-                var judge = clonedJudges[i];
-                if (self.isMatchingJudge(judge, contestId, judgeId)) {
-                    return judge;
-                }
+            if (clonedJudges && clonedJudges.length > 0) {
+                return clonedJudges[0];
             }
 
             return null;
@@ -47682,8 +47668,8 @@ var JudgePage = function (_TimeoutComponent) {
         key: 'handleRemoveJudgeClick',
         value: function handleRemoveJudgeClick(e) {
             e.preventDefault();
-            _judgeStore2.default.removeJudge(this.getContestId(), this.getJudgeId());
-            Nav.goToContest(this.getContestId());
+            JudgeActions.removeJudge(this.getContestId(), this.getJudgeId());
+            Nav.goToContest(this.getShowId(), this.getContestId());
         }
     }, {
         key: 'render',

@@ -45,16 +45,8 @@ class JudgeStore extends EventEmitter {
 
         this.removeJudge = function(contestId, judgeId){
             var clonedJudges = Clone(self.judges);
-            var results = [];
-
-            for (var i = 0; i < clonedJudges.length; i++){
-                var judge = clonedJudges[i];
-                 if(!self.isMatchingJudge(judge, contestId, judgeId)){
-                    results.push(judge);
-                }
-            }
-
-            self.setJudges(results);
+            var remainingJudges = clonedJudges.filter((judge) => !self.isMatchingJudge(judge, contestId, judgeId))
+            self.setJudges(remainingJudges);
         };
 
         this.isMatchingJudge = function(judge, contestId, judgeId){
@@ -62,26 +54,14 @@ class JudgeStore extends EventEmitter {
         };
 
         this.getContestJudges = function(contestId){
-            var results = [];
-
-            for (var i = 0; i < self.judges.length; i++){
-                var judge = self.judges[i];
-                if(judge.contestId == contestId){
-                    results.push(judge);
-                }
-            }
-
-            return results;
+            return self.judges.filter((judge) => judge.contestId == contestId)
         };
 
         this.get = function(contestId, judgeId){
-            var clonedJudges = Clone(self.judges);
+            var clonedJudges = Clone(self.judges).filter((judge) => self.isMatchingJudge(judge, contestId, judgeId));
 
-            for (var i = 0; i < clonedJudges.length; i++){
-                var judge = clonedJudges[i];
-                 if(self.isMatchingJudge(judge, contestId, judgeId)){
-                    return judge;
-                }
+            if(clonedJudges && clonedJudges.length > 0){
+                return clonedJudges[0];
             }
 
             return null;
