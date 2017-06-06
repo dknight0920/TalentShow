@@ -23,29 +23,15 @@ class JudgeStore extends EventEmitter {
 
         this.pushJudge = function(contestId, judge){
             judge.contestId = contestId;
-
             var clonedJudges = Clone(self.judges);
-
-            var replacedExisting = false;
-
-            for (var i = 0; i < clonedJudges.length; i++){
-                 if(self.isMatchingJudge(clonedJudges[i], contestId, judge.Id)){
-                    clonedJudges[i] = judge;
-                    replacedExisting = true;
-                    break;
-                }
-            }
-
-            if (!replacedExisting){
-                clonedJudges.push(judge);
-            }
-
-            self.setJudges(clonedJudges);
+            var remainingJudges = clonedJudges.filter((j) => !self.isMatchingJudge(j, contestId, judge.Id));
+            remainingJudges.push(judge);
+            self.setJudges(remainingJudges);
         };
 
         this.removeJudge = function(contestId, judgeId){
             var clonedJudges = Clone(self.judges);
-            var remainingJudges = clonedJudges.filter((judge) => !self.isMatchingJudge(judge, contestId, judgeId))
+            var remainingJudges = clonedJudges.filter((j) => !self.isMatchingJudge(j, contestId, judgeId));
             self.setJudges(remainingJudges);
         };
 
@@ -54,17 +40,13 @@ class JudgeStore extends EventEmitter {
         };
 
         this.getContestJudges = function(contestId){
-            return self.judges.filter((judge) => judge.contestId == contestId)
+            return self.judges
+                        .filter((judge) => judge.contestId == contestId)
+                        .sort((a, b) => a.Id - b.Id);
         };
 
         this.get = function(contestId, judgeId){
-            var clonedJudges = Clone(self.judges).filter((judge) => self.isMatchingJudge(judge, contestId, judgeId));
-
-            if(clonedJudges && clonedJudges.length > 0){
-                return clonedJudges[0];
-            }
-
-            return null;
+            return Clone(self.judges.find((judge) => self.isMatchingJudge(judge, contestId, judgeId)));
         };
 
         this.handleAction = function(action){

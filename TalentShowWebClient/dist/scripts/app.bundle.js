@@ -45126,30 +45126,18 @@ var JudgeStore = function (_EventEmitter) {
 
         _this.pushJudge = function (contestId, judge) {
             judge.contestId = contestId;
-
             var clonedJudges = (0, _clone2.default)(self.judges);
-
-            var replacedExisting = false;
-
-            for (var i = 0; i < clonedJudges.length; i++) {
-                if (self.isMatchingJudge(clonedJudges[i], contestId, judge.Id)) {
-                    clonedJudges[i] = judge;
-                    replacedExisting = true;
-                    break;
-                }
-            }
-
-            if (!replacedExisting) {
-                clonedJudges.push(judge);
-            }
-
-            self.setJudges(clonedJudges);
+            var remainingJudges = clonedJudges.filter(function (j) {
+                return !self.isMatchingJudge(j, contestId, judge.Id);
+            });
+            remainingJudges.push(judge);
+            self.setJudges(remainingJudges);
         };
 
         _this.removeJudge = function (contestId, judgeId) {
             var clonedJudges = (0, _clone2.default)(self.judges);
-            var remainingJudges = clonedJudges.filter(function (judge) {
-                return !self.isMatchingJudge(judge, contestId, judgeId);
+            var remainingJudges = clonedJudges.filter(function (j) {
+                return !self.isMatchingJudge(j, contestId, judgeId);
             });
             self.setJudges(remainingJudges);
         };
@@ -45161,19 +45149,15 @@ var JudgeStore = function (_EventEmitter) {
         _this.getContestJudges = function (contestId) {
             return self.judges.filter(function (judge) {
                 return judge.contestId == contestId;
+            }).sort(function (a, b) {
+                return a.Id - b.Id;
             });
         };
 
         _this.get = function (contestId, judgeId) {
-            var clonedJudges = (0, _clone2.default)(self.judges).filter(function (judge) {
+            return (0, _clone2.default)(self.judges.find(function (judge) {
                 return self.isMatchingJudge(judge, contestId, judgeId);
-            });
-
-            if (clonedJudges && clonedJudges.length > 0) {
-                return clonedJudges[0];
-            }
-
-            return null;
+            }));
         };
 
         _this.handleAction = function (action) {
