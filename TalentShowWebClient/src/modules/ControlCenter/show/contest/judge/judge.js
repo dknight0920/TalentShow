@@ -32,7 +32,7 @@ class JudgePage extends TimeoutComponent {
     componentWillUnmount(){
         this.resetTimeout();
         JudgeStore.off("change", this.storeChanged);
-        JudgeActions.leaveHubGroup(this.getShowId());
+        JudgeActions.leaveHubGroup(this.getContestId());
     }
 
     storeChanged(){
@@ -110,7 +110,7 @@ class JudgePage extends TimeoutComponent {
         );
   
         return (
-            <PageContent title={judge.Name.FirstName + " " + judge.Name.LastName} description={judge.Affiliation.Name} buttons={judgePageButtons}>
+            <PageContent title={"Judge: " + judge.Name.FirstName + " " + judge.Name.LastName} description={judge.Affiliation.Name} buttons={judgePageButtons}>
             </PageContent>
         );
     }

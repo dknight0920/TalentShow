@@ -31,6 +31,7 @@ class ContestPage extends TimeoutComponent {
         ContestantActions.loadContestContestants(this.getContestId());
         JudgeActions.loadContestJudges(this.getContestId());
         ContestActions.joinHubGroup(this.getShowId());
+        ContestantActions.joinHubGroup(this.getContestId());
         JudgeActions.joinHubGroup(this.getContestId());
     }
 
@@ -38,6 +39,7 @@ class ContestPage extends TimeoutComponent {
         this.resetTimeout();
         ContestStore.off("change", this.storeChanged);
         ContestActions.leaveHubGroup(this.getShowId());
+        ContestantActions.leaveHubGroup(this.getContestId());
         JudgeActions.leaveHubGroup(this.getContestId());
     }
 
@@ -114,7 +116,7 @@ class ContestPage extends TimeoutComponent {
         );
   
         return (
-            <PageContent title={contest.Name} description={contest.Description} buttons={contestPageButtons}>
+            <PageContent title={"Contest: " + contest.Name} description={contest.Description} buttons={contestPageButtons}>
                 <ContestantsBox showId={showId} contestId={contestId} />         
                 <JudgesBox showId={showId} contestId={contestId} />
             </PageContent>

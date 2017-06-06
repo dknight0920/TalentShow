@@ -43387,29 +43387,114 @@ exports.joinHubGroup = joinHubGroup;
 exports.leaveHubGroup = leaveHubGroup;
 
 },{"../api/contestApi":310,"../dispatcher":319,"../signalr/hubs":320,"../signalr/utils/groupNameUtil":321}],304:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.loadContestContestants = loadContestContestants;
-exports.loadContestant = loadContestant;
+exports.leaveHubGroup = exports.joinHubGroup = exports.removeContestant = exports.updateContestant = exports.addContestant = exports.loadContestant = exports.loadContestContestants = undefined;
 
-var _dispatcher = require("../dispatcher");
+var _dispatcher = require('../dispatcher');
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
+var _contestantApi = require('../api/contestantApi');
+
+var ContestantApi = _interopRequireWildcard(_contestantApi);
+
+var _hubs = require('../signalr/hubs');
+
+var Hubs = _interopRequireWildcard(_hubs);
+
+var _groupNameUtil = require('../signalr/utils/groupNameUtil');
+
+var GroupNameUtil = _interopRequireWildcard(_groupNameUtil);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function loadContestContestants(contestId) {
+var loadContestContestants = function loadContestContestants(contestId) {
     _dispatcher2.default.dispatch({ type: "LOAD_CONTEST_CONTESTANTS", contestId: contestId });
+
+    ContestantApi.getContestContestants(contestId, function success(contestants) {
+        _dispatcher2.default.dispatch({ type: "LOAD_CONTEST_CONTESTANTS_SUCCESS", contestants: contestants, contestId: contestId });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "LOAD_CONTEST_CONTESTANTS_FAIL", error: err });
+    });
 };
 
-function loadContestant(contestantId) {
+var loadContestant = function loadContestant(contestId, contestantId) {
     _dispatcher2.default.dispatch({ type: "LOAD_CONTESTANT", contestantId: contestantId });
+
+    ContestantApi.get(contestantId, function success(contestant) {
+        _dispatcher2.default.dispatch({ type: "LOAD_CONTESTANT_SUCCESS", contestant: contestant, contestId: contestId });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "LOAD_CONTESTANT_FAIL", error: err });
+    });
 };
 
-},{"../dispatcher":319}],305:[function(require,module,exports){
+var addContestant = function addContestant(contestId, newContestant) {
+    var groupName = getHubGroupName(contestId);
+
+    _dispatcher2.default.dispatch({ type: "ADD_CONTESTANT", contestContestant: { contestId: contestId, newContestant: newContestant, groupName: groupName } });
+
+    ContestantApi.add(contestId, newContestant, function success(contestant) {
+        _dispatcher2.default.dispatch({ type: "ADD_CONTESTANT_SUCCESS", contestant: contestant, groupName: groupName, contestId: contestId });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "ADD_CONTESTANT_FAIL", error: err, groupName: groupName });
+    });
+};
+
+var updateContestant = function updateContestant(contestId, contestant) {
+    var groupName = getHubGroupName(contestId);
+
+    _dispatcher2.default.dispatch({ type: "UPDATE_CONTESTANT", contestContestant: { contestId: contestId, contestant: contestant, groupName: groupName } });
+
+    ContestantApi.update(contestant, function success(contestant) {
+        _dispatcher2.default.dispatch({ type: "UPDATE_CONTESTANT_SUCCESS", contestant: contestant, groupName: groupName, contestId: contestId });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "UPDATE_CONTESTANT_FAIL", error: err, groupName: groupName });
+    });
+};
+
+var removeContestant = function removeContestant(contestId, contestantId) {
+    var groupName = getHubGroupName(contestId);
+
+    _dispatcher2.default.dispatch({ type: "REMOVE_CONTESTANT", contestContestant: { contestId: contestId, contestantId: contestantId, groupName: groupName } });
+
+    ContestantApi.remove(contestantId, function success() {
+        _dispatcher2.default.dispatch({ type: "REMOVE_CONTESTANT_SUCCESS", contestantId: contestantId, groupName: groupName, contestId: contestId });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "REMOVE_CONTESTANT_FAIL", error: err, groupName: groupName });
+    });
+};
+
+var joinHubGroup = function joinHubGroup(contestId) {
+    Hubs.controlCenterHubProxy.invoke('JoinGroup', getHubGroupName(contestId));
+};
+
+var leaveHubGroup = function leaveHubGroup(contestId) {
+    Hubs.controlCenterHubProxy.invoke('LeaveGroup', getHubGroupName(contestId));
+};
+
+var getHubGroupName = function getHubGroupName(contestId) {
+    return GroupNameUtil.getContestGroupName(contestId);
+};
+
+Hubs.controlCenterHubProxy.on('contestantsChanged', function (contestId) {
+    loadContestContestants(contestId);
+});
+
+exports.loadContestContestants = loadContestContestants;
+exports.loadContestant = loadContestant;
+exports.addContestant = addContestant;
+exports.updateContestant = updateContestant;
+exports.removeContestant = removeContestant;
+exports.joinHubGroup = joinHubGroup;
+exports.leaveHubGroup = leaveHubGroup;
+
+},{"../api/contestantApi":311,"../dispatcher":319,"../signalr/hubs":320,"../signalr/utils/groupNameUtil":321}],305:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -43886,14 +43971,14 @@ var ApiHttpUtil = _interopRequireWildcard(_httpUtil);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-var getContestContestants = function getContestContestants(contestId, callback) {
+var getContestContestants = function getContestContestants(contestId, _success, fail) {
     ApiHttpUtil.get({
         url: "api/Contestants/Contest/" + contestId,
         success: function success(result) {
-            callback(result);
+            _success(result);
         },
         error: function error(request, status, err) {
-            //TODO handle error
+            fail(err);
         }
     });
 };
@@ -43910,23 +43995,53 @@ var getAll = function getAll(callback) {
     });
 };
 
-var get = function get(id, callback) {
+var get = function get(id, _success2, fail) {
     ApiHttpUtil.get({
         url: "api/Contestants/" + id,
         success: function success(result) {
-            callback(result);
+            _success2(result);
         },
         error: function error(request, status, err) {
-            //TODO handle error
+            fail(err);
         }
     });
 };
 
-var add = function add(contestant) {};
+var add = function add(contestId, contestant, _success3, fail) {
+    ApiHttpUtil.post({
+        url: "api/Contestants/Contest/" + contestId,
+        success: function success(result) {
+            _success3(result);
+        },
+        error: function error(request, status, err) {
+            fail(err);
+        }
+    }, JSON.stringify(contestant));
+};
 
-var update = function update(contestant) {};
+var update = function update(contestant, _success4, fail) {
+    ApiHttpUtil.put({
+        url: "api/Contestants/",
+        success: function success(result) {
+            _success4(result);
+        },
+        error: function error(request, status, err) {
+            fail(err);
+        }
+    }, JSON.stringify(contestant));
+};
 
-var remove = function remove(contestant) {};
+var remove = function remove(contestantId, _success5, fail) {
+    ApiHttpUtil.remove({
+        url: "api/Contestants/" + contestantId,
+        success: function success() {
+            _success5();
+        },
+        error: function error(request, status, err) {
+            fail(err);
+        }
+    });
+};
 
 exports.getContestContestants = getContestContestants;
 exports.getAll = getAll;
@@ -44592,6 +44707,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _clone = require('clone');
+
+var _clone2 = _interopRequireDefault(_clone);
+
 var _eventEmitter = require('event-emitter');
 
 var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
@@ -44600,13 +44719,9 @@ var _dispatcher = require('../dispatcher');
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
-var _contestantApi = require('../api/contestantApi');
+var _broadcastUtil = require('./utils/broadcastUtil');
 
-var ContestantApi = _interopRequireWildcard(_contestantApi);
-
-var _storeUtils = require('./utils/storeUtils');
-
-var StoreUtils = _interopRequireWildcard(_storeUtils);
+var BroadcastUtil = _interopRequireWildcard(_broadcastUtil);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -44627,55 +44742,149 @@ var ContestantStore = function (_EventEmitter) {
         var _this = _possibleConstructorReturn(this, (ContestantStore.__proto__ || Object.getPrototypeOf(ContestantStore)).call(this));
 
         _this.contestants = [];
+
+        var self = _this;
+
+        _this.setContestants = function (contestants) {
+            self.contestants = contestants;
+            self.emit("change");
+        };
+
+        _this.pushContestants = function (contestId, _contestants) {
+            for (var i = 0; i < _contestants.length; i++) {
+                this.pushContestant(contestId, _contestants[i]);
+            }
+        };
+
+        _this.pushContestant = function (contestId, contestant) {
+            contestant.contestId = contestId;
+
+            var clonedContestants = (0, _clone2.default)(self.contestants);
+
+            var replacedExisting = false;
+
+            for (var i = 0; i < clonedContestants.length; i++) {
+                if (self.isMatchingContestant(clonedContestants[i], contestId, contestant.Id)) {
+                    clonedContestants[i] = contestant;
+                    replacedExisting = true;
+                    break;
+                }
+            }
+
+            if (!replacedExisting) {
+                clonedContestants.push(contestant);
+            }
+
+            self.setContestants(clonedContestants);
+        };
+
+        _this.removeContestant = function (contestId, contestantId) {
+            var clonedContestants = (0, _clone2.default)(self.contestants);
+            var results = [];
+
+            for (var i = 0; i < clonedContestants.length; i++) {
+                var contestant = clonedContestants[i];
+                if (!self.isMatchingContestant(contestant, contestId, contestantId)) {
+                    results.push(contestant);
+                }
+            }
+
+            self.setContestants(results);
+        };
+
+        _this.isMatchingContestant = function (contestant, contestId, contestantId) {
+            return contestant.Id == contestantId && contestant.contestId == contestId;
+        };
+
+        _this.getContestContestants = function (contestId) {
+            var results = [];
+
+            for (var i = 0; i < self.contestants.length; i++) {
+                var contestant = self.contestants[i];
+                if (contestant.contestId == contestId) {
+                    results.push(contestant);
+                }
+            }
+
+            return results;
+        };
+
+        _this.get = function (contestId, contestantId) {
+            var clonedContestants = (0, _clone2.default)(self.contestants);
+
+            for (var i = 0; i < clonedContestants.length; i++) {
+                var contestant = clonedContestants[i];
+                if (self.isMatchingContestant(contestant, contestId, contestantId)) {
+                    return contestant;
+                }
+            }
+
+            return null;
+        };
+
+        _this.handleAction = function (action) {
+            switch (action.type) {
+                case "LOAD_CONTEST_CONTESTANTS":
+                    //TODO
+                    break;
+                case "LOAD_CONTEST_CONTESTANTS_SUCCESS":
+                    self.pushContestants(action.contestId, action.contestants);
+                    break;
+                case "LOAD_CONTEST_CONTESTANTS_FAIL":
+                    //TODO
+                    break;
+                case "LOAD_CONTESTANT":
+                    //TODO
+                    break;
+                case "LOAD_CONTESTANT_SUCCESS":
+                    this.pushContestant(action.contestId, action.contestant);
+                    break;
+                case "LOAD_CONTESTANT_FAIL":
+                    //TODO
+                    break;
+                case "ADD_CONTESTANT":
+                    //TODO
+                    break;
+                case "ADD_CONTESTANT_SUCCESS":
+                    self.pushContestant(action.contestId, action.contestant);
+                    BroadcastUtil.broadcastContestantChange(action.groupName, action.contestId);
+                    break;
+                case "ADD_CONTESTANT_FAIL":
+                    //TODO
+                    break;
+                case "UPDATE_CONTESTANT":
+                    //TODO
+                    break;
+                case "UPDATE_CONTESTANT_SUCCESS":
+                    self.pushContestant(action.contestId, action.contestant);
+                    BroadcastUtil.broadcastContestantChange(action.groupName, action.contestId);
+                    break;
+                case "UPDATE_CONTESTANT_FAIL":
+                    //TODO
+                    break;
+                case "REMOVE_CONTESTANT":
+                    //TODO
+                    break;
+                case "REMOVE_CONTESTANT_SUCCESS":
+                    self.removeContestant(action.contestId, action.contestantId);
+                    BroadcastUtil.broadcastContestantChange(action.groupName, action.contestId);
+                    break;
+                case "REMOVE_CONTESTANT_FAIL":
+                    //TODO
+                    break;
+            }
+        };
+
+        _dispatcher2.default.register(_this.handleAction.bind(_this));
         return _this;
     }
 
     return ContestantStore;
 }(_eventEmitter2.default);
 
-var contestantStore = new ContestantStore();
+exports.default = new ContestantStore();
 
-contestantStore.setContestants = function (_contestants) {
-    contestantStore.contestants = _contestants;
-    contestantStore.emit("change");
-};
-
-contestantStore.pushContestant = function (_contestant) {
-    StoreUtils.pushItem(_contestant, contestantStore.contestants, contestantStore.setContestants);
-};
-
-contestantStore.getContestContestants = function () {
-    return contestantStore.contestants;
-};
-
-contestantStore.loadContestContestants = function (contestId) {
-    ContestantApi.getContestContestants(contestId, contestantStore.setContestants);
-};
-
-contestantStore.load = function (contestantId) {
-    ContestantApi.get(contestantId, contestantStore.pushContestant);
-};
-
-contestantStore.get = function (id) {
-    return StoreUtils.get(id, contestantStore.contestants);
-};
-
-contestantStore.handleAction = function (action) {
-    switch (action.type) {
-        case "LOAD_CONTEST_CONTESTANTS":
-            contestantStore.loadContestContestants(action.contestId);
-            break;
-        case "LOAD_CONTESTANT":
-            contestantStore.load(action.contestantId);
-            break;
-    }
-};
-
-_dispatcher2.default.register(contestantStore.handleAction.bind(contestantStore));
-
-exports.default = contestantStore;
-
-},{"../api/contestantApi":311,"../dispatcher":319,"./utils/storeUtils":330,"event-emitter":7}],324:[function(require,module,exports){
+},{"../dispatcher":319,"./utils/broadcastUtil":329,"clone":6,"event-emitter":7}],324:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -45344,6 +45553,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.broadcastShowChange = broadcastShowChange;
 exports.broadcastContestChange = broadcastContestChange;
+exports.broadcastContestantChange = broadcastContestantChange;
 exports.broadcastJudgeChange = broadcastJudgeChange;
 exports.broadcastOrganizationChange = broadcastOrganizationChange;
 
@@ -45359,6 +45569,10 @@ function broadcastShowChange(groupName) {
 
 function broadcastContestChange(groupName, id) {
     Hubs.controlCenterHubProxy.invoke('ContestChanged', groupName, id);
+};
+
+function broadcastContestantChange(groupName, id) {
+    Hubs.controlCenterHubProxy.invoke('ContestantChanged', groupName, id);
 };
 
 function broadcastJudgeChange(groupName, id) {
@@ -45721,6 +45935,7 @@ var ContestPage = function (_TimeoutComponent) {
             ContestantActions.loadContestContestants(this.getContestId());
             JudgeActions.loadContestJudges(this.getContestId());
             ContestActions.joinHubGroup(this.getShowId());
+            ContestantActions.joinHubGroup(this.getContestId());
             JudgeActions.joinHubGroup(this.getContestId());
         }
     }, {
@@ -45729,6 +45944,7 @@ var ContestPage = function (_TimeoutComponent) {
             this.resetTimeout();
             _contestStore2.default.off("change", this.storeChanged);
             ContestActions.leaveHubGroup(this.getShowId());
+            ContestantActions.leaveHubGroup(this.getContestId());
             JudgeActions.leaveHubGroup(this.getContestId());
         }
     }, {
@@ -45814,7 +46030,7 @@ var ContestPage = function (_TimeoutComponent) {
 
             return _react2.default.createElement(
                 _pageContent2.default,
-                { title: contest.Name, description: contest.Description, buttons: contestPageButtons },
+                { title: "Contest: " + contest.Name, description: contest.Description, buttons: contestPageButtons },
                 _react2.default.createElement(_contestants2.default, { showId: showId, contestId: contestId }),
                 _react2.default.createElement(_judges2.default, { showId: showId, contestId: contestId })
             );
@@ -46029,6 +46245,8 @@ var ContestantPage = function (_React$Component) {
         _this.storeChanged = _this.storeChanged.bind(_this);
         _this.getContestant = _this.getContestant.bind(_this);
         _this.getContestantId = _this.getContestantId.bind(_this);
+        _this.getContestId = _this.getContestId.bind(_this);
+        _this.getShowId = _this.getShowId.bind(_this);
         _this.state = _this.getState();
         return _this;
     }
@@ -46037,14 +46255,15 @@ var ContestantPage = function (_React$Component) {
         key: 'componentWillMount',
         value: function componentWillMount() {
             _contestantStore2.default.on("change", this.storeChanged);
-            var contestantId = this.getContestantId();
-            ContestantActions.loadContestant(contestantId);
-            ScoreCardActions.loadContestantScoreCards(contestantId);
+            ContestantActions.loadContestant(this.getContestId(), this.getContestantId());
+            ScoreCardActions.loadContestantScoreCards(this.getContestantId());
+            ContestantActions.joinHubGroup(this.getContestId());
         }
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
             _contestantStore2.default.off("change", this.storeChanged);
+            ContestantActions.leaveHubGroup(this.getContestId());
         }
     }, {
         key: 'storeChanged',
@@ -46059,12 +46278,22 @@ var ContestantPage = function (_React$Component) {
     }, {
         key: 'getContestant',
         value: function getContestant() {
-            return _contestantStore2.default.get(this.getContestantId());
+            return _contestantStore2.default.get(this.getContestId(), this.getContestantId());
         }
     }, {
         key: 'getContestantId',
         value: function getContestantId() {
             return this.props.params.contestantId;
+        }
+    }, {
+        key: 'getContestId',
+        value: function getContestId() {
+            return this.props.params.contestId;
+        }
+    }, {
+        key: 'getShowId',
+        value: function getShowId() {
+            return this.props.params.showId;
         }
     }, {
         key: 'render',
@@ -46077,7 +46306,7 @@ var ContestantPage = function (_React$Component) {
 
             return _react2.default.createElement(
                 _pageContent2.default,
-                { title: ContestantUtil.getName(contestant), description: ContestantUtil.getDescription(contestant) },
+                { title: "Contestant: " + ContestantUtil.getName(contestant), description: ContestantUtil.getDescription(contestant) },
                 _react2.default.createElement(_scoreCards2.default, { showId: this.props.params.showId, contestId: this.props.params.contestId, contestantId: this.props.params.contestantId })
             );
         }
@@ -46595,6 +46824,8 @@ var ContestantsBox = function (_React$Component) {
 
         _this.getState = _this.getState.bind(_this);
         _this.storeChanged = _this.storeChanged.bind(_this);
+        _this.getContestId = _this.getContestId.bind(_this);
+        _this.getShowId = _this.getShowId.bind(_this);
         _this.state = _this.getState();
         return _this;
     }
@@ -46617,13 +46848,23 @@ var ContestantsBox = function (_React$Component) {
     }, {
         key: 'getState',
         value: function getState() {
-            return { contestants: _contestantStore2.default.getContestContestants() };
+            return { contestants: _contestantStore2.default.getContestContestants(this.getContestId()) };
+        }
+    }, {
+        key: 'getContestId',
+        value: function getContestId() {
+            return this.props.contestId;
+        }
+    }, {
+        key: 'getShowId',
+        value: function getShowId() {
+            return this.props.showId;
         }
     }, {
         key: 'render',
         value: function render() {
-            var showId = this.props.showId;
-            var contestId = this.props.contestId;
+            var showId = this.getShowId();
+            var contestId = this.getContestId();
 
             var contestants = this.state.contestants.map(function (contestant) {
                 return _react2.default.createElement(_listPanel.ListPanelItem, {
@@ -47146,7 +47387,7 @@ var JudgePage = function (_TimeoutComponent) {
         value: function componentWillUnmount() {
             this.resetTimeout();
             _judgeStore2.default.off("change", this.storeChanged);
-            JudgeActions.leaveHubGroup(this.getShowId());
+            JudgeActions.leaveHubGroup(this.getContestId());
         }
     }, {
         key: 'storeChanged',
@@ -47232,7 +47473,7 @@ var JudgePage = function (_TimeoutComponent) {
                 _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: authorizedRolesForButtons, name: 'removeJudge', value: 'Remove', onClick: this.handleRemoveJudgeClick })
             );
 
-            return _react2.default.createElement(_pageContent2.default, { title: judge.Name.FirstName + " " + judge.Name.LastName, description: judge.Affiliation.Name, buttons: judgePageButtons });
+            return _react2.default.createElement(_pageContent2.default, { title: "Judge: " + judge.Name.FirstName + " " + judge.Name.LastName, description: judge.Affiliation.Name, buttons: judgePageButtons });
         }
     }]);
 
@@ -48024,7 +48265,7 @@ var ShowPage = function (_TimeoutComponent) {
 
             return _react2.default.createElement(
                 _pageContent2.default,
-                { title: show.Name, description: show.Description, buttons: showPageButtons },
+                { title: "Show: " + show.Name, description: show.Description, buttons: showPageButtons },
                 _react2.default.createElement(_contests2.default, { showId: show.Id })
             );
         }

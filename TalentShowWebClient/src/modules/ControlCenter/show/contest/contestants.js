@@ -8,7 +8,9 @@ class ContestantsBox extends React.Component {
     constructor(props) {
         super(props);
         this.getState = this.getState.bind(this);
-        this.storeChanged = this.storeChanged.bind(this);
+        this.storeChanged = this.storeChanged.bind(this); 
+        this.getContestId = this.getContestId.bind(this); 
+        this.getShowId = this.getShowId.bind(this);
         this.state = this.getState();
     }
 
@@ -25,12 +27,20 @@ class ContestantsBox extends React.Component {
     }
 
     getState(){
-        return { contestants: ContestantStore.getContestContestants() };
+        return { contestants: ContestantStore.getContestContestants(this.getContestId()) };
+    }
+
+    getContestId(){
+        return this.props.contestId;
+    }
+
+    getShowId(){
+        return this.props.showId;
     }
 
     render() {
-        var showId = this.props.showId;
-        var contestId =  this.props.contestId;
+        var showId = this.getShowId();
+        var contestId =  this.getContestId();
 
         var contestants = this.state.contestants.map(function (contestant) {
             return (

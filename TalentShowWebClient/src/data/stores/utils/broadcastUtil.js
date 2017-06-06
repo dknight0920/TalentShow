@@ -8,6 +8,10 @@ export function broadcastContestChange(groupName, id){
     Hubs.controlCenterHubProxy.invoke('ContestChanged', groupName, id);
 };
 
+export function broadcastContestantChange(groupName, id){
+    Hubs.controlCenterHubProxy.invoke('ContestantChanged', groupName, id);
+};
+
 export function broadcastJudgeChange(groupName, id){
     Hubs.controlCenterHubProxy.invoke('JudgeChanged', groupName, id);
 };

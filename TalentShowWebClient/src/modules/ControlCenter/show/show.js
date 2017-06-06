@@ -107,7 +107,7 @@ class ShowPage extends TimeoutComponent {
         );
 
         return (
-            <PageContent title={show.Name} description={show.Description} buttons={showPageButtons}>
+            <PageContent title={"Show: " + show.Name} description={show.Description} buttons={showPageButtons}>
                 <ContestsBox showId={show.Id} />
             </PageContent>
         );

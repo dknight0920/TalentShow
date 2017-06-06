@@ -13,18 +13,21 @@ class ContestantPage extends React.Component {
         this.storeChanged = this.storeChanged.bind(this);
         this.getContestant = this.getContestant.bind(this);
         this.getContestantId = this.getContestantId.bind(this);
+        this.getContestId = this.getContestId.bind(this);
+        this.getShowId = this.getShowId.bind(this);
         this.state = this.getState();
     }
 
     componentWillMount(){
         ContestantStore.on("change", this.storeChanged);
-        var contestantId = this.getContestantId();
-        ContestantActions.loadContestant(contestantId);       
-        ScoreCardActions.loadContestantScoreCards(contestantId);
+        ContestantActions.loadContestant(this.getContestId(), this.getContestantId());       
+        ScoreCardActions.loadContestantScoreCards(this.getContestantId());
+        ContestantActions.joinHubGroup(this.getContestId());
     }
 
     componentWillUnmount(){
         ContestantStore.off("change", this.storeChanged);
+        ContestantActions.leaveHubGroup(this.getContestId());
     }
 
     storeChanged(){
@@ -36,11 +39,19 @@ class ContestantPage extends React.Component {
     }
 
     getContestant() {
-        return ContestantStore.get(this.getContestantId());
+        return ContestantStore.get(this.getContestId(), this.getContestantId());
     }
 
     getContestantId() {
         return this.props.params.contestantId;
+    }
+
+    getContestId() {
+        return this.props.params.contestId;
+    }
+
+    getShowId() {
+        return this.props.params.showId;
     }
 
     render() {
@@ -53,7 +64,7 @@ class ContestantPage extends React.Component {
         }
 
         return (
-            <PageContent title={ContestantUtil.getName(contestant)} description={ContestantUtil.getDescription(contestant)}>
+            <PageContent title={"Contestant: " + ContestantUtil.getName(contestant)} description={ContestantUtil.getDescription(contestant)}>
                 <ScoreCardsBox showId={this.props.params.showId} contestId={this.props.params.contestId} contestantId={this.props.params.contestantId} />
             </PageContent>
         );
