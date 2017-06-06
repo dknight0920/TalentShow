@@ -28,6 +28,11 @@ namespace TalentShowWebApi.Hubs
             Clients.Group(groupName).judgesChanged(contestId);
         }
 
+        public void ScoreCardChanged(string groupName, int contestantId)
+        {
+            Clients.Group(groupName).scoreCardsChanged(contestantId);
+        }
+
         public void OrganizationChanged(string groupName)
         {
             Clients.Group(groupName).organizationsChanged();

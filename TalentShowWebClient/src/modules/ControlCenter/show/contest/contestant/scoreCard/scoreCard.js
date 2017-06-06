@@ -12,13 +12,14 @@ class ScoreCardPage extends React.Component {
         this.storeChanged = this.storeChanged.bind(this);
         this.getScoreCard = this.getScoreCard.bind(this);
         this.getScoreCardId = this.getScoreCardId.bind(this);
+        this.getContestantId = this.getContestantId.bind(this);
         this.handleScorableCriteriaChange = this.handleScorableCriteriaChange.bind(this);
         this.state = this.getState();
     }
 
     componentWillMount(){
         ScoreCardStore.on("change", this.storeChanged);
-        ScoreCardActions.loadScoreCard(this.getScoreCardId());
+        ScoreCardActions.loadScoreCard(this.getContestantId(), this.getScoreCardId());
     }
 
     componentWillUnmount(){
@@ -34,19 +35,24 @@ class ScoreCardPage extends React.Component {
     }
 
     getScoreCard() {
-        return ScoreCardStore.get(this.getScoreCardId());
+        return ScoreCardStore.get(this.getContestantId(), this.getScoreCardId());
     }
 
     getScoreCardId() {
         return this.props.params.scoreCardId;
     }
 
+    getContestantId() {
+        return this.props.params.contestantId;
+    }
+
     handleScorableCriteriaChange(scoreCard) {
-        ScoreCardActions.updateScoreCard(scoreCard);  
+        ScoreCardActions.updateScoreCard(this.getContestantId(), scoreCard);  
     }
 
     render() {
         var scoreCard = this.state.scoreCard;
+        var contestantId = this.getContestantId();
         
         if (!scoreCard){
             return (
@@ -56,7 +62,7 @@ class ScoreCardPage extends React.Component {
 
         return (
             <PageContent title={ScoreCardUtil.getName(scoreCard)} description="">
-                <ScorableCriteria scoreCardId={scoreCard.Id} onChange={this.handleScorableCriteriaChange}/>
+                <ScorableCriteria contestantId={contestantId} scoreCardId={scoreCard.Id} onChange={this.handleScorableCriteriaChange}/>
             </PageContent>
         );
    }

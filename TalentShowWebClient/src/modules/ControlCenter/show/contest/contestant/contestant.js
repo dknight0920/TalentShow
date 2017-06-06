@@ -23,11 +23,13 @@ class ContestantPage extends React.Component {
         ContestantActions.loadContestant(this.getContestId(), this.getContestantId());       
         ScoreCardActions.loadContestantScoreCards(this.getContestantId());
         ContestantActions.joinHubGroup(this.getContestId());
+        ScoreCardActions.joinHubGroup(this.getContestantId());
     }
 
     componentWillUnmount(){
         ContestantStore.off("change", this.storeChanged);
         ContestantActions.leaveHubGroup(this.getContestId());
+        ScoreCardActions.leaveHubGroup(this.getContestantId());
     }
 
     storeChanged(){

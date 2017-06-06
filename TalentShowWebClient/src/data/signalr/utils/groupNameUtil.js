@@ -14,4 +14,8 @@ var getOrganizationsGroupName = function(){
     return "organizations";
 };
 
-export {getContolCenterGroupName, getShowGroupName, getContestGroupName, getOrganizationsGroupName};
+var getContestantGroupName = function(contestantId){
+    return "contestants_" + contestantId;
+};
+
+export {getContolCenterGroupName, getShowGroupName, getContestGroupName, getOrganizationsGroupName, getContestantGroupName};

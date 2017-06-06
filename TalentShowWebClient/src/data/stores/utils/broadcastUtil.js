@@ -16,6 +16,10 @@ export function broadcastJudgeChange(groupName, id){
     Hubs.controlCenterHubProxy.invoke('JudgeChanged', groupName, id);
 };
 
+export function broadcastScoreCardChange(groupName, id){
+    Hubs.controlCenterHubProxy.invoke('ScoreCardChanged', groupName, id);
+};
+
 export function broadcastOrganizationChange(groupName){
     Hubs.controlCenterHubProxy.invoke('OrganizationChanged', groupName);
 };

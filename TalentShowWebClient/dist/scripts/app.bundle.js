@@ -43729,34 +43729,114 @@ exports.joinHubGroup = joinHubGroup;
 exports.leaveHubGroup = leaveHubGroup;
 
 },{"../api/organizationApi":313,"../dispatcher":319,"../signalr/hubs":320,"../signalr/utils/groupNameUtil":321}],308:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.loadContestantScoreCards = loadContestantScoreCards;
-exports.loadScoreCard = loadScoreCard;
-exports.updateScoreCard = updateScoreCard;
+exports.leaveHubGroup = exports.joinHubGroup = exports.removeScoreCard = exports.updateScoreCard = exports.addScoreCard = exports.loadScoreCard = exports.loadContestantScoreCards = undefined;
 
-var _dispatcher = require("../dispatcher");
+var _dispatcher = require('../dispatcher');
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
+var _scoreCardApi = require('../api/scoreCardApi');
+
+var ScoreCardApi = _interopRequireWildcard(_scoreCardApi);
+
+var _hubs = require('../signalr/hubs');
+
+var Hubs = _interopRequireWildcard(_hubs);
+
+var _groupNameUtil = require('../signalr/utils/groupNameUtil');
+
+var GroupNameUtil = _interopRequireWildcard(_groupNameUtil);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function loadContestantScoreCards(contestantId) {
+var loadContestantScoreCards = function loadContestantScoreCards(contestantId) {
     _dispatcher2.default.dispatch({ type: "LOAD_CONTESTANT_SCORE_CARDS", contestantId: contestantId });
+
+    ScoreCardApi.getContestantScoreCards(contestantId, function success(scoreCards) {
+        _dispatcher2.default.dispatch({ type: "LOAD_CONTESTANT_SCORE_CARDS_SUCCESS", scoreCards: scoreCards, contestantId: contestantId });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "LOAD_CONTESTANT_SCORE_CARDS_FAIL", error: err });
+    });
 };
 
-function loadScoreCard(scoreCardId) {
+var loadScoreCard = function loadScoreCard(contestantId, scoreCardId) {
     _dispatcher2.default.dispatch({ type: "LOAD_SCORE_CARD", scoreCardId: scoreCardId });
+
+    ScoreCardApi.get(scoreCardId, function success(scoreCard) {
+        _dispatcher2.default.dispatch({ type: "LOAD_SCORE_CARD_SUCCESS", scoreCard: scoreCard, contestantId: contestantId });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "LOAD_SCORE_CARD_FAIL", error: err });
+    });
 };
 
-function updateScoreCard(scoreCard) {
-    _dispatcher2.default.dispatch({ type: "UPDATE_SCORE_CARD", scoreCard: scoreCard });
+var addScoreCard = function addScoreCard(contestantId, newScoreCard) {
+    var groupName = getHubGroupName(contestantId);
+
+    _dispatcher2.default.dispatch({ type: "ADD_SCORE_CARD", contestantScoreCard: { contestantId: contestantId, newScoreCard: newScoreCard, groupName: groupName } });
+
+    ScoreCardApi.add(contestantId, newScoreCard, function success(scoreCard) {
+        _dispatcher2.default.dispatch({ type: "ADD_SCORE_CARD_SUCCESS", scoreCard: scoreCard, groupName: groupName, contestantId: contestantId });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "ADD_SCORE_CARD_FAIL", error: err, groupName: groupName });
+    });
 };
 
-},{"../dispatcher":319}],309:[function(require,module,exports){
+var updateScoreCard = function updateScoreCard(contestantId, scoreCard) {
+    var groupName = getHubGroupName(contestantId);
+
+    _dispatcher2.default.dispatch({ type: "UPDATE_SCORE_CARD", contestantScoreCard: { contestantId: contestantId, scoreCard: scoreCard, groupName: groupName } });
+
+    ScoreCardApi.update(scoreCard, function success(scoreCard) {
+        _dispatcher2.default.dispatch({ type: "UPDATE_SCORE_CARD_SUCCESS", scoreCard: scoreCard, groupName: groupName, contestantId: contestantId });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "UPDATE_SCORE_CARD_FAIL", error: err, groupName: groupName });
+    });
+};
+
+var removeScoreCard = function removeScoreCard(contestantId, scoreCardId) {
+    var groupName = getHubGroupName(contestantId);
+
+    _dispatcher2.default.dispatch({ type: "REMOVE_SCORE_CARD", contestantScoreCard: { contestantId: contestantId, scoreCardId: scoreCardId, groupName: groupName } });
+
+    ScoreCardApi.remove(scoreCardId, function success() {
+        _dispatcher2.default.dispatch({ type: "REMOVE_SCORE_CARD_SUCCESS", scoreCardId: scoreCardId, groupName: groupName, contestantId: contestantId });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "REMOVE_SCORE_CARD_FAIL", error: err, groupName: groupName });
+    });
+};
+
+var joinHubGroup = function joinHubGroup(contestantId) {
+    Hubs.controlCenterHubProxy.invoke('JoinGroup', getHubGroupName(contestantId));
+};
+
+var leaveHubGroup = function leaveHubGroup(contestantId) {
+    Hubs.controlCenterHubProxy.invoke('LeaveGroup', getHubGroupName(contestantId));
+};
+
+var getHubGroupName = function getHubGroupName(contestantId) {
+    return GroupNameUtil.getContestantGroupName(contestantId);
+};
+
+Hubs.controlCenterHubProxy.on('scoreCardsChanged', function (contestantId) {
+    loadContestantScoreCards(contestantId);
+});
+
+exports.loadContestantScoreCards = loadContestantScoreCards;
+exports.loadScoreCard = loadScoreCard;
+exports.addScoreCard = addScoreCard;
+exports.updateScoreCard = updateScoreCard;
+exports.removeScoreCard = removeScoreCard;
+exports.joinHubGroup = joinHubGroup;
+exports.leaveHubGroup = leaveHubGroup;
+
+},{"../api/scoreCardApi":314,"../dispatcher":319,"../signalr/hubs":320,"../signalr/utils/groupNameUtil":321}],309:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -44237,14 +44317,14 @@ var ApiHttpUtil = _interopRequireWildcard(_httpUtil);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-var getContestantScoreCards = function getContestantScoreCards(contestantId, callback) {
+var getContestantScoreCards = function getContestantScoreCards(contestantId, _success, fail) {
     ApiHttpUtil.get({
         url: "api/ScoreCards/Contestant/" + contestantId,
         success: function success(result) {
-            callback(result);
+            _success(result);
         },
         error: function error(request, status, err) {
-            //TODO handle error
+            fail(err);
         }
     });
 };
@@ -44261,33 +44341,53 @@ var getAll = function getAll(callback) {
     });
 };
 
-var get = function get(id, callback) {
+var get = function get(id, _success2, fail) {
     ApiHttpUtil.get({
         url: "api/ScoreCards/" + id,
         success: function success(result) {
-            callback(result);
+            _success2(result);
         },
         error: function error(request, status, err) {
-            //TODO handle error
+            fail(err);
         }
     });
 };
 
-var add = function add(scoreCard) {};
-
-var update = function update(scoreCard, callback) {
-    ApiHttpUtil.put({
-        url: "api/ScoreCards/",
+var add = function add(contestantId, scoreCard, _success3, fail) {
+    ApiHttpUtil.post({
+        url: "api/ScoreCards/Contestant/" + contestantId,
         success: function success(result) {
-            callback(result);
+            _success3(result);
         },
         error: function error(request, status, err) {
-            //TODO handle error
+            fail(err);
         }
     }, JSON.stringify(scoreCard));
 };
 
-var remove = function remove(scoreCard) {};
+var update = function update(scoreCard, _success4, fail) {
+    ApiHttpUtil.put({
+        url: "api/ScoreCards/",
+        success: function success(result) {
+            _success4(result);
+        },
+        error: function error(request, status, err) {
+            fail(err);
+        }
+    }, JSON.stringify(scoreCard));
+};
+
+var remove = function remove(scoreCardId, _success5, fail) {
+    ApiHttpUtil.remove({
+        url: "api/ScoreCards/" + scoreCardId,
+        success: function success() {
+            _success5();
+        },
+        error: function error(request, status, err) {
+            fail(err);
+        }
+    });
+};
 
 exports.getContestantScoreCards = getContestantScoreCards;
 exports.getAll = getAll;
@@ -44567,10 +44667,15 @@ var getOrganizationsGroupName = function getOrganizationsGroupName() {
     return "organizations";
 };
 
+var getContestantGroupName = function getContestantGroupName(contestantId) {
+    return "contestants_" + contestantId;
+};
+
 exports.getContolCenterGroupName = getContolCenterGroupName;
 exports.getShowGroupName = getShowGroupName;
 exports.getContestGroupName = getContestGroupName;
 exports.getOrganizationsGroupName = getOrganizationsGroupName;
+exports.getContestantGroupName = getContestantGroupName;
 
 },{}],322:[function(require,module,exports){
 'use strict';
@@ -45327,6 +45432,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _clone = require('clone');
+
+var _clone2 = _interopRequireDefault(_clone);
+
 var _eventEmitter = require('event-emitter');
 
 var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
@@ -45335,13 +45444,9 @@ var _dispatcher = require('../dispatcher');
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
-var _scoreCardApi = require('../api/scoreCardApi');
+var _broadcastUtil = require('./utils/broadcastUtil');
 
-var ScoreCardApi = _interopRequireWildcard(_scoreCardApi);
-
-var _storeUtils = require('./utils/storeUtils');
-
-var StoreUtils = _interopRequireWildcard(_storeUtils);
+var BroadcastUtil = _interopRequireWildcard(_broadcastUtil);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -45362,62 +45467,149 @@ var ScoreCardStore = function (_EventEmitter) {
         var _this = _possibleConstructorReturn(this, (ScoreCardStore.__proto__ || Object.getPrototypeOf(ScoreCardStore)).call(this));
 
         _this.scoreCards = [];
+
+        var self = _this;
+
+        _this.setScoreCards = function (scoreCards) {
+            self.scoreCards = scoreCards;
+            self.emit("change");
+        };
+
+        _this.pushScoreCards = function (contestantId, _scoreCards) {
+            for (var i = 0; i < _scoreCards.length; i++) {
+                this.pushScoreCard(contestantId, _scoreCards[i]);
+            }
+        };
+
+        _this.pushScoreCard = function (contestantId, scoreCard) {
+            scoreCard.contestantId = contestantId;
+
+            var clonedScoreCards = (0, _clone2.default)(self.scoreCards);
+
+            var replacedExisting = false;
+
+            for (var i = 0; i < clonedScoreCards.length; i++) {
+                if (self.isMatchingScoreCard(clonedScoreCards[i], contestantId, scoreCard.Id)) {
+                    clonedScoreCards[i] = scoreCard;
+                    replacedExisting = true;
+                    break;
+                }
+            }
+
+            if (!replacedExisting) {
+                clonedScoreCards.push(scoreCard);
+            }
+
+            self.setScoreCards(clonedScoreCards);
+        };
+
+        _this.removeScoreCard = function (contestantId, scoreCardId) {
+            var clonedScoreCards = (0, _clone2.default)(self.scoreCards);
+            var results = [];
+
+            for (var i = 0; i < clonedScoreCards.length; i++) {
+                var scoreCard = clonedScoreCards[i];
+                if (!self.isMatchingScoreCard(scoreCard, contestantId, scoreCardId)) {
+                    results.push(scoreCard);
+                }
+            }
+
+            self.setScoreCards(results);
+        };
+
+        _this.isMatchingScoreCard = function (scoreCard, contestantId, scoreCardId) {
+            return scoreCard.Id == scoreCardId && scoreCard.contestantId == contestantId;
+        };
+
+        _this.getContestantScoreCards = function (contestantId) {
+            var results = [];
+
+            for (var i = 0; i < self.scoreCards.length; i++) {
+                var scoreCard = self.scoreCards[i];
+                if (scoreCard.contestantId == contestantId) {
+                    results.push(scoreCard);
+                }
+            }
+
+            return results;
+        };
+
+        _this.get = function (contestantId, scoreCardId) {
+            var clonedScoreCards = (0, _clone2.default)(self.scoreCards);
+
+            for (var i = 0; i < clonedScoreCards.length; i++) {
+                var scoreCard = clonedScoreCards[i];
+                if (self.isMatchingScoreCard(scoreCard, contestantId, scoreCardId)) {
+                    return scoreCard;
+                }
+            }
+
+            return null;
+        };
+
+        _this.handleAction = function (action) {
+            switch (action.type) {
+                case "LOAD_CONTESTANT_SCORE_CARDS":
+                    //TODO
+                    break;
+                case "LOAD_CONTESTANT_SCORE_CARDS_SUCCESS":
+                    self.pushScoreCards(action.contestantId, action.scoreCards);
+                    break;
+                case "LOAD_CONTESTANT_SCORE_CARDS_FAIL":
+                    //TODO
+                    break;
+                case "LOAD_SCORE_CARD":
+                    //TODO
+                    break;
+                case "LOAD_SCORE_CARD_SUCCESS":
+                    this.pushScoreCard(action.contestantId, action.scoreCard);
+                    break;
+                case "LOAD_SCORE_CARD_FAIL":
+                    //TODO
+                    break;
+                case "ADD_SCORE_CARD":
+                    //TODO
+                    break;
+                case "ADD_SCORE_CARD_SUCCESS":
+                    self.pushScoreCard(action.contestantId, action.scoreCard);
+                    BroadcastUtil.broadcastScoreCardChange(action.groupName, action.contestantId);
+                    break;
+                case "ADD_SCORE_CARD_FAIL":
+                    //TODO
+                    break;
+                case "UPDATE_SCORE_CARD":
+                    //TODO
+                    break;
+                case "UPDATE_SCORE_CARD_SUCCESS":
+                    self.pushScoreCard(action.contestantId, action.scoreCard);
+                    BroadcastUtil.broadcastScoreCardChange(action.groupName, action.contestantId);
+                    break;
+                case "UPDATE_SCORE_CARD_FAIL":
+                    //TODO
+                    break;
+                case "REMOVE_SCORE_CARD":
+                    //TODO
+                    break;
+                case "REMOVE_SCORE_CARD_SUCCESS":
+                    self.removeScoreCard(action.contestantId, action.scoreCardId);
+                    BroadcastUtil.broadcastScoreCardChange(action.groupName, action.contestantId);
+                    break;
+                case "REMOVE_SCORE_CARD_FAIL":
+                    //TODO
+                    break;
+            }
+        };
+
+        _dispatcher2.default.register(_this.handleAction.bind(_this));
         return _this;
     }
 
     return ScoreCardStore;
 }(_eventEmitter2.default);
 
-var scoreCardStore = new ScoreCardStore();
+exports.default = new ScoreCardStore();
 
-scoreCardStore.setScoreCards = function (_scoreCards) {
-    scoreCardStore.scoreCards = _scoreCards;
-    scoreCardStore.emit("change");
-};
-
-scoreCardStore.pushScoreCard = function (_scoreCard) {
-    StoreUtils.pushItem(_scoreCard, scoreCardStore.scoreCards, scoreCardStore.setScoreCards);
-};
-
-scoreCardStore.getContestantScoreCards = function () {
-    return this.scoreCards;
-};
-
-scoreCardStore.loadContestantScoreCards = function (showId) {
-    ScoreCardApi.getContestantScoreCards(showId, scoreCardStore.setScoreCards);
-};
-
-scoreCardStore.load = function (scoreCardId) {
-    ScoreCardApi.get(scoreCardId, scoreCardStore.pushScoreCard);
-};
-
-scoreCardStore.get = function (id) {
-    return StoreUtils.get(id, scoreCardStore.scoreCards);
-};
-
-scoreCardStore.update = function (scoreCard) {
-    ScoreCardApi.update(scoreCard, scoreCardStore.pushScoreCard);
-};
-
-scoreCardStore.handleAction = function (action) {
-    switch (action.type) {
-        case "LOAD_CONTESTANT_SCORE_CARDS":
-            scoreCardStore.loadContestantScoreCards(action.contestantId);
-            break;
-        case "LOAD_SCORE_CARD":
-            scoreCardStore.load(action.scoreCardId);
-            break;
-        case "UPDATE_SCORE_CARD":
-            scoreCardStore.update(action.scoreCard);
-            break;
-    }
-};
-
-_dispatcher2.default.register(scoreCardStore.handleAction.bind(scoreCardStore));
-
-exports.default = scoreCardStore;
-
-},{"../api/scoreCardApi":314,"../dispatcher":319,"./utils/storeUtils":330,"event-emitter":7}],328:[function(require,module,exports){
+},{"../dispatcher":319,"./utils/broadcastUtil":329,"clone":6,"event-emitter":7}],328:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -45555,6 +45747,7 @@ exports.broadcastShowChange = broadcastShowChange;
 exports.broadcastContestChange = broadcastContestChange;
 exports.broadcastContestantChange = broadcastContestantChange;
 exports.broadcastJudgeChange = broadcastJudgeChange;
+exports.broadcastScoreCardChange = broadcastScoreCardChange;
 exports.broadcastOrganizationChange = broadcastOrganizationChange;
 
 var _hubs = require('../../signalr/hubs');
@@ -45577,6 +45770,10 @@ function broadcastContestantChange(groupName, id) {
 
 function broadcastJudgeChange(groupName, id) {
     Hubs.controlCenterHubProxy.invoke('JudgeChanged', groupName, id);
+};
+
+function broadcastScoreCardChange(groupName, id) {
+    Hubs.controlCenterHubProxy.invoke('ScoreCardChanged', groupName, id);
 };
 
 function broadcastOrganizationChange(groupName) {
@@ -46258,12 +46455,14 @@ var ContestantPage = function (_React$Component) {
             ContestantActions.loadContestant(this.getContestId(), this.getContestantId());
             ScoreCardActions.loadContestantScoreCards(this.getContestantId());
             ContestantActions.joinHubGroup(this.getContestId());
+            ScoreCardActions.joinHubGroup(this.getContestantId());
         }
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
             _contestantStore2.default.off("change", this.storeChanged);
             ContestantActions.leaveHubGroup(this.getContestId());
+            ScoreCardActions.leaveHubGroup(this.getContestantId());
         }
     }, {
         key: 'storeChanged',
@@ -46389,6 +46588,8 @@ var ScorableCriteria = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (ScorableCriteria.__proto__ || Object.getPrototypeOf(ScorableCriteria)).call(this, props));
 
+        _this.getContestantId = _this.getContestantId.bind(_this);
+        _this.getScoreCardId = _this.getScoreCardId.bind(_this);
         _this.getScoreCard = _this.getScoreCard.bind(_this);
         _this.handleChange = _this.handleChange.bind(_this);
         _this.state = { scoreCard: _this.getScoreCard() };
@@ -46398,7 +46599,17 @@ var ScorableCriteria = function (_React$Component) {
     _createClass(ScorableCriteria, [{
         key: 'getScoreCard',
         value: function getScoreCard() {
-            return (0, _clone2.default)(_scoreCardStore2.default.get(this.props.scoreCardId));
+            return (0, _clone2.default)(_scoreCardStore2.default.get(this.getContestantId(), this.getScoreCardId()));
+        }
+    }, {
+        key: 'getContestantId',
+        value: function getContestantId() {
+            return this.props.contestantId;
+        }
+    }, {
+        key: 'getScoreCardId',
+        value: function getScoreCardId() {
+            return this.props.scoreCardId;
         }
     }, {
         key: 'handleChange',
@@ -46549,6 +46760,7 @@ var ScoreCardPage = function (_React$Component) {
         _this.storeChanged = _this.storeChanged.bind(_this);
         _this.getScoreCard = _this.getScoreCard.bind(_this);
         _this.getScoreCardId = _this.getScoreCardId.bind(_this);
+        _this.getContestantId = _this.getContestantId.bind(_this);
         _this.handleScorableCriteriaChange = _this.handleScorableCriteriaChange.bind(_this);
         _this.state = _this.getState();
         return _this;
@@ -46558,7 +46770,7 @@ var ScoreCardPage = function (_React$Component) {
         key: 'componentWillMount',
         value: function componentWillMount() {
             _scoreCardStore2.default.on("change", this.storeChanged);
-            ScoreCardActions.loadScoreCard(this.getScoreCardId());
+            ScoreCardActions.loadScoreCard(this.getContestantId(), this.getScoreCardId());
         }
     }, {
         key: 'componentWillUnmount',
@@ -46578,7 +46790,7 @@ var ScoreCardPage = function (_React$Component) {
     }, {
         key: 'getScoreCard',
         value: function getScoreCard() {
-            return _scoreCardStore2.default.get(this.getScoreCardId());
+            return _scoreCardStore2.default.get(this.getContestantId(), this.getScoreCardId());
         }
     }, {
         key: 'getScoreCardId',
@@ -46586,14 +46798,20 @@ var ScoreCardPage = function (_React$Component) {
             return this.props.params.scoreCardId;
         }
     }, {
+        key: 'getContestantId',
+        value: function getContestantId() {
+            return this.props.params.contestantId;
+        }
+    }, {
         key: 'handleScorableCriteriaChange',
         value: function handleScorableCriteriaChange(scoreCard) {
-            ScoreCardActions.updateScoreCard(scoreCard);
+            ScoreCardActions.updateScoreCard(this.getContestantId(), scoreCard);
         }
     }, {
         key: 'render',
         value: function render() {
             var scoreCard = this.state.scoreCard;
+            var contestantId = this.getContestantId();
 
             if (!scoreCard) {
                 return _react2.default.createElement(_pageContent2.default, { title: 'Loading', description: 'The score card\'s details are loading, please wait.' });
@@ -46602,7 +46820,7 @@ var ScoreCardPage = function (_React$Component) {
             return _react2.default.createElement(
                 _pageContent2.default,
                 { title: ScoreCardUtil.getName(scoreCard), description: '' },
-                _react2.default.createElement(_scorableCriteria2.default, { scoreCardId: scoreCard.Id, onChange: this.handleScorableCriteriaChange })
+                _react2.default.createElement(_scorableCriteria2.default, { contestantId: contestantId, scoreCardId: scoreCard.Id, onChange: this.handleScorableCriteriaChange })
             );
         }
     }]);
@@ -46731,6 +46949,9 @@ var ScoreCardsBox = function (_React$Component) {
 
         _this.getState = _this.getState.bind(_this);
         _this.storeChanged = _this.storeChanged.bind(_this);
+        _this.getShowId = _this.getShowId.bind(_this);
+        _this.getContestId = _this.getContestId.bind(_this);
+        _this.getContestantId = _this.getContestantId.bind(_this);
         _this.state = _this.getState();
         return _this;
     }
@@ -46753,14 +46974,29 @@ var ScoreCardsBox = function (_React$Component) {
     }, {
         key: 'getState',
         value: function getState() {
-            return { scoreCards: _scoreCardStore2.default.getContestantScoreCards() };
+            return { scoreCards: _scoreCardStore2.default.getContestantScoreCards(this.getContestantId()) };
+        }
+    }, {
+        key: 'getShowId',
+        value: function getShowId() {
+            return this.props.showId;
+        }
+    }, {
+        key: 'getContestId',
+        value: function getContestId() {
+            return this.props.contestId;
+        }
+    }, {
+        key: 'getContestantId',
+        value: function getContestantId() {
+            return this.props.contestantId;
         }
     }, {
         key: 'render',
         value: function render() {
-            var showId = this.props.showId;
-            var contestId = this.props.contestId;
-            var contestantId = this.props.contestantId;
+            var showId = this.getShowId();
+            var contestId = this.getContestId();
+            var contestantId = this.getContestantId();
 
             var scoreCards = this.state.scoreCards.map(function (scoreCard) {
                 return _react2.default.createElement(_listPanel.ListPanelItem, {

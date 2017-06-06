@@ -9,6 +9,9 @@ class ScoreCardsBox extends React.Component {
         super(props);
         this.getState = this.getState.bind(this);
         this.storeChanged = this.storeChanged.bind(this);
+        this.getShowId = this.getShowId.bind(this);
+        this.getContestId = this.getContestId.bind(this);
+        this.getContestantId = this.getContestantId.bind(this);
         this.state = this.getState();
     }
 
@@ -25,13 +28,25 @@ class ScoreCardsBox extends React.Component {
     }
 
     getState(){
-        return { scoreCards: ScoreCardStore.getContestantScoreCards() };
+        return { scoreCards: ScoreCardStore.getContestantScoreCards(this.getContestantId()) };
+    }
+
+    getShowId(){
+        return this.props.showId;
+    }
+
+    getContestId(){
+        return this.props.contestId;
+    }
+
+    getContestantId(){
+        return this.props.contestantId;
     }
 
     render() {
-        var showId = this.props.showId;
-        var contestId =  this.props.contestId;
-        var contestantId =  this.props.contestantId;
+        var showId = this.getShowId();
+        var contestId =  this.getContestId();
+        var contestantId =  this.getContestantId();
 
         var scoreCards = this.state.scoreCards.map(function (scoreCard) {
             return (

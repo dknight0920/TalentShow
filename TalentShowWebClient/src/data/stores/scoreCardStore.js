@@ -1,60 +1,147 @@
-﻿import EventEmitter from 'event-emitter';
+﻿import Clone from 'clone';
+import EventEmitter from 'event-emitter';
 import Dispatcher from '../dispatcher';
-import * as ScoreCardApi from '../api/scoreCardApi';
-import * as StoreUtils from './utils/storeUtils';
+import * as BroadcastUtil from './utils/broadcastUtil';
 
 class ScoreCardStore extends EventEmitter {
     constructor(){
         super();
         this.scoreCards = [];
-    }
+
+        var self = this;
+
+        this.setScoreCards = function(scoreCards){
+            self.scoreCards = scoreCards;         
+            self.emit("change");
+        };
+
+        this.pushScoreCards = function(contestantId, _scoreCards){
+            for (var i = 0; i < _scoreCards.length; i++){
+                this.pushScoreCard(contestantId, _scoreCards[i]);
+            }
+        };
+
+        this.pushScoreCard = function(contestantId, scoreCard){
+            scoreCard.contestantId = contestantId;
+
+            var clonedScoreCards = Clone(self.scoreCards);
+
+            var replacedExisting = false;
+
+            for (var i = 0; i < clonedScoreCards.length; i++){
+                 if(self.isMatchingScoreCard(clonedScoreCards[i], contestantId, scoreCard.Id)){
+                    clonedScoreCards[i] = scoreCard;
+                    replacedExisting = true;
+                    break;
+                }
+            }
+
+            if (!replacedExisting){
+                clonedScoreCards.push(scoreCard);
+            }
+
+            self.setScoreCards(clonedScoreCards);
+        };
+
+        this.removeScoreCard = function(contestantId, scoreCardId){
+            var clonedScoreCards = Clone(self.scoreCards);
+            var results = [];
+
+            for (var i = 0; i < clonedScoreCards.length; i++){
+                var scoreCard = clonedScoreCards[i];
+                 if(!self.isMatchingScoreCard(scoreCard, contestantId, scoreCardId)){
+                    results.push(scoreCard);
+                }
+            }
+
+            self.setScoreCards(results);
+        };
+
+        this.isMatchingScoreCard = function(scoreCard, contestantId, scoreCardId){
+            return (scoreCard.Id == scoreCardId && scoreCard.contestantId == contestantId);
+        };
+
+        this.getContestantScoreCards = function(contestantId){
+            var results = [];
+
+            for (var i = 0; i < self.scoreCards.length; i++){
+                var scoreCard = self.scoreCards[i];
+                if(scoreCard.contestantId == contestantId){
+                    results.push(scoreCard);
+                }
+            }
+
+            return results;
+        };
+
+        this.get = function(contestantId, scoreCardId){
+            var clonedScoreCards = Clone(self.scoreCards);
+
+            for (var i = 0; i < clonedScoreCards.length; i++){
+                var scoreCard = clonedScoreCards[i];
+                 if(self.isMatchingScoreCard(scoreCard, contestantId, scoreCardId)){
+                    return scoreCard;
+                }
+            }
+
+            return null;
+        };
+
+        this.handleAction = function(action){
+            switch(action.type){
+                case "LOAD_CONTESTANT_SCORE_CARDS":
+                    //TODO
+                    break;
+                case "LOAD_CONTESTANT_SCORE_CARDS_SUCCESS":
+                        self.pushScoreCards(action.contestantId, action.scoreCards);
+                    break;
+                case "LOAD_CONTESTANT_SCORE_CARDS_FAIL":
+                    //TODO
+                    break;
+                case "LOAD_SCORE_CARD":
+                    //TODO
+                    break;
+                case "LOAD_SCORE_CARD_SUCCESS":
+                    this.pushScoreCard(action.contestantId, action.scoreCard);
+                    break;
+                case "LOAD_SCORE_CARD_FAIL":
+                    //TODO
+                    break;
+                case "ADD_SCORE_CARD":
+                    //TODO
+                    break;
+                case "ADD_SCORE_CARD_SUCCESS":
+                    self.pushScoreCard(action.contestantId, action.scoreCard);
+                    BroadcastUtil.broadcastScoreCardChange(action.groupName, action.contestantId);
+                    break;
+                case "ADD_SCORE_CARD_FAIL":
+                    //TODO
+                    break;
+                case "UPDATE_SCORE_CARD":
+                    //TODO
+                    break;
+                case "UPDATE_SCORE_CARD_SUCCESS":
+                    self.pushScoreCard(action.contestantId, action.scoreCard);
+                    BroadcastUtil.broadcastScoreCardChange(action.groupName, action.contestantId);
+                    break;
+                case "UPDATE_SCORE_CARD_FAIL":
+                    //TODO
+                    break;
+                case "REMOVE_SCORE_CARD":
+                    //TODO
+                    break;
+                case "REMOVE_SCORE_CARD_SUCCESS":
+                    self.removeScoreCard(action.contestantId, action.scoreCardId);
+                    BroadcastUtil.broadcastScoreCardChange(action.groupName, action.contestantId);
+                    break;
+                case "REMOVE_SCORE_CARD_FAIL":
+                    //TODO
+                    break;
+            }
+        };
+
+        Dispatcher.register(this.handleAction.bind(this));
+    }  
 }
 
-const scoreCardStore = new ScoreCardStore;
-
-scoreCardStore.setScoreCards = function(_scoreCards){
-    scoreCardStore.scoreCards = _scoreCards;
-    scoreCardStore.emit("change");
-};
-
-scoreCardStore.pushScoreCard = function(_scoreCard){
-    StoreUtils.pushItem(_scoreCard, scoreCardStore.scoreCards, scoreCardStore.setScoreCards);
-};
-
-scoreCardStore.getContestantScoreCards = function(){
-    return this.scoreCards;
-};
-
-scoreCardStore.loadContestantScoreCards = function(showId){
-    ScoreCardApi.getContestantScoreCards(showId, scoreCardStore.setScoreCards);
-};
-
-scoreCardStore.load = function(scoreCardId){
-    ScoreCardApi.get(scoreCardId, scoreCardStore.pushScoreCard);
-};
-
-scoreCardStore.get = function(id){
-    return StoreUtils.get(id, scoreCardStore.scoreCards);
-};
-
-scoreCardStore.update = function(scoreCard){
-    ScoreCardApi.update(scoreCard, scoreCardStore.pushScoreCard);
-};
-
-scoreCardStore.handleAction = function(action){
-    switch(action.type){
-        case "LOAD_CONTESTANT_SCORE_CARDS":
-            scoreCardStore.loadContestantScoreCards(action.contestantId);
-            break;
-        case "LOAD_SCORE_CARD":
-            scoreCardStore.load(action.scoreCardId);
-            break;
-        case "UPDATE_SCORE_CARD":
-            scoreCardStore.update(action.scoreCard);
-            break;
-    }
-};
-
-Dispatcher.register(scoreCardStore.handleAction.bind(scoreCardStore));
-
-export default scoreCardStore;
+export default  new ScoreCardStore();

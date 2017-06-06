@@ -7,13 +7,23 @@ import Input from '../../../../../../common/input';
 class ScorableCriteria extends React.Component {
     constructor(props) {
         super(props);
+        this.getContestantId = this.getContestantId.bind(this);
+        this.getScoreCardId = this.getScoreCardId.bind(this);
         this.getScoreCard = this.getScoreCard.bind(this);
         this.handleChange = this.handleChange.bind(this);    
         this.state = { scoreCard: this.getScoreCard() };
     }
 
     getScoreCard() {
-        return Clone(ScoreCardStore.get(this.props.scoreCardId));
+        return Clone(ScoreCardStore.get(this.getContestantId(), this.getScoreCardId()));
+    }
+
+    getContestantId() {
+        return this.props.contestantId;
+    }
+
+    getScoreCardId() {
+        return this.props.scoreCardId;
     }
     
     handleChange() {
