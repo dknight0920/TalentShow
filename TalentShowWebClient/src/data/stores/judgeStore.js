@@ -1,4 +1,5 @@
-﻿import Clone from 'clone';
+﻿'use strict';
+import Clone from 'clone';
 import EventEmitter from 'event-emitter';
 import Dispatcher from '../dispatcher';
 import * as BroadcastUtil from './utils/broadcastUtil';

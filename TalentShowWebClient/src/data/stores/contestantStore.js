@@ -1,4 +1,5 @@
-﻿import Clone from 'clone';
+﻿'use strict';
+import Clone from 'clone';
 import EventEmitter from 'event-emitter';
 import Dispatcher from '../dispatcher';
 import * as BroadcastUtil from './utils/broadcastUtil';
@@ -23,38 +24,16 @@ class ContestantStore extends EventEmitter {
 
         this.pushContestant = function(contestId, contestant){
             contestant.contestId = contestId;
-
             var clonedContestants = Clone(self.contestants);
-
-            var replacedExisting = false;
-
-            for (var i = 0; i < clonedContestants.length; i++){
-                 if(self.isMatchingContestant(clonedContestants[i], contestId, contestant.Id)){
-                    clonedContestants[i] = contestant;
-                    replacedExisting = true;
-                    break;
-                }
-            }
-
-            if (!replacedExisting){
-                clonedContestants.push(contestant);
-            }
-
-            self.setContestants(clonedContestants);
+            var remainingContestants = clonedContestants.filter((c) => !self.isMatchingContestant(c, contestId, contestant.Id));
+            remainingContestants.push(contestant);
+            self.setContestants(remainingContestants);
         };
 
         this.removeContestant = function(contestId, contestantId){
             var clonedContestants = Clone(self.contestants);
-            var results = [];
-
-            for (var i = 0; i < clonedContestants.length; i++){
-                var contestant = clonedContestants[i];
-                 if(!self.isMatchingContestant(contestant, contestId, contestantId)){
-                    results.push(contestant);
-                }
-            }
-
-            self.setContestants(results);
+            var remainingContestants = clonedContestants.filter((c) => !self.isMatchingContestant(c, contestId, contestantId));
+            self.setContestants(remainingContestants);
         };
 
         this.isMatchingContestant = function(contestant, contestId, contestantId){
@@ -62,29 +41,13 @@ class ContestantStore extends EventEmitter {
         };
 
         this.getContestContestants = function(contestId){
-            var results = [];
-
-            for (var i = 0; i < self.contestants.length; i++){
-                var contestant = self.contestants[i];
-                if(contestant.contestId == contestId){
-                    results.push(contestant);
-                }
-            }
-
-            return results;
+            return self.contestants
+                        .filter((contestant) => contestant.contestId == contestId)
+                        .sort((a, b) => a.Id - b.Id);
         };
 
         this.get = function(contestId, contestantId){
-            var clonedContestants = Clone(self.contestants);
-
-            for (var i = 0; i < clonedContestants.length; i++){
-                var contestant = clonedContestants[i];
-                 if(self.isMatchingContestant(contestant, contestId, contestantId)){
-                    return contestant;
-                }
-            }
-
-            return null;
+            return Clone(self.contestants.find((contestant) => self.isMatchingContestant(contestant, contestId, contestantId)));
         };
 
         this.handleAction = function(action){

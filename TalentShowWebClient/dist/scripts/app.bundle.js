@@ -44863,38 +44863,20 @@ var ContestantStore = function (_EventEmitter) {
 
         _this.pushContestant = function (contestId, contestant) {
             contestant.contestId = contestId;
-
             var clonedContestants = (0, _clone2.default)(self.contestants);
-
-            var replacedExisting = false;
-
-            for (var i = 0; i < clonedContestants.length; i++) {
-                if (self.isMatchingContestant(clonedContestants[i], contestId, contestant.Id)) {
-                    clonedContestants[i] = contestant;
-                    replacedExisting = true;
-                    break;
-                }
-            }
-
-            if (!replacedExisting) {
-                clonedContestants.push(contestant);
-            }
-
-            self.setContestants(clonedContestants);
+            var remainingContestants = clonedContestants.filter(function (c) {
+                return !self.isMatchingContestant(c, contestId, contestant.Id);
+            });
+            remainingContestants.push(contestant);
+            self.setContestants(remainingContestants);
         };
 
         _this.removeContestant = function (contestId, contestantId) {
             var clonedContestants = (0, _clone2.default)(self.contestants);
-            var results = [];
-
-            for (var i = 0; i < clonedContestants.length; i++) {
-                var contestant = clonedContestants[i];
-                if (!self.isMatchingContestant(contestant, contestId, contestantId)) {
-                    results.push(contestant);
-                }
-            }
-
-            self.setContestants(results);
+            var remainingContestants = clonedContestants.filter(function (c) {
+                return !self.isMatchingContestant(c, contestId, contestantId);
+            });
+            self.setContestants(remainingContestants);
         };
 
         _this.isMatchingContestant = function (contestant, contestId, contestantId) {
@@ -44902,29 +44884,17 @@ var ContestantStore = function (_EventEmitter) {
         };
 
         _this.getContestContestants = function (contestId) {
-            var results = [];
-
-            for (var i = 0; i < self.contestants.length; i++) {
-                var contestant = self.contestants[i];
-                if (contestant.contestId == contestId) {
-                    results.push(contestant);
-                }
-            }
-
-            return results;
+            return self.contestants.filter(function (contestant) {
+                return contestant.contestId == contestId;
+            }).sort(function (a, b) {
+                return a.Id - b.Id;
+            });
         };
 
         _this.get = function (contestId, contestantId) {
-            var clonedContestants = (0, _clone2.default)(self.contestants);
-
-            for (var i = 0; i < clonedContestants.length; i++) {
-                var contestant = clonedContestants[i];
-                if (self.isMatchingContestant(contestant, contestId, contestantId)) {
-                    return contestant;
-                }
-            }
-
-            return null;
+            return (0, _clone2.default)(self.contestants.find(function (contestant) {
+                return self.isMatchingContestant(contestant, contestId, contestantId);
+            }));
         };
 
         _this.handleAction = function (action) {
