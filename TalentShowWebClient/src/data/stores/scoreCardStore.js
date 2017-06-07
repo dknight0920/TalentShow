@@ -1,4 +1,5 @@
-﻿import Clone from 'clone';
+﻿'use strict';
+import Clone from 'clone';
 import EventEmitter from 'event-emitter';
 import Dispatcher from '../dispatcher';
 import * as BroadcastUtil from './utils/broadcastUtil';
@@ -23,38 +24,16 @@ class ScoreCardStore extends EventEmitter {
 
         this.pushScoreCard = function(contestantId, scoreCard){
             scoreCard.contestantId = contestantId;
-
             var clonedScoreCards = Clone(self.scoreCards);
-
-            var replacedExisting = false;
-
-            for (var i = 0; i < clonedScoreCards.length; i++){
-                 if(self.isMatchingScoreCard(clonedScoreCards[i], contestantId, scoreCard.Id)){
-                    clonedScoreCards[i] = scoreCard;
-                    replacedExisting = true;
-                    break;
-                }
-            }
-
-            if (!replacedExisting){
-                clonedScoreCards.push(scoreCard);
-            }
-
-            self.setScoreCards(clonedScoreCards);
+            var remainingScoreCards = clonedScoreCards.filter((s) => !self.isMatchingScoreCard(s, contestantId, scoreCard.Id));
+            remainingScoreCards.push(scoreCard);
+            self.setScoreCards(remainingScoreCards);
         };
 
         this.removeScoreCard = function(contestantId, scoreCardId){
             var clonedScoreCards = Clone(self.scoreCards);
-            var results = [];
-
-            for (var i = 0; i < clonedScoreCards.length; i++){
-                var scoreCard = clonedScoreCards[i];
-                 if(!self.isMatchingScoreCard(scoreCard, contestantId, scoreCardId)){
-                    results.push(scoreCard);
-                }
-            }
-
-            self.setScoreCards(results);
+            var remainingScoreCards = clonedScoreCards.filter((s) => !self.isMatchingScoreCard(s, contestantId, scoreCardId));
+            self.setScoreCards(remainingScoreCards);
         };
 
         this.isMatchingScoreCard = function(scoreCard, contestantId, scoreCardId){
@@ -62,29 +41,13 @@ class ScoreCardStore extends EventEmitter {
         };
 
         this.getContestantScoreCards = function(contestantId){
-            var results = [];
-
-            for (var i = 0; i < self.scoreCards.length; i++){
-                var scoreCard = self.scoreCards[i];
-                if(scoreCard.contestantId == contestantId){
-                    results.push(scoreCard);
-                }
-            }
-
-            return results;
+            return self.scoreCards
+                        .filter((scoreCard) => scoreCard.contestantId == contestantId)
+                        .sort((a, b) => a.Id - b.Id);
         };
 
         this.get = function(contestantId, scoreCardId){
-            var clonedScoreCards = Clone(self.scoreCards);
-
-            for (var i = 0; i < clonedScoreCards.length; i++){
-                var scoreCard = clonedScoreCards[i];
-                 if(self.isMatchingScoreCard(scoreCard, contestantId, scoreCardId)){
-                    return scoreCard;
-                }
-            }
-
-            return null;
+            return Clone(self.scoreCards.find((scoreCard) => self.isMatchingScoreCard(scoreCard, contestantId, scoreCardId)));
         };
 
         this.handleAction = function(action){

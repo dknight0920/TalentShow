@@ -45401,38 +45401,20 @@ var ScoreCardStore = function (_EventEmitter) {
 
         _this.pushScoreCard = function (contestantId, scoreCard) {
             scoreCard.contestantId = contestantId;
-
             var clonedScoreCards = (0, _clone2.default)(self.scoreCards);
-
-            var replacedExisting = false;
-
-            for (var i = 0; i < clonedScoreCards.length; i++) {
-                if (self.isMatchingScoreCard(clonedScoreCards[i], contestantId, scoreCard.Id)) {
-                    clonedScoreCards[i] = scoreCard;
-                    replacedExisting = true;
-                    break;
-                }
-            }
-
-            if (!replacedExisting) {
-                clonedScoreCards.push(scoreCard);
-            }
-
-            self.setScoreCards(clonedScoreCards);
+            var remainingScoreCards = clonedScoreCards.filter(function (s) {
+                return !self.isMatchingScoreCard(s, contestantId, scoreCard.Id);
+            });
+            remainingScoreCards.push(scoreCard);
+            self.setScoreCards(remainingScoreCards);
         };
 
         _this.removeScoreCard = function (contestantId, scoreCardId) {
             var clonedScoreCards = (0, _clone2.default)(self.scoreCards);
-            var results = [];
-
-            for (var i = 0; i < clonedScoreCards.length; i++) {
-                var scoreCard = clonedScoreCards[i];
-                if (!self.isMatchingScoreCard(scoreCard, contestantId, scoreCardId)) {
-                    results.push(scoreCard);
-                }
-            }
-
-            self.setScoreCards(results);
+            var remainingScoreCards = clonedScoreCards.filter(function (s) {
+                return !self.isMatchingScoreCard(s, contestantId, scoreCardId);
+            });
+            self.setScoreCards(remainingScoreCards);
         };
 
         _this.isMatchingScoreCard = function (scoreCard, contestantId, scoreCardId) {
@@ -45440,29 +45422,17 @@ var ScoreCardStore = function (_EventEmitter) {
         };
 
         _this.getContestantScoreCards = function (contestantId) {
-            var results = [];
-
-            for (var i = 0; i < self.scoreCards.length; i++) {
-                var scoreCard = self.scoreCards[i];
-                if (scoreCard.contestantId == contestantId) {
-                    results.push(scoreCard);
-                }
-            }
-
-            return results;
+            return self.scoreCards.filter(function (scoreCard) {
+                return scoreCard.contestantId == contestantId;
+            }).sort(function (a, b) {
+                return a.Id - b.Id;
+            });
         };
 
         _this.get = function (contestantId, scoreCardId) {
-            var clonedScoreCards = (0, _clone2.default)(self.scoreCards);
-
-            for (var i = 0; i < clonedScoreCards.length; i++) {
-                var scoreCard = clonedScoreCards[i];
-                if (self.isMatchingScoreCard(scoreCard, contestantId, scoreCardId)) {
-                    return scoreCard;
-                }
-            }
-
-            return null;
+            return (0, _clone2.default)(self.scoreCards.find(function (scoreCard) {
+                return self.isMatchingScoreCard(scoreCard, contestantId, scoreCardId);
+            }));
         };
 
         _this.handleAction = function (action) {
