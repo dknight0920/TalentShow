@@ -45250,36 +45250,19 @@ var OrganizationStore = function (_EventEmitter) {
 
         _this.pushOrganization = function (organization) {
             var clonedOrganizations = (0, _clone2.default)(self.organizations);
-
-            var replacedExisting = false;
-
-            for (var i = 0; i < clonedOrganizations.length; i++) {
-                if (self.isMatchingOrganization(clonedOrganizations[i], organization.Id)) {
-                    clonedOrganizations[i] = organization;
-                    replacedExisting = true;
-                    break;
-                }
-            }
-
-            if (!replacedExisting) {
-                clonedOrganizations.push(organization);
-            }
-
-            self.setOrganizations(clonedOrganizations);
+            var remainingOrganizations = clonedOrganizations.filter(function (o) {
+                return !self.isMatchingOrganization(o, organization.Id);
+            });
+            remainingOrganizations.push(organization);
+            self.setOrganizations(remainingOrganizations);
         };
 
         _this.removeOrganization = function (organizationId) {
             var clonedOrganizations = (0, _clone2.default)(self.organizations);
-            var results = [];
-
-            for (var i = 0; i < clonedOrganizations.length; i++) {
-                var organization = clonedOrganizations[i];
-                if (!self.isMatchingOrganization(organization, organizationId)) {
-                    results.push(organization);
-                }
-            }
-
-            self.setOrganizations(results);
+            var remainingOrganizations = clonedOrganizations.filter(function (o) {
+                return !self.isMatchingOrganization(o, organizationId);
+            });
+            self.setOrganizations(remainingOrganizations);
         };
 
         _this.isMatchingOrganization = function (organization, organizationId) {
@@ -45287,20 +45270,15 @@ var OrganizationStore = function (_EventEmitter) {
         };
 
         _this.getOrganizations = function () {
-            return self.organizations;
+            return self.organizations.sort(function (a, b) {
+                return a.Id - b.Id;
+            });
         };
 
         _this.get = function (organizationId) {
-            var clonedOrganizations = (0, _clone2.default)(self.organizations);
-
-            for (var i = 0; i < clonedOrganizations.length; i++) {
-                var organization = clonedOrganizations[i];
-                if (self.isMatchingOrganization(organization, organizationId)) {
-                    return organization;
-                }
-            }
-
-            return null;
+            return (0, _clone2.default)(self.organizations.find(function (organization) {
+                return self.isMatchingJudge(organization, organizationId);
+            }));
         };
 
         _this.handleAction = function (action) {

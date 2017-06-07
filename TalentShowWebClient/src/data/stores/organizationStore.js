@@ -24,36 +24,15 @@ class OrganizationStore extends EventEmitter {
 
         this.pushOrganization = function(organization){
             var clonedOrganizations = Clone(self.organizations);
-
-            var replacedExisting = false;
-
-            for (var i = 0; i < clonedOrganizations.length; i++){
-                 if(self.isMatchingOrganization(clonedOrganizations[i], organization.Id)){
-                    clonedOrganizations[i] = organization;
-                    replacedExisting = true;
-                    break;
-                }
-            }
-
-            if (!replacedExisting){
-                clonedOrganizations.push(organization);
-            }
-
-            self.setOrganizations(clonedOrganizations);
+            var remainingOrganizations = clonedOrganizations.filter((o) => !self.isMatchingOrganization(o, organization.Id));
+            remainingOrganizations.push(organization);
+            self.setOrganizations(remainingOrganizations);
         };
 
         this.removeOrganization = function(organizationId){
             var clonedOrganizations = Clone(self.organizations);
-            var results = [];
-
-            for (var i = 0; i < clonedOrganizations.length; i++){
-                var organization = clonedOrganizations[i];
-                 if(!self.isMatchingOrganization(organization, organizationId)){
-                    results.push(organization);
-                }
-            }
-
-            self.setOrganizations(results);
+            var remainingOrganizations = clonedOrganizations.filter((o) => !self.isMatchingOrganization(o, organizationId));
+            self.setOrganizations(remainingOrganizations);
         };
 
         this.isMatchingOrganization = function(organization, organizationId){
@@ -61,20 +40,11 @@ class OrganizationStore extends EventEmitter {
         };
 
         this.getOrganizations = function(){
-            return self.organizations;
+            return self.organizations.sort((a, b) => a.Id - b.Id);
         };
 
         this.get = function(organizationId){
-            var clonedOrganizations = Clone(self.organizations);
-
-            for (var i = 0; i < clonedOrganizations.length; i++){
-                var organization = clonedOrganizations[i];
-                 if(self.isMatchingOrganization(organization, organizationId)){
-                    return organization;
-                }
-            }
-
-            return null;
+            return Clone(self.organizations.find((organization) => self.isMatchingJudge(organization, organizationId)));
         };
 
         this.handleAction = function(action){
