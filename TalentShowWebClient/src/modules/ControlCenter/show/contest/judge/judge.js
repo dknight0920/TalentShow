@@ -2,7 +2,6 @@
 import * as Nav from '../../../../../routing/navigation';
 import JudgeStore from '../../../../../data/stores/judgeStore';
 import * as JudgeActions from '../../../../../data/actions/judgeActions';
-import * as ContestActions from '../../../../../data/actions/contestActions';
 import PageContent from '../../../../../common/pageContent';
 import Button from '../../../../../common/button';
 import TimeoutComponent from '../../../../../common/timeoutComponent';

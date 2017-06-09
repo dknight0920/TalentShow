@@ -24,7 +24,7 @@ class EditContestPage extends RoleAwareComponent {
     componentWillMount(){
         this.redirectUnauthorizedUser();
         ContestStore.on("change", this.storeChanged);
-        ContestActions.loadContest(this.getContestId());
+        ContestActions.loadContest(this.getShowId(), this.getContestId());
     }
 
     componentWillUnmount(){
@@ -53,7 +53,7 @@ class EditContestPage extends RoleAwareComponent {
     }
 
     getContest() {
-        return ContestStore.get(this.getContestId());
+        return ContestStore.get(this.getShowId(), this.getContestId());
     }
 
     getContestId() {

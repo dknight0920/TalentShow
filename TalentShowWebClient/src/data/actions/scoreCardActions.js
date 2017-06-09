@@ -1,4 +1,5 @@
-﻿import Dispatcher from '../dispatcher';
+﻿'use strict';
+import Dispatcher from '../dispatcher';
 import * as ScoreCardApi from '../api/scoreCardApi';
 import * as Hubs from '../signalr/hubs';
 import * as GroupNameUtil from '../signalr/utils/groupNameUtil';
@@ -79,7 +80,7 @@ var leaveHubGroup = function(contestantId){
 
 var getHubGroupName = function(contestantId){
     return GroupNameUtil.getContestantGroupName(contestantId);
-}
+};
 
 Hubs.controlCenterHubProxy.on('scoreCardsChanged', function(contestantId) {
     loadContestantScoreCards(contestantId); 

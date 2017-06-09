@@ -1,4 +1,5 @@
-﻿import Dispatcher from '../dispatcher';
+﻿'use strict';
+import Dispatcher from '../dispatcher';
 import * as ShowApi from '../api/showApi';
 import * as Hubs from '../signalr/hubs';
 import * as GroupNameUtil from '../signalr/utils/groupNameUtil';
@@ -78,7 +79,7 @@ var leaveHubGroup = function(){
 
 var getHubGroupName = function(){
     return GroupNameUtil.getContolCenterGroupName();
-}
+};
 
 Hubs.controlCenterHubProxy.on('showsChanged', function() {
     loadShows(); 

@@ -1,4 +1,5 @@
-﻿import Dispatcher from '../dispatcher';
+﻿'use strict';
+import Dispatcher from '../dispatcher';
 import * as ContestApi from '../api/contestApi';
 import * as Hubs from '../signalr/hubs';
 import * as GroupNameUtil from '../signalr/utils/groupNameUtil';
@@ -8,19 +9,19 @@ var loadShowContests = function(showId){
 
     ContestApi.getShowContests(showId, 
         function success(contests){
-            Dispatcher.dispatch({type: "LOAD_SHOW_CONTESTS_SUCCESS", contests: contests});
+            Dispatcher.dispatch({type: "LOAD_SHOW_CONTESTS_SUCCESS", contests: contests, showId: showId});
         }, 
         function fail(err){
             Dispatcher.dispatch({type: "LOAD_SHOW_CONTESTS_FAIL", error: err});
         });
 };
 
-var loadContest = function(contestId){
+var loadContest = function(showId, contestId){
     Dispatcher.dispatch({type: "LOAD_CONTEST", contestId: contestId});
 
     ContestApi.get(contestId, 
         function success(contest){
-            Dispatcher.dispatch({type: "LOAD_CONTEST_SUCCESS", contest: contest});
+            Dispatcher.dispatch({type: "LOAD_CONTEST_SUCCESS", contest: contest, showId: showId});
         }, 
         function fail(err){
             Dispatcher.dispatch({type: "LOAD_CONTEST_FAIL", error: err});
@@ -79,7 +80,7 @@ var leaveHubGroup = function(showId){
 
 var getHubGroupName = function(showId){
     return GroupNameUtil.getShowGroupName(showId);
-}
+};
 
 Hubs.controlCenterHubProxy.on('contestsChanged', function(showId) {
     loadShowContests(showId); 

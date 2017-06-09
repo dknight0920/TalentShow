@@ -28,7 +28,7 @@ class ContestsBox extends React.Component {
     }
 
     getState(){
-        return { contests: ContestStore.getShowContests() };
+        return { contests: ContestStore.getShowContests(this.getShowId()) };
     }
 
     getShowId(){

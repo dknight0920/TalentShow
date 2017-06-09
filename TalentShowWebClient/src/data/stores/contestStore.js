@@ -1,6 +1,7 @@
-﻿import EventEmitter from 'event-emitter';
+﻿'use strict';
+import Clone from 'clone';
+import EventEmitter from 'event-emitter';
 import Dispatcher from '../dispatcher';
-import * as StoreUtils from './utils/storeUtils';
 import * as BroadcastUtil from './utils/broadcastUtil';
 
 class ContestStore extends EventEmitter {
@@ -11,24 +12,42 @@ class ContestStore extends EventEmitter {
         var self = this;
 
         this.setContests = function(contests){
-            self.contests = contests;
+            self.contests = contests;         
             self.emit("change");
         };
 
-        this.pushContest = function(contest){
-            StoreUtils.pushItem(contest, self.contests, self.setContests);
+        this.pushContests = function(showId, _contests){
+            for (var i = 0; i < _contests.length; i++){
+                this.pushContest(showId, _contests[i]);
+            }
         };
 
-        this.removeContest = function(contestId){
-            StoreUtils.removeItem(contestId, self.contests, self.setContests);
+        this.pushContest = function(showId, contest){
+            contest.showId = showId;
+            var clonedContests = Clone(self.contests);
+            var remainingContests = clonedContests.filter((j) => !self.isMatchingContest(j, showId, contest.Id));
+            remainingContests.push(contest);
+            self.setContests(remainingContests);
         };
 
-        this.getShowContests = function(){
-            return self.contests;
+        this.removeContest = function(showId, contestId){
+            var clonedContests = Clone(self.contests);
+            var remainingContests = clonedContests.filter((j) => !self.isMatchingContest(j, showId, contestId));
+            self.setContests(remainingContests);
         };
 
-        this.get = function(id){
-            return StoreUtils.get(id, self.contests);
+        this.isMatchingContest = function(contest, showId, contestId){
+            return (contest.Id == contestId && contest.showId == showId);
+        };
+
+        this.getShowContests = function(showId){
+            return self.contests
+                        .filter((contest) => contest.showId == showId)
+                        .sort((a, b) => a.Id - b.Id);
+        };
+
+        this.get = function(showId, contestId){
+            return Clone(self.contests.find((contest) => self.isMatchingContest(contest, showId, contestId)));
         };
 
         this.handleAction = function(action){
@@ -37,7 +56,7 @@ class ContestStore extends EventEmitter {
                     //TODO
                     break;
                 case "LOAD_SHOW_CONTESTS_SUCCESS":
-                    self.setContests(action.contests);
+                        self.pushContests(action.showId, action.contests);
                     break;
                 case "LOAD_SHOW_CONTESTS_FAIL":
                     //TODO
@@ -46,7 +65,7 @@ class ContestStore extends EventEmitter {
                     //TODO
                     break;
                 case "LOAD_CONTEST_SUCCESS":
-                    this.pushContest(action.contest);
+                    this.pushContest(action.showId, action.contest);
                     break;
                 case "LOAD_CONTEST_FAIL":
                     //TODO
@@ -55,7 +74,7 @@ class ContestStore extends EventEmitter {
                     //TODO
                     break;
                 case "ADD_CONTEST_SUCCESS":
-                    self.pushContest(action.contest);
+                    self.pushContest(action.showId, action.contest);
                     BroadcastUtil.broadcastContestChange(action.groupName, action.showId);
                     break;
                 case "ADD_CONTEST_FAIL":
@@ -65,7 +84,7 @@ class ContestStore extends EventEmitter {
                     //TODO
                     break;
                 case "UPDATE_CONTEST_SUCCESS":
-                    self.pushContest(action.contest);
+                    self.pushContest(action.showId, action.contest);
                     BroadcastUtil.broadcastContestChange(action.groupName, action.showId);
                     break;
                 case "UPDATE_CONTEST_FAIL":
@@ -75,7 +94,7 @@ class ContestStore extends EventEmitter {
                     //TODO
                     break;
                 case "REMOVE_CONTEST_SUCCESS":
-                    self.removeContest(action.contestId);
+                    self.removeContest(action.showId, action.contestId);
                     BroadcastUtil.broadcastContestChange(action.groupName, action.showId);
                     break;
                 case "REMOVE_CONTEST_FAIL":
@@ -88,4 +107,4 @@ class ContestStore extends EventEmitter {
     }  
 }
 
-export default  new ContestStore;
+export default  new ContestStore();

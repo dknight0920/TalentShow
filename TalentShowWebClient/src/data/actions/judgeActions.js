@@ -1,4 +1,5 @@
-﻿import Dispatcher from '../dispatcher';
+﻿'use strict';
+import Dispatcher from '../dispatcher';
 import * as JudgeApi from '../api/judgeApi';
 import * as Hubs from '../signalr/hubs';
 import * as GroupNameUtil from '../signalr/utils/groupNameUtil';
@@ -79,7 +80,7 @@ var leaveHubGroup = function(contestId){
 
 var getHubGroupName = function(contestId){
     return GroupNameUtil.getContestGroupName(contestId);
-}
+};
 
 Hubs.controlCenterHubProxy.on('judgesChanged', function(contestId) {
     loadContestJudges(contestId); 

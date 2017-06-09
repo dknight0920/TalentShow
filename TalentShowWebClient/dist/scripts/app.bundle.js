@@ -43310,17 +43310,17 @@ var loadShowContests = function loadShowContests(showId) {
     _dispatcher2.default.dispatch({ type: "LOAD_SHOW_CONTESTS", showId: showId });
 
     ContestApi.getShowContests(showId, function success(contests) {
-        _dispatcher2.default.dispatch({ type: "LOAD_SHOW_CONTESTS_SUCCESS", contests: contests });
+        _dispatcher2.default.dispatch({ type: "LOAD_SHOW_CONTESTS_SUCCESS", contests: contests, showId: showId });
     }, function fail(err) {
         _dispatcher2.default.dispatch({ type: "LOAD_SHOW_CONTESTS_FAIL", error: err });
     });
 };
 
-var loadContest = function loadContest(contestId) {
+var loadContest = function loadContest(showId, contestId) {
     _dispatcher2.default.dispatch({ type: "LOAD_CONTEST", contestId: contestId });
 
     ContestApi.get(contestId, function success(contest) {
-        _dispatcher2.default.dispatch({ type: "LOAD_CONTEST_SUCCESS", contest: contest });
+        _dispatcher2.default.dispatch({ type: "LOAD_CONTEST_SUCCESS", contest: contest, showId: showId });
     }, function fail(err) {
         _dispatcher2.default.dispatch({ type: "LOAD_CONTEST_FAIL", error: err });
     });
@@ -44684,6 +44684,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _clone = require('clone');
+
+var _clone2 = _interopRequireDefault(_clone);
+
 var _eventEmitter = require('event-emitter');
 
 var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
@@ -44691,10 +44695,6 @@ var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
 var _dispatcher = require('../dispatcher');
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
-
-var _storeUtils = require('./utils/storeUtils');
-
-var StoreUtils = _interopRequireWildcard(_storeUtils);
 
 var _broadcastUtil = require('./utils/broadcastUtil');
 
@@ -44727,20 +44727,46 @@ var ContestStore = function (_EventEmitter) {
             self.emit("change");
         };
 
-        _this.pushContest = function (contest) {
-            StoreUtils.pushItem(contest, self.contests, self.setContests);
+        _this.pushContests = function (showId, _contests) {
+            for (var i = 0; i < _contests.length; i++) {
+                this.pushContest(showId, _contests[i]);
+            }
         };
 
-        _this.removeContest = function (contestId) {
-            StoreUtils.removeItem(contestId, self.contests, self.setContests);
+        _this.pushContest = function (showId, contest) {
+            contest.showId = showId;
+            var clonedContests = (0, _clone2.default)(self.contests);
+            var remainingContests = clonedContests.filter(function (j) {
+                return !self.isMatchingContest(j, showId, contest.Id);
+            });
+            remainingContests.push(contest);
+            self.setContests(remainingContests);
         };
 
-        _this.getShowContests = function () {
-            return self.contests;
+        _this.removeContest = function (showId, contestId) {
+            var clonedContests = (0, _clone2.default)(self.contests);
+            var remainingContests = clonedContests.filter(function (j) {
+                return !self.isMatchingContest(j, showId, contestId);
+            });
+            self.setContests(remainingContests);
         };
 
-        _this.get = function (id) {
-            return StoreUtils.get(id, self.contests);
+        _this.isMatchingContest = function (contest, showId, contestId) {
+            return contest.Id == contestId && contest.showId == showId;
+        };
+
+        _this.getShowContests = function (showId) {
+            return self.contests.filter(function (contest) {
+                return contest.showId == showId;
+            }).sort(function (a, b) {
+                return a.Id - b.Id;
+            });
+        };
+
+        _this.get = function (showId, contestId) {
+            return (0, _clone2.default)(self.contests.find(function (contest) {
+                return self.isMatchingContest(contest, showId, contestId);
+            }));
         };
 
         _this.handleAction = function (action) {
@@ -44749,7 +44775,7 @@ var ContestStore = function (_EventEmitter) {
                     //TODO
                     break;
                 case "LOAD_SHOW_CONTESTS_SUCCESS":
-                    self.setContests(action.contests);
+                    self.pushContests(action.showId, action.contests);
                     break;
                 case "LOAD_SHOW_CONTESTS_FAIL":
                     //TODO
@@ -44758,7 +44784,7 @@ var ContestStore = function (_EventEmitter) {
                     //TODO
                     break;
                 case "LOAD_CONTEST_SUCCESS":
-                    this.pushContest(action.contest);
+                    this.pushContest(action.showId, action.contest);
                     break;
                 case "LOAD_CONTEST_FAIL":
                     //TODO
@@ -44767,7 +44793,7 @@ var ContestStore = function (_EventEmitter) {
                     //TODO
                     break;
                 case "ADD_CONTEST_SUCCESS":
-                    self.pushContest(action.contest);
+                    self.pushContest(action.showId, action.contest);
                     BroadcastUtil.broadcastContestChange(action.groupName, action.showId);
                     break;
                 case "ADD_CONTEST_FAIL":
@@ -44777,7 +44803,7 @@ var ContestStore = function (_EventEmitter) {
                     //TODO
                     break;
                 case "UPDATE_CONTEST_SUCCESS":
-                    self.pushContest(action.contest);
+                    self.pushContest(action.showId, action.contest);
                     BroadcastUtil.broadcastContestChange(action.groupName, action.showId);
                     break;
                 case "UPDATE_CONTEST_FAIL":
@@ -44787,7 +44813,7 @@ var ContestStore = function (_EventEmitter) {
                     //TODO
                     break;
                 case "REMOVE_CONTEST_SUCCESS":
-                    self.removeContest(action.contestId);
+                    self.removeContest(action.showId, action.contestId);
                     BroadcastUtil.broadcastContestChange(action.groupName, action.showId);
                     break;
                 case "REMOVE_CONTEST_FAIL":
@@ -44805,7 +44831,7 @@ var ContestStore = function (_EventEmitter) {
 
 exports.default = new ContestStore();
 
-},{"../dispatcher":319,"./utils/broadcastUtil":329,"./utils/storeUtils":330,"event-emitter":7}],323:[function(require,module,exports){
+},{"../dispatcher":319,"./utils/broadcastUtil":329,"clone":6,"event-emitter":7}],323:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -46016,7 +46042,7 @@ var ContestPage = function (_TimeoutComponent) {
         key: 'componentWillMount',
         value: function componentWillMount() {
             _contestStore2.default.on("change", this.storeChanged);
-            ContestActions.loadContest(this.getContestId());
+            ContestActions.loadContest(this.getShowId(), this.getContestId());
             ContestantActions.loadContestContestants(this.getContestId());
             JudgeActions.loadContestJudges(this.getContestId());
             ContestActions.joinHubGroup(this.getShowId());
@@ -46045,7 +46071,7 @@ var ContestPage = function (_TimeoutComponent) {
     }, {
         key: 'getContest',
         value: function getContest() {
-            return _contestStore2.default.get(this.getContestId());
+            return _contestStore2.default.get(this.getShowId(), this.getContestId());
         }
     }, {
         key: 'getContestId',
@@ -47080,7 +47106,7 @@ var EditContestPage = function (_RoleAwareComponent) {
         value: function componentWillMount() {
             this.redirectUnauthorizedUser();
             _contestStore2.default.on("change", this.storeChanged);
-            ContestActions.loadContest(this.getContestId());
+            ContestActions.loadContest(this.getShowId(), this.getContestId());
         }
     }, {
         key: 'componentWillUnmount',
@@ -47116,7 +47142,7 @@ var EditContestPage = function (_RoleAwareComponent) {
     }, {
         key: 'getContest',
         value: function getContest() {
-            return _contestStore2.default.get(this.getContestId());
+            return _contestStore2.default.get(this.getShowId(), this.getContestId());
         }
     }, {
         key: 'getContestId',
@@ -47451,10 +47477,6 @@ var _judgeActions = require('../../../../../data/actions/judgeActions');
 
 var JudgeActions = _interopRequireWildcard(_judgeActions);
 
-var _contestActions = require('../../../../../data/actions/contestActions');
-
-var ContestActions = _interopRequireWildcard(_contestActions);
-
 var _pageContent = require('../../../../../common/pageContent');
 
 var _pageContent2 = _interopRequireDefault(_pageContent);
@@ -47606,7 +47628,7 @@ var JudgePage = function (_TimeoutComponent) {
 
 exports.default = JudgePage;
 
-},{"../../../../../common/button":292,"../../../../../common/pageContent":298,"../../../../../common/timeoutComponent":301,"../../../../../data/actions/contestActions":303,"../../../../../data/actions/judgeActions":306,"../../../../../data/stores/judgeStore":325,"../../../../../routing/navigation":358,"react":290}],347:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/pageContent":298,"../../../../../common/timeoutComponent":301,"../../../../../data/actions/judgeActions":306,"../../../../../data/stores/judgeStore":325,"../../../../../routing/navigation":358,"react":290}],347:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48044,7 +48066,7 @@ var ContestsBox = function (_React$Component) {
     }, {
         key: 'getState',
         value: function getState() {
-            return { contests: _contestStore2.default.getShowContests() };
+            return { contests: _contestStore2.default.getShowContests(this.getShowId()) };
         }
     }, {
         key: 'getShowId',

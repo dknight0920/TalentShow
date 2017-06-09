@@ -27,7 +27,7 @@ class ContestPage extends TimeoutComponent {
 
     componentWillMount(){
         ContestStore.on("change", this.storeChanged);
-        ContestActions.loadContest(this.getContestId());
+        ContestActions.loadContest(this.getShowId(), this.getContestId());
         ContestantActions.loadContestContestants(this.getContestId());
         JudgeActions.loadContestJudges(this.getContestId());
         ContestActions.joinHubGroup(this.getShowId());
@@ -52,7 +52,7 @@ class ContestPage extends TimeoutComponent {
     }
 
     getContest() {
-        return ContestStore.get(this.getContestId());
+        return ContestStore.get(this.getShowId(), this.getContestId());
     }
 
     getContestId() {
