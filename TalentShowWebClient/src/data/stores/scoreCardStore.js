@@ -56,7 +56,7 @@ class ScoreCardStore extends EventEmitter {
                     //TODO
                     break;
                 case "LOAD_CONTESTANT_SCORE_CARDS_SUCCESS":
-                        self.pushScoreCards(action.contestantId, action.scoreCards);
+                    self.pushScoreCards(action.contestantId, action.scoreCards);
                     break;
                 case "LOAD_CONTESTANT_SCORE_CARDS_FAIL":
                     //TODO
@@ -65,7 +65,7 @@ class ScoreCardStore extends EventEmitter {
                     //TODO
                     break;
                 case "LOAD_SCORE_CARD_SUCCESS":
-                    this.pushScoreCard(action.contestantId, action.scoreCard);
+                    self.pushScoreCard(action.contestantId, action.scoreCard);
                     break;
                 case "LOAD_SCORE_CARD_FAIL":
                     //TODO

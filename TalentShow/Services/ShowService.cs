@@ -24,6 +24,11 @@ namespace TalentShow.Services
             return ShowRepo.GetAll();
         }
 
+        public bool Exists(int id)
+        {
+            return ShowRepo.Exists(id);
+        }
+
         public Show Get(int id)
         {
             return ShowRepo.Get(id);

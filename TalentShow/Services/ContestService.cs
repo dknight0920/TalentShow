@@ -30,7 +30,10 @@ namespace TalentShow.Services
             var contests = new List<Contest>();
 
             foreach (var sc in showContestCollection)
-                contests.Add(ContestRepo.Get(sc.ContestId));
+            {
+                if(ContestRepo.Exists(sc.ContestId))
+                    contests.Add(ContestRepo.Get(sc.ContestId));
+            }
 
             return contests;
         }
@@ -38,6 +41,11 @@ namespace TalentShow.Services
         public ICollection<Contest> GetAll()
         {
             return ContestRepo.GetAll();
+        }
+
+        public bool Exists(int id)
+        {
+            return ContestRepo.Exists(id);
         }
 
         public Contest Get(int id)

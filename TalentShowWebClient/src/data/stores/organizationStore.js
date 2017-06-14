@@ -62,7 +62,7 @@ class OrganizationStore extends EventEmitter {
                     //TODO
                     break;
                 case "LOAD_ORGANIZATION_SUCCESS":
-                    this.pushOrganization(action.organization);
+                    self.pushOrganization(action.organization);
                     break;
                 case "LOAD_ORGANIZATION_FAIL":
                     //TODO

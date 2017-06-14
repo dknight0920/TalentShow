@@ -1,6 +1,7 @@
-﻿import EventEmitter from 'event-emitter';
+﻿'use strict';
+import Clone from 'clone';
+import EventEmitter from 'event-emitter';
 import Dispatcher from '../dispatcher';
-import * as StoreUtils from './utils/storeUtils';
 import * as BroadcastUtil from './utils/broadcastUtil';
 
 class ShowStore extends EventEmitter {
@@ -15,20 +16,31 @@ class ShowStore extends EventEmitter {
             self.emit("change");
         };
 
+        this.pushShows = function(_shows){
+            for (var i = 0; i < _shows.length; i++){
+                this.pushShow(_shows[i]);
+            }
+        };
+
         this.pushShow = function(show){
-            StoreUtils.pushItem(show, self.shows, self.setShows);
+            var clonedShows = Clone(self.shows);
+            var remainingShows = clonedShows.filter((s) => s.Id != show.Id);
+            remainingShows.push(show);
+            self.setShows(remainingShows);
         };
 
         this.removeShow = function(showId){
-            StoreUtils.removeItem(showId, self.shows, self.setShows);
+            var clonedShows = Clone(self.shows);
+            var remainingShows = clonedShows.filter((s) => s.Id != showId);
+            self.setShows(remainingShows);
         };
 
         this.getShows = function(){
-            return self.shows;
+            return self.shows.sort((a, b) => a.Id - b.Id);
         };
 
-        this.get = function(id){
-            return StoreUtils.get(id, self.shows);
+        this.get = function(showId){
+            return Clone(self.shows.find((show) => show.Id == showId));
         };
 
         this.handleAction = function(action){
@@ -37,7 +49,7 @@ class ShowStore extends EventEmitter {
                     //TODO
                     break;
                 case "LOAD_SHOWS_SUCCESS":
-                    self.setShows(action.shows);
+                    self.pushShows(action.shows);
                     break;
                 case "LOAD_SHOWS_FAIL":
                     //TODO
@@ -88,4 +100,4 @@ class ShowStore extends EventEmitter {
     }  
 }
 
-export default new ShowStore;
+export default  new ShowStore();

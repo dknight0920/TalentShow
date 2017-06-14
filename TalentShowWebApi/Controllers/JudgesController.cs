@@ -39,9 +39,12 @@ namespace TalentShowWebApi.Controllers
         }
 
         // GET api/Judges/5
-        public JudgeDto Get(int id)
+        public HttpResponseMessage Get(int id)
         {
-            return JudgeService.Get(id).ConvertToDto();
+            if (JudgeService.Exists(id))
+                return Request.CreateResponse(HttpStatusCode.OK, JudgeService.Get(id).ConvertToDto());
+
+            return Request.CreateResponse(HttpStatusCode.NotFound);
         }
 
         // POST api/Judges

@@ -32,9 +32,17 @@ namespace TalentShow.Services
             var contestants = new List<Contestant>();
 
             foreach (var cc in contestContestantCollection)
-                contestants.Add(ContestantRepo.Get(cc.ContestantId));
+            {
+                if (ContestantRepo.Exists(cc.ContestantId)) 
+                    contestants.Add(ContestantRepo.Get(cc.ContestantId));
+            }
 
             return contestants;
+        }
+
+        public bool Exists(int id)
+        {
+            return ContestantRepo.Exists(id);
         }
 
         public Contestant Get(int id)

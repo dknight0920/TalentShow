@@ -31,10 +31,12 @@ namespace TalentShowDataStorage.Helpers
                 DataSet ds = new DataSet();
                 var dt = new DataTable();
                 ds.Tables.Add(dt);
-                ds.EnforceConstraints = false;
+                ds.EnforceConstraints = false;        
                 var reader = command.ExecuteReader();
-                dt.Load(reader);
+                dt.Load(reader);   
                 command.Dispose();
+                ds.AcceptChanges();
+                dt.AcceptChanges();
                 return dt.CreateDataReader();
             }
         }

@@ -40,9 +40,12 @@ namespace TalentShowWebApi.Controllers
         }
 
         // GET api/ScoreCards/5
-        public ScoreCardDto Get(int id)
+        public HttpResponseMessage Get(int id)
         {
-            return ScoreCardService.Get(id).ConvertToDto();
+            if (ScoreCardService.Exists(id))
+                return Request.CreateResponse(HttpStatusCode.OK, ScoreCardService.Get(id).ConvertToDto());
+
+            return Request.CreateResponse(HttpStatusCode.NotFound);
         }
 
         // POST api/ScoreCards

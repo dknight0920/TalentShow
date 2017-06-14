@@ -56,7 +56,7 @@ class JudgeStore extends EventEmitter {
                     //TODO
                     break;
                 case "LOAD_CONTEST_JUDGES_SUCCESS":
-                        self.pushJudges(action.contestId, action.judges);
+                    self.pushJudges(action.contestId, action.judges);
                     break;
                 case "LOAD_CONTEST_JUDGES_FAIL":
                     //TODO
@@ -65,7 +65,7 @@ class JudgeStore extends EventEmitter {
                     //TODO
                     break;
                 case "LOAD_JUDGE_SUCCESS":
-                    this.pushJudge(action.contestId, action.judge);
+                    self.pushJudge(action.contestId, action.judge);
                     break;
                 case "LOAD_JUDGE_FAIL":
                     //TODO

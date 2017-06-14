@@ -38,7 +38,10 @@ namespace TalentShow.Services
             var judges = new List<Judge>();
 
             foreach (var cj in contestJudgeCollection)
-                judges.Add(JudgeRepo.Get(cj.JudgeId));
+            {
+                if (JudgeRepo.Exists(cj.JudgeId))
+                    judges.Add(JudgeRepo.Get(cj.JudgeId));
+            }
 
             return judges;
         }
@@ -52,6 +55,11 @@ namespace TalentShow.Services
         public ICollection<Judge> GetAll()
         {
             return JudgeRepo.GetAll();
+        }
+
+        public bool Exists(int id)
+        {
+            return JudgeRepo.Exists(id);
         }
 
         public Judge Get(int id)

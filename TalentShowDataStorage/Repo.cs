@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using TalentShowDataStorage.Helpers;
 using TalentShow.Repos;
+using System;
 
 namespace TalentShowDataStorage
 {
@@ -58,7 +59,7 @@ namespace TalentShowDataStorage
             string sql = GetSelectStatement() + WhereIdEquals();
             SqlCommand command = new SqlCommand(sql);
             AddIdParameterToCommand(command, id);
-            IDataReader reader = SqlServerCommandHelper.ExecuteSqlQuery(command);      
+            IDataReader reader = SqlServerCommandHelper.ExecuteSqlQuery(command);
             reader.Read();
             return GetItemFromDataReader(reader);
         }

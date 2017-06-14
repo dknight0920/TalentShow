@@ -37,6 +37,11 @@ namespace TalentShow.Services
             return ScoreCardRepo.GetAll();
         }
 
+        public bool Exists(int id)
+        {
+            return ScoreCardRepo.Exists(id);
+        }
+
         public ScoreCard Get(int id)
         {
             return ScoreCardRepo.Get(id);

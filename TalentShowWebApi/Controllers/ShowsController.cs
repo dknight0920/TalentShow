@@ -32,9 +32,12 @@ namespace TalentShowWebApi.Controllers
         }
 
         // GET api/Shows/5
-        public ShowDto Get(int id)
+        public HttpResponseMessage Get(int id)
         {
-            return ShowService.Get(id).ConvertToDto();
+            if (ShowService.Exists(id))
+                return Request.CreateResponse(HttpStatusCode.OK, ShowService.Get(id).ConvertToDto());
+
+            return Request.CreateResponse(HttpStatusCode.NotFound);
         }
 
         // POST api/Shows

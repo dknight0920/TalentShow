@@ -56,7 +56,7 @@ class ContestantStore extends EventEmitter {
                     //TODO
                     break;
                 case "LOAD_CONTEST_CONTESTANTS_SUCCESS":
-                        self.pushContestants(action.contestId, action.contestants);
+                    self.pushContestants(action.contestId, action.contestants);
                     break;
                 case "LOAD_CONTEST_CONTESTANTS_FAIL":
                     //TODO
@@ -65,7 +65,7 @@ class ContestantStore extends EventEmitter {
                     //TODO
                     break;
                 case "LOAD_CONTESTANT_SUCCESS":
-                    this.pushContestant(action.contestId, action.contestant);
+                    self.pushContestant(action.contestId, action.contestant);
                     break;
                 case "LOAD_CONTESTANT_FAIL":
                     //TODO
