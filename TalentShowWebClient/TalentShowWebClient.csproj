@@ -129,12 +129,14 @@
     <Content Include="src\data\actions\judgeActions.js" />
     <Content Include="src\data\actions\organizationActions.js" />
     <Content Include="src\data\actions\scoreCardActions.js" />
+    <Content Include="src\data\actions\scoreCriterionActions.js" />
     <Content Include="src\data\actions\showActions.js" />
     <Content Include="src\data\api\contestantApi.js" />
     <Content Include="src\data\api\contestApi.js" />
     <Content Include="src\data\api\judgeApi.js" />
     <Content Include="src\data\api\organizationApi.js" />
     <Content Include="src\data\api\scoreCardApi.js" />
+    <Content Include="src\data\api\scoreCriterionApi.js" />
     <Content Include="src\data\api\showApi.js" />
     <Content Include="src\data\api\tokenApi.js" />
     <Content Include="src\data\api\utils\accessTokenUtil.js" />
@@ -147,6 +149,7 @@
     <Content Include="src\data\stores\judgeStore.js" />
     <Content Include="src\data\stores\organizationStore.js" />
     <Content Include="src\data\stores\scoreCardStore.js" />
+    <Content Include="src\data\stores\scoreCriteriaStore.js" />
     <Content Include="src\data\stores\showStore.js" />
     <Content Include="src\data\stores\currentUserStore.js" />
     <Content Include="src\data\stores\utils\broadcastUtil.js" />
@@ -170,6 +173,7 @@
     <Content Include="src\modules\ControlCenter\show\contest\judge\judge.js" />
     <Content Include="src\modules\ControlCenter\show\contest\judge\judgeEditor.js" />
     <Content Include="src\modules\ControlCenter\show\contest\judge\judgeUtil.js" />
+    <Content Include="src\modules\ControlCenter\show\contest\scoreCriteria.js" />
     <Content Include="src\modules\ControlCenter\show\editShow.js" />
     <Content Include="src\modules\ControlCenter\show\show.js" />
     <Content Include="src\modules\ControlCenter\show\showEditor.js" />

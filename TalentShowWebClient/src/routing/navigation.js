@@ -49,6 +49,10 @@ export function goToEditJudge(showId, contestId, judgeId) {
     hashHistory.push('/show/' + showId + '/contest/' + contestId + '/judge/' + judgeId + '/edit');
 };
 
+export function goToAddScoreCriterion(showId, contestId) {
+    hashHistory.push('/show/' + showId + '/contest/' + contestId + '/scorecriteria/add');
+};
+
 export function goToScorecard(showId, contestId, contestantId, scorecardId) {
     hashHistory.push('/show/' + showId + '/contest/' + contestId + '/contestant/' + contestantId + '/scorecard/' + scorecardId);
 };

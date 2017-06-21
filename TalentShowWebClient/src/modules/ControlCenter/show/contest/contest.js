@@ -2,10 +2,12 @@
 import * as Nav from '../../../../routing/navigation';
 import ContestantsBox from './contestants';
 import JudgesBox from './judges';
+import ScoreCriteriaBox from './scoreCriteria';
 import ContestStore from '../../../../data/stores/contestStore';
 import * as ContestActions from '../../../../data/actions/contestActions';
 import * as ContestantActions from '../../../../data/actions/contestantActions';
 import * as JudgeActions from '../../../../data/actions/judgeActions';
+import * as ScoreCriterionActions from '../../../../data/actions/scoreCriterionActions';
 import PageContent from '../../../../common/pageContent';
 import Button from '../../../../common/button';
 import TimeoutComponent from '../../../../common/timeoutComponent';
@@ -29,7 +31,8 @@ class ContestPage extends TimeoutComponent {
         ContestStore.on("change", this.storeChanged);
         ContestActions.loadContest(this.getShowId(), this.getContestId());
         ContestantActions.loadContestContestants(this.getContestId());
-        JudgeActions.loadContestJudges(this.getContestId());
+        JudgeActions.loadContestJudges(this.getContestId());   
+        ScoreCriterionActions.loadContestScoreCriteria(this.getContestId());
         ContestActions.joinHubGroup(this.getShowId());
         ContestantActions.joinHubGroup(this.getContestId());
         JudgeActions.joinHubGroup(this.getContestId());
@@ -119,6 +122,7 @@ class ContestPage extends TimeoutComponent {
             <PageContent title={"Contest: " + contest.Name} description={contest.Description} buttons={contestPageButtons}>
                 <ContestantsBox showId={showId} contestId={contestId} />         
                 <JudgesBox showId={showId} contestId={contestId} />
+                <ScoreCriteriaBox showId={showId} contestId={contestId} />
             </PageContent>
         );
     }
