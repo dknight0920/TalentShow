@@ -18,18 +18,23 @@ namespace TalentShowWebApi.Controllers
     public class ScoreCriteriaController : ApiController
     {
         private readonly ScoreCriterionService ScoreCriterionService;
+        private readonly ContestService ContestService;
 
         public ScoreCriteriaController()
         {
             ScoreCriterionService = new ScoreCriterionService(new ScoreCriterionRepo(), new ContestScoreCriterionRepo());
+            ContestService = new ContestService(new ContestRepo(), new ShowContestRepo());
         }
 
         // GET api/ScoreCriteria/Contest/5
         [HttpGet]
         [Route("api/ScoreCriteria/Contest/{id}")]
-        public IEnumerable<ScoreCriterionDto> GetContestScoreCriteria(int id)
+        public HttpResponseMessage GetContestScoreCriteria(int id)
         {
-            return ScoreCriterionService.GetContestScoreCriteria(id).ConvertToDto();
+            if(ContestService.Exists(id))
+                return Request.CreateResponse(HttpStatusCode.OK, ScoreCriterionService.GetContestScoreCriteria(id).ConvertToDto());
+
+            return Request.CreateResponse(HttpStatusCode.NotFound);
         }
 
         // GET api/ScoreCriteria

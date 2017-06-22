@@ -81,25 +81,37 @@ namespace TalentShowDataStorage
             var contestantRepo = new ContestantRepo();
 
             foreach (var cc in contestContestantCollection)
-                contest.Contestants.Add(contestantRepo.Get(cc.ContestantId));
+            {
+                if(contestantRepo.Exists(cc.ContestantId))
+                    contest.Contestants.Add(contestantRepo.Get(cc.ContestantId));
+            }
 
             var contestJudgeCollection = new ContestJudgeRepo().GetAll().Where(cj => cj.ContestId == contest.Id);
             var judgeRepo = new JudgeRepo();
 
             foreach (var cj in contestJudgeCollection)
-                contest.Judges.Add(judgeRepo.Get(cj.JudgeId));
+            {
+                if(judgeRepo.Exists(cj.JudgeId))
+                    contest.Judges.Add(judgeRepo.Get(cj.JudgeId));
+            }
 
             var contestScoreCardCollection = new ContestScoreCardRepo().GetAll().Where(sc => sc.ContestId == contest.Id);
             var scoreCardRepo = new ScoreCardRepo();
 
             foreach (var sc in contestScoreCardCollection)
-                contest.ScoreCards.Add(scoreCardRepo.Get(sc.ScoreCardId));
+            {
+                if(scoreCardRepo.Exists(sc.ScoreCardId))
+                    contest.ScoreCards.Add(scoreCardRepo.Get(sc.ScoreCardId));
+            }
 
             var contestScorCriterionCollection = new ContestScoreCriterionRepo().GetAll().Where(sc => sc.ContestId == contest.Id);
             var scoreCriterionRepo = new ScoreCriterionRepo();
 
             foreach (var sc in contestScorCriterionCollection)
-                contest.ScoreCriteria.Add(scoreCriterionRepo.Get(sc.ScoreCriterionId));
+            {
+                if(scoreCriterionRepo.Exists(sc.ScoreCriterionId))
+                    contest.ScoreCriteria.Add(scoreCriterionRepo.Get(sc.ScoreCriterionId));
+            }
 
             return contest;
         }

@@ -70,7 +70,10 @@ namespace TalentShowDataStorage
             var scorableCriterionRepo = new ScorableCriterionRepo();
 
             foreach (var scoreCardScorableCriterion in scoreCardScorableCriterionCollection)
-                scorableCriteria.Add(scorableCriterionRepo.Get(scoreCardScorableCriterion.ScorableCriterionId));
+            {
+                if(scorableCriterionRepo.Exists(scoreCardScorableCriterion.ScorableCriterionId))
+                    scorableCriteria.Add(scorableCriterionRepo.Get(scoreCardScorableCriterion.ScorableCriterionId));
+            }
 
             return new ScoreCard(id, contestant, judge, scorableCriteria);
         }
