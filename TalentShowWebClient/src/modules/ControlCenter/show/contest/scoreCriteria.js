@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import * as Nav from '../../../../routing/navigation';
 import { ListPanel, ListPanelItem } from '../../../../common/listPanel';
-import ScoreCriteriaStore from '../../../../data/stores/scoreCriteriaStore';
+import ScoreCriterionStore from '../../../../data/stores/scoreCriterionStore';
 import Button from '../../../../common/button';
 
 class ScoreCriteriaBox extends React.Component {
@@ -17,11 +17,11 @@ class ScoreCriteriaBox extends React.Component {
     }
 
     componentWillMount(){
-        ScoreCriteriaStore.on("change", this.storeChanged);
+        ScoreCriterionStore.on("change", this.storeChanged);
     }
 
     componentWillUnmount(){
-        ScoreCriteriaStore.off("change", this.storeChanged);
+        ScoreCriterionStore.off("change", this.storeChanged);
     }
 
     storeChanged(){
@@ -29,7 +29,7 @@ class ScoreCriteriaBox extends React.Component {
     }
 
     getState(){
-        return { scoreCriteria: ScoreCriteriaStore.getContestScoreCriteria(this.getContestId()) };
+        return { scoreCriteria: ScoreCriterionStore.getContestScoreCriteria(this.getContestId()) };
     }
 
     getContestId(){
