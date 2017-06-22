@@ -54,8 +54,8 @@ class ScoreCriteriaBox extends React.Component {
                 <ListPanelItem 
                     key={scoreCriterion.Id} 
                     name={scoreCriterion.CriterionDescription} 
-                    description={scoreCriterion.Id + " - " + scoreCriterion.CriterionDescription} 
-                    pathname={ '/show/' + showId + '/contest/' + contestId + '/scorecriterion/' + scoreCriterion.Id } /> //TODO
+                    description={"Min: " + scoreCriterion.ScoreRange.Min + " Max: " + scoreCriterion.ScoreRange.Max} 
+                    pathname={ '/show/' + showId + '/contest/' + contestId + '/scorecriterion/' + scoreCriterion.Id } />
             );
         });
 

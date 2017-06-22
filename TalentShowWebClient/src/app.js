@@ -17,6 +17,7 @@ import judge from './modules/ControlCenter/show/contest/judge/judge';
 import addJudge from './modules/ControlCenter/show/contest/judge/addJudge'
 import editJudge from './modules/ControlCenter/show/contest/judge/editJudge';
 import scoreCriterion from './modules/ControlCenter/show/contest/scoreCriterion/scoreCriterion';
+import addScoreCriterion from './modules/ControlCenter/show/contest/scoreCriterion/addScoreCriterion'
 import scoreCard from './modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard';
 import * as Hubs from './data/signalr/hubs';
 
@@ -76,6 +77,7 @@ function getToken(){
                         <Route path="/show/:showId/contest/:contestId/judges/add" component={addJudge} />
                         <Route path="/show/:showId/contest/:contestId/judge/:judgeId" component={judge} />
                         <Route path="/show/:showId/contest/:contestId/judge/:judgeId/edit" component={editJudge} />
+                        <Route path="/show/:showId/contest/:contestId/scorecriteria/add" component={addScoreCriterion} />
                         <Route path="/show/:showId/contest/:contestId/scorecriterion/:scoreCriterionId" component={scoreCriterion} />
                         <Route path="/about" component={about} />
                         <Route path="/judges" component={judges} />
