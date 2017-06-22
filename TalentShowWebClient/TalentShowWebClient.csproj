@@ -175,6 +175,7 @@
     <Content Include="src\modules\ControlCenter\show\contest\judge\judgeUtil.js" />
     <Content Include="src\modules\ControlCenter\show\contest\scoreCriteria.js" />
     <Content Include="src\modules\ControlCenter\show\contest\scoreCriterion\addScoreCriterion.js" />
+    <Content Include="src\modules\ControlCenter\show\contest\scoreCriterion\editScoreCriterion.js" />
     <Content Include="src\modules\ControlCenter\show\contest\scoreCriterion\scoreCriterion.js" />
     <Content Include="src\modules\ControlCenter\show\contest\scoreCriterion\scoreCriterionEditor.js" />
     <Content Include="src\modules\ControlCenter\show\editShow.js" />

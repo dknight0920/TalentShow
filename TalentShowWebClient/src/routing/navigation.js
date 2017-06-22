@@ -53,6 +53,14 @@ export function goToAddScoreCriterion(showId, contestId) {
     hashHistory.push('/show/' + showId + '/contest/' + contestId + '/scorecriteria/add');
 };
 
+export function goToScoreCriterion(showId, contestId, scoreCriterionId) {
+    hashHistory.push('/show/' + showId + '/contest/' + contestId + '/scorecriterion/' + scoreCriterionId);
+};
+
+export function goToEditScoreCriterion(showId, contestId, scoreCriterionId) {
+    hashHistory.push('/show/' + showId + '/contest/' + contestId + '/scorecriterion/' + scoreCriterionId + '/edit');
+};
+
 export function goToScorecard(showId, contestId, contestantId, scorecardId) {
     hashHistory.push('/show/' + showId + '/contest/' + contestId + '/contestant/' + contestantId + '/scorecard/' + scorecardId);
 };
