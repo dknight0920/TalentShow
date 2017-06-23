@@ -1,4 +1,5 @@
-﻿import EventEmitter from 'event-emitter';
+﻿'use strict';
+import EventEmitter from 'event-emitter';
 import * as TokenApi from '../api/tokenApi';
 import Dispatcher from '../dispatcher';
 

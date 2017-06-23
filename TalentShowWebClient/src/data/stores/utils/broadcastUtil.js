@@ -1,4 +1,5 @@
-﻿import * as Hubs from '../../signalr/hubs';
+﻿'use strict';
+import * as Hubs from '../../signalr/hubs';
 
 export function broadcastShowChange(groupName){
     Hubs.controlCenterHubProxy.invoke('ShowChanged', groupName);

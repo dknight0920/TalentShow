@@ -1,4 +1,5 @@
-﻿var getName = function (judge) {
+﻿'use strict';
+var getName = function (judge) {
     return judge.Name.FirstName + " " + judge.Name.LastName + " (" + judge.Id + ")" ;
 };
 

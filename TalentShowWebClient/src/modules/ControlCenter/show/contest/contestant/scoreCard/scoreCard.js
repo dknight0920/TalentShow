@@ -1,4 +1,5 @@
-﻿import React from 'react';
+﻿'use strict';
+import React from 'react';
 import ScoreCardStore from '../../../../../../data/stores/scoreCardStore';
 import * as ScoreCardActions from '../../../../../../data/actions/scoreCardActions';
 import * as ScoreCardUtil from './scoreCardUtil';

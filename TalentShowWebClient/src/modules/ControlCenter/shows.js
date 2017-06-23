@@ -1,4 +1,5 @@
-﻿import React from 'react';
+﻿'use strict';
+import React from 'react';
 import * as Nav from '../../routing/navigation';
 import ShowStore from '../../data/stores/showStore';
 import * as ShowActions from '../../data/actions/showActions';

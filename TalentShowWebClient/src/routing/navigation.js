@@ -1,4 +1,5 @@
-﻿import React from 'react';
+﻿'use strict';
+import React from 'react';
 import { hashHistory } from 'react-router';
 
 export function goToUnauthorized() {
@@ -33,8 +34,16 @@ export function goToEditContest(showId, contestId) {
     hashHistory.push('/show/' + showId + '/contest/' + contestId + '/edit');
 };
 
+export function goToAddContestant(showId, contestId) {
+    hashHistory.push('/show/' + showId + '/contest/' + contestId + '/contestants/add');
+};
+
 export function goToContestant(showId, contestId, contestantId) {
     hashHistory.push('/show/' + showId + '/contest/' + contestId + '/contestant/' + contestantId);
+};
+
+export function goToEditContestant(showId, contestId, contestantId) {
+    hashHistory.push('/show/' + showId + '/contest/' + contestId + '/contestant/' + contestantId + '/edit');
 };
 
 export function goToAddJudge(showId, contestId) {

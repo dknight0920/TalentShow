@@ -1,4 +1,5 @@
-﻿import React from 'react';
+﻿'use strict';
+import React from 'react';
 import Clone from 'clone';
 import ScoreCardStore from '../../../../../../data/stores/scoreCardStore';
 import Panel from '../../../../../../common/panel';

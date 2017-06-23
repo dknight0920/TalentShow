@@ -1,4 +1,5 @@
-﻿import React from 'react';
+﻿'use strict';
+import React from 'react';
 import Clone from 'clone';
 import Select from 'react-select';
 import OrganizationStore from '../../../../../data/stores/organizationStore';

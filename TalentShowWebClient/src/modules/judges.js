@@ -1,4 +1,5 @@
-﻿import React from 'react';
+﻿'use strict';
+import React from 'react';
 import Input from '../common/input';
 import FormGroup from '../common/formGroup';
 import $ from 'jquery';

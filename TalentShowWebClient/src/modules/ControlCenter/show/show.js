@@ -1,4 +1,5 @@
-﻿import React from 'react';
+﻿'use strict';
+import React from 'react';
 import * as Nav from '../../../routing/navigation';
 import ContestsBox from './contests';
 import ShowStore from '../../../data/stores/showStore';

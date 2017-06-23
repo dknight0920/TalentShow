@@ -55,15 +55,21 @@ namespace TalentShow.Services
             return ContestantRepo.GetAll();
         }
 
+        public void AddContestContestant(int contestId, Contestant contestant)
+        {
+            Add(contestant);
+            ContestContestantRepo.Add(new ContestContestant(contestId, contestant.Id));
+        }
+
         public void Add(Contestant contestant)
         {
-            Validate(contestant);
+            AddOrUpdatePerformance(contestant.Performance);
             ContestantRepo.Add(contestant);
         }
 
         public void Update(Contestant contestant)
         {
-            Validate(contestant);
+            AddOrUpdatePerformance(contestant.Performance);
             ContestantRepo.Update(contestant);
         }
 
@@ -82,10 +88,12 @@ namespace TalentShow.Services
             ContestantRepo.DeleteAll();
         }
 
-        private void Validate(Contestant contestant)
+        private void AddOrUpdatePerformance(Performance performance)
         {
-            if (!PerformanceRepo.Exists(contestant.Performance.Id))
-                throw new ApplicationException("The contestant cannot be added because its performance does not exist. Add the performance before adding the contestant.");
+            if (!PerformanceRepo.Exists(performance.Id))
+                PerformanceRepo.Add(performance);
+            else
+                PerformanceRepo.Update(performance);
         }
     }
 }

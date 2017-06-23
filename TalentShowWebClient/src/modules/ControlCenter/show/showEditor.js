@@ -1,4 +1,5 @@
-﻿import React from 'react';
+﻿'use strict';
+import React from 'react';
 import Clone from 'clone';
 import FormGroup from '../../../common/formGroup'
 import Input from '../../../common/input';

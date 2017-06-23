@@ -1,42 +1,57 @@
 ﻿'use strict';
 import React from 'react';
-import ScoreCardsBox from './scoreCards';
+import * as Nav from '../../../../../routing/navigation';
+import ContestantEditor from './contestantEditor';
 import ContestantStore from '../../../../../data/stores/contestantStore';
 import * as ContestantActions from '../../../../../data/actions/contestantActions';
-import * as ScoreCardActions from '../../../../../data/actions/scoreCardActions';
-import * as ContestantUtil from './contestantUtil';
 import PageContent from '../../../../../common/pageContent';
+import RoleAwareComponent from '../../../../../common/roleAwareComponent';
 
-class ContestantPage extends React.Component {
+class EditContestantPage extends RoleAwareComponent {
     constructor(props) {
-        super(props);  
+        super(props);
         this.getState = this.getState.bind(this);
         this.storeChanged = this.storeChanged.bind(this);
         this.getContestant = this.getContestant.bind(this);
         this.getContestantId = this.getContestantId.bind(this);
         this.getContestId = this.getContestId.bind(this);
         this.getShowId = this.getShowId.bind(this);
+        this.handleClickSave = this.handleClickSave.bind(this);
+        this.handleClickCancel = this.handleClickCancel.bind(this);
+        this.navigateToContestantPage = this.navigateToContestantPage.bind(this);
+        this.authorizedRoles = ["admin"];
         this.state = this.getState();
     }
 
     componentWillMount(){
+        this.redirectUnauthorizedUser();
         ContestantStore.on("change", this.storeChanged);
-        ContestantActions.loadContestant(this.getContestId(), this.getContestantId());       
-        ScoreCardActions.loadContestantScoreCards(this.getContestantId());
+        ContestantActions.loadContestant(this.getContestId(), this.getContestantId());
         ContestantActions.joinHubGroup(this.getContestId());
-        ScoreCardActions.joinHubGroup(this.getContestantId());
     }
 
     componentWillUnmount(){
         ContestantStore.off("change", this.storeChanged);
         ContestantActions.leaveHubGroup(this.getContestId());
-        ScoreCardActions.leaveHubGroup(this.getContestantId());
     }
 
     storeChanged(){
         this.setState(this.getState());
     }
 
+    handleClickSave(contestant) {
+        ContestantActions.updateContestant(this.getContestId(), contestant);
+        this.navigateToContestantPage();
+    }
+
+    handleClickCancel() {
+        this.navigateToContestantPage();
+    }
+
+    navigateToContestantPage() {
+        Nav.goToContestant(this.getShowId(), this.getContestId(), this.getContestantId());
+    }
+    
     getState(){
         return { contestant: this.getContestant() };
     }
@@ -67,11 +82,11 @@ class ContestantPage extends React.Component {
         }
 
         return (
-            <PageContent title={"Contestant: " + ContestantUtil.getName(contestant)} description={ContestantUtil.getDescription(contestant)}>
-                <ScoreCardsBox showId={this.props.params.showId} contestId={this.props.params.contestId} contestantId={this.props.params.contestantId} />
+            <PageContent title="Edit a Contestant" description="Use the form below to edit the contestant.">
+                <ContestantEditor contestant={contestant} authorizedRoles={this.authorizedRoles} OnClickSave={this.handleClickSave} OnClickCancel={this.handleClickCancel}/>
             </PageContent>
         );
     }
 }
 
-export default ContestantPage;
+export default EditContestantPage;

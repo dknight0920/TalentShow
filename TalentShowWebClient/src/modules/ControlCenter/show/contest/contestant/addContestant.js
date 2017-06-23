@@ -1,13 +1,12 @@
 ﻿'use strict';
 import React from 'react';
 import * as Nav from '../../../../../routing/navigation';
-import JudgeEditor from './judgeEditor';
-import * as JudgeActions from '../../../../../data/actions/judgeActions';
-import * as OrganizationActions from '../../../../../data/actions/organizationActions';
+import ContestantEditor from './contestantEditor';
+import * as ContestantActions from '../../../../../data/actions/contestantActions';
 import PageContent from '../../../../../common/pageContent';
 import RoleAwareComponent from '../../../../../common/roleAwareComponent';
 
-class AddJudgePage extends RoleAwareComponent {
+class AddContestantPage extends RoleAwareComponent {
     constructor(props) {
         super(props);
         this.handleClickSave = this.handleClickSave.bind(this);
@@ -20,16 +19,14 @@ class AddJudgePage extends RoleAwareComponent {
 
     componentWillMount(){
         this.redirectUnauthorizedUser();
-        OrganizationActions.loadOrganizations();
-        OrganizationActions.joinHubGroup();
     }
 
     componentWillUnmount(){
-        OrganizationActions.leaveHubGroup();
+
     }
 
-    handleClickSave(newJudge) {
-        JudgeActions.addJudge(this.getContestId(), newJudge);
+    handleClickSave(newContestant) {
+        ContestantActions.addContestant(this.getContestId(), newContestant);
         this.navigateToContestPage();
     }
 
@@ -51,11 +48,11 @@ class AddJudgePage extends RoleAwareComponent {
 
     render() {
         return (
-            <PageContent title="Create a Judge" description="Use the form below to create a new judge.">
-                <JudgeEditor authorizedRoles={this.authorizedRoles} OnClickSave={this.handleClickSave} OnClickCancel={this.handleClickCancel}/>
+            <PageContent title="Create a Contestant" description="Use the form below to create a new contestant.">
+                <ContestantEditor authorizedRoles={this.authorizedRoles} OnClickSave={this.handleClickSave} OnClickCancel={this.handleClickCancel}/>
             </PageContent>
         );
     }
 }
 
-export default AddJudgePage;
+export default AddContestantPage;

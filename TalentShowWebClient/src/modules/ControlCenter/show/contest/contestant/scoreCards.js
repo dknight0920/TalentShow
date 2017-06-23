@@ -1,7 +1,8 @@
-﻿import React from 'react';
+﻿'use strict';
+import React from 'react';
 import { ListPanel, ListPanelItem } from '../../../../../common/listPanel';
 import ScoreCardStore from '../../../../../data/stores/scoreCardStore';
-import * as ScoreCardUtil from './scorecard/scoreCardUtil'
+import * as ScoreCardUtil from './scorecard/scoreCardUtil';
 
 class ScoreCardsBox extends React.Component {
 

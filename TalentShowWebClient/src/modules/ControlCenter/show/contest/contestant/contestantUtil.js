@@ -1,4 +1,5 @@
-﻿var getName = function (contestant) {
+﻿'use strict';
+var getName = function (contestant) {
     var performerNames = "";
 
     //for (var i = 0; i < contestant.Performers.length; i++) {

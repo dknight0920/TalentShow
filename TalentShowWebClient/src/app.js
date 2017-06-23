@@ -1,4 +1,5 @@
-﻿import React from 'react';
+﻿'use strict';
+import React from 'react';
 import { render } from 'react-dom';
 import { Router, Route, hashHistory, IndexRoute, Link  } from 'react-router';
 import about from './modules/about';
@@ -13,11 +14,13 @@ import contest from './modules/ControlCenter/show/contest/contest';
 import addContest from './modules/ControlCenter/show/contest/addContest';
 import editContest from './modules/ControlCenter/show/contest/editContest';
 import contestant from './modules/ControlCenter/show/contest/contestant/contestant';
+import addContestant from './modules/ControlCenter/show/contest/contestant/addContestant';
+import editContestant from './modules/ControlCenter/show/contest/contestant/editContestant';
 import judge from './modules/ControlCenter/show/contest/judge/judge';
 import addJudge from './modules/ControlCenter/show/contest/judge/addJudge'
 import editJudge from './modules/ControlCenter/show/contest/judge/editJudge';
 import scoreCriterion from './modules/ControlCenter/show/contest/scoreCriterion/scoreCriterion';
-import addScoreCriterion from './modules/ControlCenter/show/contest/scoreCriterion/addScoreCriterion'
+import addScoreCriterion from './modules/ControlCenter/show/contest/scoreCriterion/addScoreCriterion';
 import editScoreCriterion from './modules/ControlCenter/show/contest/scoreCriterion/editScoreCriterion';
 import scoreCard from './modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard';
 import * as Hubs from './data/signalr/hubs';
@@ -73,7 +76,9 @@ function getToken(){
                         <Route path="/show/:showId/contests/add" component={addContest} />
                         <Route path="/show/:showId/contest/:contestId" component={contest} />
                         <Route path="/show/:showId/contest/:contestId/edit" component={editContest} />
+                        <Route path="/show/:showId/contest/:contestId/contestants/add" component={addContestant} />
                         <Route path="/show/:showId/contest/:contestId/contestant/:contestantId" component={contestant} />
+                        <Route path="/show/:showId/contest/:contestId/contestant/:contestantId/edit" component={editContestant} />
                         <Route path="/show/:showId/contest/:contestId/contestant/:contestantId/scorecard/:scoreCardId" component={scoreCard} />                       
                         <Route path="/show/:showId/contest/:contestId/judges/add" component={addJudge} />
                         <Route path="/show/:showId/contest/:contestId/judge/:judgeId" component={judge} />

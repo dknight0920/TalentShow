@@ -1,7 +1,8 @@
-﻿import React from 'react';
+﻿'use strict';
+import React from 'react';
 import * as Nav from '../routing/navigation';
 import Input from '../common/input';
-import FormGroup from '../common/formGroup'
+import FormGroup from '../common/formGroup';
 import $ from 'jquery';
 import CurrentUserStore from '../data/stores/currentUserStore';
 import * as CurrentUserActions from '../data/actions/currentUserActions';
