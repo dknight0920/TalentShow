@@ -46770,9 +46770,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _scoreCards = require('./scoreCards');
+var _navigation = require('../../../../../routing/navigation');
 
-var _scoreCards2 = _interopRequireDefault(_scoreCards);
+var Nav = _interopRequireWildcard(_navigation);
 
 var _contestantStore = require('../../../../../data/stores/contestantStore');
 
@@ -46794,6 +46794,18 @@ var _pageContent = require('../../../../../common/pageContent');
 
 var _pageContent2 = _interopRequireDefault(_pageContent);
 
+var _scoreCards = require('./scoreCards');
+
+var _scoreCards2 = _interopRequireDefault(_scoreCards);
+
+var _button = require('../../../../../common/button');
+
+var _button2 = _interopRequireDefault(_button);
+
+var _timeoutComponent = require('../../../../../common/timeoutComponent');
+
+var _timeoutComponent2 = _interopRequireDefault(_timeoutComponent);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -46804,8 +46816,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var ContestantPage = function (_React$Component) {
-    _inherits(ContestantPage, _React$Component);
+var ContestantPage = function (_TimeoutComponent) {
+    _inherits(ContestantPage, _TimeoutComponent);
 
     function ContestantPage(props) {
         _classCallCheck(this, ContestantPage);
@@ -46818,6 +46830,10 @@ var ContestantPage = function (_React$Component) {
         _this.getContestantId = _this.getContestantId.bind(_this);
         _this.getContestId = _this.getContestId.bind(_this);
         _this.getShowId = _this.getShowId.bind(_this);
+        _this.handleEditContestantClick = _this.handleEditContestantClick.bind(_this);
+        _this.handleRemoveContestantClick = _this.handleRemoveContestantClick.bind(_this);
+        _this.getLoadingPageContent = _this.getLoadingPageContent.bind(_this);
+        _this.getFailedToLoadPageContent = _this.getFailedToLoadPageContent.bind(_this);
         _this.state = _this.getState();
         return _this;
     }
@@ -46834,6 +46850,7 @@ var ContestantPage = function (_React$Component) {
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
+            this.resetTimeout();
             _contestantStore2.default.off("change", this.storeChanged);
             ContestantActions.leaveHubGroup(this.getContestId());
             ScoreCardActions.leaveHubGroup(this.getContestantId());
@@ -46869,28 +46886,73 @@ var ContestantPage = function (_React$Component) {
             return this.props.params.showId;
         }
     }, {
+        key: 'getLoadingPageContent',
+        value: function getLoadingPageContent() {
+            this.initTimeout(10000);
+
+            return _react2.default.createElement(_pageContent2.default, { title: 'Loading', description: 'The contestant\'s details are loading, please wait.' });
+        }
+    }, {
+        key: 'getFailedToLoadPageContent',
+        value: function getFailedToLoadPageContent() {
+            var self = this;
+            this.initTimeout(5000, function () {
+                Nav.goToContest(self.getContestId());
+            });
+
+            return _react2.default.createElement(_pageContent2.default, { title: 'Failed to Load Contestant', description: 'The requested contestant could not be loaded in a timely manner. The contestant may not exist. You will be automatically redirected shortly.' });
+        }
+    }, {
+        key: 'handleEditContestantClick',
+        value: function handleEditContestantClick(e) {
+            e.preventDefault();
+            Nav.goToEditContestant(this.getShowId(), this.getContestId(), this.getContestantId());
+        }
+    }, {
+        key: 'handleRemoveContestantClick',
+        value: function handleRemoveContestantClick(e) {
+            e.preventDefault();
+            ContestantActions.removeContestant(this.getContestId(), this.getContestantId());
+            Nav.goToContest(this.getShowId(), this.getContestId());
+        }
+    }, {
         key: 'render',
         value: function render() {
+            this.resetTimeout();
+
+            if (this.hasTimedOut) {
+                return this.getFailedToLoadPageContent();
+            }
+
             var contestant = this.state.contestant;
 
             if (!contestant) {
-                return _react2.default.createElement(_pageContent2.default, { title: 'Loading', description: 'The contestant\'s details are loading, please wait.' });
+                return this.getLoadingPageContent();
             }
+
+            var authorizedRolesForButtons = ["admin"];
+            var contestantPageButtons = _react2.default.createElement(
+                'span',
+                null,
+                _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: authorizedRolesForButtons, name: 'editContestant', value: 'Edit', onClick: this.handleEditContestantClick }),
+                ' ',
+                _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: authorizedRolesForButtons, name: 'removeContestant', value: 'Remove', onClick: this.handleRemoveContestantClick })
+            );
 
             return _react2.default.createElement(
                 _pageContent2.default,
-                { title: "Contestant: " + ContestantUtil.getName(contestant), description: ContestantUtil.getDescription(contestant) },
-                _react2.default.createElement(_scoreCards2.default, { showId: this.props.params.showId, contestId: this.props.params.contestId, contestantId: this.props.params.contestantId })
+                { title: "Contestant: " + ContestantUtil.getName(contestant), description: ContestantUtil.getDescription(contestant), buttons: contestantPageButtons },
+                _react2.default.createElement(_scoreCards2.default, { showId: this.getShowId(), contestId: this.getContestId(), contestantId: this.getContestantId() })
             );
         }
     }]);
 
     return ContestantPage;
-}(_react2.default.Component);
+}(_timeoutComponent2.default);
 
 exports.default = ContestantPage;
 
-},{"../../../../../common/pageContent":298,"../../../../../data/actions/contestantActions":304,"../../../../../data/actions/scoreCardActions":308,"../../../../../data/stores/contestantStore":325,"./contestantUtil":340,"./scoreCards":345,"react":290}],339:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/pageContent":298,"../../../../../common/timeoutComponent":301,"../../../../../data/actions/contestantActions":304,"../../../../../data/actions/scoreCardActions":308,"../../../../../data/stores/contestantStore":325,"../../../../../routing/navigation":368,"./contestantUtil":340,"./scoreCards":345,"react":290}],339:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

@@ -69,10 +69,12 @@ namespace TalentShowWebApi.Controllers
             return newContestant.ConvertToDto();
         }
 
-        // PUT api/Contestants/5
-        public void Put([FromBody]ContestantDto contestant)
+        // PUT api/Judges/5
+        public ContestantDto Put([FromBody]ContestantDto contestant)
         {
-            ContestantService.Update(contestant.ConvertFromDto());
+            var updatedContestant = contestant.ConvertFromDto();
+            ContestantService.Update(updatedContestant);
+            return updatedContestant.ConvertToDto();
         }
 
         // DELETE api/Contestants/5
