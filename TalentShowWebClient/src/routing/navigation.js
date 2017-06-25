@@ -70,6 +70,10 @@ export function goToEditScoreCriterion(showId, contestId, scoreCriterionId) {
     hashHistory.push('/show/' + showId + '/contest/' + contestId + '/scorecriterion/' + scoreCriterionId + '/edit');
 };
 
-export function goToScorecard(showId, contestId, contestantId, scorecardId) {
+export function goToAddScoreCard(showId, contestId, contestantId) {
+    hashHistory.push('/show/' + showId + '/contest/' + contestId + '/contestant/' + contestantId + '/scorecards/add');
+};
+
+export function goToScoreCard(showId, contestId, contestantId, scorecardId) {
     hashHistory.push('/show/' + showId + '/contest/' + contestId + '/contestant/' + contestantId + '/scorecard/' + scorecardId);
 };

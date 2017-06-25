@@ -165,8 +165,10 @@
     <Content Include="src\modules\ControlCenter\show\contest\contestant\contestantUtil.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\editContestant.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCards.js" />
+    <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCard\addScoreCard.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCard\scorableCriteria.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCard\scoreCard.js" />
+    <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCard\scoreCardEditor.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCard\scoreCardUtil.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestEditor.js" />
     <Content Include="src\modules\ControlCenter\show\contest\editContest.js" />

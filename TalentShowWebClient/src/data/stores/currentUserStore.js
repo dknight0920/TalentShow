@@ -20,6 +20,14 @@ currentUserStore.getUserRole = function(){
     return "admin";
 }
 
+currentUserStore.isJudge = function(){
+    return true;
+}
+
+currentUserStore.getJudgeId = function(){
+    return 1168;
+}
+
 currentUserStore.authenticate = function(credentials){
     var loginData = {
         grant_type: 'password',

@@ -1,8 +1,10 @@
 ﻿'use strict';
 import React from 'react';
+import * as Nav from '../../../../../routing/navigation';
 import { ListPanel, ListPanelItem } from '../../../../../common/listPanel';
 import ScoreCardStore from '../../../../../data/stores/scoreCardStore';
-import * as ScoreCardUtil from './scorecard/scoreCardUtil';
+import Button from '../../../../../common/button';
+import * as ScoreCardUtil from './scoreCard/scoreCardUtil';
 
 class ScoreCardsBox extends React.Component {
 
@@ -10,9 +12,10 @@ class ScoreCardsBox extends React.Component {
         super(props);
         this.getState = this.getState.bind(this);
         this.storeChanged = this.storeChanged.bind(this);
-        this.getShowId = this.getShowId.bind(this);
-        this.getContestId = this.getContestId.bind(this);
+        this.handleAddScoreCardClick = this.handleAddScoreCardClick.bind(this);   
         this.getContestantId = this.getContestantId.bind(this);
+        this.getContestId = this.getContestId.bind(this); 
+        this.getShowId = this.getShowId.bind(this);
         this.state = this.getState();
     }
 
@@ -32,16 +35,21 @@ class ScoreCardsBox extends React.Component {
         return { scoreCards: ScoreCardStore.getContestantScoreCards(this.getContestantId()) };
     }
 
-    getShowId(){
-        return this.props.showId;
+    getContestantId(){
+        return this.props.contestantId;
     }
 
     getContestId(){
         return this.props.contestId;
     }
 
-    getContestantId(){
-        return this.props.contestantId;
+    getShowId(){
+        return this.props.showId;
+    }
+
+    handleAddScoreCardClick(e){
+        e.preventDefault();
+        Nav.goToAddScoreCard(this.getShowId(), this.getContestId(), this.getContestantId());
     }
 
     render() {
@@ -59,7 +67,9 @@ class ScoreCardsBox extends React.Component {
             );
         });
 
-        return ( <ListPanel title="Score Cards" items={scoreCards} /> );
+        var addScoreCardButton = ( <Button type="primary" authorizedRoles={["admin","judge"]} name="addScoreCard" value="Add" onClick={this.handleAddScoreCardClick} /> );
+
+        return ( <ListPanel title="ScoreCards" items={scoreCards} button={addScoreCardButton} /> );
     }
 }
 
