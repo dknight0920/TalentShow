@@ -22,7 +22,7 @@ namespace TalentShowWebApi.Controllers
 
         public ScoreCardsController()
         {
-            ScoreCardService = new ScoreCardService(new ScoreCardRepo());
+            ScoreCardService = new ScoreCardService(new ScoreCardRepo(), new ScorableCriterionRepo());
         }
 
         // GET api/ScoreCards/Contestant/5
@@ -49,9 +49,11 @@ namespace TalentShowWebApi.Controllers
         }
 
         // POST api/ScoreCards
-        public void Post([FromBody]ScoreCardDto scoreCard)
+        public ScoreCardDto Post([FromBody]ScoreCardDto scoreCard)
         {
-            ScoreCardService.Add(scoreCard.ConvertFromDto());
+            var newScoreCard = scoreCard.ConvertFromDto();
+            ScoreCardService.Add(newScoreCard);
+            return newScoreCard.ConvertToDto();
         }
 
         // PUT api/ScoreCards/5

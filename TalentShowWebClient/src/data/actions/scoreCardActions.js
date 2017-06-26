@@ -28,12 +28,13 @@ var loadScoreCard = function(contestantId, scoreCardId){
         });
 };
 
-var addScoreCard = function(contestantId, newScoreCard){
+var addScoreCard = function(newScoreCard){
+    var contestantId = newScoreCard.Contestant.Id;
     var groupName = getHubGroupName(contestantId);
 
     Dispatcher.dispatch({type: "ADD_SCORE_CARD", contestantScoreCard: {contestantId: contestantId, newScoreCard: newScoreCard, groupName: groupName}});
 
-    ScoreCardApi.add(contestantId, newScoreCard, 
+    ScoreCardApi.add(newScoreCard, 
         function success(scoreCard){
             Dispatcher.dispatch({type: "ADD_SCORE_CARD_SUCCESS", scoreCard: scoreCard, groupName: groupName, contestantId: contestantId});
         }, 

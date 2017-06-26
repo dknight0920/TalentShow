@@ -11,13 +11,17 @@ namespace TalentShow.Services
     public class ScoreCardService
     {
         private readonly IRepo<ScoreCard> ScoreCardRepo;
+        private readonly IRepo<ScorableCriterion> ScorableCriterionRepo;
 
-        public ScoreCardService(IRepo<ScoreCard> scoreCardRepo)
+        public ScoreCardService(IRepo<ScoreCard> scoreCardRepo, IRepo<ScorableCriterion> scorableCriterionRepo)
         {
             if (scoreCardRepo == null)
                 throw new ApplicationException("A ScoreCardService cannot be constructed without a ScoreCardRepo.");
+            if (scorableCriterionRepo == null)
+                throw new ApplicationException("A ScoreCardService cannot be constructed without a ScorableCriterionRepo.");
 
             ScoreCardRepo = scoreCardRepo;
+            ScorableCriterionRepo = scorableCriterionRepo;
         }
 
         public ICollection<ScoreCard> GetContestantScoreCards(int contestantId)
@@ -49,6 +53,12 @@ namespace TalentShow.Services
 
         public void Add(ScoreCard scoreCard)
         {
+            foreach (var scorableCriterion in scoreCard.ScorableCriteria)
+            {
+                if (scorableCriterion != null)
+                    ScorableCriterionRepo.Add(scorableCriterion);
+            }
+
             ScoreCardRepo.Add(scoreCard);
         }
 

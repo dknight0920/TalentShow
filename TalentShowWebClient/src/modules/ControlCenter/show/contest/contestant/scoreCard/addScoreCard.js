@@ -95,7 +95,7 @@ class AddScoreCardPage extends RoleAwareComponent {
     }
 
     handleClickSave(newScoreCard) {
-        ScoreCardActions.addScoreCard(this.getContestantId(), newScoreCard);
+        ScoreCardActions.addScoreCard(newScoreCard);
         this.navigateToContestantPage();
     }
 

@@ -43806,12 +43806,13 @@ var loadScoreCard = function loadScoreCard(contestantId, scoreCardId) {
     });
 };
 
-var addScoreCard = function addScoreCard(contestantId, newScoreCard) {
+var addScoreCard = function addScoreCard(newScoreCard) {
+    var contestantId = newScoreCard.Contestant.Id;
     var groupName = getHubGroupName(contestantId);
 
     _dispatcher2.default.dispatch({ type: "ADD_SCORE_CARD", contestantScoreCard: { contestantId: contestantId, newScoreCard: newScoreCard, groupName: groupName } });
 
-    ScoreCardApi.add(contestantId, newScoreCard, function success(scoreCard) {
+    ScoreCardApi.add(newScoreCard, function success(scoreCard) {
         _dispatcher2.default.dispatch({ type: "ADD_SCORE_CARD_SUCCESS", scoreCard: scoreCard, groupName: groupName, contestantId: contestantId });
     }, function fail(err) {
         _dispatcher2.default.dispatch({ type: "ADD_SCORE_CARD_FAIL", error: err, groupName: groupName });
@@ -44491,9 +44492,9 @@ var get = function get(id, _success2, fail) {
     });
 };
 
-var add = function add(contestantId, scoreCard, _success3, fail) {
+var add = function add(scoreCard, _success3, fail) {
     ApiHttpUtil.post({
-        url: "api/ScoreCards/Contestant/" + contestantId,
+        url: "api/ScoreCards",
         success: function success(result) {
             _success3(result);
         },
@@ -47474,7 +47475,7 @@ var AddScoreCardPage = function (_RoleAwareComponent) {
     }, {
         key: 'handleClickSave',
         value: function handleClickSave(newScoreCard) {
-            ScoreCardActions.addScoreCard(this.getContestantId(), newScoreCard);
+            ScoreCardActions.addScoreCard(newScoreCard);
             this.navigateToContestantPage();
         }
     }, {

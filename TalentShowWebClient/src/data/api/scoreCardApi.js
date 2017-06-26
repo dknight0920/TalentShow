@@ -37,9 +37,9 @@ var get = function (id, success, fail) {
     });
 };
 
-var add = function (contestantId, scoreCard, success, fail) {
+var add = function (scoreCard, success, fail) {
     ApiHttpUtil.post({
-        url:  "api/ScoreCards/Contestant/" + contestantId,
+        url:  "api/ScoreCards",
         success: function(result){
             success(result);          
         },
