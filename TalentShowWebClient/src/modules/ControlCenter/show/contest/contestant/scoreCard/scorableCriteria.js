@@ -13,6 +13,10 @@ class ScorableCriteria extends React.Component {
         this.state = { scoreCard: this.getScoreCard() };
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.setState({ scoreCard: nextProps.scoreCard });  
+    }
+
     getScoreCard() {
         return this.props.scoreCard;
     }
@@ -42,6 +46,10 @@ class ScorableCriterion extends React.Component {
         this.handleStateChange = this.handleStateChange.bind(this);
         this.changeState = this.changeState.bind(this);
         this.state = { scorableCriterion: this.props.scorableCriterion };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({ scorableCriterion: nextProps.scorableCriterion });  
     }
 
     handleCommentChange(e) {

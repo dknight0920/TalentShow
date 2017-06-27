@@ -30,6 +30,10 @@ class ScoreCardEditor extends RoleAwareComponent {
 
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.setState({ scoreCard: nextProps.scoreCard });  
+    }
+
     storeChanged(){
         this.setState(this.getState());
     }
@@ -49,22 +53,7 @@ class ScoreCardEditor extends RoleAwareComponent {
     }
 
     getState() {
-        if(this.props.scoreCard){
-            return { 
-                scoreCard: Clone(this.props.scoreCard)    
-            };
-        } else {
-            return {
-                scoreCard: {
-                    Id: 0,
-                    Contestant: Clone(this.props.contestant),
-                    Judge: Clone(this.props.judge),
-                    ScorableCriteria: Clone(this.props.scorableCriteria),
-                    AverageScore: 0,
-                    TotalScore: 0
-                }
-            };
-        }
+        return { scoreCard: this.props.scoreCard };
     }
 
     render() {

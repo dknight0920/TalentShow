@@ -134,9 +134,18 @@ class AddScoreCardPage extends RoleAwareComponent {
                 };
             });
 
+            var scoreCard = {
+                    Id: 0,
+                    Contestant: contestant,
+                    Judge: judge,
+                    ScorableCriteria: scorableScriteria,
+                    AverageScore: 0,
+                    TotalScore: 0
+                };
+
             return (
-                <PageContent title="Create a ScoreCard" description="Use the form below to create a new score card.">
-                    <ScoreCardEditor authorizedRoles={this.authorizedRoles}  contestant={contestant} judge={judge} scorableCriteria={scorableScriteria} OnClickSave={this.handleClickSave} OnClickCancel={this.handleClickCancel}/>
+                <PageContent title="Create a Score Card" description="Use the form below to create a new score card.">
+                    <ScoreCardEditor authorizedRoles={this.authorizedRoles}  scoreCard={scoreCard} OnClickSave={this.handleClickSave} OnClickCancel={this.handleClickCancel}/>
                 </PageContent>
             );
         }

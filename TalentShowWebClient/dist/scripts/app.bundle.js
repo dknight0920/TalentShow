@@ -42435,9 +42435,9 @@ var _editScoreCriterion = require('./modules/ControlCenter/show/contest/scoreCri
 
 var _editScoreCriterion2 = _interopRequireDefault(_editScoreCriterion);
 
-var _scoreCard = require('./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard');
+var _editScoreCard = require('./modules/ControlCenter/show/contest/contestant/scoreCard/editScoreCard');
 
-var _scoreCard2 = _interopRequireDefault(_scoreCard);
+var _editScoreCard2 = _interopRequireDefault(_editScoreCard);
 
 var _addScoreCard = require('./modules/ControlCenter/show/contest/contestant/scoreCard/addScoreCard');
 
@@ -42550,7 +42550,7 @@ Hubs.hubConnection.start({ transport: ['webSockets'], jsonp: true }).done(functi
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/contestant/:contestantId', component: _contestant2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/contestant/:contestantId/edit', component: _editContestant2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/contestant/:contestantId/scorecards/add', component: _addScoreCard2.default }),
-                _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/contestant/:contestantId/scorecard/:scoreCardId', component: _scoreCard2.default }),
+                _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/contestant/:contestantId/scorecard/:scoreCardId/edit', component: _editScoreCard2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/judges/add', component: _addJudge2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/judge/:judgeId', component: _judge2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/judge/:judgeId/edit', component: _editJudge2.default }),
@@ -42564,7 +42564,7 @@ Hubs.hubConnection.start({ transport: ['webSockets'], jsonp: true }).done(functi
     ), document.getElementById('app'));
 });
 
-},{"./common/unauthorizedUserPageContent":302,"./data/signalr/hubs":322,"./modules/ControlCenter/show/addShow":333,"./modules/ControlCenter/show/contest/addContest":334,"./modules/ControlCenter/show/contest/contest":335,"./modules/ControlCenter/show/contest/contestant/addContestant":337,"./modules/ControlCenter/show/contest/contestant/contestant":338,"./modules/ControlCenter/show/contest/contestant/editContestant":341,"./modules/ControlCenter/show/contest/contestant/scoreCard/addScoreCard":342,"./modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard":344,"./modules/ControlCenter/show/contest/editContest":349,"./modules/ControlCenter/show/contest/judge/addJudge":350,"./modules/ControlCenter/show/contest/judge/editJudge":351,"./modules/ControlCenter/show/contest/judge/judge":352,"./modules/ControlCenter/show/contest/scoreCriterion/addScoreCriterion":357,"./modules/ControlCenter/show/contest/scoreCriterion/editScoreCriterion":358,"./modules/ControlCenter/show/contest/scoreCriterion/scoreCriterion":359,"./modules/ControlCenter/show/editShow":362,"./modules/ControlCenter/show/show":363,"./modules/ControlCenter/shows":365,"./modules/about":366,"./modules/judges":367,"./modules/login":368,"react":290,"react-dom":26,"react-router":203}],292:[function(require,module,exports){
+},{"./common/unauthorizedUserPageContent":302,"./data/signalr/hubs":322,"./modules/ControlCenter/show/addShow":333,"./modules/ControlCenter/show/contest/addContest":334,"./modules/ControlCenter/show/contest/contest":335,"./modules/ControlCenter/show/contest/contestant/addContestant":337,"./modules/ControlCenter/show/contest/contestant/contestant":338,"./modules/ControlCenter/show/contest/contestant/editContestant":341,"./modules/ControlCenter/show/contest/contestant/scoreCard/addScoreCard":342,"./modules/ControlCenter/show/contest/contestant/scoreCard/editScoreCard":343,"./modules/ControlCenter/show/contest/editContest":349,"./modules/ControlCenter/show/contest/judge/addJudge":350,"./modules/ControlCenter/show/contest/judge/editJudge":351,"./modules/ControlCenter/show/contest/judge/judge":352,"./modules/ControlCenter/show/contest/scoreCriterion/addScoreCriterion":357,"./modules/ControlCenter/show/contest/scoreCriterion/editScoreCriterion":358,"./modules/ControlCenter/show/contest/scoreCriterion/scoreCriterion":359,"./modules/ControlCenter/show/editShow":362,"./modules/ControlCenter/show/show":363,"./modules/ControlCenter/shows":365,"./modules/about":366,"./modules/judges":367,"./modules/login":368,"react":290,"react-dom":26,"react-router":203}],292:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43819,7 +43819,8 @@ var addScoreCard = function addScoreCard(newScoreCard) {
     });
 };
 
-var updateScoreCard = function updateScoreCard(contestantId, scoreCard) {
+var updateScoreCard = function updateScoreCard(scoreCard) {
+    var contestantId = scoreCard.Contestant.Id;
     var groupName = getHubGroupName(contestantId);
 
     _dispatcher2.default.dispatch({ type: "UPDATE_SCORE_CARD", contestantScoreCard: { contestantId: contestantId, scoreCard: scoreCard, groupName: groupName } });
@@ -47520,10 +47521,19 @@ var AddScoreCardPage = function (_RoleAwareComponent) {
                     };
                 });
 
+                var scoreCard = {
+                    Id: 0,
+                    Contestant: contestant,
+                    Judge: judge,
+                    ScorableCriteria: scorableScriteria,
+                    AverageScore: 0,
+                    TotalScore: 0
+                };
+
                 return _react2.default.createElement(
                     _pageContent2.default,
-                    { title: 'Create a ScoreCard', description: 'Use the form below to create a new score card.' },
-                    _react2.default.createElement(_scoreCardEditor2.default, { authorizedRoles: this.authorizedRoles, contestant: contestant, judge: judge, scorableCriteria: scorableScriteria, OnClickSave: this.handleClickSave, OnClickCancel: this.handleClickCancel })
+                    { title: 'Create a Score Card', description: 'Use the form below to create a new score card.' },
+                    _react2.default.createElement(_scoreCardEditor2.default, { authorizedRoles: this.authorizedRoles, scoreCard: scoreCard, OnClickSave: this.handleClickSave, OnClickCancel: this.handleClickCancel })
                 );
             }
 
@@ -47537,6 +47547,162 @@ var AddScoreCardPage = function (_RoleAwareComponent) {
 exports.default = AddScoreCardPage;
 
 },{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/contestantActions":304,"../../../../../../data/actions/judgeActions":306,"../../../../../../data/actions/scoreCardActions":308,"../../../../../../data/actions/scoreCriterionActions":309,"../../../../../../data/stores/contestantStore":325,"../../../../../../data/stores/currentUserStore":326,"../../../../../../data/stores/judgeStore":327,"../../../../../../data/stores/scoreCriterionStore":330,"../../../../../../routing/navigation":369,"./scoreCardEditor":345,"react":290}],343:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _navigation = require('../../../../../../routing/navigation');
+
+var Nav = _interopRequireWildcard(_navigation);
+
+var _scoreCardEditor = require('./scoreCardEditor');
+
+var _scoreCardEditor2 = _interopRequireDefault(_scoreCardEditor);
+
+var _scoreCardStore = require('../../../../../../data/stores/scoreCardStore');
+
+var _scoreCardStore2 = _interopRequireDefault(_scoreCardStore);
+
+var _scoreCardActions = require('../../../../../../data/actions/scoreCardActions');
+
+var ScoreCardActions = _interopRequireWildcard(_scoreCardActions);
+
+var _pageContent = require('../../../../../../common/pageContent');
+
+var _pageContent2 = _interopRequireDefault(_pageContent);
+
+var _roleAwareComponent = require('../../../../../../common/roleAwareComponent');
+
+var _roleAwareComponent2 = _interopRequireDefault(_roleAwareComponent);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var EditScoreCardPage = function (_RoleAwareComponent) {
+    _inherits(EditScoreCardPage, _RoleAwareComponent);
+
+    function EditScoreCardPage(props) {
+        _classCallCheck(this, EditScoreCardPage);
+
+        var _this = _possibleConstructorReturn(this, (EditScoreCardPage.__proto__ || Object.getPrototypeOf(EditScoreCardPage)).call(this, props));
+
+        _this.scoreCardStoreChanged = _this.scoreCardStoreChanged.bind(_this);
+        _this.getState = _this.getState.bind(_this);
+        _this.getScoreCard = _this.getScoreCard.bind(_this);
+        _this.handleClickSave = _this.handleClickSave.bind(_this);
+        _this.handleClickCancel = _this.handleClickCancel.bind(_this);
+        _this.navigateToContestantPage = _this.navigateToContestantPage.bind(_this);
+        _this.getScoreCardId = _this.getScoreCardId.bind(_this);
+        _this.getContestantId = _this.getContestantId.bind(_this);
+        _this.getContestId = _this.getContestId.bind(_this);
+        _this.getShowId = _this.getShowId.bind(_this);
+        _this.authorizedRoles = ["admin", "judge"];
+        _this.state = _this.getState();
+        return _this;
+    }
+
+    _createClass(EditScoreCardPage, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            this.redirectUnauthorizedUser();
+
+            _scoreCardStore2.default.on("change", this.scoreCardStoreChanged);
+            ScoreCardActions.loadScoreCard(this.getContestantId(), this.getScoreCardId());
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            _scoreCardStore2.default.off("change", this.scoreCardStoreChanged);
+        }
+    }, {
+        key: 'scoreCardStoreChanged',
+        value: function scoreCardStoreChanged() {
+            this.setState(this.getState());
+        }
+    }, {
+        key: 'getState',
+        value: function getState() {
+            return { scoreCard: this.getScoreCard() };
+        }
+    }, {
+        key: 'getScoreCard',
+        value: function getScoreCard() {
+            return _scoreCardStore2.default.get(this.getContestantId(), this.getScoreCardId());
+        }
+    }, {
+        key: 'handleClickSave',
+        value: function handleClickSave(scoreCard) {
+            ScoreCardActions.updateScoreCard(scoreCard);
+            this.navigateToContestantPage();
+        }
+    }, {
+        key: 'handleClickCancel',
+        value: function handleClickCancel() {
+            this.navigateToContestantPage();
+        }
+    }, {
+        key: 'navigateToContestantPage',
+        value: function navigateToContestantPage() {
+            Nav.goToContestant(this.getShowId(), this.getContestId(), this.getContestantId());
+        }
+    }, {
+        key: 'getScoreCardId',
+        value: function getScoreCardId() {
+            return this.props.params.scoreCardId;
+        }
+    }, {
+        key: 'getContestantId',
+        value: function getContestantId() {
+            return this.props.params.contestantId;
+        }
+    }, {
+        key: 'getContestId',
+        value: function getContestId() {
+            return this.props.params.contestId;
+        }
+    }, {
+        key: 'getShowId',
+        value: function getShowId() {
+            return this.props.params.showId;
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var scoreCard = this.state.scoreCard;
+
+            if (scoreCard) {
+                return _react2.default.createElement(
+                    _pageContent2.default,
+                    { title: 'Edit a Score Card', description: 'Use the form below to edit the score card.' },
+                    _react2.default.createElement(_scoreCardEditor2.default, { authorizedRoles: this.authorizedRoles, scoreCard: scoreCard, OnClickSave: this.handleClickSave, OnClickCancel: this.handleClickCancel })
+                );
+            }
+
+            return _react2.default.createElement(_pageContent2.default, { title: 'Loading', description: 'The score card\'s details are loading, please wait.' });
+        }
+    }]);
+
+    return EditScoreCardPage;
+}(_roleAwareComponent2.default);
+
+exports.default = EditScoreCardPage;
+
+},{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/scoreCardActions":308,"../../../../../../data/stores/scoreCardStore":329,"../../../../../../routing/navigation":369,"./scoreCardEditor":345,"react":290}],344:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47588,6 +47754,11 @@ var ScorableCriteria = function (_React$Component) {
     }
 
     _createClass(ScorableCriteria, [{
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(nextProps) {
+            this.setState({ scoreCard: nextProps.scoreCard });
+        }
+    }, {
         key: 'getScoreCard',
         value: function getScoreCard() {
             return this.props.scoreCard;
@@ -47634,6 +47805,11 @@ var ScorableCriterion = function (_React$Component2) {
     }
 
     _createClass(ScorableCriterion, [{
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(nextProps) {
+            this.setState({ scorableCriterion: nextProps.scorableCriterion });
+        }
+    }, {
         key: 'handleCommentChange',
         value: function handleCommentChange(e) {
             var scorableCriterion = this.state.scorableCriterion;
@@ -47686,132 +47862,7 @@ var ScorableCriterion = function (_React$Component2) {
 
 exports.default = ScorableCriteria;
 
-},{"../../../../../../common/input":294,"../../../../../../common/panel":299,"../../../../../../data/stores/scoreCardStore":329,"clone":6,"react":290}],344:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _scoreCardStore = require('../../../../../../data/stores/scoreCardStore');
-
-var _scoreCardStore2 = _interopRequireDefault(_scoreCardStore);
-
-var _scoreCardActions = require('../../../../../../data/actions/scoreCardActions');
-
-var ScoreCardActions = _interopRequireWildcard(_scoreCardActions);
-
-var _scoreCardUtil = require('./scoreCardUtil');
-
-var ScoreCardUtil = _interopRequireWildcard(_scoreCardUtil);
-
-var _scorableCriteria = require('./scorableCriteria');
-
-var _scorableCriteria2 = _interopRequireDefault(_scorableCriteria);
-
-var _pageContent = require('../../../../../../common/pageContent');
-
-var _pageContent2 = _interopRequireDefault(_pageContent);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var ScoreCardPage = function (_React$Component) {
-    _inherits(ScoreCardPage, _React$Component);
-
-    function ScoreCardPage(props) {
-        _classCallCheck(this, ScoreCardPage);
-
-        var _this = _possibleConstructorReturn(this, (ScoreCardPage.__proto__ || Object.getPrototypeOf(ScoreCardPage)).call(this, props));
-
-        _this.getState = _this.getState.bind(_this);
-        _this.storeChanged = _this.storeChanged.bind(_this);
-        _this.getScoreCard = _this.getScoreCard.bind(_this);
-        _this.getScoreCardId = _this.getScoreCardId.bind(_this);
-        _this.getContestantId = _this.getContestantId.bind(_this);
-        _this.handleScorableCriteriaChange = _this.handleScorableCriteriaChange.bind(_this);
-        _this.state = _this.getState();
-        return _this;
-    }
-
-    _createClass(ScoreCardPage, [{
-        key: 'componentWillMount',
-        value: function componentWillMount() {
-            _scoreCardStore2.default.on("change", this.storeChanged);
-            ScoreCardActions.loadScoreCard(this.getContestantId(), this.getScoreCardId());
-        }
-    }, {
-        key: 'componentWillUnmount',
-        value: function componentWillUnmount() {
-            _scoreCardStore2.default.off("change", this.storeChanged);
-        }
-    }, {
-        key: 'storeChanged',
-        value: function storeChanged() {
-            this.setState(this.getState());
-        }
-    }, {
-        key: 'getState',
-        value: function getState() {
-            return { scoreCard: this.getScoreCard() };
-        }
-    }, {
-        key: 'getScoreCard',
-        value: function getScoreCard() {
-            return _scoreCardStore2.default.get(this.getContestantId(), this.getScoreCardId());
-        }
-    }, {
-        key: 'getScoreCardId',
-        value: function getScoreCardId() {
-            return this.props.params.scoreCardId;
-        }
-    }, {
-        key: 'getContestantId',
-        value: function getContestantId() {
-            return this.props.params.contestantId;
-        }
-    }, {
-        key: 'handleScorableCriteriaChange',
-        value: function handleScorableCriteriaChange(scoreCard) {
-            ScoreCardActions.updateScoreCard(this.getContestantId(), scoreCard);
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var scoreCard = this.state.scoreCard;
-            var contestantId = this.getContestantId();
-
-            if (!scoreCard) {
-                return _react2.default.createElement(_pageContent2.default, { title: 'Loading', description: 'The score card\'s details are loading, please wait.' });
-            }
-
-            return _react2.default.createElement(
-                _pageContent2.default,
-                { title: ScoreCardUtil.getName(scoreCard), description: '' },
-                _react2.default.createElement(_scorableCriteria2.default, { contestantId: contestantId, scoreCardId: scoreCard.Id, onChange: this.handleScorableCriteriaChange })
-            );
-        }
-    }]);
-
-    return ScoreCardPage;
-}(_react2.default.Component);
-
-exports.default = ScoreCardPage;
-
-},{"../../../../../../common/pageContent":298,"../../../../../../data/actions/scoreCardActions":308,"../../../../../../data/stores/scoreCardStore":329,"./scorableCriteria":343,"./scoreCardUtil":346,"react":290}],345:[function(require,module,exports){
+},{"../../../../../../common/input":294,"../../../../../../common/panel":299,"../../../../../../data/stores/scoreCardStore":329,"clone":6,"react":290}],345:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47886,6 +47937,11 @@ var ScoreCardEditor = function (_RoleAwareComponent) {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {}
     }, {
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(nextProps) {
+            this.setState({ scoreCard: nextProps.scoreCard });
+        }
+    }, {
         key: 'storeChanged',
         value: function storeChanged() {
             this.setState(this.getState());
@@ -47910,22 +47966,7 @@ var ScoreCardEditor = function (_RoleAwareComponent) {
     }, {
         key: 'getState',
         value: function getState() {
-            if (this.props.scoreCard) {
-                return {
-                    scoreCard: (0, _clone2.default)(this.props.scoreCard)
-                };
-            } else {
-                return {
-                    scoreCard: {
-                        Id: 0,
-                        Contestant: (0, _clone2.default)(this.props.contestant),
-                        Judge: (0, _clone2.default)(this.props.judge),
-                        ScorableCriteria: (0, _clone2.default)(this.props.scorableCriteria),
-                        AverageScore: 0,
-                        TotalScore: 0
-                    }
-                };
-            }
+            return { scoreCard: this.props.scoreCard };
         }
     }, {
         key: 'render',
@@ -47950,7 +47991,7 @@ var ScoreCardEditor = function (_RoleAwareComponent) {
 
 exports.default = ScoreCardEditor;
 
-},{"../../../../../../common/button":292,"../../../../../../common/formGroup":293,"../../../../../../common/input":294,"../../../../../../common/roleAwareComponent":300,"./scorableCriteria":343,"clone":6,"react":290}],346:[function(require,module,exports){
+},{"../../../../../../common/button":292,"../../../../../../common/formGroup":293,"../../../../../../common/input":294,"../../../../../../common/roleAwareComponent":300,"./scorableCriteria":344,"clone":6,"react":290}],346:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48138,7 +48179,7 @@ var ScoreCardsBox = function (_React$Component) {
                     key: scoreCard.Id,
                     name: ScoreCardUtil.getName(scoreCard),
                     description: ScoreCardUtil.getDescription(scoreCard),
-                    pathname: '/show/' + showId + '/contest/' + contestId + '/contestant/' + contestantId + '/scorecard/' + scoreCard.Id });
+                    pathname: '/show/' + showId + '/contest/' + contestId + '/contestant/' + contestantId + '/scorecard/' + scoreCard.Id + '/edit' });
             });
 
             var addScoreCardButton = _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: ["admin", "judge"], name: 'addScoreCard', value: 'Add', onClick: this.handleAddScoreCardClick });

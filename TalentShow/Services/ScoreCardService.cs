@@ -64,6 +64,12 @@ namespace TalentShow.Services
 
         public void Update(ScoreCard scoreCard)
         {
+            foreach (var scorableCriterion in scoreCard.ScorableCriteria)
+            {
+                if (scorableCriterion != null)
+                    ScorableCriterionRepo.Update(scorableCriterion);
+            }
+
             ScoreCardRepo.Update(scoreCard);
         }
 

@@ -43,7 +43,8 @@ var addScoreCard = function(newScoreCard){
         });
 };
 
-var updateScoreCard = function(contestantId, scoreCard){
+var updateScoreCard = function(scoreCard){
+    var contestantId = scoreCard.Contestant.Id;
     var groupName = getHubGroupName(contestantId);
 
     Dispatcher.dispatch({type: "UPDATE_SCORE_CARD", contestantScoreCard: {contestantId: contestantId, scoreCard: scoreCard, groupName: groupName}});

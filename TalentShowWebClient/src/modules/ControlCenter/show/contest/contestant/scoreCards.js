@@ -63,7 +63,7 @@ class ScoreCardsBox extends React.Component {
                     key={scoreCard.Id} 
                     name={ScoreCardUtil.getName(scoreCard)} 
                     description={ScoreCardUtil.getDescription(scoreCard)} 
-                    pathname={ '/show/' + showId + '/contest/' + contestId + '/contestant/' + contestantId + '/scorecard/' + scoreCard.Id } />
+                    pathname={ '/show/' + showId + '/contest/' + contestId + '/contestant/' + contestantId + '/scorecard/' + scoreCard.Id + '/edit' } />
             );
         });
 

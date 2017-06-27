@@ -22,7 +22,7 @@ import editJudge from './modules/ControlCenter/show/contest/judge/editJudge';
 import scoreCriterion from './modules/ControlCenter/show/contest/scoreCriterion/scoreCriterion';
 import addScoreCriterion from './modules/ControlCenter/show/contest/scoreCriterion/addScoreCriterion';
 import editScoreCriterion from './modules/ControlCenter/show/contest/scoreCriterion/editScoreCriterion';
-import scoreCard from './modules/ControlCenter/show/contest/contestant/scoreCard/scoreCard';
+import editScoreCard from './modules/ControlCenter/show/contest/contestant/scoreCard/editScoreCard';
 import addScoreCard from './modules/ControlCenter/show/contest/contestant/scoreCard/addScoreCard';
 import * as Hubs from './data/signalr/hubs';
 
@@ -81,7 +81,7 @@ function getToken(){
                         <Route path="/show/:showId/contest/:contestId/contestant/:contestantId" component={contestant} />
                         <Route path="/show/:showId/contest/:contestId/contestant/:contestantId/edit" component={editContestant} />
                         <Route path="/show/:showId/contest/:contestId/contestant/:contestantId/scorecards/add" component={addScoreCard} /> 
-                        <Route path="/show/:showId/contest/:contestId/contestant/:contestantId/scorecard/:scoreCardId" component={scoreCard} />                       
+                        <Route path="/show/:showId/contest/:contestId/contestant/:contestantId/scorecard/:scoreCardId/edit" component={editScoreCard} />                       
                         <Route path="/show/:showId/contest/:contestId/judges/add" component={addJudge} />
                         <Route path="/show/:showId/contest/:contestId/judge/:judgeId" component={judge} />
                         <Route path="/show/:showId/contest/:contestId/judge/:judgeId/edit" component={editJudge} />
