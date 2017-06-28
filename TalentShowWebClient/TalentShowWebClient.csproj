@@ -128,6 +128,7 @@
     <Content Include="src\data\actions\currentUserActions.js" />
     <Content Include="src\data\actions\judgeActions.js" />
     <Content Include="src\data\actions\organizationActions.js" />
+    <Content Include="src\data\actions\performerActions.js" />
     <Content Include="src\data\actions\scoreCardActions.js" />
     <Content Include="src\data\actions\scoreCriterionActions.js" />
     <Content Include="src\data\actions\showActions.js" />
@@ -135,6 +136,7 @@
     <Content Include="src\data\api\contestApi.js" />
     <Content Include="src\data\api\judgeApi.js" />
     <Content Include="src\data\api\organizationApi.js" />
+    <Content Include="src\data\api\performerApi.js" />
     <Content Include="src\data\api\scoreCardApi.js" />
     <Content Include="src\data\api\scoreCriterionApi.js" />
     <Content Include="src\data\api\showApi.js" />
@@ -148,6 +150,7 @@
     <Content Include="src\data\stores\contestStore.js" />
     <Content Include="src\data\stores\judgeStore.js" />
     <Content Include="src\data\stores\organizationStore.js" />
+    <Content Include="src\data\stores\performerStore.js" />
     <Content Include="src\data\stores\scoreCardStore.js" />
     <Content Include="src\data\stores\scoreCriterionStore.js" />
     <Content Include="src\data\stores\showStore.js" />
@@ -164,11 +167,12 @@
     <Content Include="src\modules\ControlCenter\show\contest\contestant\contestantEditor.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\contestantUtil.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\editContestant.js" />
+    <Content Include="src\modules\ControlCenter\show\contest\contestant\performers.js" />
+    <Content Include="src\modules\ControlCenter\show\contest\contestant\performer\performerUtil.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCards.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCard\addScoreCard.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCard\editScoreCard.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCard\scorableCriteria.js" />
-    <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCard\scoreCard.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCard\scoreCardEditor.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCard\scoreCardUtil.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestEditor.js" />

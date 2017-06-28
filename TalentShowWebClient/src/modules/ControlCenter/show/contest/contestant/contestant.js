@@ -4,9 +4,11 @@ import * as Nav from '../../../../../routing/navigation';
 import ContestantStore from '../../../../../data/stores/contestantStore';
 import * as ContestantActions from '../../../../../data/actions/contestantActions';
 import * as ScoreCardActions from '../../../../../data/actions/scoreCardActions';
+import * as PerformerActions from '../../../../../data/actions/performerActions';
 import * as ContestantUtil from './contestantUtil';
 import PageContent from '../../../../../common/pageContent';
 import ScoreCardsBox from './scoreCards';
+import PerformersBox from './performers';
 import Button from '../../../../../common/button';
 import TimeoutComponent from '../../../../../common/timeoutComponent';
 
@@ -28,10 +30,12 @@ class ContestantPage extends TimeoutComponent {
 
     componentWillMount(){
         ContestantStore.on("change", this.storeChanged);
-        ContestantActions.loadContestant(this.getContestId(), this.getContestantId());       
+        ContestantActions.loadContestant(this.getContestId(), this.getContestantId());
         ScoreCardActions.loadContestantScoreCards(this.getContestantId());
+        PerformerActions.loadContestantPerformers(this.getContestantId());
         ContestantActions.joinHubGroup(this.getContestId());
         ScoreCardActions.joinHubGroup(this.getContestantId());
+        PerformerActions.joinHubGroup(this.getContestantId());
     }
 
     componentWillUnmount(){
@@ -39,6 +43,7 @@ class ContestantPage extends TimeoutComponent {
         ContestantStore.off("change", this.storeChanged);
         ContestantActions.leaveHubGroup(this.getContestId());
         ScoreCardActions.leaveHubGroup(this.getContestantId());
+        PerformerActions.leaveHubGroup(this.getContestantId());
     }
 
     storeChanged(){
@@ -118,6 +123,7 @@ class ContestantPage extends TimeoutComponent {
         return (
             <PageContent title={"Contestant: " + ContestantUtil.getName(contestant)} description={ContestantUtil.getDescription(contestant)} buttons={contestantPageButtons}>
                 <ScoreCardsBox showId={this.getShowId()} contestId={this.getContestId()} contestantId={this.getContestantId()} />
+                <PerformersBox showId={this.getShowId()} contestId={this.getContestId()} contestantId={this.getContestantId()} />
             </PageContent>
         );
     }

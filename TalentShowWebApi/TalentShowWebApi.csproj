@@ -259,6 +259,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JudgesController.cs" />
     <Compile Include="Controllers\OrganizationsController.cs" />
+    <Compile Include="Controllers\PerformersController.cs" />
     <Compile Include="Controllers\ScoreCardsController.cs" />
     <Compile Include="Controllers\ScoreCriteriaController.cs" />
     <Compile Include="Controllers\ShowsController.cs" />

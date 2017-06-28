@@ -69,6 +69,7 @@
     <Compile Include="Services\ContestService.cs" />
     <Compile Include="Services\JudgeService.cs" />
     <Compile Include="Services\OrganizationService.cs" />
+    <Compile Include="Services\PerformerService.cs" />
     <Compile Include="Services\ScoreCardService.cs" />
     <Compile Include="Services\ScoreCriterionService.cs" />
     <Compile Include="Services\ShowService.cs" />
