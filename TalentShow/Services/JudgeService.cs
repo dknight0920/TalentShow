@@ -69,15 +69,14 @@ namespace TalentShow.Services
 
         public void Add(Judge judge)
         {
-            Validate(judge);
+            AddNameAndAffiliation(judge);
             JudgeRepo.Add(judge);
         }
 
         public void Update(Judge judge)
         {
-            Validate(judge);
-            PersonNameRepo.Update(judge.Name);
-            OrganizationRepo.Update(judge.Affiliation);
+            AddNameAndAffiliation(judge);
+            UpdateNameAndAffiliation(judge);
             JudgeRepo.Update(judge);
         }
 
@@ -96,12 +95,18 @@ namespace TalentShow.Services
             JudgeRepo.DeleteAll();
         }
 
-        private void Validate(Judge judge)
+        private void AddNameAndAffiliation(Judge judge)
         {
             if (judge.Name != null && !PersonNameRepo.Exists(judge.Name.Id))
                 PersonNameRepo.Add(judge.Name);
             if (judge.Affiliation != null && !OrganizationRepo.Exists(judge.Affiliation.Id))
                 OrganizationRepo.Add(judge.Affiliation);
+        }
+
+        private void UpdateNameAndAffiliation(Judge judge)
+        {
+            PersonNameRepo.Update(judge.Name);
+            OrganizationRepo.Update(judge.Affiliation);
         }
     }
 }

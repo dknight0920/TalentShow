@@ -73,15 +73,14 @@ namespace TalentShow.Services
 
         public void Add(Performer performer)
         {
-            Validate(performer);
+            AddDivisionNameAndAffiliation(performer);
             PerformerRepo.Add(performer);
         }
 
         public void Update(Performer performer)
         {
-            Validate(performer);
-            PersonNameRepo.Update(performer.Name);
-            OrganizationRepo.Update(performer.Affiliation);
+            AddDivisionNameAndAffiliation(performer);
+            UpdateDivisionNameAndAffiliation(performer);
             PerformerRepo.Update(performer);
         }
 
@@ -100,12 +99,21 @@ namespace TalentShow.Services
             PerformerRepo.DeleteAll();
         }
 
-        private void Validate(Performer performer)
+        private void AddDivisionNameAndAffiliation(Performer performer)
         {
+            if (performer.Division != null && !DivisionRepo.Exists(performer.Division.Id))
+                DivisionRepo.Add(performer.Division);
             if (performer.Name != null && !PersonNameRepo.Exists(performer.Name.Id))
                 PersonNameRepo.Add(performer.Name);
             if (performer.Affiliation != null && !OrganizationRepo.Exists(performer.Affiliation.Id))
                 OrganizationRepo.Add(performer.Affiliation);
+        }
+
+        private void UpdateDivisionNameAndAffiliation(Performer performer)
+        {
+            DivisionRepo.Update(performer.Division);
+            PersonNameRepo.Update(performer.Name);
+            OrganizationRepo.Update(performer.Affiliation);
         }
     }
 }

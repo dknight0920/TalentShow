@@ -37,13 +37,13 @@ namespace TalentShow.Services
 
         public void Add(Organization organization)
         {
-            Validate(organization);
+            AddParentOrganization(organization);
             OrganizationRepo.Add(organization);
         }
 
         public void Update(Organization organization)
         {
-            Validate(organization);
+            AddParentOrganization(organization);
             OrganizationRepo.Update(organization);
         }
 
@@ -62,7 +62,7 @@ namespace TalentShow.Services
             OrganizationRepo.DeleteAll();
         }
 
-        private void Validate(Organization organization)
+        private void AddParentOrganization(Organization organization)
         {
             if (organization.Parent != null && !OrganizationRepo.Exists(organization.Parent.Id))
                 OrganizationRepo.Add(organization.Parent);
