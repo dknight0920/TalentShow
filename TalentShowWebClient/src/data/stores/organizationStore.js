@@ -44,7 +44,17 @@ class OrganizationStore extends EventEmitter {
         };
 
         this.get = function(organizationId){
-            return Clone(self.organizations.find((organization) => self.isMatchingJudge(organization, organizationId)));
+            if(self.organizations.find){
+                return Clone(self.organizations.find((organization) => self.isMatchingOrganization(organization, organizationId)));
+            } else { //browser does not support find
+                for (var i = 0; i < self.organizations.length; i++) {
+                    var organization = self.organizations[i];
+                    if(self.isMatchingOrganization(organization, organizationId)){
+                        return Clone(organization);
+                    }
+                }
+            }
+            return null;
         };
 
         this.handleAction = function(action){

@@ -46,8 +46,18 @@ class JudgeStore extends EventEmitter {
                         .sort((a, b) => a.Id - b.Id);
         };
 
-        this.get = function(contestId, judgeId){
-            return Clone(self.judges.find((judge) => self.isMatchingJudge(judge, contestId, judgeId)));
+        this.get = function(contestId, judgeId){       
+            if(self.judges.find){
+                return Clone(self.judges.find((judge) => self.isMatchingJudge(judge, contestId, judgeId)));
+            } else { //browser does not support find
+                for (var i = 0; i < self.judges.length; i++) {
+                    var judge = self.judges[i];
+                    if(self.isMatchingJudge(judge, contestId, judgeId)){
+                        return Clone(judge);
+                    }
+                }
+            }
+            return null;
         };
 
         this.handleAction = function(action){

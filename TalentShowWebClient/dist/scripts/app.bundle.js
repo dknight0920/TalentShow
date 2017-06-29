@@ -45198,9 +45198,20 @@ var ContestStore = function (_EventEmitter) {
         };
 
         _this.get = function (showId, contestId) {
-            return (0, _clone2.default)(self.contests.find(function (contest) {
-                return self.isMatchingContest(contest, showId, contestId);
-            }));
+            if (self.contests.find) {
+                return (0, _clone2.default)(self.contests.find(function (contest) {
+                    return self.isMatchingContest(contest, showId, contestId);
+                }));
+            } else {
+                //browser does not support find
+                for (var i = 0; i < self.contests.length; i++) {
+                    var contest = self.contests[i];
+                    if (self.isMatchingContest(contest, showId, contestId)) {
+                        return (0, _clone2.default)(contest);
+                    }
+                }
+            }
+            return null;
         };
 
         _this.handleAction = function (action) {
@@ -45352,9 +45363,20 @@ var ContestantStore = function (_EventEmitter) {
         };
 
         _this.get = function (contestId, contestantId) {
-            return (0, _clone2.default)(self.contestants.find(function (contestant) {
-                return self.isMatchingContestant(contestant, contestId, contestantId);
-            }));
+            if (self.contestants.find) {
+                return (0, _clone2.default)(self.contestants.find(function (contestant) {
+                    return self.isMatchingContestant(contestant, contestId, contestantId);
+                }));
+            } else {
+                //browser does not support find
+                for (var i = 0; i < self.contestants.length; i++) {
+                    var contestant = self.contestants[i];
+                    if (self.isMatchingContestant(contestant, contestId, contestantId)) {
+                        return (0, _clone2.default)(contestant);
+                    }
+                }
+            }
+            return null;
         };
 
         _this.handleAction = function (action) {
@@ -45593,9 +45615,20 @@ var JudgeStore = function (_EventEmitter) {
         };
 
         _this.get = function (contestId, judgeId) {
-            return (0, _clone2.default)(self.judges.find(function (judge) {
-                return self.isMatchingJudge(judge, contestId, judgeId);
-            }));
+            if (self.judges.find) {
+                return (0, _clone2.default)(self.judges.find(function (judge) {
+                    return self.isMatchingJudge(judge, contestId, judgeId);
+                }));
+            } else {
+                //browser does not support find
+                for (var i = 0; i < self.judges.length; i++) {
+                    var judge = self.judges[i];
+                    if (self.isMatchingJudge(judge, contestId, judgeId)) {
+                        return (0, _clone2.default)(judge);
+                    }
+                }
+            }
+            return null;
         };
 
         _this.handleAction = function (action) {
@@ -45744,9 +45777,20 @@ var OrganizationStore = function (_EventEmitter) {
         };
 
         _this.get = function (organizationId) {
-            return (0, _clone2.default)(self.organizations.find(function (organization) {
-                return self.isMatchingJudge(organization, organizationId);
-            }));
+            if (self.organizations.find) {
+                return (0, _clone2.default)(self.organizations.find(function (organization) {
+                    return self.isMatchingOrganization(organization, organizationId);
+                }));
+            } else {
+                //browser does not support find
+                for (var i = 0; i < self.organizations.length; i++) {
+                    var organization = self.organizations[i];
+                    if (self.isMatchingOrganization(organization, organizationId)) {
+                        return (0, _clone2.default)(organization);
+                    }
+                }
+            }
+            return null;
         };
 
         _this.handleAction = function (action) {
@@ -45898,9 +45942,20 @@ var PerformerStore = function (_EventEmitter) {
         };
 
         _this.get = function (contestantId, performerId) {
-            return (0, _clone2.default)(self.performers.find(function (performer) {
-                return self.isMatchingPerformer(performer, contestantId, performerId);
-            }));
+            if (self.performers.find) {
+                return (0, _clone2.default)(self.performers.find(function (performer) {
+                    return self.isMatchingPerformer(performer, contestantId, performerId);
+                }));
+            } else {
+                //browser does not support find
+                for (var i = 0; i < self.performers.length; i++) {
+                    var performer = self.performers[i];
+                    if (self.isMatchingPerformer(performer, contestantId, performerId)) {
+                        return (0, _clone2.default)(performer);
+                    }
+                }
+            }
+            return null;
         };
 
         _this.handleAction = function (action) {
@@ -46052,9 +46107,20 @@ var ScoreCardStore = function (_EventEmitter) {
         };
 
         _this.get = function (contestantId, scoreCardId) {
-            return (0, _clone2.default)(self.scoreCards.find(function (scoreCard) {
-                return self.isMatchingScoreCard(scoreCard, contestantId, scoreCardId);
-            }));
+            if (self.scoreCards.find) {
+                return (0, _clone2.default)(self.scoreCards.find(function (scoreCard) {
+                    return self.isMatchingScoreCard(scoreCard, contestantId, scoreCardId);
+                }));
+            } else {
+                //browser does not support find
+                for (var i = 0; i < self.scoreCards.length; i++) {
+                    var scoreCard = self.scoreCards[i];
+                    if (self.isMatchingScoreCard(scoreCard, contestantId, scoreCardId)) {
+                        return (0, _clone2.default)(scoreCard);
+                    }
+                }
+            }
+            return null;
         };
 
         _this.handleAction = function (action) {
@@ -46206,9 +46272,20 @@ var ScoreCriterionStore = function (_EventEmitter) {
         };
 
         _this.get = function (contestId, scoreCriterionId) {
-            return (0, _clone2.default)(self.scoreCriteria.find(function (scoreCriterion) {
-                return self.isMatchingScoreCriterion(scoreCriterion, contestId, scoreCriterionId);
-            }));
+            if (self.scoreCriteria.find) {
+                return (0, _clone2.default)(self.scoreCriteria.find(function (scoreCriterion) {
+                    return self.isMatchingScoreCriterion(scoreCriterion, contestId, scoreCriterionId);
+                }));
+            } else {
+                //browser does not support find
+                for (var i = 0; i < self.scoreCriteria.length; i++) {
+                    var scoreCriterion = self.scoreCriteria[i];
+                    if (self.isMatchingScoreCriterion(scoreCriterion, contestId, scoreCriterionId)) {
+                        return (0, _clone2.default)(scoreCriterion);
+                    }
+                }
+            }
+            return null;
         };
 
         _this.handleAction = function (action) {
@@ -46353,9 +46430,20 @@ var ShowStore = function (_EventEmitter) {
         };
 
         _this.get = function (showId) {
-            return (0, _clone2.default)(self.shows.find(function (show) {
-                return show.Id == showId;
-            }));
+            if (self.shows.find) {
+                return (0, _clone2.default)(self.shows.find(function (show) {
+                    return show.Id == showId;
+                }));
+            } else {
+                //browser does not support find
+                for (var i = 0; i < self.shows.length; i++) {
+                    var show = self.shows[i];
+                    if (show.Id == showId) {
+                        return (0, _clone2.default)(show);
+                    }
+                }
+            }
+            return null;
         };
 
         _this.handleAction = function (action) {

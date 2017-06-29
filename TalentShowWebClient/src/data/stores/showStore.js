@@ -40,7 +40,17 @@ class ShowStore extends EventEmitter {
         };
 
         this.get = function(showId){
-            return Clone(self.shows.find((show) => show.Id == showId));
+            if(self.shows.find){
+                return Clone(self.shows.find((show) => show.Id == showId));
+            } else { //browser does not support find
+                for (var i = 0; i < self.shows.length; i++) {
+                    var show = self.shows[i];
+                    if(show.Id == showId){
+                        return Clone(show);
+                    }
+                }
+            }
+            return null;
         };
 
         this.handleAction = function(action){

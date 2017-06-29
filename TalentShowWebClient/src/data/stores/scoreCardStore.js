@@ -47,7 +47,17 @@ class ScoreCardStore extends EventEmitter {
         };
 
         this.get = function(contestantId, scoreCardId){
-            return Clone(self.scoreCards.find((scoreCard) => self.isMatchingScoreCard(scoreCard, contestantId, scoreCardId)));
+            if(self.scoreCards.find){
+                return Clone(self.scoreCards.find((scoreCard) => self.isMatchingScoreCard(scoreCard, contestantId, scoreCardId)));
+            } else { //browser does not support find
+                for (var i = 0; i < self.scoreCards.length; i++) {
+                    var scoreCard = self.scoreCards[i];
+                    if(self.isMatchingScoreCard(scoreCard, contestantId, scoreCardId)){
+                        return Clone(scoreCard);
+                    }
+                }
+            }
+            return null;
         };
 
         this.handleAction = function(action){

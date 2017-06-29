@@ -47,7 +47,17 @@ class ScoreCriterionStore extends EventEmitter {
         };
 
         this.get = function(contestId, scoreCriterionId){
-            return Clone(self.scoreCriteria.find((scoreCriterion) => self.isMatchingScoreCriterion(scoreCriterion, contestId, scoreCriterionId)));
+            if(self.scoreCriteria.find){
+                return Clone(self.scoreCriteria.find((scoreCriterion) => self.isMatchingScoreCriterion(scoreCriterion, contestId, scoreCriterionId)));
+            } else { //browser does not support find
+                for (var i = 0; i < self.scoreCriteria.length; i++) {
+                    var scoreCriterion = self.scoreCriteria[i];
+                    if(self.isMatchingScoreCriterion(scoreCriterion, contestId, scoreCriterionId)){
+                        return Clone(scoreCriterion);
+                    }
+                }
+            }
+            return null;
         };
 
         this.handleAction = function(action){

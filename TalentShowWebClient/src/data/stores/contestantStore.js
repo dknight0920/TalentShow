@@ -47,7 +47,17 @@ class ContestantStore extends EventEmitter {
         };
 
         this.get = function(contestId, contestantId){
-            return Clone(self.contestants.find((contestant) => self.isMatchingContestant(contestant, contestId, contestantId)));
+            if(self.contestants.find){
+                return Clone(self.contestants.find((contestant) => self.isMatchingContestant(contestant, contestId, contestantId)));
+            } else { //browser does not support find
+                for (var i = 0; i < self.contestants.length; i++) {
+                    var contestant = self.contestants[i];
+                    if(self.isMatchingContestant(contestant, contestId, contestantId)){
+                        return Clone(contestant);
+                    }
+                }
+            }
+            return null;
         };
 
         this.handleAction = function(action){
