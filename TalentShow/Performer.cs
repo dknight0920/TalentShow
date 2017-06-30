@@ -31,6 +31,7 @@ namespace TalentShow
             if (name == null)
                 throw new ApplicationException("A performer cannot be constructed without a name.");
 
+            Id = id;
             Division = division;
             Name = name;
             Affiliation = affiliation;

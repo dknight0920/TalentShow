@@ -27,7 +27,7 @@ namespace TalentShow
         private void Init(int id, ScoreCriterion scoreCriterion)
         {
             if (scoreCriterion == null)
-                throw new ApplicationException("Scorable score criterion cannot be create without score criterion.");
+                throw new ApplicationException("Scorable score criterion cannot be created without score criterion.");
 
             Id = id;
             ScoreCriterion = scoreCriterion;

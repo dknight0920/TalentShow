@@ -58,6 +58,7 @@ class PerformersBox extends React.Component {
         var contestantId =  this.getContestantId();
 
         var performers = this.state.performers.map(function (performer) {
+            console.log(performer);
             return (
                 <ListPanelItem 
                     key={performer.Id} 

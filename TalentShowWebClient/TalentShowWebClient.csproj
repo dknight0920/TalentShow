@@ -121,6 +121,7 @@
     <Content Include="src\common\pageContent.js" />
     <Content Include="src\common\panel.js" />
     <Content Include="src\common\roleAwareComponent.js" />
+    <Content Include="src\common\select.js" />
     <Content Include="src\common\timeoutComponent.js" />
     <Content Include="src\common\unauthorizedUserPageContent.js" />
     <Content Include="src\data\actions\contestActions.js" />
@@ -168,6 +169,8 @@
     <Content Include="src\modules\ControlCenter\show\contest\contestant\contestantUtil.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\editContestant.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\performers.js" />
+    <Content Include="src\modules\ControlCenter\show\contest\contestant\performer\editPerformer.js" />
+    <Content Include="src\modules\ControlCenter\show\contest\contestant\performer\performerEditor.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\performer\performerUtil.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCards.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\scoreCard\addScoreCard.js" />
