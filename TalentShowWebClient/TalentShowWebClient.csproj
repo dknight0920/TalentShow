@@ -127,6 +127,7 @@
     <Content Include="src\data\actions\contestActions.js" />
     <Content Include="src\data\actions\contestantActions.js" />
     <Content Include="src\data\actions\currentUserActions.js" />
+    <Content Include="src\data\actions\divisionActions.js" />
     <Content Include="src\data\actions\judgeActions.js" />
     <Content Include="src\data\actions\organizationActions.js" />
     <Content Include="src\data\actions\performerActions.js" />
@@ -135,6 +136,7 @@
     <Content Include="src\data\actions\showActions.js" />
     <Content Include="src\data\api\contestantApi.js" />
     <Content Include="src\data\api\contestApi.js" />
+    <Content Include="src\data\api\divisionApi.js" />
     <Content Include="src\data\api\judgeApi.js" />
     <Content Include="src\data\api\organizationApi.js" />
     <Content Include="src\data\api\performerApi.js" />
@@ -149,6 +151,7 @@
     <Content Include="src\data\signalr\utils\groupNameUtil.js" />
     <Content Include="src\data\stores\contestantStore.js" />
     <Content Include="src\data\stores\contestStore.js" />
+    <Content Include="src\data\stores\divisionStore.js" />
     <Content Include="src\data\stores\judgeStore.js" />
     <Content Include="src\data\stores\organizationStore.js" />
     <Content Include="src\data\stores\performerStore.js" />
@@ -158,6 +161,8 @@
     <Content Include="src\data\stores\currentUserStore.js" />
     <Content Include="src\data\stores\utils\broadcastUtil.js" />
     <Content Include="src\modules\about.js" />
+    <Content Include="src\modules\ControlCenter\divisions.js" />
+    <Content Include="src\modules\ControlCenter\organizations.js" />
     <Content Include="src\modules\ControlCenter\show\addShow.js" />
     <Content Include="src\modules\ControlCenter\show\contests.js" />
     <Content Include="src\modules\ControlCenter\show\contest\addContest.js" />
@@ -212,7 +217,6 @@
     <Content Include="scripts\ai.0.15.0-build58334.js" />
     <Content Include="scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="src\app.js" />
-    <Content Include="src\modules\judges.js" />
     <Content Include="src\modules\login.js" />
     <Content Include="src\modules\ControlCenter\shows.js" />
     <Content Include="styles\bootstrap.min.css" />
@@ -226,6 +230,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dist\" />
+    <Folder Include="src\modules\ControlCenter\division\" />
+    <Folder Include="src\modules\ControlCenter\organization\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

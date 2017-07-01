@@ -4,8 +4,8 @@ import { render } from 'react-dom';
 import { Router, Route, hashHistory, IndexRoute, Link  } from 'react-router';
 import about from './modules/about';
 import login from './modules/login';
-import judges from './modules/judges';
 import unauthorized from './common/unauthorizedUserPageContent';
+import divisions from './modules/ControlCenter/divisions';
 import shows from './modules/ControlCenter/shows';
 import show from './modules/ControlCenter/show/show';
 import addShow from './modules/ControlCenter/show/addShow';
@@ -41,7 +41,7 @@ var Menu = React.createClass({
                         </div>
                         <ul className="nav navbar-nav">
                             <li><Link to="/shows">Shows</Link></li>
-                            <li><Link to="/judges">Judges</Link></li>
+                            <li><Link to="/divisions">Divisions</Link></li>
                             <li><Link to="/about">About</Link></li>
                         </ul>
                     </div>
@@ -72,6 +72,7 @@ function getToken(){
                     <IndexRoute component={login} />
                     <Route onEnter={requireAuth} component={Menu}>
                         <Route path="/unauthorized" component={unauthorized} />
+                        <Route path="/divisions" component={divisions} />
                         <Route path="/shows" component={shows} />
                         <Route path="/shows/add" component={addShow} />
                         <Route path="/show/:showId" component={show} />
@@ -93,7 +94,6 @@ function getToken(){
                         <Route path="/show/:showId/contest/:contestId/scorecriterion/:scoreCriterionId" component={scoreCriterion} />
                         <Route path="/show/:showId/contest/:contestId/scorecriterion/:scoreCriterionId/edit" component={editScoreCriterion} />
                         <Route path="/about" component={about} />
-                        <Route path="/judges" component={judges} />
                     </Route>
                 </Route>
                 </Router>

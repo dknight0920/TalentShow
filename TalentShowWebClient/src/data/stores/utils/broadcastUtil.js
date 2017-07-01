@@ -5,6 +5,10 @@ export function broadcastShowChange(groupName){
     Hubs.controlCenterHubProxy.invoke('ShowChanged', groupName);
 };
 
+export function broadcastDivisionChange(groupName){
+    Hubs.controlCenterHubProxy.invoke('DivisionChanged', groupName);
+};
+
 export function broadcastContestChange(groupName, id){
     Hubs.controlCenterHubProxy.invoke('ContestChanged', groupName, id);
 };

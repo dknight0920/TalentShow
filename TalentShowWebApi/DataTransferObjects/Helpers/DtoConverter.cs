@@ -169,6 +169,16 @@ namespace TalentShowWebApi.DataTransferObjects.Helpers
             };
         }
 
+        public static ICollection<DivisionDto> ConvertToDto(this ICollection<Division> divisions)
+        {
+            var dtos = new List<DivisionDto>();
+
+            foreach (var division in divisions)
+                dtos.Add(ConvertToDto(division));
+
+            return dtos;
+        }
+
         public static DivisionDto ConvertToDto(this Division divison)
         {
             return new DivisionDto()
