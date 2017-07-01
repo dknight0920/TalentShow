@@ -5,6 +5,7 @@ import PerformerEditor from './performerEditor';
 import PerformerStore from '../../../../../../data/stores/performerStore';
 import * as PerformerActions from '../../../../../../data/actions/performerActions';
 import * as OrganizationActions from '../../../../../../data/actions/organizationActions';
+import * as DivisionActions from '../../../../../../data/actions/divisionActions';
 import PageContent from '../../../../../../common/pageContent';
 import RoleAwareComponent from '../../../../../../common/roleAwareComponent';
 
@@ -32,12 +33,15 @@ class EditPerformerPage extends RoleAwareComponent {
         PerformerActions.joinHubGroup(this.getContestantId());
         OrganizationActions.loadOrganizations();
         OrganizationActions.joinHubGroup();
+        DivisionActions.loadDivisions();
+        DivisionActions.joinHubGroup()
     }
 
     componentWillUnmount(){
         PerformerStore.off("change", this.storeChanged);
         PerformerActions.leaveHubGroup(this.getContestantId());
         OrganizationActions.leaveHubGroup();
+        DivisionActions.leaveHubGroup();
     }
 
     storeChanged(){

@@ -4,6 +4,7 @@ import * as Nav from '../../../../../../routing/navigation';
 import PerformerEditor from './performerEditor';
 import * as PerformerActions from '../../../../../../data/actions/performerActions';
 import * as OrganizationActions from '../../../../../../data/actions/organizationActions';
+import * as DivisionActions from '../../../../../../data/actions/divisionActions';
 import PageContent from '../../../../../../common/pageContent';
 import RoleAwareComponent from '../../../../../../common/roleAwareComponent';
 
@@ -23,10 +24,13 @@ class AddPerformerPage extends RoleAwareComponent {
         this.redirectUnauthorizedUser();
         OrganizationActions.loadOrganizations();
         OrganizationActions.joinHubGroup();
+        DivisionActions.loadDivisions();
+        DivisionActions.joinHubGroup();
     }
 
     componentWillUnmount(){
         OrganizationActions.leaveHubGroup();
+        DivisionActions.leaveHubGroup();
     }
 
     handleClickSave(newPerformer) {

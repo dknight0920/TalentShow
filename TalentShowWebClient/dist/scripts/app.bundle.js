@@ -48367,6 +48367,10 @@ var _organizationActions = require('../../../../../../data/actions/organizationA
 
 var OrganizationActions = _interopRequireWildcard(_organizationActions);
 
+var _divisionActions = require('../../../../../../data/actions/divisionActions');
+
+var DivisionActions = _interopRequireWildcard(_divisionActions);
+
 var _pageContent = require('../../../../../../common/pageContent');
 
 var _pageContent2 = _interopRequireDefault(_pageContent);
@@ -48409,11 +48413,14 @@ var AddPerformerPage = function (_RoleAwareComponent) {
             this.redirectUnauthorizedUser();
             OrganizationActions.loadOrganizations();
             OrganizationActions.joinHubGroup();
+            DivisionActions.loadDivisions();
+            DivisionActions.joinHubGroup();
         }
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
             OrganizationActions.leaveHubGroup();
+            DivisionActions.leaveHubGroup();
         }
     }, {
         key: 'handleClickSave',
@@ -48462,7 +48469,7 @@ var AddPerformerPage = function (_RoleAwareComponent) {
 
 exports.default = AddPerformerPage;
 
-},{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/organizationActions":309,"../../../../../../data/actions/performerActions":310,"../../../../../../routing/navigation":381,"./performerEditor":352,"react":290}],351:[function(require,module,exports){
+},{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/divisionActions":307,"../../../../../../data/actions/organizationActions":309,"../../../../../../data/actions/performerActions":310,"../../../../../../routing/navigation":381,"./performerEditor":352,"react":290}],351:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48494,6 +48501,10 @@ var PerformerActions = _interopRequireWildcard(_performerActions);
 var _organizationActions = require('../../../../../../data/actions/organizationActions');
 
 var OrganizationActions = _interopRequireWildcard(_organizationActions);
+
+var _divisionActions = require('../../../../../../data/actions/divisionActions');
+
+var DivisionActions = _interopRequireWildcard(_divisionActions);
 
 var _pageContent = require('../../../../../../common/pageContent');
 
@@ -48545,6 +48556,8 @@ var EditPerformerPage = function (_RoleAwareComponent) {
             PerformerActions.joinHubGroup(this.getContestantId());
             OrganizationActions.loadOrganizations();
             OrganizationActions.joinHubGroup();
+            DivisionActions.loadDivisions();
+            DivisionActions.joinHubGroup();
         }
     }, {
         key: 'componentWillUnmount',
@@ -48552,6 +48565,7 @@ var EditPerformerPage = function (_RoleAwareComponent) {
             _performerStore2.default.off("change", this.storeChanged);
             PerformerActions.leaveHubGroup(this.getContestantId());
             OrganizationActions.leaveHubGroup();
+            DivisionActions.leaveHubGroup();
         }
     }, {
         key: 'storeChanged',
@@ -48626,7 +48640,7 @@ var EditPerformerPage = function (_RoleAwareComponent) {
 
 exports.default = EditPerformerPage;
 
-},{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/organizationActions":309,"../../../../../../data/actions/performerActions":310,"../../../../../../data/stores/performerStore":335,"../../../../../../routing/navigation":381,"./performerEditor":352,"react":290}],352:[function(require,module,exports){
+},{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/divisionActions":307,"../../../../../../data/actions/organizationActions":309,"../../../../../../data/actions/performerActions":310,"../../../../../../data/stores/performerStore":335,"../../../../../../routing/navigation":381,"./performerEditor":352,"react":290}],352:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48646,6 +48660,10 @@ var _clone2 = _interopRequireDefault(_clone);
 var _organizationStore = require('../../../../../../data/stores/organizationStore');
 
 var _organizationStore2 = _interopRequireDefault(_organizationStore);
+
+var _divisionStore = require('../../../../../../data/stores/divisionStore');
+
+var _divisionStore2 = _interopRequireDefault(_divisionStore);
 
 var _formGroup = require('../../../../../../common/formGroup');
 
@@ -48686,6 +48704,7 @@ var PerformerEditor = function (_RoleAwareComponent) {
         _this.handleFirstNameChange = _this.handleFirstNameChange.bind(_this);
         _this.handleLastNameChange = _this.handleLastNameChange.bind(_this);
         _this.handleAffiliationChange = _this.handleAffiliationChange.bind(_this);
+        _this.handleDivisionChange = _this.handleDivisionChange.bind(_this);
         _this.handleClickSave = _this.handleClickSave.bind(_this);
         _this.handleClickCancel = _this.handleClickCancel.bind(_this);
         _this.getState = _this.getState.bind(_this);
@@ -48693,6 +48712,8 @@ var PerformerEditor = function (_RoleAwareComponent) {
         _this.state = _this.getState();
         _this.getAffiliationName = _this.getAffiliationName.bind(_this);
         _this.getOrganizationOptions = _this.getOrganizationOptions.bind(_this);
+        _this.getDivisionName = _this.getDivisionName.bind(_this);
+        _this.getDivisionOptions = _this.getDivisionOptions.bind(_this);
         _this.authorizedRoles = [];
         return _this;
     }
@@ -48701,6 +48722,7 @@ var PerformerEditor = function (_RoleAwareComponent) {
         key: 'componentWillMount',
         value: function componentWillMount() {
             _organizationStore2.default.on("change", this.storeChanged);
+            _divisionStore2.default.on("change", this.storeChanged);
             if (this.props.authorizedRoles && this.props.authorizedRoles.length) {
                 this.authorizedRoles = this.props.authorizedRoles;
             }
@@ -48710,6 +48732,7 @@ var PerformerEditor = function (_RoleAwareComponent) {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
             _organizationStore2.default.off("change", this.storeChanged);
+            _divisionStore2.default.off("change", this.storeChanged);
         }
     }, {
         key: 'storeChanged',
@@ -48738,6 +48761,13 @@ var PerformerEditor = function (_RoleAwareComponent) {
             this.setState(performer);
         }
     }, {
+        key: 'handleDivisionChange',
+        value: function handleDivisionChange(selectedOption) {
+            var performer = this.state.performer;
+            performer.Division = selectedOption.division;
+            this.setState(performer);
+        }
+    }, {
         key: 'handleClickSave',
         value: function handleClickSave(e) {
             e.preventDefault();
@@ -48755,7 +48785,8 @@ var PerformerEditor = function (_RoleAwareComponent) {
             if (this.props.performer) {
                 return {
                     performer: (0, _clone2.default)(this.props.performer),
-                    organizations: _organizationStore2.default.getOrganizations()
+                    organizations: _organizationStore2.default.getOrganizations(),
+                    divisions: _divisionStore2.default.getDivisions()
                 };
             } else {
                 return {
@@ -48769,7 +48800,8 @@ var PerformerEditor = function (_RoleAwareComponent) {
                         Affiliation: null,
                         Division: null
                     },
-                    organizations: _organizationStore2.default.getOrganizations()
+                    organizations: _organizationStore2.default.getOrganizations(),
+                    divisions: _divisionStore2.default.getDivisions()
                 };
             }
         }
@@ -48800,6 +48832,32 @@ var PerformerEditor = function (_RoleAwareComponent) {
             return "";
         }
     }, {
+        key: 'getDivisionOptions',
+        value: function getDivisionOptions() {
+            var divisions = this.state.divisions;
+            var options = [];
+
+            for (var i = 0; i < divisions.length; i++) {
+                var division = divisions[i];
+                options.push({
+                    value: division.Name,
+                    label: division.Name,
+                    division: division
+                });
+            }
+
+            return options;
+        }
+    }, {
+        key: 'getDivisionName',
+        value: function getDivisionName() {
+            var performer = this.state.performer;
+            if (performer && performer.Division && performer.Division.Name) {
+                return performer.Division.Name;
+            }
+            return "";
+        }
+    }, {
         key: 'render',
         value: function render() {
             var performer = this.state.performer;
@@ -48825,6 +48883,12 @@ var PerformerEditor = function (_RoleAwareComponent) {
                     value: this.getAffiliationName(),
                     options: this.getOrganizationOptions(),
                     onChange: this.handleAffiliationChange }),
+                _react2.default.createElement(_select2.default, {
+                    name: 'division',
+                    label: 'Division',
+                    value: this.getDivisionName(),
+                    options: this.getDivisionOptions(),
+                    onChange: this.handleDivisionChange }),
                 _react2.default.createElement(
                     _formGroup2.default,
                     null,
@@ -48841,7 +48905,7 @@ var PerformerEditor = function (_RoleAwareComponent) {
 
 exports.default = PerformerEditor;
 
-},{"../../../../../../common/button":292,"../../../../../../common/formGroup":293,"../../../../../../common/input":294,"../../../../../../common/roleAwareComponent":300,"../../../../../../common/select":301,"../../../../../../data/stores/organizationStore":334,"clone":6,"react":290}],353:[function(require,module,exports){
+},{"../../../../../../common/button":292,"../../../../../../common/formGroup":293,"../../../../../../common/input":294,"../../../../../../common/roleAwareComponent":300,"../../../../../../common/select":301,"../../../../../../data/stores/divisionStore":332,"../../../../../../data/stores/organizationStore":334,"clone":6,"react":290}],353:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
