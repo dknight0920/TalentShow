@@ -42447,6 +42447,10 @@ var _editPerformer = require('./modules/ControlCenter/show/contest/contestant/pe
 
 var _editPerformer2 = _interopRequireDefault(_editPerformer);
 
+var _addPerformer = require('./modules/ControlCenter/show/contest/contestant/performer/addPerformer');
+
+var _addPerformer2 = _interopRequireDefault(_addPerformer);
+
 var _hubs = require('./data/signalr/hubs');
 
 var Hubs = _interopRequireWildcard(_hubs);
@@ -42555,6 +42559,7 @@ Hubs.hubConnection.start({ transport: ['webSockets'], jsonp: true }).done(functi
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/contestant/:contestantId/edit', component: _editContestant2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/contestant/:contestantId/scorecards/add', component: _addScoreCard2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/contestant/:contestantId/scorecard/:scoreCardId/edit', component: _editScoreCard2.default }),
+                _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/contestant/:contestantId/performers/add', component: _addPerformer2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/contestant/:contestantId/performer/:performerId/edit', component: _editPerformer2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/judges/add', component: _addJudge2.default }),
                 _react2.default.createElement(_reactRouter.Route, { path: '/show/:showId/contest/:contestId/judge/:judgeId', component: _judge2.default }),
@@ -42569,7 +42574,7 @@ Hubs.hubConnection.start({ transport: ['webSockets'], jsonp: true }).done(functi
     ), document.getElementById('app'));
 });
 
-},{"./common/unauthorizedUserPageContent":303,"./data/signalr/hubs":325,"./modules/ControlCenter/show/addShow":337,"./modules/ControlCenter/show/contest/addContest":338,"./modules/ControlCenter/show/contest/contest":339,"./modules/ControlCenter/show/contest/contestant/addContestant":341,"./modules/ControlCenter/show/contest/contestant/contestant":342,"./modules/ControlCenter/show/contest/contestant/editContestant":345,"./modules/ControlCenter/show/contest/contestant/performer/editPerformer":346,"./modules/ControlCenter/show/contest/contestant/scoreCard/addScoreCard":350,"./modules/ControlCenter/show/contest/contestant/scoreCard/editScoreCard":351,"./modules/ControlCenter/show/contest/editContest":357,"./modules/ControlCenter/show/contest/judge/addJudge":358,"./modules/ControlCenter/show/contest/judge/editJudge":359,"./modules/ControlCenter/show/contest/judge/judge":360,"./modules/ControlCenter/show/contest/scoreCriterion/addScoreCriterion":365,"./modules/ControlCenter/show/contest/scoreCriterion/editScoreCriterion":366,"./modules/ControlCenter/show/contest/scoreCriterion/scoreCriterion":367,"./modules/ControlCenter/show/editShow":370,"./modules/ControlCenter/show/show":371,"./modules/ControlCenter/shows":373,"./modules/about":374,"./modules/judges":375,"./modules/login":376,"react":290,"react-dom":26,"react-router":203}],292:[function(require,module,exports){
+},{"./common/unauthorizedUserPageContent":303,"./data/signalr/hubs":325,"./modules/ControlCenter/show/addShow":337,"./modules/ControlCenter/show/contest/addContest":338,"./modules/ControlCenter/show/contest/contest":339,"./modules/ControlCenter/show/contest/contestant/addContestant":341,"./modules/ControlCenter/show/contest/contestant/contestant":342,"./modules/ControlCenter/show/contest/contestant/editContestant":345,"./modules/ControlCenter/show/contest/contestant/performer/addPerformer":346,"./modules/ControlCenter/show/contest/contestant/performer/editPerformer":347,"./modules/ControlCenter/show/contest/contestant/scoreCard/addScoreCard":351,"./modules/ControlCenter/show/contest/contestant/scoreCard/editScoreCard":352,"./modules/ControlCenter/show/contest/editContest":358,"./modules/ControlCenter/show/contest/judge/addJudge":359,"./modules/ControlCenter/show/contest/judge/editJudge":360,"./modules/ControlCenter/show/contest/judge/judge":361,"./modules/ControlCenter/show/contest/scoreCriterion/addScoreCriterion":366,"./modules/ControlCenter/show/contest/scoreCriterion/editScoreCriterion":367,"./modules/ControlCenter/show/contest/scoreCriterion/scoreCriterion":368,"./modules/ControlCenter/show/editShow":371,"./modules/ControlCenter/show/show":372,"./modules/ControlCenter/shows":374,"./modules/about":375,"./modules/judges":376,"./modules/login":377,"react":290,"react-dom":26,"react-router":203}],292:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43204,7 +43209,7 @@ var RoleAwareComponent = function (_React$Component) {
 
 exports.default = RoleAwareComponent;
 
-},{"../data/stores/currentUserStore":329,"../routing/navigation":377,"react":290}],301:[function(require,module,exports){
+},{"../data/stores/currentUserStore":329,"../routing/navigation":378,"react":290}],301:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -46728,7 +46733,7 @@ var AddShowPage = function (_RoleAwareComponent) {
 
 exports.default = AddShowPage;
 
-},{"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/showActions":312,"../../../routing/navigation":377,"./showEditor":372,"react":290}],338:[function(require,module,exports){
+},{"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/showActions":312,"../../../routing/navigation":378,"./showEditor":373,"react":290}],338:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -46829,7 +46834,7 @@ var AddContestPage = function (_RoleAwareComponent) {
 
 exports.default = AddContestPage;
 
-},{"../../../../common/pageContent":298,"../../../../common/roleAwareComponent":300,"../../../../data/actions/contestActions":304,"../../../../routing/navigation":377,"./contestEditor":340,"react":290}],339:[function(require,module,exports){
+},{"../../../../common/pageContent":298,"../../../../common/roleAwareComponent":300,"../../../../data/actions/contestActions":304,"../../../../routing/navigation":378,"./contestEditor":340,"react":290}],339:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47038,7 +47043,7 @@ var ContestPage = function (_TimeoutComponent) {
 
 exports.default = ContestPage;
 
-},{"../../../../common/button":292,"../../../../common/pageContent":298,"../../../../common/timeoutComponent":302,"../../../../data/actions/contestActions":304,"../../../../data/actions/contestantActions":305,"../../../../data/actions/judgeActions":307,"../../../../data/actions/scoreCriterionActions":311,"../../../../data/stores/contestStore":327,"../../../../routing/navigation":377,"./contestants":356,"./judges":363,"./scoreCriteria":364,"react":290}],340:[function(require,module,exports){
+},{"../../../../common/button":292,"../../../../common/pageContent":298,"../../../../common/timeoutComponent":302,"../../../../data/actions/contestActions":304,"../../../../data/actions/contestantActions":305,"../../../../data/actions/judgeActions":307,"../../../../data/actions/scoreCriterionActions":311,"../../../../data/stores/contestStore":327,"../../../../routing/navigation":378,"./contestants":357,"./judges":364,"./scoreCriteria":365,"react":290}],340:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47292,7 +47297,7 @@ var AddContestantPage = function (_RoleAwareComponent) {
 
 exports.default = AddContestantPage;
 
-},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/contestantActions":305,"../../../../../routing/navigation":377,"./contestantEditor":343,"react":290}],342:[function(require,module,exports){
+},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/contestantActions":305,"../../../../../routing/navigation":378,"./contestantEditor":343,"react":290}],342:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47499,7 +47504,7 @@ var ContestantPage = function (_TimeoutComponent) {
 
 exports.default = ContestantPage;
 
-},{"../../../../../common/button":292,"../../../../../common/pageContent":298,"../../../../../common/timeoutComponent":302,"../../../../../data/actions/contestantActions":305,"../../../../../data/actions/performerActions":309,"../../../../../data/actions/scoreCardActions":310,"../../../../../data/stores/contestantStore":328,"../../../../../routing/navigation":377,"./contestantUtil":344,"./performers":349,"./scoreCards":355,"react":290}],343:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/pageContent":298,"../../../../../common/timeoutComponent":302,"../../../../../data/actions/contestantActions":305,"../../../../../data/actions/performerActions":309,"../../../../../data/actions/scoreCardActions":310,"../../../../../data/stores/contestantStore":328,"../../../../../routing/navigation":378,"./contestantUtil":344,"./performers":350,"./scoreCards":356,"react":290}],343:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47835,7 +47840,131 @@ var EditContestantPage = function (_RoleAwareComponent) {
 
 exports.default = EditContestantPage;
 
-},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/contestantActions":305,"../../../../../data/stores/contestantStore":328,"../../../../../routing/navigation":377,"./contestantEditor":343,"react":290}],346:[function(require,module,exports){
+},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/contestantActions":305,"../../../../../data/stores/contestantStore":328,"../../../../../routing/navigation":378,"./contestantEditor":343,"react":290}],346:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _navigation = require('../../../../../../routing/navigation');
+
+var Nav = _interopRequireWildcard(_navigation);
+
+var _performerEditor = require('./performerEditor');
+
+var _performerEditor2 = _interopRequireDefault(_performerEditor);
+
+var _performerActions = require('../../../../../../data/actions/performerActions');
+
+var PerformerActions = _interopRequireWildcard(_performerActions);
+
+var _organizationActions = require('../../../../../../data/actions/organizationActions');
+
+var OrganizationActions = _interopRequireWildcard(_organizationActions);
+
+var _pageContent = require('../../../../../../common/pageContent');
+
+var _pageContent2 = _interopRequireDefault(_pageContent);
+
+var _roleAwareComponent = require('../../../../../../common/roleAwareComponent');
+
+var _roleAwareComponent2 = _interopRequireDefault(_roleAwareComponent);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var AddPerformerPage = function (_RoleAwareComponent) {
+    _inherits(AddPerformerPage, _RoleAwareComponent);
+
+    function AddPerformerPage(props) {
+        _classCallCheck(this, AddPerformerPage);
+
+        var _this = _possibleConstructorReturn(this, (AddPerformerPage.__proto__ || Object.getPrototypeOf(AddPerformerPage)).call(this, props));
+
+        _this.handleClickSave = _this.handleClickSave.bind(_this);
+        _this.handleClickCancel = _this.handleClickCancel.bind(_this);
+        _this.navigateToContestantPage = _this.navigateToContestantPage.bind(_this);
+        _this.getContestantId = _this.getContestantId.bind(_this);
+        _this.getContestId = _this.getContestId.bind(_this);
+        _this.getShowId = _this.getShowId.bind(_this);
+        _this.authorizedRoles = ["admin"];
+        return _this;
+    }
+
+    _createClass(AddPerformerPage, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            this.redirectUnauthorizedUser();
+            OrganizationActions.loadOrganizations();
+            OrganizationActions.joinHubGroup();
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            OrganizationActions.leaveHubGroup();
+        }
+    }, {
+        key: 'handleClickSave',
+        value: function handleClickSave(newPerformer) {
+            PerformerActions.addPerformer(this.getContestantId(), newPerformer);
+            this.navigateToContestantPage();
+        }
+    }, {
+        key: 'handleClickCancel',
+        value: function handleClickCancel() {
+            this.navigateToContestantPage();
+        }
+    }, {
+        key: 'navigateToContestantPage',
+        value: function navigateToContestantPage() {
+            Nav.goToContestant(this.getShowId(), this.getContestId(), this.getContestantId());
+        }
+    }, {
+        key: 'getContestantId',
+        value: function getContestantId() {
+            return this.props.params.contestantId;
+        }
+    }, {
+        key: 'getContestId',
+        value: function getContestId() {
+            return this.props.params.contestId;
+        }
+    }, {
+        key: 'getShowId',
+        value: function getShowId() {
+            return this.props.params.showId;
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                _pageContent2.default,
+                { title: 'Create a Performer', description: 'Use the form below to create a new performer.' },
+                _react2.default.createElement(_performerEditor2.default, { authorizedRoles: this.authorizedRoles, OnClickSave: this.handleClickSave, OnClickCancel: this.handleClickCancel })
+            );
+        }
+    }]);
+
+    return AddPerformerPage;
+}(_roleAwareComponent2.default);
+
+exports.default = AddPerformerPage;
+
+},{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/organizationActions":308,"../../../../../../data/actions/performerActions":309,"../../../../../../routing/navigation":378,"./performerEditor":348,"react":290}],347:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47999,7 +48128,7 @@ var EditPerformerPage = function (_RoleAwareComponent) {
 
 exports.default = EditPerformerPage;
 
-},{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/organizationActions":308,"../../../../../../data/actions/performerActions":309,"../../../../../../data/stores/performerStore":332,"../../../../../../routing/navigation":377,"./performerEditor":347,"react":290}],347:[function(require,module,exports){
+},{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/organizationActions":308,"../../../../../../data/actions/performerActions":309,"../../../../../../data/stores/performerStore":332,"../../../../../../routing/navigation":378,"./performerEditor":348,"react":290}],348:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48214,7 +48343,7 @@ var PerformerEditor = function (_RoleAwareComponent) {
 
 exports.default = PerformerEditor;
 
-},{"../../../../../../common/button":292,"../../../../../../common/formGroup":293,"../../../../../../common/input":294,"../../../../../../common/roleAwareComponent":300,"../../../../../../common/select":301,"../../../../../../data/stores/organizationStore":331,"clone":6,"react":290}],348:[function(require,module,exports){
+},{"../../../../../../common/button":292,"../../../../../../common/formGroup":293,"../../../../../../common/input":294,"../../../../../../common/roleAwareComponent":300,"../../../../../../common/select":301,"../../../../../../data/stores/organizationStore":331,"clone":6,"react":290}],349:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48232,7 +48361,7 @@ var getDescription = function getDescription(performer) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],349:[function(require,module,exports){
+},{}],350:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48359,7 +48488,7 @@ var PerformersBox = function (_React$Component) {
 
 exports.default = PerformersBox;
 
-},{"../../../../../common/button":292,"../../../../../common/listPanel":297,"../../../../../data/stores/performerStore":332,"../../../../../routing/navigation":377,"./performer/performerUtil":348,"react":290}],350:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/listPanel":297,"../../../../../data/stores/performerStore":332,"../../../../../routing/navigation":378,"./performer/performerUtil":349,"react":290}],351:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48602,7 +48731,7 @@ var AddScoreCardPage = function (_RoleAwareComponent) {
 
 exports.default = AddScoreCardPage;
 
-},{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/contestantActions":305,"../../../../../../data/actions/judgeActions":307,"../../../../../../data/actions/scoreCardActions":310,"../../../../../../data/actions/scoreCriterionActions":311,"../../../../../../data/stores/contestantStore":328,"../../../../../../data/stores/currentUserStore":329,"../../../../../../data/stores/judgeStore":330,"../../../../../../data/stores/scoreCriterionStore":334,"../../../../../../routing/navigation":377,"./scoreCardEditor":353,"react":290}],351:[function(require,module,exports){
+},{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/contestantActions":305,"../../../../../../data/actions/judgeActions":307,"../../../../../../data/actions/scoreCardActions":310,"../../../../../../data/actions/scoreCriterionActions":311,"../../../../../../data/stores/contestantStore":328,"../../../../../../data/stores/currentUserStore":329,"../../../../../../data/stores/judgeStore":330,"../../../../../../data/stores/scoreCriterionStore":334,"../../../../../../routing/navigation":378,"./scoreCardEditor":354,"react":290}],352:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48758,7 +48887,7 @@ var EditScoreCardPage = function (_RoleAwareComponent) {
 
 exports.default = EditScoreCardPage;
 
-},{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/scoreCardActions":310,"../../../../../../data/stores/scoreCardStore":333,"../../../../../../routing/navigation":377,"./scoreCardEditor":353,"react":290}],352:[function(require,module,exports){
+},{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/scoreCardActions":310,"../../../../../../data/stores/scoreCardStore":333,"../../../../../../routing/navigation":378,"./scoreCardEditor":354,"react":290}],353:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48918,7 +49047,7 @@ var ScorableCriterion = function (_React$Component2) {
 
 exports.default = ScorableCriteria;
 
-},{"../../../../../../common/input":294,"../../../../../../common/panel":299,"../../../../../../data/stores/scoreCardStore":333,"clone":6,"react":290}],353:[function(require,module,exports){
+},{"../../../../../../common/input":294,"../../../../../../common/panel":299,"../../../../../../data/stores/scoreCardStore":333,"clone":6,"react":290}],354:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49047,7 +49176,7 @@ var ScoreCardEditor = function (_RoleAwareComponent) {
 
 exports.default = ScoreCardEditor;
 
-},{"../../../../../../common/button":292,"../../../../../../common/formGroup":293,"../../../../../../common/input":294,"../../../../../../common/roleAwareComponent":300,"./scorableCriteria":352,"clone":6,"react":290}],354:[function(require,module,exports){
+},{"../../../../../../common/button":292,"../../../../../../common/formGroup":293,"../../../../../../common/input":294,"../../../../../../common/roleAwareComponent":300,"./scorableCriteria":353,"clone":6,"react":290}],355:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49123,7 +49252,7 @@ var getDescription = function getDescription(scoreCard) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{"react":290}],355:[function(require,module,exports){
+},{"react":290}],356:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49249,7 +49378,7 @@ var ScoreCardsBox = function (_React$Component) {
 
 exports.default = ScoreCardsBox;
 
-},{"../../../../../common/button":292,"../../../../../common/listPanel":297,"../../../../../data/stores/scoreCardStore":333,"../../../../../routing/navigation":377,"./scoreCard/scoreCardUtil":354,"react":290}],356:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/listPanel":297,"../../../../../data/stores/scoreCardStore":333,"../../../../../routing/navigation":378,"./scoreCard/scoreCardUtil":355,"react":290}],357:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49368,7 +49497,7 @@ var ContestantsBox = function (_React$Component) {
 
 exports.default = ContestantsBox;
 
-},{"../../../../common/button":292,"../../../../common/listPanel":297,"../../../../data/stores/contestantStore":328,"../../../../routing/navigation":377,"./contestant/contestantUtil":344,"react":290}],357:[function(require,module,exports){
+},{"../../../../common/button":292,"../../../../common/listPanel":297,"../../../../data/stores/contestantStore":328,"../../../../routing/navigation":378,"./contestant/contestantUtil":344,"react":290}],358:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49511,7 +49640,7 @@ var EditContestPage = function (_RoleAwareComponent) {
 
 exports.default = EditContestPage;
 
-},{"../../../../common/pageContent":298,"../../../../common/roleAwareComponent":300,"../../../../data/actions/contestActions":304,"../../../../data/stores/contestStore":327,"../../../../routing/navigation":377,"./contestEditor":340,"react":290}],358:[function(require,module,exports){
+},{"../../../../common/pageContent":298,"../../../../common/roleAwareComponent":300,"../../../../data/actions/contestActions":304,"../../../../data/stores/contestStore":327,"../../../../routing/navigation":378,"./contestEditor":340,"react":290}],359:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49629,7 +49758,7 @@ var AddJudgePage = function (_RoleAwareComponent) {
 
 exports.default = AddJudgePage;
 
-},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/judgeActions":307,"../../../../../data/actions/organizationActions":308,"../../../../../routing/navigation":377,"./judgeEditor":361,"react":290}],359:[function(require,module,exports){
+},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/judgeActions":307,"../../../../../data/actions/organizationActions":308,"../../../../../routing/navigation":378,"./judgeEditor":362,"react":290}],360:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49787,7 +49916,7 @@ var EditJudgePage = function (_RoleAwareComponent) {
 
 exports.default = EditJudgePage;
 
-},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/judgeActions":307,"../../../../../data/actions/organizationActions":308,"../../../../../data/stores/judgeStore":330,"../../../../../routing/navigation":377,"./judgeEditor":361,"react":290}],360:[function(require,module,exports){
+},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/judgeActions":307,"../../../../../data/actions/organizationActions":308,"../../../../../data/stores/judgeStore":330,"../../../../../routing/navigation":378,"./judgeEditor":362,"react":290}],361:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49963,7 +50092,7 @@ var JudgePage = function (_TimeoutComponent) {
 
 exports.default = JudgePage;
 
-},{"../../../../../common/button":292,"../../../../../common/pageContent":298,"../../../../../common/timeoutComponent":302,"../../../../../data/actions/judgeActions":307,"../../../../../data/stores/judgeStore":330,"../../../../../routing/navigation":377,"react":290}],361:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/pageContent":298,"../../../../../common/timeoutComponent":302,"../../../../../data/actions/judgeActions":307,"../../../../../data/stores/judgeStore":330,"../../../../../routing/navigation":378,"react":290}],362:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -50182,7 +50311,7 @@ var JudgeEditor = function (_RoleAwareComponent) {
 
 exports.default = JudgeEditor;
 
-},{"../../../../../common/button":292,"../../../../../common/formGroup":293,"../../../../../common/input":294,"../../../../../common/roleAwareComponent":300,"../../../../../common/select":301,"../../../../../data/stores/organizationStore":331,"clone":6,"react":290}],362:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/formGroup":293,"../../../../../common/input":294,"../../../../../common/roleAwareComponent":300,"../../../../../common/select":301,"../../../../../data/stores/organizationStore":331,"clone":6,"react":290}],363:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -50199,7 +50328,7 @@ var getDescription = function getDescription(judge) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],363:[function(require,module,exports){
+},{}],364:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -50318,7 +50447,7 @@ var JudgesBox = function (_React$Component) {
 
 exports.default = JudgesBox;
 
-},{"../../../../common/button":292,"../../../../common/listPanel":297,"../../../../data/stores/judgeStore":330,"../../../../routing/navigation":377,"./judge/judgeUtil":362,"react":290}],364:[function(require,module,exports){
+},{"../../../../common/button":292,"../../../../common/listPanel":297,"../../../../data/stores/judgeStore":330,"../../../../routing/navigation":378,"./judge/judgeUtil":363,"react":290}],365:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -50433,7 +50562,7 @@ var ScoreCriteriaBox = function (_React$Component) {
 
 exports.default = ScoreCriteriaBox;
 
-},{"../../../../common/button":292,"../../../../common/listPanel":297,"../../../../data/stores/scoreCriterionStore":334,"../../../../routing/navigation":377,"react":290}],365:[function(require,module,exports){
+},{"../../../../common/button":292,"../../../../common/listPanel":297,"../../../../data/stores/scoreCriterionStore":334,"../../../../routing/navigation":378,"react":290}],366:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -50543,7 +50672,7 @@ var AddScoreCriterionPage = function (_RoleAwareComponent) {
 
 exports.default = AddScoreCriterionPage;
 
-},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/scoreCriterionActions":311,"../../../../../routing/navigation":377,"./scoreCriterionEditor":368,"react":290}],366:[function(require,module,exports){
+},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/scoreCriterionActions":311,"../../../../../routing/navigation":378,"./scoreCriterionEditor":369,"react":290}],367:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -50694,7 +50823,7 @@ var EditScoreCriterionPage = function (_RoleAwareComponent) {
 
 exports.default = EditScoreCriterionPage;
 
-},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/scoreCriterionActions":311,"../../../../../data/stores/scoreCriterionStore":334,"../../../../../routing/navigation":377,"./scoreCriterionEditor":368,"react":290}],367:[function(require,module,exports){
+},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/scoreCriterionActions":311,"../../../../../data/stores/scoreCriterionStore":334,"../../../../../routing/navigation":378,"./scoreCriterionEditor":369,"react":290}],368:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -50870,7 +50999,7 @@ var ScoreCriterionPage = function (_TimeoutComponent) {
 
 exports.default = ScoreCriterionPage;
 
-},{"../../../../../common/button":292,"../../../../../common/pageContent":298,"../../../../../common/timeoutComponent":302,"../../../../../data/actions/scoreCriterionActions":311,"../../../../../data/stores/scoreCriterionStore":334,"../../../../../routing/navigation":377,"react":290}],368:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/pageContent":298,"../../../../../common/timeoutComponent":302,"../../../../../data/actions/scoreCriterionActions":311,"../../../../../data/stores/scoreCriterionStore":334,"../../../../../routing/navigation":378,"react":290}],369:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51036,7 +51165,7 @@ var ScoreCriterionEditor = function (_RoleAwareComponent) {
 
 exports.default = ScoreCriterionEditor;
 
-},{"../../../../../common/button":292,"../../../../../common/formGroup":293,"../../../../../common/input":294,"../../../../../common/roleAwareComponent":300,"clone":6,"react":290}],369:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/formGroup":293,"../../../../../common/input":294,"../../../../../common/roleAwareComponent":300,"clone":6,"react":290}],370:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51143,7 +51272,7 @@ var ContestsBox = function (_React$Component) {
 
 exports.default = ContestsBox;
 
-},{"../../../common/button":292,"../../../common/listPanel":297,"../../../data/stores/contestStore":327,"../../../routing/navigation":377,"react":290}],370:[function(require,module,exports){
+},{"../../../common/button":292,"../../../common/listPanel":297,"../../../data/stores/contestStore":327,"../../../routing/navigation":378,"react":290}],371:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51280,7 +51409,7 @@ var EditShowPage = function (_RoleAwareComponent) {
 
 exports.default = EditShowPage;
 
-},{"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/showActions":312,"../../../data/stores/showStore":335,"../../../routing/navigation":377,"./showEditor":372,"react":290}],371:[function(require,module,exports){
+},{"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/showActions":312,"../../../data/stores/showStore":335,"../../../routing/navigation":378,"./showEditor":373,"react":290}],372:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51463,7 +51592,7 @@ var ShowPage = function (_TimeoutComponent) {
 
 exports.default = ShowPage;
 
-},{"../../../common/button":292,"../../../common/pageContent":298,"../../../common/timeoutComponent":302,"../../../data/actions/contestActions":304,"../../../data/actions/showActions":312,"../../../data/stores/showStore":335,"../../../routing/navigation":377,"./contests":369,"react":290}],372:[function(require,module,exports){
+},{"../../../common/button":292,"../../../common/pageContent":298,"../../../common/timeoutComponent":302,"../../../data/actions/contestActions":304,"../../../data/actions/showActions":312,"../../../data/stores/showStore":335,"../../../routing/navigation":378,"./contests":370,"react":290}],373:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51607,7 +51736,7 @@ var ShowEditor = function (_RoleAwareComponent) {
 
 exports.default = ShowEditor;
 
-},{"../../../common/button":292,"../../../common/formGroup":293,"../../../common/input":294,"../../../common/roleAwareComponent":300,"clone":6,"react":290}],373:[function(require,module,exports){
+},{"../../../common/button":292,"../../../common/formGroup":293,"../../../common/input":294,"../../../common/roleAwareComponent":300,"clone":6,"react":290}],374:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51741,7 +51870,7 @@ var ShowsBox = function (_React$Component2) {
 
 exports.default = ShowsPage;
 
-},{"../../common/button":292,"../../common/listPanel":297,"../../common/pageContent":298,"../../data/actions/showActions":312,"../../data/stores/showStore":335,"../../routing/navigation":377,"react":290}],374:[function(require,module,exports){
+},{"../../common/button":292,"../../common/listPanel":297,"../../common/pageContent":298,"../../data/actions/showActions":312,"../../data/stores/showStore":335,"../../routing/navigation":378,"react":290}],375:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51765,7 +51894,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"react":290}],375:[function(require,module,exports){
+},{"react":290}],376:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51969,7 +52098,7 @@ var JudgesPage = function (_React$Component2) {
 
 exports.default = JudgesPage;
 
-},{"../common/formGroup":293,"../common/input":294,"../data/actions/judgeActions":307,"../data/stores/judgeStore":330,"jquery":25,"react":290}],376:[function(require,module,exports){
+},{"../common/formGroup":293,"../common/input":294,"../data/actions/judgeActions":307,"../data/stores/judgeStore":330,"jquery":25,"react":290}],377:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -52153,7 +52282,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"../common/formGroup":293,"../common/input":294,"../data/actions/currentUserActions":306,"../data/stores/currentUserStore":329,"../routing/navigation":377,"jquery":25,"react":290}],377:[function(require,module,exports){
+},{"../common/formGroup":293,"../common/input":294,"../data/actions/currentUserActions":306,"../data/stores/currentUserStore":329,"../routing/navigation":378,"jquery":25,"react":290}],378:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -52178,6 +52307,7 @@ exports.goToScoreCriterion = goToScoreCriterion;
 exports.goToEditScoreCriterion = goToEditScoreCriterion;
 exports.goToAddScoreCard = goToAddScoreCard;
 exports.goToScoreCard = goToScoreCard;
+exports.goToAddPerformer = goToAddPerformer;
 
 var _react = require('react');
 
@@ -52261,6 +52391,10 @@ function goToAddScoreCard(showId, contestId, contestantId) {
 
 function goToScoreCard(showId, contestId, contestantId, scorecardId) {
     _reactRouter.hashHistory.push('/show/' + showId + '/contest/' + contestId + '/contestant/' + contestantId + '/scorecard/' + scorecardId);
+};
+
+function goToAddPerformer(showId, contestId, contestantId) {
+    _reactRouter.hashHistory.push('/show/' + showId + '/contest/' + contestId + '/contestant/' + contestantId + '/performers/add');
 };
 
 },{"react":290,"react-router":203}]},{},[291]);

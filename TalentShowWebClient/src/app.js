@@ -25,6 +25,7 @@ import editScoreCriterion from './modules/ControlCenter/show/contest/scoreCriter
 import editScoreCard from './modules/ControlCenter/show/contest/contestant/scoreCard/editScoreCard';
 import addScoreCard from './modules/ControlCenter/show/contest/contestant/scoreCard/addScoreCard';
 import editPerformer from './modules/ControlCenter/show/contest/contestant/performer/editPerformer';
+import addPerformer from './modules/ControlCenter/show/contest/contestant/performer/addPerformer';
 import * as Hubs from './data/signalr/hubs';
 
 var Menu = React.createClass({
@@ -83,6 +84,7 @@ function getToken(){
                         <Route path="/show/:showId/contest/:contestId/contestant/:contestantId/edit" component={editContestant} />
                         <Route path="/show/:showId/contest/:contestId/contestant/:contestantId/scorecards/add" component={addScoreCard} /> 
                         <Route path="/show/:showId/contest/:contestId/contestant/:contestantId/scorecard/:scoreCardId/edit" component={editScoreCard} />
+                        <Route path="/show/:showId/contest/:contestId/contestant/:contestantId/performers/add" component={addPerformer} /> 
                         <Route path="/show/:showId/contest/:contestId/contestant/:contestantId/performer/:performerId/edit" component={editPerformer} />                       
                         <Route path="/show/:showId/contest/:contestId/judges/add" component={addJudge} />
                         <Route path="/show/:showId/contest/:contestId/judge/:judgeId" component={judge} />

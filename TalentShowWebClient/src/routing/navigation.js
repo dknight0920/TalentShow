@@ -77,3 +77,7 @@ export function goToAddScoreCard(showId, contestId, contestantId) {
 export function goToScoreCard(showId, contestId, contestantId, scorecardId) {
     hashHistory.push('/show/' + showId + '/contest/' + contestId + '/contestant/' + contestantId + '/scorecard/' + scorecardId);
 };
+
+export function goToAddPerformer(showId, contestId, contestantId) {
+    hashHistory.push('/show/' + showId + '/contest/' + contestId + '/contestant/' + contestantId + '/performers/add');
+};

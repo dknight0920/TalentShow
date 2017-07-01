@@ -169,6 +169,7 @@
     <Content Include="src\modules\ControlCenter\show\contest\contestant\contestantUtil.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\editContestant.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\performers.js" />
+    <Content Include="src\modules\ControlCenter\show\contest\contestant\performer\addPerformer.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\performer\editPerformer.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\performer\performerEditor.js" />
     <Content Include="src\modules\ControlCenter\show\contest\contestant\performer\performerUtil.js" />
