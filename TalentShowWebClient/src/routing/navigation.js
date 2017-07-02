@@ -6,6 +6,14 @@ export function goToUnauthorized() {
     hashHistory.push('/unauthorized');
 };
 
+export function goToDivisions() {
+    hashHistory.push('/divisions');
+};
+
+export function goToAddDivision() {
+    hashHistory.push('/divisions/add');
+};
+
 export function goToShows() {
     hashHistory.push('/shows');
 };

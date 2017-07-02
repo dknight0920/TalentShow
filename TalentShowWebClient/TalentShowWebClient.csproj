@@ -162,6 +162,9 @@
     <Content Include="src\data\stores\utils\broadcastUtil.js" />
     <Content Include="src\modules\about.js" />
     <Content Include="src\modules\ControlCenter\divisions.js" />
+    <Content Include="src\modules\ControlCenter\division\addDivision.js" />
+    <Content Include="src\modules\ControlCenter\division\divisionEditor.js" />
+    <Content Include="src\modules\ControlCenter\division\editDivision.js" />
     <Content Include="src\modules\ControlCenter\organizations.js" />
     <Content Include="src\modules\ControlCenter\show\addShow.js" />
     <Content Include="src\modules\ControlCenter\show\contests.js" />
@@ -230,7 +233,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dist\" />
-    <Folder Include="src\modules\ControlCenter\division\" />
     <Folder Include="src\modules\ControlCenter\organization\" />
   </ItemGroup>
   <PropertyGroup>

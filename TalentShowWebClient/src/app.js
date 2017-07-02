@@ -6,6 +6,8 @@ import about from './modules/about';
 import login from './modules/login';
 import unauthorized from './common/unauthorizedUserPageContent';
 import divisions from './modules/ControlCenter/divisions';
+import addDivision from './modules/ControlCenter/division/addDivision';
+import editDivision from './modules/ControlCenter/division/editDivision';
 import shows from './modules/ControlCenter/shows';
 import show from './modules/ControlCenter/show/show';
 import addShow from './modules/ControlCenter/show/addShow';
@@ -73,6 +75,8 @@ function getToken(){
                     <Route onEnter={requireAuth} component={Menu}>
                         <Route path="/unauthorized" component={unauthorized} />
                         <Route path="/divisions" component={divisions} />
+                        <Route path="/divisions/add" component={addDivision} />
+                        <Route path="/division/:divisionId/edit" component={editDivision} />
                         <Route path="/shows" component={shows} />
                         <Route path="/shows/add" component={addShow} />
                         <Route path="/show/:showId" component={show} />
