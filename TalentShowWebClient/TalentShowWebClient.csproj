@@ -166,6 +166,9 @@
     <Content Include="src\modules\ControlCenter\division\divisionEditor.js" />
     <Content Include="src\modules\ControlCenter\division\editDivision.js" />
     <Content Include="src\modules\ControlCenter\organizations.js" />
+    <Content Include="src\modules\ControlCenter\organization\addOrganization.js" />
+    <Content Include="src\modules\ControlCenter\organization\editOrganization.js" />
+    <Content Include="src\modules\ControlCenter\organization\organizationEditor.js" />
     <Content Include="src\modules\ControlCenter\show\addShow.js" />
     <Content Include="src\modules\ControlCenter\show\contests.js" />
     <Content Include="src\modules\ControlCenter\show\contest\addContest.js" />
@@ -233,7 +236,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dist\" />
-    <Folder Include="src\modules\ControlCenter\organization\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

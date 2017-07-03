@@ -25,9 +25,9 @@ var get = function (id, success, fail) {
     });
 };
 
-var add = function (contestId, organization, success, fail) {
+var add = function (organization, success, fail) {
     ApiHttpUtil.post({
-        url:  "api/Organizations/Contest/" + contestId,
+        url:  "api/Organizations",
         success: function(result){
             success(result);          
         },

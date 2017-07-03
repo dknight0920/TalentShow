@@ -8,6 +8,9 @@ import unauthorized from './common/unauthorizedUserPageContent';
 import divisions from './modules/ControlCenter/divisions';
 import addDivision from './modules/ControlCenter/division/addDivision';
 import editDivision from './modules/ControlCenter/division/editDivision';
+import organizations from './modules/ControlCenter/organizations';
+import addOrganization from './modules/ControlCenter/organization/addOrganization';
+import editOrganization from './modules/ControlCenter/organization/editOrganization';
 import shows from './modules/ControlCenter/shows';
 import show from './modules/ControlCenter/show/show';
 import addShow from './modules/ControlCenter/show/addShow';
@@ -44,6 +47,7 @@ var Menu = React.createClass({
                         <ul className="nav navbar-nav">
                             <li><Link to="/shows">Shows</Link></li>
                             <li><Link to="/divisions">Divisions</Link></li>
+                            <li><Link to="/organizations">Organizations</Link></li>
                             <li><Link to="/about">About</Link></li>
                         </ul>
                     </div>
@@ -77,6 +81,9 @@ function getToken(){
                         <Route path="/divisions" component={divisions} />
                         <Route path="/divisions/add" component={addDivision} />
                         <Route path="/division/:divisionId/edit" component={editDivision} />
+                        <Route path="/organizations" component={organizations} />
+                        <Route path="/organizations/add" component={addOrganization} />
+                        <Route path="/organization/:organizationId/edit" component={editOrganization} />
                         <Route path="/shows" component={shows} />
                         <Route path="/shows/add" component={addShow} />
                         <Route path="/show/:showId" component={show} />

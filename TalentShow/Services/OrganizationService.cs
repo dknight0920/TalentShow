@@ -49,11 +49,30 @@ namespace TalentShow.Services
 
         public void Delete(int id)
         {
-            OrganizationRepo.Delete(id);
+            if (!Exists(id)) return;
+
+            var organization = Get(id);
+
+            DeleteIncludingChildren(organization);
         }
 
         public void Delete(Organization organization)
         {
+            DeleteIncludingChildren(organization);
+        }
+
+        private void DeleteIncludingChildren(Organization organization)
+        {
+            var organizations = GetAll().Where(o => o.Parent != null && o.Parent.Id == organization.Id);
+
+            if (!organizations.Any()) {
+                OrganizationRepo.Delete(organization);
+                return;
+            }
+
+            foreach (var o in organizations)
+                DeleteIncludingChildren(o);
+
             OrganizationRepo.Delete(organization);
         }
 

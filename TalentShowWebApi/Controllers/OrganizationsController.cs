@@ -40,9 +40,11 @@ namespace TalentShowWebApi.Controllers
         }
 
         // POST api/Organizations
-        public void Post([FromBody]OrganizationDto organization)
+        public OrganizationDto Post([FromBody]OrganizationDto organization)
         {
-            OrganizationService.Add(organization.ConvertFromDto());
+            var newOrganization = organization.ConvertFromDto();
+            OrganizationService.Add(newOrganization);
+            return newOrganization.ConvertToDto();
         }
 
         // PUT api/Organizations/5

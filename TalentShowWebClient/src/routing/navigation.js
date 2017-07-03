@@ -14,6 +14,14 @@ export function goToAddDivision() {
     hashHistory.push('/divisions/add');
 };
 
+export function goToOrganizations() {
+    hashHistory.push('/organizations');
+};
+
+export function goToAddOrganization() {
+    hashHistory.push('/organizations/add');
+};
+
 export function goToShows() {
     hashHistory.push('/shows');
 };
