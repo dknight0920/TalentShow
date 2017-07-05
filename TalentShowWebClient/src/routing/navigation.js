@@ -2,6 +2,10 @@
 import React from 'react';
 import { hashHistory } from 'react-router';
 
+export function goToLogin() {
+    hashHistory.push('/');
+};
+
 export function goToUnauthorized() {
     hashHistory.push('/unauthorized');
 };

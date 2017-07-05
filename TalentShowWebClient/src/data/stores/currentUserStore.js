@@ -1,6 +1,7 @@
 ﻿'use strict';
 import EventEmitter from 'event-emitter';
 import * as TokenApi from '../api/tokenApi';
+import * as UserApi from '../api/userApi';
 import Dispatcher from '../dispatcher';
 
 class CurrentUserStore extends EventEmitter {
@@ -45,6 +46,9 @@ currentUserStore.handleAction = function(action){
     switch(action.type){
         case "AUTHENTICATE_CURRENT_USER":
             currentUserStore.authenticate(action.data);
+            break;
+        case "REGISTER_CURRENT_USER":
+            UserApi.register(action.data, function(){alert("Your account has been created.");}, function(){alert("Failed to Create Account.");});
             break;
     }
 };

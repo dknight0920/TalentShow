@@ -9,7 +9,8 @@ namespace TalentShowDataStorage.Helpers
 {
     public static class SqlServerCommandHelper
     {
-        private static string connectionString = @"Server=.\SQLEXPRESS;Database=TalentShow;User Id=TalentShowUser;Password=TalentShowPassword;";
+        //private static string connectionString = @"Server=.\SQLEXPRESS;Database=TalentShow;User Id=TalentShowUser;Password=TalentShowPassword;";
+        private static string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
         public static int ExecuteSqlCommand(SqlCommand command, bool outputIdValue = false)
         {

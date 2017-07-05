@@ -1,5 +1,6 @@
 ﻿'use strict';
 import React from 'react';
+import { Link } from 'react-router';
 import * as Nav from '../routing/navigation';
 import Input from '../common/input';
 import FormGroup from '../common/formGroup';
@@ -53,6 +54,7 @@ class LoginBox extends React.Component {
                         <LoginForm  onLoginFormSubmit={this.authenticate}/>
                     </div>
                 </div>
+                <Link to="/register">Register</Link>
             </div>
         );
     }

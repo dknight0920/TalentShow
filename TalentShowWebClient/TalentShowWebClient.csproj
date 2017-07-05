@@ -104,12 +104,16 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="dist\css\bundle.css" />
+    <Content Include="dist\index.html" />
+    <Content Include="dist\scripts\app.bundle.js" />
     <Content Include="gulpfile.js" />
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="package.json" />
+    <None Include="Properties\PublishProfiles\TalentShowWebClient.pubxml" />
     <None Include="scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="scripts\jquery-1.6.4.js" />
     <Content Include="scripts\jquery-1.6.4.min.js" />
@@ -144,6 +148,7 @@
     <Content Include="src\data\api\scoreCriterionApi.js" />
     <Content Include="src\data\api\showApi.js" />
     <Content Include="src\data\api\tokenApi.js" />
+    <Content Include="src\data\api\userApi.js" />
     <Content Include="src\data\api\utils\accessTokenUtil.js" />
     <Content Include="src\data\api\utils\httpUtil.js" />
     <Content Include="src\data\dispatcher.js" />
@@ -206,6 +211,7 @@
     <Content Include="src\modules\ControlCenter\show\editShow.js" />
     <Content Include="src\modules\ControlCenter\show\show.js" />
     <Content Include="src\modules\ControlCenter\show\showEditor.js" />
+    <Content Include="src\modules\register.js" />
     <Content Include="src\routing\navigation.js" />
     <Content Include="tsconfig.json" />
     <None Include="Web.Debug.config">
@@ -234,9 +240,7 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="dist\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

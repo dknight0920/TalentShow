@@ -4,6 +4,7 @@ import { render } from 'react-dom';
 import { Router, Route, hashHistory, IndexRoute, Link  } from 'react-router';
 import about from './modules/about';
 import login from './modules/login';
+import register from './modules/register';
 import unauthorized from './common/unauthorizedUserPageContent';
 import divisions from './modules/ControlCenter/divisions';
 import addDivision from './modules/ControlCenter/division/addDivision';
@@ -76,8 +77,9 @@ function getToken(){
             <Router history={hashHistory}>
                 <Route path="/">
                     <IndexRoute component={login} />
+                    <Route path="/register" component={register} />
                     <Route onEnter={requireAuth} component={Menu}>
-                        <Route path="/unauthorized" component={unauthorized} />
+                        <Route path="/unauthorized" component={unauthorized} /> 
                         <Route path="/divisions" component={divisions} />
                         <Route path="/divisions/add" component={addDivision} />
                         <Route path="/division/:divisionId/edit" component={editDivision} />
