@@ -8,10 +8,15 @@ class CurrentUserStore extends EventEmitter {
     constructor(){
         super();
         this.authenticated = false;
+        this.userInfo = null;
     }
 }
 
 const currentUserStore = new CurrentUserStore;
+
+currentUserStore.setUserInfo = function(userInfo){
+    currentUserStore.userInfo = userInfo;
+}
 
 currentUserStore.isAuthenticated = function(){
     return  this.authenticated;
@@ -38,7 +43,14 @@ currentUserStore.authenticate = function(credentials){
 
     TokenApi.getToken(credentials, function (data) {
         currentUserStore.authenticated = true;
-        currentUserStore.emit("change");
+        UserApi.getCurrentUser(function(userInfo){
+            currentUserStore.setUserInfo(userInfo);
+            currentUserStore.emit("change");
+        },
+        function(){
+        
+            currentUserStore.emit("change");
+        });
     });
 };
 

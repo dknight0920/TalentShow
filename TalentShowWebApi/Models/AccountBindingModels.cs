@@ -50,6 +50,43 @@ namespace TalentShowWebApi.Models
         public string ConfirmPassword { get; set; }
     }
 
+    public class UserRoleBindingModel
+    {
+        [Required]
+        [Display(Name = "User Id")]
+        public string UserId { get; set; }
+
+        [Required]
+        [Display(Name = "Role Name")]
+        public string RoleName { get; set; }
+    }
+
+    public class UserClaimBindingModel
+    {
+        [Required]
+        [Display(Name = "User Id")]
+        public string UserId { get; set; }
+
+        [Required]
+        [Display(Name = "Claim Type")]
+        public string Type { get; set; }
+
+        [Required]
+        [Display(Name = "Claim Value")]
+        public string Value { get; set; }
+    }
+
+    public class DeleteUserClaimBindingModel
+    {
+        [Required]
+        [Display(Name = "User Id")]
+        public string UserId { get; set; }
+
+        [Required]
+        [Display(Name = "Claim Type")]
+        public string Type { get; set; }
+    }
+
     public class RegisterExternalBindingModel
     {
         [Required]

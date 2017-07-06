@@ -28,10 +28,16 @@ namespace TalentShowWebApi.Models
     public class UserInfoViewModel
     {
         public string Email { get; set; }
+        
+        public IEnumerable<string> Roles { get; set; }
 
-        public bool HasRegistered { get; set; }
+        public IEnumerable<UserClaimViewModel> Claims { get; set; }
+    }
 
-        public string LoginProvider { get; set; }
+    public class UserClaimViewModel
+    {
+        public string Type { get; set; }
+        public string Value { get; set; }
     }
 
     public class UserLoginInfoViewModel

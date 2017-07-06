@@ -7,13 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentShow", "TalentShow\Ta
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentShow.Tests", "TalentShow.Tests\TalentShow.Tests.csproj", "{6B8AC750-1ACD-40F2-AAA6-E033F00D9E83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentShowConsoleUI", "TalentShowConsoleUI\TalentShowConsoleUI.csproj", "{55B94BE3-21C8-4F37-A570-844B21E47F04}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentShowDataStorage", "TalentShowDataStorage\TalentShowDataStorage.csproj", "{4293FDBE-9698-4569-B515-9D2E639D9565}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentShowWebApi", "TalentShowWebApi\TalentShowWebApi.csproj", "{EAC47492-2413-4328-92ED-AC72E8868A89}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentShowWebUI", "TalentShowWebUI\TalentShowWebUI.csproj", "{2AB1D187-CB28-47F2-9E8D-7D6D233EFD59}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentShowWebClient", "TalentShowWebClient\TalentShowWebClient.csproj", "{A4358292-2352-4CFD-93A6-BEDBFB2889FE}"
 EndProject
@@ -31,10 +27,6 @@ Global
 		{6B8AC750-1ACD-40F2-AAA6-E033F00D9E83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B8AC750-1ACD-40F2-AAA6-E033F00D9E83}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B8AC750-1ACD-40F2-AAA6-E033F00D9E83}.Release|Any CPU.Build.0 = Release|Any CPU
-		{55B94BE3-21C8-4F37-A570-844B21E47F04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{55B94BE3-21C8-4F37-A570-844B21E47F04}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{55B94BE3-21C8-4F37-A570-844B21E47F04}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{55B94BE3-21C8-4F37-A570-844B21E47F04}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4293FDBE-9698-4569-B515-9D2E639D9565}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4293FDBE-9698-4569-B515-9D2E639D9565}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4293FDBE-9698-4569-B515-9D2E639D9565}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -43,10 +35,6 @@ Global
 		{EAC47492-2413-4328-92ED-AC72E8868A89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAC47492-2413-4328-92ED-AC72E8868A89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAC47492-2413-4328-92ED-AC72E8868A89}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2AB1D187-CB28-47F2-9E8D-7D6D233EFD59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2AB1D187-CB28-47F2-9E8D-7D6D233EFD59}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2AB1D187-CB28-47F2-9E8D-7D6D233EFD59}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2AB1D187-CB28-47F2-9E8D-7D6D233EFD59}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A4358292-2352-4CFD-93A6-BEDBFB2889FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A4358292-2352-4CFD-93A6-BEDBFB2889FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4358292-2352-4CFD-93A6-BEDBFB2889FE}.Release|Any CPU.ActiveCfg = Release|Any CPU

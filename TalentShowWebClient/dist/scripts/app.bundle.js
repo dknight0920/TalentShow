@@ -45292,7 +45292,7 @@ exports.getToken = getToken;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.register = undefined;
+exports.removeClaim = exports.removeRole = exports.addClaim = exports.addRole = exports.register = exports.getUsers = exports.getCurrentUser = undefined;
 
 var _httpUtil = require('./utils/httpUtil.js');
 
@@ -45300,11 +45300,35 @@ var ApiHttpUtil = _interopRequireWildcard(_httpUtil);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-var register = function register(credentials, _success, fail) {
+var getCurrentUser = function getCurrentUser(_success, fail) {
+    ApiHttpUtil.get({
+        url: "api/Account/UserInfo",
+        success: function success(result) {
+            _success(result);
+        },
+        error: function error(request, status, err) {
+            fail(err);
+        }
+    });
+};
+
+var getUsers = function getUsers(_success2, fail) {
+    ApiHttpUtil.get({
+        url: "api/Account/UsersInfo",
+        success: function success(result) {
+            _success2(result);
+        },
+        error: function error(request, status, err) {
+            fail(err);
+        }
+    });
+};
+
+var register = function register(credentials, _success3, fail) {
     ApiHttpUtil.post({
         url: "api/Account/Register",
         success: function success(result) {
-            _success(result);
+            _success3(result);
         },
         error: function error(request, status, err) {
             fail(err);
@@ -45312,7 +45336,61 @@ var register = function register(credentials, _success, fail) {
     }, JSON.stringify(credentials));
 };
 
+var addRole = function addRole(userRole, _success4, fail) {
+    ApiHttpUtil.post({
+        url: "api/Account/AddUserToRole",
+        success: function success() {
+            _success4();
+        },
+        error: function error(request, status, err) {
+            fail(err);
+        }
+    }, JSON.stringify(userRole));
+};
+
+var addClaim = function addClaim(userClaim, _success5, fail) {
+    ApiHttpUtil.post({
+        url: "api/Account/AddClaimToUser",
+        success: function success() {
+            _success5();
+        },
+        error: function error(request, status, err) {
+            fail(err);
+        }
+    }, JSON.stringify(userClaim));
+};
+
+var removeRole = function removeRole(userRole, _success6, fail) {
+    ApiHttpUtil.remove({
+        url: "api/Account/DeleteUserRole",
+        success: function success() {
+            _success6();
+        },
+        error: function error(request, status, err) {
+            fail(err);
+        }
+    }, JSON.stringify(userRole));
+};
+
+var removeClaim = function removeClaim(userClaim, _success7, fail) {
+    ApiHttpUtil.remove({
+        url: "api/Account/DeleteUserClaim",
+        success: function success() {
+            _success7();
+        },
+        error: function error(request, status, err) {
+            fail(err);
+        }
+    }, JSON.stringify(userClaim));
+};
+
+exports.getCurrentUser = getCurrentUser;
+exports.getUsers = getUsers;
 exports.register = register;
+exports.addRole = addRole;
+exports.addClaim = addClaim;
+exports.removeRole = removeRole;
+exports.removeClaim = removeClaim;
 
 },{"./utils/httpUtil.js":326}],325:[function(require,module,exports){
 "use strict";
@@ -45395,7 +45473,7 @@ var put = function put(options, data) {
 };
 
 var remove = function remove(options) {
-    makeRequest(options, "DELETE");
+    makeRequest(options, "DELETE", data);
 };
 
 exports.get = get;
@@ -45833,6 +45911,7 @@ var CurrentUserStore = function (_EventEmitter) {
         var _this = _possibleConstructorReturn(this, (CurrentUserStore.__proto__ || Object.getPrototypeOf(CurrentUserStore)).call(this));
 
         _this.authenticated = false;
+        _this.userInfo = null;
         return _this;
     }
 
@@ -45840,6 +45919,10 @@ var CurrentUserStore = function (_EventEmitter) {
 }(_eventEmitter2.default);
 
 var currentUserStore = new CurrentUserStore();
+
+currentUserStore.setUserInfo = function (userInfo) {
+    currentUserStore.userInfo = userInfo;
+};
 
 currentUserStore.isAuthenticated = function () {
     return this.authenticated;
@@ -45866,7 +45949,13 @@ currentUserStore.authenticate = function (credentials) {
 
     TokenApi.getToken(credentials, function (data) {
         currentUserStore.authenticated = true;
-        currentUserStore.emit("change");
+        UserApi.getCurrentUser(function (userInfo) {
+            currentUserStore.setUserInfo(userInfo);
+            currentUserStore.emit("change");
+        }, function () {
+
+            currentUserStore.emit("change");
+        });
     });
 };
 

@@ -16,12 +16,13 @@ using Microsoft.Owin.Security.OAuth;
 using TalentShowWebApi.Models;
 using TalentShowWebApi.Providers;
 using TalentShowWebApi.Results;
+using System.Linq;
 
 namespace TalentShowWebApi.Controllers
 {
     [Authorize]
     [RoutePrefix("api/Account")]
-    public class AccountController : ApiController
+    public class AccountController : BaseApiController
     {
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
@@ -58,12 +59,47 @@ namespace TalentShowWebApi.Controllers
         {
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
 
+            var claims = new List<UserClaimViewModel>();
+
+            foreach (var claim in UserManager.GetClaims(User.Identity.GetUserId()))
+                claims.Add(new UserClaimViewModel() { Type = claim.Type, Value = claim.Value });
+
             return new UserInfoViewModel
             {
                 Email = User.Identity.GetUserName(),
-                HasRegistered = externalLogin == null,
-                LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
+                Roles = UserManager.GetRoles(User.Identity.GetUserId()),
+                Claims = claims
             };
+        }
+
+        // GET api/Account/UserInfo
+        [Route("UsersInfo")]
+        public IEnumerable<UserInfoViewModel> GetUsersInfo()
+        {
+            var users = new List<UserInfoViewModel>();
+            var appUsers = new List<ApplicationUser>();
+
+            foreach (var user in UserManager.Users)
+            {
+                appUsers.Add(user);
+            }
+
+            foreach (var user in appUsers)
+            {
+                var claims = new List<UserClaimViewModel>();
+
+                foreach (var claim in user.Claims)
+                    claims.Add(new UserClaimViewModel() { Type = claim.ClaimType, Value = claim.ClaimValue });
+
+                users.Add(new UserInfoViewModel
+                {
+                    Email = user.UserName,
+                    Roles = UserManager.GetRoles(user.Id),
+                    Claims = claims
+                });
+            }
+
+            return users;
         }
 
         // POST api/Account/Logout
@@ -336,6 +372,128 @@ namespace TalentShowWebApi.Controllers
             {
                 return GetErrorResult(result);
             }
+
+            return Ok();
+        }
+
+        // POST api/Account/AddUserToRole
+        [HttpPost]
+        [Route("AddUserToRole")]
+        public async Task<IHttpActionResult> AddUserToRole(UserRoleBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            string userId = model.UserId;
+            string roleName = model.RoleName;
+
+            ApplicationUser user = UserManager.FindById(userId);
+
+            if (user == null)
+            {
+                return BadRequest("The user id does not exist: \"" + userId + "\"");
+            }
+
+            IdentityRole role = new IdentityRole(roleName);
+     
+            if (!AppRoleManager.RoleExists(roleName))
+            {
+                IdentityResult result = await AppRoleManager.CreateAsync(role);
+
+                if (!result.Succeeded)
+                {
+                    return GetErrorResult(result);
+                }
+            }
+
+            UserManager.AddToRole(user.Id, roleName);
+
+            return Ok();
+        }
+
+        // DELETE api/Account/DeleteUserRole
+        [HttpDelete]
+        [Route("DeleteUserRole")]
+        public IHttpActionResult DeleteUserRole(UserRoleBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            string userId = model.UserId;
+            string roleName = model.RoleName;
+
+            ApplicationUser user = UserManager.FindById(userId);
+
+            if (user == null)
+            {
+                return BadRequest("The user id does not exist: \"" + userId + "\"");
+            }
+
+            UserManager.RemoveFromRole(user.Id, roleName);
+
+            return Ok();
+        }
+
+        // POST api/Account/AddClaimToUser
+        [HttpPost]
+        [Route("AddClaimToUser")]
+        public async Task<IHttpActionResult> AddClaimToUser(UserClaimBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userId = model.UserId;
+            var claimType = model.Type;
+            var claimValue = model.Value;
+
+            ApplicationUser user = UserManager.FindById(userId);
+
+            if (user == null)
+            {
+                return BadRequest("The user id does not exist: \"" + userId + "\"");
+            }
+
+            foreach (var claim in UserManager.GetClaims(user.Id).Where(c => c.Type == claimType))
+                UserManager.RemoveClaim(user.Id, claim);
+
+            var result = await UserManager.AddClaimAsync(user.Id, new Claim(claimType, claimValue));
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            return Ok();
+        }
+
+        // DELETE api/Account/DeleteUserClaim
+        [HttpDelete]
+        [Route("DeleteUserClaim")]
+        public IHttpActionResult DeleteUserClaim(DeleteUserClaimBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userId = model.UserId;
+            var claimType = model.Type;
+
+            ApplicationUser user = UserManager.FindById(userId);
+
+            if (user == null)
+            {
+                return BadRequest("The user id does not exist: \"" + userId + "\"");
+            }
+
+            foreach (var claim in UserManager.GetClaims(user.Id).Where(c => c.Type == claimType))
+                UserManager.RemoveClaim(user.Id, claim);
 
             return Ok();
         }
