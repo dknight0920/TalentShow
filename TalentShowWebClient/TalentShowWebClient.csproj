@@ -165,6 +165,7 @@
     <Content Include="src\data\stores\showStore.js" />
     <Content Include="src\data\stores\currentUserStore.js" />
     <Content Include="src\data\stores\utils\broadcastUtil.js" />
+    <Content Include="src\data\stores\utils\changeEventEmitter.js" />
     <Content Include="src\modules\about.js" />
     <Content Include="src\modules\ControlCenter\divisions.js" />
     <Content Include="src\modules\ControlCenter\division\addDivision.js" />

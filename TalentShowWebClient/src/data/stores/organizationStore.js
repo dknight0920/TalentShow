@@ -1,10 +1,10 @@
 ﻿'use strict';
 import Clone from 'clone';
-import EventEmitter from 'event-emitter';
+import ChangeEventEmitter from './utils/changeEventEmitter';
 import Dispatcher from '../dispatcher';
 import * as BroadcastUtil from './utils/broadcastUtil';
 
-class OrganizationStore extends EventEmitter {
+class OrganizationStore extends ChangeEventEmitter {
     constructor(){
         super();
         this.organizations = [];
@@ -13,7 +13,7 @@ class OrganizationStore extends EventEmitter {
 
         this.setOrganizations = function(organizations){
             self.organizations = organizations;         
-            self.emit("change");
+            self.emitChange();
         };
 
         this.pushOrganizations = function(_organizations){

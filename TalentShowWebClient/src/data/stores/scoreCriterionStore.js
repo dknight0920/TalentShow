@@ -1,10 +1,10 @@
 ﻿'use strict';
 import Clone from 'clone';
-import EventEmitter from 'event-emitter';
+import ChangeEventEmitter from './utils/changeEventEmitter';
 import Dispatcher from '../dispatcher';
 import * as BroadcastUtil from './utils/broadcastUtil';
 
-class ScoreCriterionStore extends EventEmitter {
+class ScoreCriterionStore extends ChangeEventEmitter {
     constructor(){
         super();
         this.scoreCriteria = [];
@@ -13,7 +13,7 @@ class ScoreCriterionStore extends EventEmitter {
 
         this.setScoreCriteria = function(scoreCriteria){
             self.scoreCriteria = scoreCriteria;
-            self.emit("change");
+            self.emitChange();
         };
 
         this.pushScoreCriteria = function(contestId, _scoreCriteria){

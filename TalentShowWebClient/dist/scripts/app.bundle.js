@@ -42613,7 +42613,7 @@ Hubs.hubConnection.start({ transport: ['webSockets'], jsonp: true }).done(functi
     ), document.getElementById('app'));
 });
 
-},{"./common/unauthorizedUserPageContent":303,"./data/signalr/hubs":328,"./modules/ControlCenter/division/addDivision":341,"./modules/ControlCenter/division/editDivision":343,"./modules/ControlCenter/divisions":344,"./modules/ControlCenter/organization/addOrganization":345,"./modules/ControlCenter/organization/editOrganization":346,"./modules/ControlCenter/organizations":348,"./modules/ControlCenter/show/addShow":349,"./modules/ControlCenter/show/contest/addContest":350,"./modules/ControlCenter/show/contest/contest":351,"./modules/ControlCenter/show/contest/contestant/addContestant":353,"./modules/ControlCenter/show/contest/contestant/contestant":354,"./modules/ControlCenter/show/contest/contestant/editContestant":357,"./modules/ControlCenter/show/contest/contestant/performer/addPerformer":358,"./modules/ControlCenter/show/contest/contestant/performer/editPerformer":359,"./modules/ControlCenter/show/contest/contestant/scoreCard/addScoreCard":363,"./modules/ControlCenter/show/contest/contestant/scoreCard/editScoreCard":364,"./modules/ControlCenter/show/contest/editContest":370,"./modules/ControlCenter/show/contest/judge/addJudge":371,"./modules/ControlCenter/show/contest/judge/editJudge":372,"./modules/ControlCenter/show/contest/judge/judge":373,"./modules/ControlCenter/show/contest/scoreCriterion/addScoreCriterion":378,"./modules/ControlCenter/show/contest/scoreCriterion/editScoreCriterion":379,"./modules/ControlCenter/show/contest/scoreCriterion/scoreCriterion":380,"./modules/ControlCenter/show/editShow":383,"./modules/ControlCenter/show/show":384,"./modules/ControlCenter/shows":386,"./modules/about":387,"./modules/login":388,"./modules/register":389,"react":290,"react-dom":26,"react-router":203}],292:[function(require,module,exports){
+},{"./common/unauthorizedUserPageContent":303,"./data/signalr/hubs":328,"./modules/ControlCenter/division/addDivision":342,"./modules/ControlCenter/division/editDivision":344,"./modules/ControlCenter/divisions":345,"./modules/ControlCenter/organization/addOrganization":346,"./modules/ControlCenter/organization/editOrganization":347,"./modules/ControlCenter/organizations":349,"./modules/ControlCenter/show/addShow":350,"./modules/ControlCenter/show/contest/addContest":351,"./modules/ControlCenter/show/contest/contest":352,"./modules/ControlCenter/show/contest/contestant/addContestant":354,"./modules/ControlCenter/show/contest/contestant/contestant":355,"./modules/ControlCenter/show/contest/contestant/editContestant":358,"./modules/ControlCenter/show/contest/contestant/performer/addPerformer":359,"./modules/ControlCenter/show/contest/contestant/performer/editPerformer":360,"./modules/ControlCenter/show/contest/contestant/scoreCard/addScoreCard":364,"./modules/ControlCenter/show/contest/contestant/scoreCard/editScoreCard":365,"./modules/ControlCenter/show/contest/editContest":371,"./modules/ControlCenter/show/contest/judge/addJudge":372,"./modules/ControlCenter/show/contest/judge/editJudge":373,"./modules/ControlCenter/show/contest/judge/judge":374,"./modules/ControlCenter/show/contest/scoreCriterion/addScoreCriterion":379,"./modules/ControlCenter/show/contest/scoreCriterion/editScoreCriterion":380,"./modules/ControlCenter/show/contest/scoreCriterion/scoreCriterion":381,"./modules/ControlCenter/show/editShow":384,"./modules/ControlCenter/show/show":385,"./modules/ControlCenter/shows":387,"./modules/about":388,"./modules/login":389,"./modules/register":390,"react":290,"react-dom":26,"react-router":203}],292:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43248,7 +43248,7 @@ var RoleAwareComponent = function (_React$Component) {
 
 exports.default = RoleAwareComponent;
 
-},{"../data/stores/currentUserStore":332,"../routing/navigation":390,"react":290}],301:[function(require,module,exports){
+},{"../data/stores/currentUserStore":332,"../routing/navigation":391,"react":290}],301:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -45496,7 +45496,7 @@ var put = function put(options, data) {
     makeRequest(options, "PUT", data);
 };
 
-var remove = function remove(options) {
+var remove = function remove(options, data) {
     makeRequest(options, "DELETE", data);
 };
 
@@ -45574,9 +45574,9 @@ var _clone = require('clone');
 
 var _clone2 = _interopRequireDefault(_clone);
 
-var _eventEmitter = require('event-emitter');
+var _changeEventEmitter = require('./utils/changeEventEmitter');
 
-var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+var _changeEventEmitter2 = _interopRequireDefault(_changeEventEmitter);
 
 var _dispatcher = require('../dispatcher');
 
@@ -45596,8 +45596,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var ContestStore = function (_EventEmitter) {
-    _inherits(ContestStore, _EventEmitter);
+var ContestStore = function (_ChangeEventEmitter) {
+    _inherits(ContestStore, _ChangeEventEmitter);
 
     function ContestStore() {
         _classCallCheck(this, ContestStore);
@@ -45610,7 +45610,7 @@ var ContestStore = function (_EventEmitter) {
 
         _this.setContests = function (contests) {
             self.contests = contests;
-            self.emit("change");
+            self.emitChange();
         };
 
         _this.pushContests = function (showId, _contests) {
@@ -45724,11 +45724,11 @@ var ContestStore = function (_EventEmitter) {
     }
 
     return ContestStore;
-}(_eventEmitter2.default);
+}(_changeEventEmitter2.default);
 
 exports.default = new ContestStore();
 
-},{"../dispatcher":327,"./utils/broadcastUtil":340,"clone":6,"event-emitter":7}],331:[function(require,module,exports){
+},{"../dispatcher":327,"./utils/broadcastUtil":340,"./utils/changeEventEmitter":341,"clone":6}],331:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -45739,9 +45739,9 @@ var _clone = require('clone');
 
 var _clone2 = _interopRequireDefault(_clone);
 
-var _eventEmitter = require('event-emitter');
+var _changeEventEmitter = require('./utils/changeEventEmitter');
 
-var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+var _changeEventEmitter2 = _interopRequireDefault(_changeEventEmitter);
 
 var _dispatcher = require('../dispatcher');
 
@@ -45761,8 +45761,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var ContestantStore = function (_EventEmitter) {
-    _inherits(ContestantStore, _EventEmitter);
+var ContestantStore = function (_ChangeEventEmitter) {
+    _inherits(ContestantStore, _ChangeEventEmitter);
 
     function ContestantStore() {
         _classCallCheck(this, ContestantStore);
@@ -45775,7 +45775,7 @@ var ContestantStore = function (_EventEmitter) {
 
         _this.setContestants = function (contestants) {
             self.contestants = contestants;
-            self.emit("change");
+            self.emitChange();
         };
 
         _this.pushContestants = function (contestId, _contestants) {
@@ -45889,20 +45889,20 @@ var ContestantStore = function (_EventEmitter) {
     }
 
     return ContestantStore;
-}(_eventEmitter2.default);
+}(_changeEventEmitter2.default);
 
 exports.default = new ContestantStore();
 
-},{"../dispatcher":327,"./utils/broadcastUtil":340,"clone":6,"event-emitter":7}],332:[function(require,module,exports){
+},{"../dispatcher":327,"./utils/broadcastUtil":340,"./utils/changeEventEmitter":341,"clone":6}],332:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _eventEmitter = require('event-emitter');
+var _changeEventEmitter = require('./utils/changeEventEmitter');
 
-var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+var _changeEventEmitter2 = _interopRequireDefault(_changeEventEmitter);
 
 var _tokenApi = require('../api/tokenApi');
 
@@ -45926,8 +45926,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var CurrentUserStore = function (_EventEmitter) {
-    _inherits(CurrentUserStore, _EventEmitter);
+var CurrentUserStore = function (_ChangeEventEmitter) {
+    _inherits(CurrentUserStore, _ChangeEventEmitter);
 
     function CurrentUserStore() {
         _classCallCheck(this, CurrentUserStore);
@@ -45938,93 +45938,75 @@ var CurrentUserStore = function (_EventEmitter) {
         _this.userInfo = null;
         _this.isAuthenticatingUser = false;
         _this.isProcessingAccountRegistration = false;
+
+        var self = _this;
+
+        _this.isProcessingAuthentication = function () {
+            return self.isAuthenticatingUser;
+        };
+
+        _this.isProcessingRegistration = function () {
+            return self.isProcessingAccountRegistration;
+        };
+
+        _this.isAuthenticated = function () {
+            return self.authenticated;
+        };
+
+        _this.getUserRole = function () {
+            return "admin";
+        };
+
+        _this.isJudge = function () {
+            return true;
+        };
+
+        _this.getJudgeId = function () {
+            return 1168;
+        };
+
+        _this.handleAction = function (action) {
+            switch (action.type) {
+                case "AUTHENTICATE_CURRENT_USER":
+                    self.isAuthenticatingUser = true;
+                    self.emitChange();
+                    break;
+                case "AUTHENTICATE_CURRENT_USER_SUCCESS":
+                    self.userInfo = action.userInfo;
+                    self.isAuthenticatingUser = false;
+                    self.authenticated = true;
+                    self.emitChange();
+                    break;
+                case "AUTHENTICATE_CURRENT_USER_FAIL":
+                    self.isAuthenticatingUser = false;
+                    self.authenticated = false;
+                    self.emitChange();
+                    break;
+                case "REGISTER_CURRENT_USER":
+                    self.isProcessingAccountRegistration = true;
+                    self.emitChange();
+                    break;
+                case "REGISTER_CURRENT_USER_SUCCESS":
+                    self.isProcessingAccountRegistration = false;
+                    self.emitChange();
+                    break;
+                case "REGISTER_CURRENT_USER_FAIL":
+                    self.isProcessingAccountRegistration = false;
+                    self.emitChange();
+                    break;
+            }
+        };
+
+        _dispatcher2.default.register(_this.handleAction.bind(_this));
         return _this;
     }
 
     return CurrentUserStore;
-}(_eventEmitter2.default);
+}(_changeEventEmitter2.default);
 
-var currentUserStore = new CurrentUserStore();
+exports.default = new CurrentUserStore();
 
-currentUserStore.isProcessingAuthentication = function () {
-    return this.isAuthenticatingUser;
-};
-
-currentUserStore.isProcessingRegistration = function () {
-    return this.isProcessingAccountRegistration;
-};
-
-currentUserStore.isAuthenticated = function () {
-    return this.authenticated;
-};
-
-currentUserStore.getUserRole = function () {
-    return "admin";
-};
-
-currentUserStore.isJudge = function () {
-    return true;
-};
-
-currentUserStore.getJudgeId = function () {
-    return 1168;
-};
-
-currentUserStore.handleAction = function (action) {
-    switch (action.type) {
-        case "AUTHENTICATE_CURRENT_USER":
-            currentUserStore.isAuthenticatingUser = true;
-            setTimeout(function () {
-                // Run after dispatcher has finished
-                currentUserStore.emit("change");
-            }, 0);
-            break;
-        case "AUTHENTICATE_CURRENT_USER_SUCCESS":
-            currentUserStore.userInfo = action.userInfo;
-            currentUserStore.isAuthenticatingUser = false;
-            currentUserStore.authenticated = true;
-            setTimeout(function () {
-                // Run after dispatcher has finished
-                currentUserStore.emit("change");
-            }, 0);
-            break;
-        case "AUTHENTICATE_CURRENT_USER_FAIL":
-            currentUserStore.isAuthenticatingUser = false;
-            currentUserStore.authenticated = false;
-            setTimeout(function () {
-                // Run after dispatcher has finished
-                currentUserStore.emit("change");
-            }, 0);
-            break;
-        case "REGISTER_CURRENT_USER":
-            currentUserStore.isProcessingAccountRegistration = true;
-            setTimeout(function () {
-                // Run after dispatcher has finished
-                currentUserStore.emit("change");
-            }, 0);
-            break;
-        case "REGISTER_CURRENT_USER_SUCCESS":
-            currentUserStore.isProcessingAccountRegistration = false;
-            setTimeout(function () {
-                // Run after dispatcher has finished
-                currentUserStore.emit("change");
-            }, 0);
-            break;
-        case "REGISTER_CURRENT_USER_FAIL":
-            currentUserStore.isProcessingAccountRegistration = false;
-            setTimeout(function () {
-                // Run after dispatcher has finished
-                currentUserStore.emit("change");
-            }, 0);
-            break;
-    }
-};
-
-_dispatcher2.default.register(currentUserStore.handleAction.bind(currentUserStore));
-
-exports.default = currentUserStore;
-
-},{"../api/tokenApi":323,"../api/userApi":324,"../dispatcher":327,"event-emitter":7}],333:[function(require,module,exports){
+},{"../api/tokenApi":323,"../api/userApi":324,"../dispatcher":327,"./utils/changeEventEmitter":341}],333:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -46035,9 +46017,9 @@ var _clone = require('clone');
 
 var _clone2 = _interopRequireDefault(_clone);
 
-var _eventEmitter = require('event-emitter');
+var _changeEventEmitter = require('./utils/changeEventEmitter');
 
-var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+var _changeEventEmitter2 = _interopRequireDefault(_changeEventEmitter);
 
 var _dispatcher = require('../dispatcher');
 
@@ -46057,8 +46039,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var DivisionStore = function (_EventEmitter) {
-    _inherits(DivisionStore, _EventEmitter);
+var DivisionStore = function (_ChangeEventEmitter) {
+    _inherits(DivisionStore, _ChangeEventEmitter);
 
     function DivisionStore() {
         _classCallCheck(this, DivisionStore);
@@ -46071,7 +46053,7 @@ var DivisionStore = function (_EventEmitter) {
 
         _this.setDivisions = function (divisions) {
             self.divisions = divisions;
-            self.emit("change");
+            self.emitChange();
         };
 
         _this.pushDivisions = function (_divisions) {
@@ -46178,11 +46160,11 @@ var DivisionStore = function (_EventEmitter) {
     }
 
     return DivisionStore;
-}(_eventEmitter2.default);
+}(_changeEventEmitter2.default);
 
 exports.default = new DivisionStore();
 
-},{"../dispatcher":327,"./utils/broadcastUtil":340,"clone":6,"event-emitter":7}],334:[function(require,module,exports){
+},{"../dispatcher":327,"./utils/broadcastUtil":340,"./utils/changeEventEmitter":341,"clone":6}],334:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -46193,9 +46175,9 @@ var _clone = require('clone');
 
 var _clone2 = _interopRequireDefault(_clone);
 
-var _eventEmitter = require('event-emitter');
+var _changeEventEmitter = require('./utils/changeEventEmitter');
 
-var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+var _changeEventEmitter2 = _interopRequireDefault(_changeEventEmitter);
 
 var _dispatcher = require('../dispatcher');
 
@@ -46215,8 +46197,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var JudgeStore = function (_EventEmitter) {
-    _inherits(JudgeStore, _EventEmitter);
+var JudgeStore = function (_ChangeEventEmitter) {
+    _inherits(JudgeStore, _ChangeEventEmitter);
 
     function JudgeStore() {
         _classCallCheck(this, JudgeStore);
@@ -46229,7 +46211,7 @@ var JudgeStore = function (_EventEmitter) {
 
         _this.setJudges = function (judges) {
             self.judges = judges;
-            self.emit("change");
+            self.emitChange();
         };
 
         _this.pushJudges = function (contestId, _judges) {
@@ -46343,11 +46325,11 @@ var JudgeStore = function (_EventEmitter) {
     }
 
     return JudgeStore;
-}(_eventEmitter2.default);
+}(_changeEventEmitter2.default);
 
 exports.default = new JudgeStore();
 
-},{"../dispatcher":327,"./utils/broadcastUtil":340,"clone":6,"event-emitter":7}],335:[function(require,module,exports){
+},{"../dispatcher":327,"./utils/broadcastUtil":340,"./utils/changeEventEmitter":341,"clone":6}],335:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -46358,9 +46340,9 @@ var _clone = require('clone');
 
 var _clone2 = _interopRequireDefault(_clone);
 
-var _eventEmitter = require('event-emitter');
+var _changeEventEmitter = require('./utils/changeEventEmitter');
 
-var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+var _changeEventEmitter2 = _interopRequireDefault(_changeEventEmitter);
 
 var _dispatcher = require('../dispatcher');
 
@@ -46380,8 +46362,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var OrganizationStore = function (_EventEmitter) {
-    _inherits(OrganizationStore, _EventEmitter);
+var OrganizationStore = function (_ChangeEventEmitter) {
+    _inherits(OrganizationStore, _ChangeEventEmitter);
 
     function OrganizationStore() {
         _classCallCheck(this, OrganizationStore);
@@ -46394,7 +46376,7 @@ var OrganizationStore = function (_EventEmitter) {
 
         _this.setOrganizations = function (organizations) {
             self.organizations = organizations;
-            self.emit("change");
+            self.emitChange();
         };
 
         _this.pushOrganizations = function (_organizations) {
@@ -46505,11 +46487,11 @@ var OrganizationStore = function (_EventEmitter) {
     }
 
     return OrganizationStore;
-}(_eventEmitter2.default);
+}(_changeEventEmitter2.default);
 
 exports.default = new OrganizationStore();
 
-},{"../dispatcher":327,"./utils/broadcastUtil":340,"clone":6,"event-emitter":7}],336:[function(require,module,exports){
+},{"../dispatcher":327,"./utils/broadcastUtil":340,"./utils/changeEventEmitter":341,"clone":6}],336:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -46520,9 +46502,9 @@ var _clone = require('clone');
 
 var _clone2 = _interopRequireDefault(_clone);
 
-var _eventEmitter = require('event-emitter');
+var _changeEventEmitter = require('./utils/changeEventEmitter');
 
-var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+var _changeEventEmitter2 = _interopRequireDefault(_changeEventEmitter);
 
 var _dispatcher = require('../dispatcher');
 
@@ -46542,8 +46524,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var PerformerStore = function (_EventEmitter) {
-    _inherits(PerformerStore, _EventEmitter);
+var PerformerStore = function (_ChangeEventEmitter) {
+    _inherits(PerformerStore, _ChangeEventEmitter);
 
     function PerformerStore() {
         _classCallCheck(this, PerformerStore);
@@ -46556,7 +46538,7 @@ var PerformerStore = function (_EventEmitter) {
 
         _this.setPerformers = function (performers) {
             self.performers = performers;
-            self.emit("change");
+            self.emitChange();
         };
 
         _this.pushPerformers = function (contestantId, _performers) {
@@ -46670,11 +46652,11 @@ var PerformerStore = function (_EventEmitter) {
     }
 
     return PerformerStore;
-}(_eventEmitter2.default);
+}(_changeEventEmitter2.default);
 
 exports.default = new PerformerStore();
 
-},{"../dispatcher":327,"./utils/broadcastUtil":340,"clone":6,"event-emitter":7}],337:[function(require,module,exports){
+},{"../dispatcher":327,"./utils/broadcastUtil":340,"./utils/changeEventEmitter":341,"clone":6}],337:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -46685,9 +46667,9 @@ var _clone = require('clone');
 
 var _clone2 = _interopRequireDefault(_clone);
 
-var _eventEmitter = require('event-emitter');
+var _changeEventEmitter = require('./utils/changeEventEmitter');
 
-var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+var _changeEventEmitter2 = _interopRequireDefault(_changeEventEmitter);
 
 var _dispatcher = require('../dispatcher');
 
@@ -46707,8 +46689,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var ScoreCardStore = function (_EventEmitter) {
-    _inherits(ScoreCardStore, _EventEmitter);
+var ScoreCardStore = function (_ChangeEventEmitter) {
+    _inherits(ScoreCardStore, _ChangeEventEmitter);
 
     function ScoreCardStore() {
         _classCallCheck(this, ScoreCardStore);
@@ -46721,7 +46703,7 @@ var ScoreCardStore = function (_EventEmitter) {
 
         _this.setScoreCards = function (scoreCards) {
             self.scoreCards = scoreCards;
-            self.emit("change");
+            self.emitChange();
         };
 
         _this.pushScoreCards = function (contestantId, _scoreCards) {
@@ -46835,11 +46817,11 @@ var ScoreCardStore = function (_EventEmitter) {
     }
 
     return ScoreCardStore;
-}(_eventEmitter2.default);
+}(_changeEventEmitter2.default);
 
 exports.default = new ScoreCardStore();
 
-},{"../dispatcher":327,"./utils/broadcastUtil":340,"clone":6,"event-emitter":7}],338:[function(require,module,exports){
+},{"../dispatcher":327,"./utils/broadcastUtil":340,"./utils/changeEventEmitter":341,"clone":6}],338:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -46850,9 +46832,9 @@ var _clone = require('clone');
 
 var _clone2 = _interopRequireDefault(_clone);
 
-var _eventEmitter = require('event-emitter');
+var _changeEventEmitter = require('./utils/changeEventEmitter');
 
-var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+var _changeEventEmitter2 = _interopRequireDefault(_changeEventEmitter);
 
 var _dispatcher = require('../dispatcher');
 
@@ -46872,8 +46854,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var ScoreCriterionStore = function (_EventEmitter) {
-    _inherits(ScoreCriterionStore, _EventEmitter);
+var ScoreCriterionStore = function (_ChangeEventEmitter) {
+    _inherits(ScoreCriterionStore, _ChangeEventEmitter);
 
     function ScoreCriterionStore() {
         _classCallCheck(this, ScoreCriterionStore);
@@ -46886,7 +46868,7 @@ var ScoreCriterionStore = function (_EventEmitter) {
 
         _this.setScoreCriteria = function (scoreCriteria) {
             self.scoreCriteria = scoreCriteria;
-            self.emit("change");
+            self.emitChange();
         };
 
         _this.pushScoreCriteria = function (contestId, _scoreCriteria) {
@@ -47000,11 +46982,11 @@ var ScoreCriterionStore = function (_EventEmitter) {
     }
 
     return ScoreCriterionStore;
-}(_eventEmitter2.default);
+}(_changeEventEmitter2.default);
 
 exports.default = new ScoreCriterionStore();
 
-},{"../dispatcher":327,"./utils/broadcastUtil":340,"clone":6,"event-emitter":7}],339:[function(require,module,exports){
+},{"../dispatcher":327,"./utils/broadcastUtil":340,"./utils/changeEventEmitter":341,"clone":6}],339:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47015,9 +46997,9 @@ var _clone = require('clone');
 
 var _clone2 = _interopRequireDefault(_clone);
 
-var _eventEmitter = require('event-emitter');
+var _changeEventEmitter = require('./utils/changeEventEmitter');
 
-var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+var _changeEventEmitter2 = _interopRequireDefault(_changeEventEmitter);
 
 var _dispatcher = require('../dispatcher');
 
@@ -47037,8 +47019,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var ShowStore = function (_EventEmitter) {
-    _inherits(ShowStore, _EventEmitter);
+var ShowStore = function (_ChangeEventEmitter) {
+    _inherits(ShowStore, _ChangeEventEmitter);
 
     function ShowStore() {
         _classCallCheck(this, ShowStore);
@@ -47051,7 +47033,7 @@ var ShowStore = function (_EventEmitter) {
 
         _this.setShows = function (shows) {
             self.shows = shows;
-            self.emit("change");
+            self.emitChange();
         };
 
         _this.pushShows = function (_shows) {
@@ -47158,11 +47140,11 @@ var ShowStore = function (_EventEmitter) {
     }
 
     return ShowStore;
-}(_eventEmitter2.default);
+}(_changeEventEmitter2.default);
 
 exports.default = new ShowStore();
 
-},{"../dispatcher":327,"./utils/broadcastUtil":340,"clone":6,"event-emitter":7}],340:[function(require,module,exports){
+},{"../dispatcher":327,"./utils/broadcastUtil":340,"./utils/changeEventEmitter":341,"clone":6}],340:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47221,6 +47203,49 @@ function broadcastOrganizationChange(groupName) {
 };
 
 },{"../../signalr/hubs":328}],341:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _eventEmitter = require('event-emitter');
+
+var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ChangeEventEmitter = function (_EventEmitter) {
+    _inherits(ChangeEventEmitter, _EventEmitter);
+
+    function ChangeEventEmitter() {
+        _classCallCheck(this, ChangeEventEmitter);
+
+        var _this = _possibleConstructorReturn(this, (ChangeEventEmitter.__proto__ || Object.getPrototypeOf(ChangeEventEmitter)).call(this));
+
+        var selfChangeEventEmitter = _this;
+
+        _this.emitChange = function () {
+            setTimeout(function () {
+                // Run after dispatcher has finished
+                selfChangeEventEmitter.emit("change");
+            }, 0);
+        };
+        return _this;
+    }
+
+    return ChangeEventEmitter;
+}(_eventEmitter2.default);
+
+exports.default = ChangeEventEmitter;
+
+},{"event-emitter":7}],342:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47315,7 +47340,7 @@ var AddDivisionPage = function (_RoleAwareComponent) {
 
 exports.default = AddDivisionPage;
 
-},{"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/divisionActions":307,"../../../routing/navigation":390,"./divisionEditor":342,"react":290}],342:[function(require,module,exports){
+},{"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/divisionActions":307,"../../../routing/navigation":391,"./divisionEditor":343,"react":290}],343:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47444,7 +47469,7 @@ var DivisionEditor = function (_RoleAwareComponent) {
 
 exports.default = DivisionEditor;
 
-},{"../../../common/button":292,"../../../common/formGroup":293,"../../../common/input":294,"../../../common/roleAwareComponent":300,"clone":6,"react":290}],343:[function(require,module,exports){
+},{"../../../common/button":292,"../../../common/formGroup":293,"../../../common/input":294,"../../../common/roleAwareComponent":300,"clone":6,"react":290}],344:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47599,7 +47624,7 @@ var EditDivisionPage = function (_RoleAwareComponent) {
 
 exports.default = EditDivisionPage;
 
-},{"../../../common/button":292,"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/divisionActions":307,"../../../data/stores/divisionStore":333,"../../../routing/navigation":390,"./divisionEditor":342,"react":290}],344:[function(require,module,exports){
+},{"../../../common/button":292,"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/divisionActions":307,"../../../data/stores/divisionStore":333,"../../../routing/navigation":391,"./divisionEditor":343,"react":290}],345:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47733,7 +47758,7 @@ var DivisionsBox = function (_React$Component2) {
 
 exports.default = DivisionsPage;
 
-},{"../../common/button":292,"../../common/listPanel":297,"../../common/pageContent":298,"../../data/actions/divisionActions":307,"../../data/stores/divisionStore":333,"../../routing/navigation":390,"react":290}],345:[function(require,module,exports){
+},{"../../common/button":292,"../../common/listPanel":297,"../../common/pageContent":298,"../../data/actions/divisionActions":307,"../../data/stores/divisionStore":333,"../../routing/navigation":391,"react":290}],346:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47829,7 +47854,7 @@ var AddOrganizationPage = function (_RoleAwareComponent) {
 
 exports.default = AddOrganizationPage;
 
-},{"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/organizationActions":309,"../../../routing/navigation":390,"./organizationEditor":347,"react":290}],346:[function(require,module,exports){
+},{"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/organizationActions":309,"../../../routing/navigation":391,"./organizationEditor":348,"react":290}],347:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47984,7 +48009,7 @@ var EditOrganizationPage = function (_RoleAwareComponent) {
 
 exports.default = EditOrganizationPage;
 
-},{"../../../common/button":292,"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/organizationActions":309,"../../../data/stores/organizationStore":335,"../../../routing/navigation":390,"./organizationEditor":347,"react":290}],347:[function(require,module,exports){
+},{"../../../common/button":292,"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/organizationActions":309,"../../../data/stores/organizationStore":335,"../../../routing/navigation":391,"./organizationEditor":348,"react":290}],348:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48178,7 +48203,7 @@ var OrganizationEditor = function (_RoleAwareComponent) {
 
 exports.default = OrganizationEditor;
 
-},{"../../../common/button":292,"../../../common/formGroup":293,"../../../common/input":294,"../../../common/roleAwareComponent":300,"../../../common/select":301,"../../../data/stores/organizationStore":335,"clone":6,"react":290}],348:[function(require,module,exports){
+},{"../../../common/button":292,"../../../common/formGroup":293,"../../../common/input":294,"../../../common/roleAwareComponent":300,"../../../common/select":301,"../../../data/stores/organizationStore":335,"clone":6,"react":290}],349:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48312,7 +48337,7 @@ var OrganizationsBox = function (_React$Component2) {
 
 exports.default = OrganizationsPage;
 
-},{"../../common/button":292,"../../common/listPanel":297,"../../common/pageContent":298,"../../data/actions/organizationActions":309,"../../data/stores/organizationStore":335,"../../routing/navigation":390,"react":290}],349:[function(require,module,exports){
+},{"../../common/button":292,"../../common/listPanel":297,"../../common/pageContent":298,"../../data/actions/organizationActions":309,"../../data/stores/organizationStore":335,"../../routing/navigation":391,"react":290}],350:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48407,7 +48432,7 @@ var AddShowPage = function (_RoleAwareComponent) {
 
 exports.default = AddShowPage;
 
-},{"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/showActions":313,"../../../routing/navigation":390,"./showEditor":385,"react":290}],350:[function(require,module,exports){
+},{"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/showActions":313,"../../../routing/navigation":391,"./showEditor":386,"react":290}],351:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48508,7 +48533,7 @@ var AddContestPage = function (_RoleAwareComponent) {
 
 exports.default = AddContestPage;
 
-},{"../../../../common/pageContent":298,"../../../../common/roleAwareComponent":300,"../../../../data/actions/contestActions":304,"../../../../routing/navigation":390,"./contestEditor":352,"react":290}],351:[function(require,module,exports){
+},{"../../../../common/pageContent":298,"../../../../common/roleAwareComponent":300,"../../../../data/actions/contestActions":304,"../../../../routing/navigation":391,"./contestEditor":353,"react":290}],352:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48717,7 +48742,7 @@ var ContestPage = function (_TimeoutComponent) {
 
 exports.default = ContestPage;
 
-},{"../../../../common/button":292,"../../../../common/pageContent":298,"../../../../common/timeoutComponent":302,"../../../../data/actions/contestActions":304,"../../../../data/actions/contestantActions":305,"../../../../data/actions/judgeActions":308,"../../../../data/actions/scoreCriterionActions":312,"../../../../data/stores/contestStore":330,"../../../../routing/navigation":390,"./contestants":369,"./judges":376,"./scoreCriteria":377,"react":290}],352:[function(require,module,exports){
+},{"../../../../common/button":292,"../../../../common/pageContent":298,"../../../../common/timeoutComponent":302,"../../../../data/actions/contestActions":304,"../../../../data/actions/contestantActions":305,"../../../../data/actions/judgeActions":308,"../../../../data/actions/scoreCriterionActions":312,"../../../../data/stores/contestStore":330,"../../../../routing/navigation":391,"./contestants":370,"./judges":377,"./scoreCriteria":378,"react":290}],353:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48861,7 +48886,7 @@ var ContestEditor = function (_RoleAwareComponent) {
 
 exports.default = ContestEditor;
 
-},{"../../../../common/button":292,"../../../../common/formGroup":293,"../../../../common/input":294,"../../../../common/roleAwareComponent":300,"clone":6,"react":290}],353:[function(require,module,exports){
+},{"../../../../common/button":292,"../../../../common/formGroup":293,"../../../../common/input":294,"../../../../common/roleAwareComponent":300,"clone":6,"react":290}],354:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48971,7 +48996,7 @@ var AddContestantPage = function (_RoleAwareComponent) {
 
 exports.default = AddContestantPage;
 
-},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/contestantActions":305,"../../../../../routing/navigation":390,"./contestantEditor":355,"react":290}],354:[function(require,module,exports){
+},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/contestantActions":305,"../../../../../routing/navigation":391,"./contestantEditor":356,"react":290}],355:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49178,7 +49203,7 @@ var ContestantPage = function (_TimeoutComponent) {
 
 exports.default = ContestantPage;
 
-},{"../../../../../common/button":292,"../../../../../common/pageContent":298,"../../../../../common/timeoutComponent":302,"../../../../../data/actions/contestantActions":305,"../../../../../data/actions/performerActions":310,"../../../../../data/actions/scoreCardActions":311,"../../../../../data/stores/contestantStore":331,"../../../../../routing/navigation":390,"./contestantUtil":356,"./performers":362,"./scoreCards":368,"react":290}],355:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/pageContent":298,"../../../../../common/timeoutComponent":302,"../../../../../data/actions/contestantActions":305,"../../../../../data/actions/performerActions":310,"../../../../../data/actions/scoreCardActions":311,"../../../../../data/stores/contestantStore":331,"../../../../../routing/navigation":391,"./contestantUtil":357,"./performers":363,"./scoreCards":369,"react":290}],356:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49336,7 +49361,7 @@ var ContestantEditor = function (_RoleAwareComponent) {
 
 exports.default = ContestantEditor;
 
-},{"../../../../../common/button":292,"../../../../../common/formGroup":293,"../../../../../common/input":294,"../../../../../common/roleAwareComponent":300,"clone":6,"react":290}],356:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/formGroup":293,"../../../../../common/input":294,"../../../../../common/roleAwareComponent":300,"clone":6,"react":290}],357:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49363,7 +49388,7 @@ var getDescription = function getDescription(contestant) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],357:[function(require,module,exports){
+},{}],358:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49514,7 +49539,7 @@ var EditContestantPage = function (_RoleAwareComponent) {
 
 exports.default = EditContestantPage;
 
-},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/contestantActions":305,"../../../../../data/stores/contestantStore":331,"../../../../../routing/navigation":390,"./contestantEditor":355,"react":290}],358:[function(require,module,exports){
+},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/contestantActions":305,"../../../../../data/stores/contestantStore":331,"../../../../../routing/navigation":391,"./contestantEditor":356,"react":290}],359:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49645,7 +49670,7 @@ var AddPerformerPage = function (_RoleAwareComponent) {
 
 exports.default = AddPerformerPage;
 
-},{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/divisionActions":307,"../../../../../../data/actions/organizationActions":309,"../../../../../../data/actions/performerActions":310,"../../../../../../routing/navigation":390,"./performerEditor":360,"react":290}],359:[function(require,module,exports){
+},{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/divisionActions":307,"../../../../../../data/actions/organizationActions":309,"../../../../../../data/actions/performerActions":310,"../../../../../../routing/navigation":391,"./performerEditor":361,"react":290}],360:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49816,7 +49841,7 @@ var EditPerformerPage = function (_RoleAwareComponent) {
 
 exports.default = EditPerformerPage;
 
-},{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/divisionActions":307,"../../../../../../data/actions/organizationActions":309,"../../../../../../data/actions/performerActions":310,"../../../../../../data/stores/performerStore":336,"../../../../../../routing/navigation":390,"./performerEditor":360,"react":290}],360:[function(require,module,exports){
+},{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/divisionActions":307,"../../../../../../data/actions/organizationActions":309,"../../../../../../data/actions/performerActions":310,"../../../../../../data/stores/performerStore":336,"../../../../../../routing/navigation":391,"./performerEditor":361,"react":290}],361:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -50081,7 +50106,7 @@ var PerformerEditor = function (_RoleAwareComponent) {
 
 exports.default = PerformerEditor;
 
-},{"../../../../../../common/button":292,"../../../../../../common/formGroup":293,"../../../../../../common/input":294,"../../../../../../common/roleAwareComponent":300,"../../../../../../common/select":301,"../../../../../../data/stores/divisionStore":333,"../../../../../../data/stores/organizationStore":335,"clone":6,"react":290}],361:[function(require,module,exports){
+},{"../../../../../../common/button":292,"../../../../../../common/formGroup":293,"../../../../../../common/input":294,"../../../../../../common/roleAwareComponent":300,"../../../../../../common/select":301,"../../../../../../data/stores/divisionStore":333,"../../../../../../data/stores/organizationStore":335,"clone":6,"react":290}],362:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -50099,7 +50124,7 @@ var getDescription = function getDescription(performer) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],362:[function(require,module,exports){
+},{}],363:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -50225,7 +50250,7 @@ var PerformersBox = function (_React$Component) {
 
 exports.default = PerformersBox;
 
-},{"../../../../../common/button":292,"../../../../../common/listPanel":297,"../../../../../data/stores/performerStore":336,"../../../../../routing/navigation":390,"./performer/performerUtil":361,"react":290}],363:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/listPanel":297,"../../../../../data/stores/performerStore":336,"../../../../../routing/navigation":391,"./performer/performerUtil":362,"react":290}],364:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -50468,7 +50493,7 @@ var AddScoreCardPage = function (_RoleAwareComponent) {
 
 exports.default = AddScoreCardPage;
 
-},{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/contestantActions":305,"../../../../../../data/actions/judgeActions":308,"../../../../../../data/actions/scoreCardActions":311,"../../../../../../data/actions/scoreCriterionActions":312,"../../../../../../data/stores/contestantStore":331,"../../../../../../data/stores/currentUserStore":332,"../../../../../../data/stores/judgeStore":334,"../../../../../../data/stores/scoreCriterionStore":338,"../../../../../../routing/navigation":390,"./scoreCardEditor":366,"react":290}],364:[function(require,module,exports){
+},{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/contestantActions":305,"../../../../../../data/actions/judgeActions":308,"../../../../../../data/actions/scoreCardActions":311,"../../../../../../data/actions/scoreCriterionActions":312,"../../../../../../data/stores/contestantStore":331,"../../../../../../data/stores/currentUserStore":332,"../../../../../../data/stores/judgeStore":334,"../../../../../../data/stores/scoreCriterionStore":338,"../../../../../../routing/navigation":391,"./scoreCardEditor":367,"react":290}],365:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -50624,7 +50649,7 @@ var EditScoreCardPage = function (_RoleAwareComponent) {
 
 exports.default = EditScoreCardPage;
 
-},{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/scoreCardActions":311,"../../../../../../data/stores/scoreCardStore":337,"../../../../../../routing/navigation":390,"./scoreCardEditor":366,"react":290}],365:[function(require,module,exports){
+},{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/scoreCardActions":311,"../../../../../../data/stores/scoreCardStore":337,"../../../../../../routing/navigation":391,"./scoreCardEditor":367,"react":290}],366:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -50784,7 +50809,7 @@ var ScorableCriterion = function (_React$Component2) {
 
 exports.default = ScorableCriteria;
 
-},{"../../../../../../common/input":294,"../../../../../../common/panel":299,"../../../../../../data/stores/scoreCardStore":337,"clone":6,"react":290}],366:[function(require,module,exports){
+},{"../../../../../../common/input":294,"../../../../../../common/panel":299,"../../../../../../data/stores/scoreCardStore":337,"clone":6,"react":290}],367:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -50913,7 +50938,7 @@ var ScoreCardEditor = function (_RoleAwareComponent) {
 
 exports.default = ScoreCardEditor;
 
-},{"../../../../../../common/button":292,"../../../../../../common/formGroup":293,"../../../../../../common/input":294,"../../../../../../common/roleAwareComponent":300,"./scorableCriteria":365,"clone":6,"react":290}],367:[function(require,module,exports){
+},{"../../../../../../common/button":292,"../../../../../../common/formGroup":293,"../../../../../../common/input":294,"../../../../../../common/roleAwareComponent":300,"./scorableCriteria":366,"clone":6,"react":290}],368:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -50989,7 +51014,7 @@ var getDescription = function getDescription(scoreCard) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{"react":290}],368:[function(require,module,exports){
+},{"react":290}],369:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51115,7 +51140,7 @@ var ScoreCardsBox = function (_React$Component) {
 
 exports.default = ScoreCardsBox;
 
-},{"../../../../../common/button":292,"../../../../../common/listPanel":297,"../../../../../data/stores/scoreCardStore":337,"../../../../../routing/navigation":390,"./scoreCard/scoreCardUtil":367,"react":290}],369:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/listPanel":297,"../../../../../data/stores/scoreCardStore":337,"../../../../../routing/navigation":391,"./scoreCard/scoreCardUtil":368,"react":290}],370:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51234,7 +51259,7 @@ var ContestantsBox = function (_React$Component) {
 
 exports.default = ContestantsBox;
 
-},{"../../../../common/button":292,"../../../../common/listPanel":297,"../../../../data/stores/contestantStore":331,"../../../../routing/navigation":390,"./contestant/contestantUtil":356,"react":290}],370:[function(require,module,exports){
+},{"../../../../common/button":292,"../../../../common/listPanel":297,"../../../../data/stores/contestantStore":331,"../../../../routing/navigation":391,"./contestant/contestantUtil":357,"react":290}],371:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51377,7 +51402,7 @@ var EditContestPage = function (_RoleAwareComponent) {
 
 exports.default = EditContestPage;
 
-},{"../../../../common/pageContent":298,"../../../../common/roleAwareComponent":300,"../../../../data/actions/contestActions":304,"../../../../data/stores/contestStore":330,"../../../../routing/navigation":390,"./contestEditor":352,"react":290}],371:[function(require,module,exports){
+},{"../../../../common/pageContent":298,"../../../../common/roleAwareComponent":300,"../../../../data/actions/contestActions":304,"../../../../data/stores/contestStore":330,"../../../../routing/navigation":391,"./contestEditor":353,"react":290}],372:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51495,7 +51520,7 @@ var AddJudgePage = function (_RoleAwareComponent) {
 
 exports.default = AddJudgePage;
 
-},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/judgeActions":308,"../../../../../data/actions/organizationActions":309,"../../../../../routing/navigation":390,"./judgeEditor":374,"react":290}],372:[function(require,module,exports){
+},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/judgeActions":308,"../../../../../data/actions/organizationActions":309,"../../../../../routing/navigation":391,"./judgeEditor":375,"react":290}],373:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51653,7 +51678,7 @@ var EditJudgePage = function (_RoleAwareComponent) {
 
 exports.default = EditJudgePage;
 
-},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/judgeActions":308,"../../../../../data/actions/organizationActions":309,"../../../../../data/stores/judgeStore":334,"../../../../../routing/navigation":390,"./judgeEditor":374,"react":290}],373:[function(require,module,exports){
+},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/judgeActions":308,"../../../../../data/actions/organizationActions":309,"../../../../../data/stores/judgeStore":334,"../../../../../routing/navigation":391,"./judgeEditor":375,"react":290}],374:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51829,7 +51854,7 @@ var JudgePage = function (_TimeoutComponent) {
 
 exports.default = JudgePage;
 
-},{"../../../../../common/button":292,"../../../../../common/pageContent":298,"../../../../../common/timeoutComponent":302,"../../../../../data/actions/judgeActions":308,"../../../../../data/stores/judgeStore":334,"../../../../../routing/navigation":390,"react":290}],374:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/pageContent":298,"../../../../../common/timeoutComponent":302,"../../../../../data/actions/judgeActions":308,"../../../../../data/stores/judgeStore":334,"../../../../../routing/navigation":391,"react":290}],375:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -52048,7 +52073,7 @@ var JudgeEditor = function (_RoleAwareComponent) {
 
 exports.default = JudgeEditor;
 
-},{"../../../../../common/button":292,"../../../../../common/formGroup":293,"../../../../../common/input":294,"../../../../../common/roleAwareComponent":300,"../../../../../common/select":301,"../../../../../data/stores/organizationStore":335,"clone":6,"react":290}],375:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/formGroup":293,"../../../../../common/input":294,"../../../../../common/roleAwareComponent":300,"../../../../../common/select":301,"../../../../../data/stores/organizationStore":335,"clone":6,"react":290}],376:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -52065,7 +52090,7 @@ var getDescription = function getDescription(judge) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],376:[function(require,module,exports){
+},{}],377:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -52184,7 +52209,7 @@ var JudgesBox = function (_React$Component) {
 
 exports.default = JudgesBox;
 
-},{"../../../../common/button":292,"../../../../common/listPanel":297,"../../../../data/stores/judgeStore":334,"../../../../routing/navigation":390,"./judge/judgeUtil":375,"react":290}],377:[function(require,module,exports){
+},{"../../../../common/button":292,"../../../../common/listPanel":297,"../../../../data/stores/judgeStore":334,"../../../../routing/navigation":391,"./judge/judgeUtil":376,"react":290}],378:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -52299,7 +52324,7 @@ var ScoreCriteriaBox = function (_React$Component) {
 
 exports.default = ScoreCriteriaBox;
 
-},{"../../../../common/button":292,"../../../../common/listPanel":297,"../../../../data/stores/scoreCriterionStore":338,"../../../../routing/navigation":390,"react":290}],378:[function(require,module,exports){
+},{"../../../../common/button":292,"../../../../common/listPanel":297,"../../../../data/stores/scoreCriterionStore":338,"../../../../routing/navigation":391,"react":290}],379:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -52409,7 +52434,7 @@ var AddScoreCriterionPage = function (_RoleAwareComponent) {
 
 exports.default = AddScoreCriterionPage;
 
-},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/scoreCriterionActions":312,"../../../../../routing/navigation":390,"./scoreCriterionEditor":381,"react":290}],379:[function(require,module,exports){
+},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/scoreCriterionActions":312,"../../../../../routing/navigation":391,"./scoreCriterionEditor":382,"react":290}],380:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -52560,7 +52585,7 @@ var EditScoreCriterionPage = function (_RoleAwareComponent) {
 
 exports.default = EditScoreCriterionPage;
 
-},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/scoreCriterionActions":312,"../../../../../data/stores/scoreCriterionStore":338,"../../../../../routing/navigation":390,"./scoreCriterionEditor":381,"react":290}],380:[function(require,module,exports){
+},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/scoreCriterionActions":312,"../../../../../data/stores/scoreCriterionStore":338,"../../../../../routing/navigation":391,"./scoreCriterionEditor":382,"react":290}],381:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -52736,7 +52761,7 @@ var ScoreCriterionPage = function (_TimeoutComponent) {
 
 exports.default = ScoreCriterionPage;
 
-},{"../../../../../common/button":292,"../../../../../common/pageContent":298,"../../../../../common/timeoutComponent":302,"../../../../../data/actions/scoreCriterionActions":312,"../../../../../data/stores/scoreCriterionStore":338,"../../../../../routing/navigation":390,"react":290}],381:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/pageContent":298,"../../../../../common/timeoutComponent":302,"../../../../../data/actions/scoreCriterionActions":312,"../../../../../data/stores/scoreCriterionStore":338,"../../../../../routing/navigation":391,"react":290}],382:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -52902,7 +52927,7 @@ var ScoreCriterionEditor = function (_RoleAwareComponent) {
 
 exports.default = ScoreCriterionEditor;
 
-},{"../../../../../common/button":292,"../../../../../common/formGroup":293,"../../../../../common/input":294,"../../../../../common/roleAwareComponent":300,"clone":6,"react":290}],382:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/formGroup":293,"../../../../../common/input":294,"../../../../../common/roleAwareComponent":300,"clone":6,"react":290}],383:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53009,7 +53034,7 @@ var ContestsBox = function (_React$Component) {
 
 exports.default = ContestsBox;
 
-},{"../../../common/button":292,"../../../common/listPanel":297,"../../../data/stores/contestStore":330,"../../../routing/navigation":390,"react":290}],383:[function(require,module,exports){
+},{"../../../common/button":292,"../../../common/listPanel":297,"../../../data/stores/contestStore":330,"../../../routing/navigation":391,"react":290}],384:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53146,7 +53171,7 @@ var EditShowPage = function (_RoleAwareComponent) {
 
 exports.default = EditShowPage;
 
-},{"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/showActions":313,"../../../data/stores/showStore":339,"../../../routing/navigation":390,"./showEditor":385,"react":290}],384:[function(require,module,exports){
+},{"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/showActions":313,"../../../data/stores/showStore":339,"../../../routing/navigation":391,"./showEditor":386,"react":290}],385:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53329,7 +53354,7 @@ var ShowPage = function (_TimeoutComponent) {
 
 exports.default = ShowPage;
 
-},{"../../../common/button":292,"../../../common/pageContent":298,"../../../common/timeoutComponent":302,"../../../data/actions/contestActions":304,"../../../data/actions/showActions":313,"../../../data/stores/showStore":339,"../../../routing/navigation":390,"./contests":382,"react":290}],385:[function(require,module,exports){
+},{"../../../common/button":292,"../../../common/pageContent":298,"../../../common/timeoutComponent":302,"../../../data/actions/contestActions":304,"../../../data/actions/showActions":313,"../../../data/stores/showStore":339,"../../../routing/navigation":391,"./contests":383,"react":290}],386:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53473,7 +53498,7 @@ var ShowEditor = function (_RoleAwareComponent) {
 
 exports.default = ShowEditor;
 
-},{"../../../common/button":292,"../../../common/formGroup":293,"../../../common/input":294,"../../../common/roleAwareComponent":300,"clone":6,"react":290}],386:[function(require,module,exports){
+},{"../../../common/button":292,"../../../common/formGroup":293,"../../../common/input":294,"../../../common/roleAwareComponent":300,"clone":6,"react":290}],387:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53612,7 +53637,7 @@ var ShowsBox = function (_React$Component2) {
 
 exports.default = ShowsPage;
 
-},{"../../common/button":292,"../../common/listPanel":297,"../../common/pageContent":298,"../../data/actions/showActions":313,"../../data/stores/showStore":339,"../../routing/navigation":390,"react":290}],387:[function(require,module,exports){
+},{"../../common/button":292,"../../common/listPanel":297,"../../common/pageContent":298,"../../data/actions/showActions":313,"../../data/stores/showStore":339,"../../routing/navigation":391,"react":290}],388:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53636,7 +53661,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"react":290}],388:[function(require,module,exports){
+},{"react":290}],389:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53882,7 +53907,7 @@ var LoginForm = _react2.default.createClass({
 
 exports.default = LoginBox;
 
-},{"../common/formGroup":293,"../common/input":294,"../data/actions/currentUserActions":306,"../data/stores/currentUserStore":332,"../routing/navigation":390,"jquery":25,"react":290,"react-router":203}],389:[function(require,module,exports){
+},{"../common/formGroup":293,"../common/input":294,"../data/actions/currentUserActions":306,"../data/stores/currentUserStore":332,"../routing/navigation":391,"jquery":25,"react":290,"react-router":203}],390:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54040,7 +54065,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"../common/formGroup":293,"../common/input":294,"../data/actions/currentUserActions":306,"../routing/navigation":390,"jquery":25,"react":290}],390:[function(require,module,exports){
+},{"../common/formGroup":293,"../common/input":294,"../data/actions/currentUserActions":306,"../routing/navigation":391,"jquery":25,"react":290}],391:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

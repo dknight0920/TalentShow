@@ -1,10 +1,10 @@
 ﻿'use strict';
 import Clone from 'clone';
-import EventEmitter from 'event-emitter';
+import ChangeEventEmitter from './utils/changeEventEmitter';
 import Dispatcher from '../dispatcher';
 import * as BroadcastUtil from './utils/broadcastUtil';
 
-class ScoreCardStore extends EventEmitter {
+class ScoreCardStore extends ChangeEventEmitter {
     constructor(){
         super();
         this.scoreCards = [];
@@ -13,7 +13,7 @@ class ScoreCardStore extends EventEmitter {
 
         this.setScoreCards = function(scoreCards){
             self.scoreCards = scoreCards;         
-            self.emit("change");
+            self.emitChange();
         };
 
         this.pushScoreCards = function(contestantId, _scoreCards){

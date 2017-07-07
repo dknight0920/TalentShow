@@ -1,10 +1,10 @@
 ﻿'use strict';
 import Clone from 'clone';
-import EventEmitter from 'event-emitter';
+import ChangeEventEmitter from './utils/changeEventEmitter';
 import Dispatcher from '../dispatcher';
 import * as BroadcastUtil from './utils/broadcastUtil';
 
-class PerformerStore extends EventEmitter {
+class PerformerStore extends ChangeEventEmitter {
     constructor(){
         super();
         this.performers = [];
@@ -13,7 +13,7 @@ class PerformerStore extends EventEmitter {
 
         this.setPerformers = function(performers){
             self.performers = performers;         
-            self.emit("change");
+            self.emitChange();
         };
 
         this.pushPerformers = function(contestantId, _performers){

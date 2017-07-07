@@ -1,10 +1,10 @@
 ﻿'use strict';
 import Clone from 'clone';
-import EventEmitter from 'event-emitter';
+import ChangeEventEmitter from './utils/changeEventEmitter';
 import Dispatcher from '../dispatcher';
 import * as BroadcastUtil from './utils/broadcastUtil';
 
-class DivisionStore extends EventEmitter {
+class DivisionStore extends ChangeEventEmitter {
     constructor(){
         super();
         this.divisions = [];
@@ -13,7 +13,7 @@ class DivisionStore extends EventEmitter {
 
         this.setDivisions = function(divisions){
             self.divisions = divisions;
-            self.emit("change");
+            self.emitChange();
         };
 
         this.pushDivisions = function(_divisions){

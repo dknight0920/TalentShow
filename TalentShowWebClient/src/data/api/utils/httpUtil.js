@@ -33,7 +33,7 @@ var put = function (options, data) {
     makeRequest(options, "PUT", data);
 };
 
-var remove = function (options) {
+var remove = function (options, data) {
     makeRequest(options, "DELETE", data);
 };
 
