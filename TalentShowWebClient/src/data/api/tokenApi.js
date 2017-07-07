@@ -2,7 +2,7 @@
 import * as ApiHttpUtil from './utils/httpUtil.js';
 import * as AccessTokenUtil from './utils/accessTokenUtil';
 
-var getToken = function (credentials, callback) {
+var getToken = function (credentials, success, fail) {
     var loginData = {
         grant_type: 'password',
         username: credentials.emailAddress,
@@ -10,16 +10,16 @@ var getToken = function (credentials, callback) {
     };
 
     ApiHttpUtil.post({
-        url: "api/Token",
+        url:  "api/Token",
         contentType: "application/x-www-form-urlencoded",
         success: function(result){
             AccessTokenUtil.setAccessTokenInLocalStorage(result);
             AccessTokenUtil.setSignalrAccessToken();
-            callback();
+            success();          
         },
         error: function(request, status, err){
-            //TODO handle error
-        }	
+            fail(err);
+        }
     }, loginData);
 };
 

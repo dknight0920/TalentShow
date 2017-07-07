@@ -9,17 +9,23 @@ class CurrentUserStore extends EventEmitter {
         super();
         this.authenticated = false;
         this.userInfo = null;
+        this.isAuthenticatingUser = false;
+        this.isProcessingAccountRegistration = false;
     }
 }
 
 const currentUserStore = new CurrentUserStore;
 
-currentUserStore.setUserInfo = function(userInfo){
-    currentUserStore.userInfo = userInfo;
+currentUserStore.isProcessingAuthentication = function(){
+    return this.isAuthenticatingUser;
+}
+
+currentUserStore.isProcessingRegistration = function(){
+    return this.isProcessingAccountRegistration;
 }
 
 currentUserStore.isAuthenticated = function(){
-    return  this.authenticated;
+    return this.authenticated;
 }
 
 currentUserStore.getUserRole = function(){
@@ -34,33 +40,46 @@ currentUserStore.getJudgeId = function(){
     return 1168;
 }
 
-currentUserStore.authenticate = function(credentials){
-    var loginData = {
-        grant_type: 'password',
-        username: credentials.emailAddress,
-        password: credentials.password
-    };
-
-    TokenApi.getToken(credentials, function (data) {
-        currentUserStore.authenticated = true;
-        UserApi.getCurrentUser(function(userInfo){
-            currentUserStore.setUserInfo(userInfo);
-            currentUserStore.emit("change");
-        },
-        function(){
-        
-            currentUserStore.emit("change");
-        });
-    });
-};
-
 currentUserStore.handleAction = function(action){
     switch(action.type){
         case "AUTHENTICATE_CURRENT_USER":
-            currentUserStore.authenticate(action.data);
+            currentUserStore.isAuthenticatingUser = true;
+            setTimeout(function() { // Run after dispatcher has finished
+              currentUserStore.emit("change");
+            }, 0);
+            break;
+        case "AUTHENTICATE_CURRENT_USER_SUCCESS":
+            currentUserStore.userInfo = action.userInfo;
+            currentUserStore.isAuthenticatingUser = false;
+            currentUserStore.authenticated = true;
+            setTimeout(function() { // Run after dispatcher has finished
+              currentUserStore.emit("change");
+            }, 0);
+            break;
+        case "AUTHENTICATE_CURRENT_USER_FAIL":
+            currentUserStore.isAuthenticatingUser = false;
+            currentUserStore.authenticated = false;
+            setTimeout(function() { // Run after dispatcher has finished
+              currentUserStore.emit("change");
+            }, 0);
             break;
         case "REGISTER_CURRENT_USER":
-            UserApi.register(action.data, function(){alert("Your account has been created.");}, function(){alert("Failed to Create Account.");});
+            currentUserStore.isProcessingAccountRegistration = true;
+            setTimeout(function() { // Run after dispatcher has finished
+              currentUserStore.emit("change");
+            }, 0);
+            break;
+        case "REGISTER_CURRENT_USER_SUCCESS":
+            currentUserStore.isProcessingAccountRegistration = false;
+            setTimeout(function() { // Run after dispatcher has finished
+              currentUserStore.emit("change");
+            }, 0);
+            break;
+        case "REGISTER_CURRENT_USER_FAIL":
+            currentUserStore.isProcessingAccountRegistration = false;
+            setTimeout(function() { // Run after dispatcher has finished
+              currentUserStore.emit("change");
+            }, 0);
             break;
     }
 };

@@ -43653,17 +43653,41 @@ var _dispatcher = require('../dispatcher');
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
+var _tokenApi = require('../api/tokenApi');
+
+var TokenApi = _interopRequireWildcard(_tokenApi);
+
+var _userApi = require('../api/userApi');
+
+var UserApi = _interopRequireWildcard(_userApi);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function authenticate(credentials) {
-    _dispatcher2.default.dispatch({ type: "AUTHENTICATE_CURRENT_USER", data: credentials });
+    _dispatcher2.default.dispatch({ type: "AUTHENTICATE_CURRENT_USER", credentials: credentials });
+
+    TokenApi.getToken(credentials, function success() {
+        UserApi.getCurrentUser(function (userInfo) {
+            _dispatcher2.default.dispatch({ type: "AUTHENTICATE_CURRENT_USER_SUCCESS", userInfo: userInfo });
+        });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "AUTHENTICATE_CURRENT_USER_FAIL", error: err });
+    });
 };
 
 function register(credentials) {
-    _dispatcher2.default.dispatch({ type: "REGISTER_CURRENT_USER", data: credentials });
+    _dispatcher2.default.dispatch({ type: "REGISTER_CURRENT_USER", credentials: credentials });
+
+    UserApi.register(credentials, function success() {
+        _dispatcher2.default.dispatch({ type: "REGISTER_CURRENT_USER_SUCCESS", credentials: credentials });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "REGISTER_CURRENT_USER_FAIL", error: err });
+    });
 };
 
-},{"../dispatcher":327}],307:[function(require,module,exports){
+},{"../api/tokenApi":323,"../api/userApi":324,"../dispatcher":327}],307:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -45263,7 +45287,7 @@ var AccessTokenUtil = _interopRequireWildcard(_accessTokenUtil);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-var getToken = function getToken(credentials, callback) {
+var getToken = function getToken(credentials, _success, fail) {
     var loginData = {
         grant_type: 'password',
         username: credentials.emailAddress,
@@ -45276,10 +45300,10 @@ var getToken = function getToken(credentials, callback) {
         success: function success(result) {
             AccessTokenUtil.setAccessTokenInLocalStorage(result);
             AccessTokenUtil.setSignalrAccessToken();
-            callback();
+            _success();
         },
         error: function error(request, status, err) {
-            //TODO handle error
+            fail(err);
         }
     }, loginData);
 };
@@ -45912,6 +45936,8 @@ var CurrentUserStore = function (_EventEmitter) {
 
         _this.authenticated = false;
         _this.userInfo = null;
+        _this.isAuthenticatingUser = false;
+        _this.isProcessingAccountRegistration = false;
         return _this;
     }
 
@@ -45920,8 +45946,12 @@ var CurrentUserStore = function (_EventEmitter) {
 
 var currentUserStore = new CurrentUserStore();
 
-currentUserStore.setUserInfo = function (userInfo) {
-    currentUserStore.userInfo = userInfo;
+currentUserStore.isProcessingAuthentication = function () {
+    return this.isAuthenticatingUser;
+};
+
+currentUserStore.isProcessingRegistration = function () {
+    return this.isProcessingAccountRegistration;
 };
 
 currentUserStore.isAuthenticated = function () {
@@ -45940,36 +45970,52 @@ currentUserStore.getJudgeId = function () {
     return 1168;
 };
 
-currentUserStore.authenticate = function (credentials) {
-    var loginData = {
-        grant_type: 'password',
-        username: credentials.emailAddress,
-        password: credentials.password
-    };
-
-    TokenApi.getToken(credentials, function (data) {
-        currentUserStore.authenticated = true;
-        UserApi.getCurrentUser(function (userInfo) {
-            currentUserStore.setUserInfo(userInfo);
-            currentUserStore.emit("change");
-        }, function () {
-
-            currentUserStore.emit("change");
-        });
-    });
-};
-
 currentUserStore.handleAction = function (action) {
     switch (action.type) {
         case "AUTHENTICATE_CURRENT_USER":
-            currentUserStore.authenticate(action.data);
+            currentUserStore.isAuthenticatingUser = true;
+            setTimeout(function () {
+                // Run after dispatcher has finished
+                currentUserStore.emit("change");
+            }, 0);
+            break;
+        case "AUTHENTICATE_CURRENT_USER_SUCCESS":
+            currentUserStore.userInfo = action.userInfo;
+            currentUserStore.isAuthenticatingUser = false;
+            currentUserStore.authenticated = true;
+            setTimeout(function () {
+                // Run after dispatcher has finished
+                currentUserStore.emit("change");
+            }, 0);
+            break;
+        case "AUTHENTICATE_CURRENT_USER_FAIL":
+            currentUserStore.isAuthenticatingUser = false;
+            currentUserStore.authenticated = false;
+            setTimeout(function () {
+                // Run after dispatcher has finished
+                currentUserStore.emit("change");
+            }, 0);
             break;
         case "REGISTER_CURRENT_USER":
-            UserApi.register(action.data, function () {
-                alert("Your account has been created.");
-            }, function () {
-                alert("Failed to Create Account.");
-            });
+            currentUserStore.isProcessingAccountRegistration = true;
+            setTimeout(function () {
+                // Run after dispatcher has finished
+                currentUserStore.emit("change");
+            }, 0);
+            break;
+        case "REGISTER_CURRENT_USER_SUCCESS":
+            currentUserStore.isProcessingAccountRegistration = false;
+            setTimeout(function () {
+                // Run after dispatcher has finished
+                currentUserStore.emit("change");
+            }, 0);
+            break;
+        case "REGISTER_CURRENT_USER_FAIL":
+            currentUserStore.isProcessingAccountRegistration = false;
+            setTimeout(function () {
+                // Run after dispatcher has finished
+                currentUserStore.emit("change");
+            }, 0);
             break;
     }
 };
@@ -53482,6 +53528,11 @@ var ShowsPage = function (_React$Component) {
     }
 
     _createClass(ShowsPage, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            ShowActions.loadShows();
+        }
+    }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(
@@ -53514,7 +53565,7 @@ var ShowsBox = function (_React$Component2) {
         key: 'componentWillMount',
         value: function componentWillMount() {
             _showStore2.default.on("change", this.storeChanged);
-            ShowActions.loadShows();
+            //ShowActions.loadShows();
             ShowActions.joinHubGroup();
         }
     }, {
@@ -53642,17 +53693,16 @@ var LoginBox = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (LoginBox.__proto__ || Object.getPrototypeOf(LoginBox)).call(this, props));
 
-        _this.state = { data: _currentUserStore2.default.isAuthenticated() };
-        _this.redirect = _this.redirect.bind(_this);
         _this.authenticate = _this.authenticate.bind(_this);
         _this.storeChanged = _this.storeChanged.bind(_this);
+        _this.getState = _this.getState.bind(_this);
+        _this.state = _this.getState();
         return _this;
     }
 
     _createClass(LoginBox, [{
         key: 'componentWillMount',
         value: function componentWillMount() {
-            this.redirect();
             _currentUserStore2.default.on("change", this.storeChanged);
         }
     }, {
@@ -53663,15 +53713,19 @@ var LoginBox = function (_React$Component) {
     }, {
         key: 'storeChanged',
         value: function storeChanged() {
-            this.setState({ data: _currentUserStore2.default.isAuthenticated() });
-            this.redirect();
-        }
-    }, {
-        key: 'redirect',
-        value: function redirect() {
-            if (this.state.data === true) {
+            this.setState(this.getState());
+            if (this.state.isAuthenticated === true) {
                 Nav.goToShows();
             }
+        }
+    }, {
+        key: 'getState',
+        value: function getState() {
+            return {
+                isAuthenticated: _currentUserStore2.default.isAuthenticated(),
+                isProcessingAuthentication: _currentUserStore2.default.isProcessingAuthentication(),
+                isProcessingRegistration: _currentUserStore2.default.isProcessingRegistration()
+            };
         }
     }, {
         key: 'authenticate',
@@ -53681,6 +53735,64 @@ var LoginBox = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
+            if (this.state.isProcessingAuthentication) {
+                return _react2.default.createElement(
+                    'div',
+                    { className: 'container jumbotron' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'page-header' },
+                        _react2.default.createElement(
+                            'h2',
+                            null,
+                            'Please Wait'
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'panel panel-default' },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'panel-body' },
+                            _react2.default.createElement(
+                                'p',
+                                null,
+                                'Authenticating... '
+                            )
+                        )
+                    )
+                );
+            }
+
+            if (this.state.isProcessingRegistration) {
+                return _react2.default.createElement(
+                    'div',
+                    { className: 'container jumbotron' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'page-header' },
+                        _react2.default.createElement(
+                            'h2',
+                            null,
+                            'Please Wait'
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'panel panel-default' },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'panel-body' },
+                            _react2.default.createElement(
+                                'p',
+                                null,
+                                'Processing Registration...'
+                            )
+                        )
+                    )
+                );
+            }
+
             return _react2.default.createElement(
                 'div',
                 { className: 'container jumbotron' },
@@ -53768,13 +53880,7 @@ var LoginForm = _react2.default.createClass({
     }
 });
 
-exports.default = _react2.default.createClass({
-    displayName: 'login',
-
-    render: function render() {
-        return _react2.default.createElement(LoginBox, null);
-    }
-});
+exports.default = LoginBox;
 
 },{"../common/formGroup":293,"../common/input":294,"../data/actions/currentUserActions":306,"../data/stores/currentUserStore":332,"../routing/navigation":390,"jquery":25,"react":290,"react-router":203}],389:[function(require,module,exports){
 'use strict';

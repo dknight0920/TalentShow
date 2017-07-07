@@ -12,6 +12,10 @@ class ShowsPage extends React.Component {
         super(props);
     }
 
+    componentWillMount(){
+        ShowActions.loadShows();
+    }
+
     render() {
         return (
             <PageContent title="Talent Show Control Center" description="">
@@ -33,7 +37,7 @@ class ShowsBox extends React.Component {
 
     componentWillMount(){
         ShowStore.on("change", this.storeChanged);
-        ShowActions.loadShows();
+        //ShowActions.loadShows();
         ShowActions.joinHubGroup();
     }
 

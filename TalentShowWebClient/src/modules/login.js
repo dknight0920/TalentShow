@@ -13,30 +13,33 @@ class LoginBox extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { data: CurrentUserStore.isAuthenticated() };
-        this.redirect = this.redirect.bind(this);
         this.authenticate = this.authenticate.bind(this);
         this.storeChanged = this.storeChanged.bind(this);
+        this.getState = this.getState.bind(this);
+        this.state = this.getState();
     }
 
     componentWillMount(){
-        this.redirect();
         CurrentUserStore.on("change", this.storeChanged);
     }
 
     componentWillUnmount(){
         CurrentUserStore.off("change", this.storeChanged);
-    }
+   }
 
     storeChanged(){
-        this.setState({ data: CurrentUserStore.isAuthenticated() });
-        this.redirect();
-    }
-
-    redirect(){
-        if(this.state.data === true){
+        this.setState(this.getState());
+        if(this.state.isAuthenticated === true){
             Nav.goToShows();
         }
+    }
+
+    getState(){
+        return { 
+            isAuthenticated: CurrentUserStore.isAuthenticated(),
+            isProcessingAuthentication: CurrentUserStore.isProcessingAuthentication(),
+            isProcessingRegistration: CurrentUserStore.isProcessingRegistration() 
+        };
     }
     
     authenticate(credentials) {
@@ -44,6 +47,36 @@ class LoginBox extends React.Component {
     }
 
     render() {
+        if(this.state.isProcessingAuthentication){
+            return (
+                <div className="container jumbotron">
+                    <div className="page-header">
+                        <h2>Please Wait</h2>
+                    </div>
+                    <div className="panel panel-default">
+                        <div className="panel-body">
+                            <p>Authenticating... </p>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        if(this.state.isProcessingRegistration){
+            return (
+                <div className="container jumbotron">
+                    <div className="page-header">
+                        <h2>Please Wait</h2>
+                    </div>
+                    <div className="panel panel-default">
+                        <div className="panel-body">
+                            <p>Processing Registration...</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
         return (
             <div className="container jumbotron">
                 <div className="page-header">
@@ -107,10 +140,4 @@ var LoginForm = React.createClass({
 }
 });
 
-export default React.createClass({
-    render: function() {
-        return (
-            <LoginBox/>
-      );
-    }
-});
+export default LoginBox;

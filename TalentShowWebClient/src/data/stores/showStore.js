@@ -110,4 +110,4 @@ class ShowStore extends EventEmitter {
     }  
 }
 
-export default  new ShowStore();
+export default new ShowStore();
