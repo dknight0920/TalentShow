@@ -53718,6 +53718,7 @@ var LoginBox = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (LoginBox.__proto__ || Object.getPrototypeOf(LoginBox)).call(this, props));
 
+        _this.redirect = _this.redirect.bind(_this);
         _this.authenticate = _this.authenticate.bind(_this);
         _this.storeChanged = _this.storeChanged.bind(_this);
         _this.getState = _this.getState.bind(_this);
@@ -53728,6 +53729,7 @@ var LoginBox = function (_React$Component) {
     _createClass(LoginBox, [{
         key: 'componentWillMount',
         value: function componentWillMount() {
+            this.redirect();
             _currentUserStore2.default.on("change", this.storeChanged);
         }
     }, {
@@ -53739,6 +53741,11 @@ var LoginBox = function (_React$Component) {
         key: 'storeChanged',
         value: function storeChanged() {
             this.setState(this.getState());
+            this.redirect();
+        }
+    }, {
+        key: 'redirect',
+        value: function redirect() {
             if (this.state.isAuthenticated === true) {
                 Nav.goToShows();
             }

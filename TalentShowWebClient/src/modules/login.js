@@ -13,6 +13,7 @@ class LoginBox extends React.Component {
 
     constructor(props) {
         super(props);
+        this.redirect = this.redirect.bind(this);
         this.authenticate = this.authenticate.bind(this);
         this.storeChanged = this.storeChanged.bind(this);
         this.getState = this.getState.bind(this);
@@ -20,6 +21,7 @@ class LoginBox extends React.Component {
     }
 
     componentWillMount(){
+        this.redirect();
         CurrentUserStore.on("change", this.storeChanged);
     }
 
@@ -29,6 +31,10 @@ class LoginBox extends React.Component {
 
     storeChanged(){
         this.setState(this.getState());
+        this.redirect();
+    }
+
+    redirect(){
         if(this.state.isAuthenticated === true){
             Nav.goToShows();
         }
