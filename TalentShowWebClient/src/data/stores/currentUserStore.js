@@ -26,16 +26,23 @@ class CurrentUserStore extends ChangeEventEmitter {
             return self.authenticated;
         };
 
-        this.getUserRole = function(){
-            return "admin";
-        };
-
-        this.isJudge = function(){
-            return true;
+        this.getUserRoles = function(){
+            if(self.userInfo && self.userInfo.Roles){
+                return self.userInfo.Roles;
+            }
+            return [];
         };
 
         this.getJudgeId = function(){
-            return 1168;
+            if(self.userInfo && self.userInfo.Claims){
+                for (var i = 0; i < self.userInfo.Claims.length; i++) {
+                    var claim =  self.userInfo.Claims[i];
+                    if(claim.Type === "judgeId"){
+                        return parseInt(claim.Value);
+                    }
+                }
+            }
+            return null;
         };
         
         this.handleAction = function(action){

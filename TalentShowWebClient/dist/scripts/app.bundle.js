@@ -43231,14 +43231,18 @@ var RoleAwareComponent = function (_React$Component) {
     }, {
         key: 'shouldBeVisible',
         value: function shouldBeVisible() {
-            var userRole = _currentUserStore2.default.getUserRole();
+            var userRoles = _currentUserStore2.default.getUserRoles();
 
-            for (var i = 0; i < this.authorizedRoles.length; i++) {
-                var authorizedRole = this.authorizedRoles[i];
-                if (authorizedRole.toUpperCase() === userRole.toUpperCase()) {
-                    return true;
+            for (var i = 0; i < userRoles.length; i++) {
+                var userRole = userRoles[i];
+                for (var j = 0; j < this.authorizedRoles.length; j++) {
+                    var authorizedRole = this.authorizedRoles[j];
+                    if (authorizedRole.toUpperCase() === userRole.toUpperCase()) {
+                        return true;
+                    }
                 }
             }
+
             return false;
         }
     }]);
@@ -45953,16 +45957,23 @@ var CurrentUserStore = function (_ChangeEventEmitter) {
             return self.authenticated;
         };
 
-        _this.getUserRole = function () {
-            return "admin";
-        };
-
-        _this.isJudge = function () {
-            return true;
+        _this.getUserRoles = function () {
+            if (self.userInfo && self.userInfo.Roles) {
+                return self.userInfo.Roles;
+            }
+            return [];
         };
 
         _this.getJudgeId = function () {
-            return 1168;
+            if (self.userInfo && self.userInfo.Claims) {
+                for (var i = 0; i < self.userInfo.Claims.length; i++) {
+                    var claim = self.userInfo.Claims[i];
+                    if (claim.Type === "judgeId") {
+                        return parseInt(claim.Value);
+                    }
+                }
+            }
+            return null;
         };
 
         _this.handleAction = function (action) {
