@@ -67,7 +67,11 @@ class ScoreCardsBox extends React.Component {
             );
         });
 
-        var addScoreCardButton = ( <Button type="primary" authorizedRoles={["admin","judge"]} name="addScoreCard" value="Add" onClick={this.handleAddScoreCardClick} /> );
+        var addScoreCardButton = null;
+
+        if(this.props.showAddScoreCardButton){
+            addScoreCardButton = ( <Button type="primary" authorizedRoles={["admin","judge"]} name="addScoreCard" value="Add" onClick={this.handleAddScoreCardClick} /> );
+        }
 
         return ( <ListPanel title="ScoreCards" items={scoreCards} button={addScoreCardButton} /> );
     }

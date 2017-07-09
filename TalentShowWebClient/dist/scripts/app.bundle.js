@@ -49024,6 +49024,18 @@ var _navigation = require('../../../../../routing/navigation');
 
 var Nav = _interopRequireWildcard(_navigation);
 
+var _currentUserStore = require('../../../../../data/stores/currentUserStore');
+
+var _currentUserStore2 = _interopRequireDefault(_currentUserStore);
+
+var _judgeStore = require('../../../../../data/stores/judgeStore');
+
+var _judgeStore2 = _interopRequireDefault(_judgeStore);
+
+var _scoreCardStore = require('../../../../../data/stores/scoreCardStore');
+
+var _scoreCardStore2 = _interopRequireDefault(_scoreCardStore);
+
 var _contestantStore = require('../../../../../data/stores/contestantStore');
 
 var _contestantStore2 = _interopRequireDefault(_contestantStore);
@@ -49039,6 +49051,10 @@ var ScoreCardActions = _interopRequireWildcard(_scoreCardActions);
 var _performerActions = require('../../../../../data/actions/performerActions');
 
 var PerformerActions = _interopRequireWildcard(_performerActions);
+
+var _judgeActions = require('../../../../../data/actions/judgeActions');
+
+var JudgeActions = _interopRequireWildcard(_judgeActions);
 
 var _contestantUtil = require('./contestantUtil');
 
@@ -49088,6 +49104,9 @@ var ContestantPage = function (_TimeoutComponent) {
         _this.getContestantId = _this.getContestantId.bind(_this);
         _this.getContestId = _this.getContestId.bind(_this);
         _this.getShowId = _this.getShowId.bind(_this);
+        _this.isUserAContestJudge = _this.isUserAContestJudge.bind(_this);
+        _this.hasUserAddedScoreCard = _this.hasUserAddedScoreCard.bind(_this);
+        _this.canAddScoreCard = _this.canAddScoreCard.bind(_this);
         _this.handleEditContestantClick = _this.handleEditContestantClick.bind(_this);
         _this.handleRemoveContestantClick = _this.handleRemoveContestantClick.bind(_this);
         _this.getLoadingPageContent = _this.getLoadingPageContent.bind(_this);
@@ -49103,9 +49122,11 @@ var ContestantPage = function (_TimeoutComponent) {
             ContestantActions.loadContestant(this.getContestId(), this.getContestantId());
             ScoreCardActions.loadContestantScoreCards(this.getContestantId());
             PerformerActions.loadContestantPerformers(this.getContestantId());
+            JudgeActions.loadContestJudges(this.getContestId());
             ContestantActions.joinHubGroup(this.getContestId());
             ScoreCardActions.joinHubGroup(this.getContestantId());
             PerformerActions.joinHubGroup(this.getContestantId());
+            JudgeActions.joinHubGroup(this.getContestId());
         }
     }, {
         key: 'componentWillUnmount',
@@ -49115,6 +49136,7 @@ var ContestantPage = function (_TimeoutComponent) {
             ContestantActions.leaveHubGroup(this.getContestId());
             ScoreCardActions.leaveHubGroup(this.getContestantId());
             PerformerActions.leaveHubGroup(this.getContestantId());
+            JudgeActions.leaveHubGroup(this.getContestId());
         }
     }, {
         key: 'storeChanged',
@@ -49164,6 +49186,45 @@ var ContestantPage = function (_TimeoutComponent) {
             return _react2.default.createElement(_pageContent2.default, { title: 'Failed to Load Contestant', description: 'The requested contestant could not be loaded in a timely manner. The contestant may not exist. You will be automatically redirected shortly.' });
         }
     }, {
+        key: 'canAddScoreCard',
+        value: function canAddScoreCard() {
+            return this.isUserAContestJudge() && !this.hasUserAddedScoreCard();
+        }
+    }, {
+        key: 'isUserAContestJudge',
+        value: function isUserAContestJudge() {
+            var contestJudges = _judgeStore2.default.getContestJudges(this.getContestId());
+            var userJudgeId = _currentUserStore2.default.getJudgeId();
+
+            if (contestJudges && userJudgeId) {
+                for (var i = 0; i < contestJudges.length; i++) {
+                    var contestJudge = contestJudges[i];
+                    if (contestJudge.Id == userJudgeId) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+    }, {
+        key: 'hasUserAddedScoreCard',
+        value: function hasUserAddedScoreCard() {
+            var contestScoreCards = _scoreCardStore2.default.getContestantScoreCards(this.getContestantId());
+            var userJudgeId = _currentUserStore2.default.getJudgeId();
+
+            if (contestScoreCards && userJudgeId) {
+                for (var i = 0; i < contestScoreCards.length; i++) {
+                    var contestScoreCard = contestScoreCards[i];
+                    if (contestScoreCard.Judge.Id === userJudgeId) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+    }, {
         key: 'handleEditContestantClick',
         value: function handleEditContestantClick(e) {
             e.preventDefault();
@@ -49203,7 +49264,7 @@ var ContestantPage = function (_TimeoutComponent) {
             return _react2.default.createElement(
                 _pageContent2.default,
                 { title: "Contestant: " + ContestantUtil.getName(contestant), description: ContestantUtil.getDescription(contestant), buttons: contestantPageButtons },
-                _react2.default.createElement(_scoreCards2.default, { showId: this.getShowId(), contestId: this.getContestId(), contestantId: this.getContestantId() }),
+                _react2.default.createElement(_scoreCards2.default, { showId: this.getShowId(), contestId: this.getContestId(), contestantId: this.getContestantId(), showAddScoreCardButton: this.canAddScoreCard() }),
                 _react2.default.createElement(_performers2.default, { showId: this.getShowId(), contestId: this.getContestId(), contestantId: this.getContestantId() })
             );
         }
@@ -49214,7 +49275,7 @@ var ContestantPage = function (_TimeoutComponent) {
 
 exports.default = ContestantPage;
 
-},{"../../../../../common/button":292,"../../../../../common/pageContent":298,"../../../../../common/timeoutComponent":302,"../../../../../data/actions/contestantActions":305,"../../../../../data/actions/performerActions":310,"../../../../../data/actions/scoreCardActions":311,"../../../../../data/stores/contestantStore":331,"../../../../../routing/navigation":391,"./contestantUtil":357,"./performers":363,"./scoreCards":369,"react":290}],356:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/pageContent":298,"../../../../../common/timeoutComponent":302,"../../../../../data/actions/contestantActions":305,"../../../../../data/actions/judgeActions":308,"../../../../../data/actions/performerActions":310,"../../../../../data/actions/scoreCardActions":311,"../../../../../data/stores/contestantStore":331,"../../../../../data/stores/currentUserStore":332,"../../../../../data/stores/judgeStore":334,"../../../../../data/stores/scoreCardStore":337,"../../../../../routing/navigation":391,"./contestantUtil":357,"./performers":363,"./scoreCards":369,"react":290}],356:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51140,7 +51201,11 @@ var ScoreCardsBox = function (_React$Component) {
                     pathname: '/show/' + showId + '/contest/' + contestId + '/contestant/' + contestantId + '/scorecard/' + scoreCard.Id + '/edit' });
             });
 
-            var addScoreCardButton = _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: ["admin", "judge"], name: 'addScoreCard', value: 'Add', onClick: this.handleAddScoreCardClick });
+            var addScoreCardButton = null;
+
+            if (this.props.showAddScoreCardButton) {
+                addScoreCardButton = _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: ["admin", "judge"], name: 'addScoreCard', value: 'Add', onClick: this.handleAddScoreCardClick });
+            }
 
             return _react2.default.createElement(_listPanel.ListPanel, { title: 'ScoreCards', items: scoreCards, button: addScoreCardButton });
         }

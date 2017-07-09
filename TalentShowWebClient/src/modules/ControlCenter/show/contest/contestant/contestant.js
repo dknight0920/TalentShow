@@ -1,10 +1,14 @@
 ﻿'use strict';
 import React from 'react';
 import * as Nav from '../../../../../routing/navigation';
+import CurrentUser from '../../../../../data/stores/currentUserStore';
+import JudgeStore from '../../../../../data/stores/judgeStore';
+import ScoreCardStore from '../../../../../data/stores/scoreCardStore';
 import ContestantStore from '../../../../../data/stores/contestantStore';
 import * as ContestantActions from '../../../../../data/actions/contestantActions';
 import * as ScoreCardActions from '../../../../../data/actions/scoreCardActions';
 import * as PerformerActions from '../../../../../data/actions/performerActions';
+import * as JudgeActions from '../../../../../data/actions/judgeActions';
 import * as ContestantUtil from './contestantUtil';
 import PageContent from '../../../../../common/pageContent';
 import ScoreCardsBox from './scoreCards';
@@ -21,6 +25,9 @@ class ContestantPage extends TimeoutComponent {
         this.getContestantId = this.getContestantId.bind(this);
         this.getContestId = this.getContestId.bind(this);
         this.getShowId = this.getShowId.bind(this);
+        this.isUserAContestJudge = this.isUserAContestJudge.bind(this);
+        this.hasUserAddedScoreCard = this.hasUserAddedScoreCard.bind(this);
+        this.canAddScoreCard = this.canAddScoreCard.bind(this);
         this.handleEditContestantClick = this.handleEditContestantClick.bind(this);
         this.handleRemoveContestantClick = this.handleRemoveContestantClick.bind(this);
         this.getLoadingPageContent = this.getLoadingPageContent.bind(this);
@@ -33,9 +40,11 @@ class ContestantPage extends TimeoutComponent {
         ContestantActions.loadContestant(this.getContestId(), this.getContestantId());
         ScoreCardActions.loadContestantScoreCards(this.getContestantId());
         PerformerActions.loadContestantPerformers(this.getContestantId());
+        JudgeActions.loadContestJudges(this.getContestId());
         ContestantActions.joinHubGroup(this.getContestId());
         ScoreCardActions.joinHubGroup(this.getContestantId());
         PerformerActions.joinHubGroup(this.getContestantId());
+        JudgeActions.joinHubGroup(this.getContestId());
     }
 
     componentWillUnmount(){
@@ -44,6 +53,7 @@ class ContestantPage extends TimeoutComponent {
         ContestantActions.leaveHubGroup(this.getContestId());
         ScoreCardActions.leaveHubGroup(this.getContestantId());
         PerformerActions.leaveHubGroup(this.getContestantId());
+        JudgeActions.leaveHubGroup(this.getContestId());
     }
 
     storeChanged(){
@@ -89,6 +99,42 @@ class ContestantPage extends TimeoutComponent {
         );
     }
 
+    canAddScoreCard(){
+        return this.isUserAContestJudge() && !this.hasUserAddedScoreCard();
+    }
+
+    isUserAContestJudge(){
+        var contestJudges = JudgeStore.getContestJudges(this.getContestId());
+        var userJudgeId = CurrentUser.getJudgeId();
+
+        if(contestJudges && userJudgeId){
+            for (var i = 0; i < contestJudges.length; i++) {
+                var contestJudge = contestJudges[i];
+                if(contestJudge.Id == userJudgeId){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    hasUserAddedScoreCard(){
+        var contestScoreCards = ScoreCardStore.getContestantScoreCards(this.getContestantId());
+        var userJudgeId = CurrentUser.getJudgeId();
+
+        if(contestScoreCards && userJudgeId){
+            for (var i = 0; i < contestScoreCards.length; i++) {
+                var contestScoreCard = contestScoreCards[i];
+                if(contestScoreCard.Judge.Id === userJudgeId){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     handleEditContestantClick(e) {
         e.preventDefault();
         Nav.goToEditContestant(this.getShowId(), this.getContestId(), this.getContestantId());
@@ -122,7 +168,7 @@ class ContestantPage extends TimeoutComponent {
   
         return (
             <PageContent title={"Contestant: " + ContestantUtil.getName(contestant)} description={ContestantUtil.getDescription(contestant)} buttons={contestantPageButtons}>
-                <ScoreCardsBox showId={this.getShowId()} contestId={this.getContestId()} contestantId={this.getContestantId()} />
+                <ScoreCardsBox showId={this.getShowId()} contestId={this.getContestId()} contestantId={this.getContestantId()} showAddScoreCardButton={this.canAddScoreCard()} />
                 <PerformersBox showId={this.getShowId()} contestId={this.getContestId()} contestantId={this.getContestantId()} />
             </PageContent>
         );
