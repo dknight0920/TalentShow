@@ -49264,7 +49264,7 @@ var ContestantPage = function (_TimeoutComponent) {
             return _react2.default.createElement(
                 _pageContent2.default,
                 { title: "Contestant: " + ContestantUtil.getName(contestant), description: ContestantUtil.getDescription(contestant), buttons: contestantPageButtons },
-                _react2.default.createElement(_scoreCards2.default, { showId: this.getShowId(), contestId: this.getContestId(), contestantId: this.getContestantId(), showAddScoreCardButton: this.canAddScoreCard() }),
+                _react2.default.createElement(_scoreCards2.default, { showId: this.getShowId(), contestId: this.getContestId(), contestantId: this.getContestantId(), showAddScoreCardButton: this.canAddScoreCard }),
                 _react2.default.createElement(_performers2.default, { showId: this.getShowId(), contestId: this.getContestId(), contestantId: this.getContestantId() })
             );
         }
@@ -51203,7 +51203,7 @@ var ScoreCardsBox = function (_React$Component) {
 
             var addScoreCardButton = null;
 
-            if (this.props.showAddScoreCardButton) {
+            if (this.props.showAddScoreCardButton()) {
                 addScoreCardButton = _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: ["admin", "judge"], name: 'addScoreCard', value: 'Add', onClick: this.handleAddScoreCardClick });
             }
 
