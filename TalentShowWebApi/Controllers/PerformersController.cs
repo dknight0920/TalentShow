@@ -57,6 +57,17 @@ namespace TalentShowWebApi.Controllers
             return newPerformer.ConvertToDto();
         }
 
+        // POST api/Performers/Contestant/5
+        [HttpPost]
+        [Route("api/Performers/Contestant/{id}")]
+        public PerformerDto GetShowContests(int id, [FromBody]PerformerDto performer)
+        {
+            var contestantId = id;
+            var newPerformer = performer.ConvertFromDto();
+            PerformerService.AddContestantPerformer(contestantId, newPerformer);
+            return newPerformer.ConvertToDto();
+        }
+
         // PUT api/Performers/5
         public PerformerDto Put([FromBody]PerformerDto performer)
         {

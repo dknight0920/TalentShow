@@ -33,7 +33,7 @@ var addPerformer = function(contestantId, newPerformer){
 
     Dispatcher.dispatch({type: "ADD_PERFORMER", contestantPerformer: {contestantId: contestantId, newPerformer: newPerformer, groupName: groupName}});
 
-    PerformerApi.add(newPerformer, 
+    PerformerApi.add(contestantId, newPerformer, 
         function success(performer){
             Dispatcher.dispatch({type: "ADD_PERFORMER_SUCCESS", performer: performer, groupName: groupName, contestantId: contestantId});
         }, 

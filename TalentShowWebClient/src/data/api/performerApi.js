@@ -37,9 +37,9 @@ var get = function (id, success, fail) {
     });
 };
 
-var add = function (performer, success, fail) {
+var add = function (contestantId, performer, success, fail) {
     ApiHttpUtil.post({
-        url:  "api/Performers",
+        url:  "api/Performers/Contestant/" + contestantId,
         success: function(result){
             success(result);          
         },

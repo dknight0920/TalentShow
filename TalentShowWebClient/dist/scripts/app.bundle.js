@@ -44068,7 +44068,7 @@ var addPerformer = function addPerformer(contestantId, newPerformer) {
 
     _dispatcher2.default.dispatch({ type: "ADD_PERFORMER", contestantPerformer: { contestantId: contestantId, newPerformer: newPerformer, groupName: groupName } });
 
-    PerformerApi.add(newPerformer, function success(performer) {
+    PerformerApi.add(contestantId, newPerformer, function success(performer) {
         _dispatcher2.default.dispatch({ type: "ADD_PERFORMER_SUCCESS", performer: performer, groupName: groupName, contestantId: contestantId });
     }, function fail(err) {
         _dispatcher2.default.dispatch({ type: "ADD_PERFORMER_FAIL", error: err, groupName: groupName });
@@ -44951,9 +44951,9 @@ var get = function get(id, _success2, fail) {
     });
 };
 
-var add = function add(performer, _success3, fail) {
+var add = function add(contestantId, performer, _success3, fail) {
     ApiHttpUtil.post({
-        url: "api/Performers",
+        url: "api/Performers/Contestant/" + contestantId,
         success: function success(result) {
             _success3(result);
         },
