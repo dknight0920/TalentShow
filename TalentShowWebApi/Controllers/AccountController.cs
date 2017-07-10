@@ -373,6 +373,12 @@ namespace TalentShowWebApi.Controllers
                 return GetErrorResult(result);
             }
 
+            await AddUserToRole(new UserRoleBindingModel()
+            {
+                UserId = user.Id,
+                RoleName = "Judge" 
+            });
+
             return Ok();
         }
 
