@@ -7,8 +7,6 @@ import Dispatcher from '../dispatcher';
 class CurrentUserStore extends ChangeEventEmitter {
     constructor(){
         super();
-        this.authenticated = false;
-        this.userInfo = null;
         this.isAuthenticatingUser = false;
         this.isProcessingAccountRegistration = false;
 
@@ -23,26 +21,44 @@ class CurrentUserStore extends ChangeEventEmitter {
         };
 
         this.isAuthenticated = function(){
-            return self.authenticated;
+            return self.getAuthenticated();
         };
 
         this.getUserRoles = function(){
-            if(self.userInfo && self.userInfo.Roles){
-                return self.userInfo.Roles;
+            var userInfo = self.getUserInfo();
+            if(userInfo && userInfo.Roles){
+                return userInfo.Roles;
             }
             return [];
         };
 
         this.getJudgeId = function(){
-            if(self.userInfo && self.userInfo.Claims){
-                for (var i = 0; i < self.userInfo.Claims.length; i++) {
-                    var claim =  self.userInfo.Claims[i];
+            var userInfo = self.getUserInfo();
+            if(userInfo && userInfo.Claims){
+                for (var i = 0; i < userInfo.Claims.length; i++) {
+                    var claim =  userInfo.Claims[i];
                     if(claim.Type === "judgeId"){
                         return parseInt(claim.Value);
                     }
                 }
             }
             return null;
+        };
+
+        this.setUserInfo = function(userInfo){
+            sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+        };
+
+        this.getUserInfo = function(){
+            return JSON.parse(sessionStorage.getItem("userInfo"));
+        };
+
+        this.setAuthenticated = function(isAuthenticated){
+            sessionStorage.setItem("isAuthenticated", JSON.stringify(isAuthenticated));
+        };
+
+        this.getAuthenticated = function(){
+            return JSON.parse(sessionStorage.getItem("isAuthenticated")) || false;
         };
         
         this.handleAction = function(action){
@@ -52,14 +68,14 @@ class CurrentUserStore extends ChangeEventEmitter {
                     self.emitChange();
                     break;
                 case "AUTHENTICATE_CURRENT_USER_SUCCESS":
-                    self.userInfo = action.userInfo;
+                    self.setUserInfo(action.userInfo);
                     self.isAuthenticatingUser = false;
-                    self.authenticated = true;
+                    self.setAuthenticated(true);
                     self.emitChange();
                     break;
                 case "AUTHENTICATE_CURRENT_USER_FAIL":
                     self.isAuthenticatingUser = false;
-                    self.authenticated = false;
+                    self.setAuthenticated(false);
                     self.emitChange();
                     break;
                 case "REGISTER_CURRENT_USER":

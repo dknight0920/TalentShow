@@ -45938,8 +45938,6 @@ var CurrentUserStore = function (_ChangeEventEmitter) {
 
         var _this = _possibleConstructorReturn(this, (CurrentUserStore.__proto__ || Object.getPrototypeOf(CurrentUserStore)).call(this));
 
-        _this.authenticated = false;
-        _this.userInfo = null;
         _this.isAuthenticatingUser = false;
         _this.isProcessingAccountRegistration = false;
 
@@ -45954,26 +45952,44 @@ var CurrentUserStore = function (_ChangeEventEmitter) {
         };
 
         _this.isAuthenticated = function () {
-            return self.authenticated;
+            return self.getAuthenticated();
         };
 
         _this.getUserRoles = function () {
-            if (self.userInfo && self.userInfo.Roles) {
-                return self.userInfo.Roles;
+            var userInfo = self.getUserInfo();
+            if (userInfo && userInfo.Roles) {
+                return userInfo.Roles;
             }
             return [];
         };
 
         _this.getJudgeId = function () {
-            if (self.userInfo && self.userInfo.Claims) {
-                for (var i = 0; i < self.userInfo.Claims.length; i++) {
-                    var claim = self.userInfo.Claims[i];
+            var userInfo = self.getUserInfo();
+            if (userInfo && userInfo.Claims) {
+                for (var i = 0; i < userInfo.Claims.length; i++) {
+                    var claim = userInfo.Claims[i];
                     if (claim.Type === "judgeId") {
                         return parseInt(claim.Value);
                     }
                 }
             }
             return null;
+        };
+
+        _this.setUserInfo = function (userInfo) {
+            sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+        };
+
+        _this.getUserInfo = function () {
+            return JSON.parse(sessionStorage.getItem("userInfo"));
+        };
+
+        _this.setAuthenticated = function (isAuthenticated) {
+            sessionStorage.setItem("isAuthenticated", JSON.stringify(isAuthenticated));
+        };
+
+        _this.getAuthenticated = function () {
+            return JSON.parse(sessionStorage.getItem("isAuthenticated")) || false;
         };
 
         _this.handleAction = function (action) {
@@ -45983,14 +45999,14 @@ var CurrentUserStore = function (_ChangeEventEmitter) {
                     self.emitChange();
                     break;
                 case "AUTHENTICATE_CURRENT_USER_SUCCESS":
-                    self.userInfo = action.userInfo;
+                    self.setUserInfo(action.userInfo);
                     self.isAuthenticatingUser = false;
-                    self.authenticated = true;
+                    self.setAuthenticated(true);
                     self.emitChange();
                     break;
                 case "AUTHENTICATE_CURRENT_USER_FAIL":
                     self.isAuthenticatingUser = false;
-                    self.authenticated = false;
+                    self.setAuthenticated(false);
                     self.emitChange();
                     break;
                 case "REGISTER_CURRENT_USER":
