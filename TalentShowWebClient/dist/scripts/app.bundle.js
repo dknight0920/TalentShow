@@ -42613,7 +42613,7 @@ Hubs.hubConnection.start({ transport: ['webSockets'], jsonp: true }).done(functi
     ), document.getElementById('app'));
 });
 
-},{"./common/unauthorizedUserPageContent":303,"./data/signalr/hubs":328,"./modules/ControlCenter/division/addDivision":342,"./modules/ControlCenter/division/editDivision":344,"./modules/ControlCenter/divisions":345,"./modules/ControlCenter/organization/addOrganization":346,"./modules/ControlCenter/organization/editOrganization":347,"./modules/ControlCenter/organizations":349,"./modules/ControlCenter/show/addShow":350,"./modules/ControlCenter/show/contest/addContest":351,"./modules/ControlCenter/show/contest/contest":352,"./modules/ControlCenter/show/contest/contestant/addContestant":354,"./modules/ControlCenter/show/contest/contestant/contestant":355,"./modules/ControlCenter/show/contest/contestant/editContestant":358,"./modules/ControlCenter/show/contest/contestant/performer/addPerformer":359,"./modules/ControlCenter/show/contest/contestant/performer/editPerformer":360,"./modules/ControlCenter/show/contest/contestant/scoreCard/addScoreCard":364,"./modules/ControlCenter/show/contest/contestant/scoreCard/editScoreCard":365,"./modules/ControlCenter/show/contest/editContest":371,"./modules/ControlCenter/show/contest/judge/addJudge":372,"./modules/ControlCenter/show/contest/judge/editJudge":373,"./modules/ControlCenter/show/contest/judge/judge":374,"./modules/ControlCenter/show/contest/scoreCriterion/addScoreCriterion":379,"./modules/ControlCenter/show/contest/scoreCriterion/editScoreCriterion":380,"./modules/ControlCenter/show/contest/scoreCriterion/scoreCriterion":381,"./modules/ControlCenter/show/editShow":384,"./modules/ControlCenter/show/show":385,"./modules/ControlCenter/shows":387,"./modules/about":388,"./modules/login":389,"./modules/register":390,"react":290,"react-dom":26,"react-router":203}],292:[function(require,module,exports){
+},{"./common/unauthorizedUserPageContent":303,"./data/signalr/hubs":329,"./modules/ControlCenter/division/addDivision":344,"./modules/ControlCenter/division/editDivision":346,"./modules/ControlCenter/divisions":347,"./modules/ControlCenter/organization/addOrganization":348,"./modules/ControlCenter/organization/editOrganization":349,"./modules/ControlCenter/organizations":351,"./modules/ControlCenter/show/addShow":352,"./modules/ControlCenter/show/contest/addContest":353,"./modules/ControlCenter/show/contest/contest":354,"./modules/ControlCenter/show/contest/contestant/addContestant":356,"./modules/ControlCenter/show/contest/contestant/contestant":357,"./modules/ControlCenter/show/contest/contestant/editContestant":360,"./modules/ControlCenter/show/contest/contestant/performer/addPerformer":361,"./modules/ControlCenter/show/contest/contestant/performer/editPerformer":362,"./modules/ControlCenter/show/contest/contestant/scoreCard/addScoreCard":366,"./modules/ControlCenter/show/contest/contestant/scoreCard/editScoreCard":367,"./modules/ControlCenter/show/contest/editContest":373,"./modules/ControlCenter/show/contest/judge/addJudge":374,"./modules/ControlCenter/show/contest/judge/editJudge":375,"./modules/ControlCenter/show/contest/judge/judge":376,"./modules/ControlCenter/show/contest/scoreCriterion/addScoreCriterion":381,"./modules/ControlCenter/show/contest/scoreCriterion/editScoreCriterion":382,"./modules/ControlCenter/show/contest/scoreCriterion/scoreCriterion":383,"./modules/ControlCenter/show/editShow":386,"./modules/ControlCenter/show/show":387,"./modules/ControlCenter/shows":389,"./modules/about":390,"./modules/login":391,"./modules/register":392,"react":290,"react-dom":26,"react-router":203}],292:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43252,7 +43252,7 @@ var RoleAwareComponent = function (_React$Component) {
 
 exports.default = RoleAwareComponent;
 
-},{"../data/stores/currentUserStore":332,"../routing/navigation":391,"react":290}],301:[function(require,module,exports){
+},{"../data/stores/currentUserStore":333,"../routing/navigation":393,"react":290}],301:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43536,7 +43536,7 @@ exports.removeContest = removeContest;
 exports.joinHubGroup = joinHubGroup;
 exports.leaveHubGroup = leaveHubGroup;
 
-},{"../api/contestApi":314,"../dispatcher":327,"../signalr/hubs":328,"../signalr/utils/groupNameUtil":329}],305:[function(require,module,exports){
+},{"../api/contestApi":315,"../dispatcher":328,"../signalr/hubs":329,"../signalr/utils/groupNameUtil":330}],305:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43644,7 +43644,7 @@ exports.removeContestant = removeContestant;
 exports.joinHubGroup = joinHubGroup;
 exports.leaveHubGroup = leaveHubGroup;
 
-},{"../api/contestantApi":315,"../dispatcher":327,"../signalr/hubs":328,"../signalr/utils/groupNameUtil":329}],306:[function(require,module,exports){
+},{"../api/contestantApi":316,"../dispatcher":328,"../signalr/hubs":329,"../signalr/utils/groupNameUtil":330}],306:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43691,7 +43691,7 @@ function register(credentials) {
     });
 };
 
-},{"../api/tokenApi":323,"../api/userApi":324,"../dispatcher":327}],307:[function(require,module,exports){
+},{"../api/tokenApi":324,"../api/userApi":325,"../dispatcher":328}],307:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43799,7 +43799,7 @@ exports.removeDivision = removeDivision;
 exports.joinHubGroup = joinHubGroup;
 exports.leaveHubGroup = leaveHubGroup;
 
-},{"../api/divisionApi":316,"../dispatcher":327,"../signalr/hubs":328,"../signalr/utils/groupNameUtil":329}],308:[function(require,module,exports){
+},{"../api/divisionApi":317,"../dispatcher":328,"../signalr/hubs":329,"../signalr/utils/groupNameUtil":330}],308:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43907,7 +43907,7 @@ exports.removeJudge = removeJudge;
 exports.joinHubGroup = joinHubGroup;
 exports.leaveHubGroup = leaveHubGroup;
 
-},{"../api/judgeApi":317,"../dispatcher":327,"../signalr/hubs":328,"../signalr/utils/groupNameUtil":329}],309:[function(require,module,exports){
+},{"../api/judgeApi":318,"../dispatcher":328,"../signalr/hubs":329,"../signalr/utils/groupNameUtil":330}],309:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -44015,7 +44015,7 @@ exports.removeOrganization = removeOrganization;
 exports.joinHubGroup = joinHubGroup;
 exports.leaveHubGroup = leaveHubGroup;
 
-},{"../api/organizationApi":318,"../dispatcher":327,"../signalr/hubs":328,"../signalr/utils/groupNameUtil":329}],310:[function(require,module,exports){
+},{"../api/organizationApi":319,"../dispatcher":328,"../signalr/hubs":329,"../signalr/utils/groupNameUtil":330}],310:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -44123,7 +44123,7 @@ exports.removePerformer = removePerformer;
 exports.joinHubGroup = joinHubGroup;
 exports.leaveHubGroup = leaveHubGroup;
 
-},{"../api/performerApi":319,"../dispatcher":327,"../signalr/hubs":328,"../signalr/utils/groupNameUtil":329}],311:[function(require,module,exports){
+},{"../api/performerApi":320,"../dispatcher":328,"../signalr/hubs":329,"../signalr/utils/groupNameUtil":330}],311:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -44233,7 +44233,7 @@ exports.removeScoreCard = removeScoreCard;
 exports.joinHubGroup = joinHubGroup;
 exports.leaveHubGroup = leaveHubGroup;
 
-},{"../api/scoreCardApi":320,"../dispatcher":327,"../signalr/hubs":328,"../signalr/utils/groupNameUtil":329}],312:[function(require,module,exports){
+},{"../api/scoreCardApi":321,"../dispatcher":328,"../signalr/hubs":329,"../signalr/utils/groupNameUtil":330}],312:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -44341,7 +44341,7 @@ exports.removeScoreCriterion = removeScoreCriterion;
 exports.joinHubGroup = joinHubGroup;
 exports.leaveHubGroup = leaveHubGroup;
 
-},{"../api/scoreCriterionApi":321,"../dispatcher":327,"../signalr/hubs":328,"../signalr/utils/groupNameUtil":329}],313:[function(require,module,exports){
+},{"../api/scoreCriterionApi":322,"../dispatcher":328,"../signalr/hubs":329,"../signalr/utils/groupNameUtil":330}],313:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -44449,7 +44449,115 @@ exports.removeShow = removeShow;
 exports.joinHubGroup = joinHubGroup;
 exports.leaveHubGroup = leaveHubGroup;
 
-},{"../api/showApi":322,"../dispatcher":327,"../signalr/hubs":328,"../signalr/utils/groupNameUtil":329}],314:[function(require,module,exports){
+},{"../api/showApi":323,"../dispatcher":328,"../signalr/hubs":329,"../signalr/utils/groupNameUtil":330}],314:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.leaveHubGroup = exports.joinHubGroup = exports.removeUser = exports.updateUser = exports.addUser = exports.loadUser = exports.loadUsers = undefined;
+
+var _dispatcher = require('../dispatcher');
+
+var _dispatcher2 = _interopRequireDefault(_dispatcher);
+
+var _userApi = require('../api/userApi');
+
+var UserApi = _interopRequireWildcard(_userApi);
+
+var _hubs = require('../signalr/hubs');
+
+var Hubs = _interopRequireWildcard(_hubs);
+
+var _groupNameUtil = require('../signalr/utils/groupNameUtil');
+
+var GroupNameUtil = _interopRequireWildcard(_groupNameUtil);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var loadUsers = function loadUsers() {
+    _dispatcher2.default.dispatch({ type: "LOAD_USERS" });
+
+    UserApi.getUsers(function success(users) {
+        _dispatcher2.default.dispatch({ type: "LOAD_USERS_SUCCESS", users: users });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "LOAD_USERS_FAIL", error: err });
+    });
+};
+
+var loadUser = function loadUser(userId) {
+    _dispatcher2.default.dispatch({ type: "LOAD_USER", userId: userId });
+
+    UserApi.get(userId, function success(user) {
+        _dispatcher2.default.dispatch({ type: "LOAD_USER_SUCCESS", user: user });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "LOAD_USER_FAIL", error: err });
+    });
+};
+
+var addUser = function addUser(newUser) {
+    var groupName = getHubGroupName();
+
+    _dispatcher2.default.dispatch({ type: "ADD_USER", newUser: newUser, groupName: groupName });
+
+    UserApi.add(newUser, function success(user) {
+        _dispatcher2.default.dispatch({ type: "ADD_USER_SUCCESS", user: user, groupName: groupName });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "ADD_USER_FAIL", error: err, groupName: groupName });
+    });
+};
+
+var updateUser = function updateUser(user) {
+    var groupName = getHubGroupName();
+
+    _dispatcher2.default.dispatch({ type: "UPDATE_USER", user: user, groupName: groupName });
+
+    UserApi.update(user, function success(user) {
+        _dispatcher2.default.dispatch({ type: "UPDATE_USER_SUCCESS", user: user, groupName: groupName });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "UPDATE_USER_FAIL", error: err, groupName: groupName });
+    });
+};
+
+var removeUser = function removeUser(userId) {
+    var groupName = getHubGroupName();
+
+    _dispatcher2.default.dispatch({ type: "REMOVE_USER", userId: userId, groupName: groupName });
+
+    UserApi.remove(userId, function success() {
+        _dispatcher2.default.dispatch({ type: "REMOVE_USER_SUCCESS", userId: userId, groupName: groupName });
+    }, function fail(err) {
+        _dispatcher2.default.dispatch({ type: "REMOVE_USER_FAIL", error: err, groupName: groupName });
+    });
+};
+
+var joinHubGroup = function joinHubGroup() {
+    Hubs.controlCenterHubProxy.invoke('JoinGroup', getHubGroupName());
+};
+
+var leaveHubGroup = function leaveHubGroup() {
+    Hubs.controlCenterHubProxy.invoke('LeaveGroup', getHubGroupName());
+};
+
+var getHubGroupName = function getHubGroupName() {
+    return GroupNameUtil.getUsersGroupName();
+};
+
+Hubs.controlCenterHubProxy.on('usersChanged', function () {
+    loadUsers();
+});
+
+exports.loadUsers = loadUsers;
+exports.loadUser = loadUser;
+exports.addUser = addUser;
+exports.updateUser = updateUser;
+exports.removeUser = removeUser;
+exports.joinHubGroup = joinHubGroup;
+exports.leaveHubGroup = leaveHubGroup;
+
+},{"../api/userApi":325,"../dispatcher":328,"../signalr/hubs":329,"../signalr/utils/groupNameUtil":330}],315:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -44542,7 +44650,7 @@ exports.add = add;
 exports.update = update;
 exports.remove = remove;
 
-},{"./utils/httpUtil.js":326}],315:[function(require,module,exports){
+},{"./utils/httpUtil.js":327}],316:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -44635,7 +44743,7 @@ exports.add = add;
 exports.update = update;
 exports.remove = remove;
 
-},{"./utils/httpUtil.js":326}],316:[function(require,module,exports){
+},{"./utils/httpUtil.js":327}],317:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -44728,7 +44836,7 @@ exports.add = add;
 exports.update = update;
 exports.remove = remove;
 
-},{"./utils/httpUtil.js":326}],317:[function(require,module,exports){
+},{"./utils/httpUtil.js":327}],318:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -44821,7 +44929,7 @@ exports.add = add;
 exports.update = update;
 exports.remove = remove;
 
-},{"./utils/httpUtil.js":326}],318:[function(require,module,exports){
+},{"./utils/httpUtil.js":327}],319:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -44901,7 +45009,7 @@ exports.add = add;
 exports.update = update;
 exports.remove = remove;
 
-},{"./utils/httpUtil.js":326}],319:[function(require,module,exports){
+},{"./utils/httpUtil.js":327}],320:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -44994,7 +45102,7 @@ exports.add = add;
 exports.update = update;
 exports.remove = remove;
 
-},{"./utils/httpUtil.js":326}],320:[function(require,module,exports){
+},{"./utils/httpUtil.js":327}],321:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -45087,7 +45195,7 @@ exports.add = add;
 exports.update = update;
 exports.remove = remove;
 
-},{"./utils/httpUtil.js":326}],321:[function(require,module,exports){
+},{"./utils/httpUtil.js":327}],322:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -45180,7 +45288,7 @@ exports.add = add;
 exports.update = update;
 exports.remove = remove;
 
-},{"./utils/httpUtil.js":326}],322:[function(require,module,exports){
+},{"./utils/httpUtil.js":327}],323:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -45273,7 +45381,7 @@ exports.add = add;
 exports.update = update;
 exports.remove = remove;
 
-},{"./utils/httpUtil.js":326}],323:[function(require,module,exports){
+},{"./utils/httpUtil.js":327}],324:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -45314,7 +45422,7 @@ var getToken = function getToken(credentials, _success, fail) {
 
 exports.getToken = getToken;
 
-},{"./utils/accessTokenUtil":325,"./utils/httpUtil.js":326}],324:[function(require,module,exports){
+},{"./utils/accessTokenUtil":326,"./utils/httpUtil.js":327}],325:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -45420,7 +45528,7 @@ exports.addClaim = addClaim;
 exports.removeRole = removeRole;
 exports.removeClaim = removeClaim;
 
-},{"./utils/httpUtil.js":326}],325:[function(require,module,exports){
+},{"./utils/httpUtil.js":327}],326:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -45448,7 +45556,7 @@ exports.getAccessTokenHeader = getAccessTokenHeader;
 exports.setAccessTokenInLocalStorage = setAccessTokenInLocalStorage;
 exports.setSignalrAccessToken = setSignalrAccessToken;
 
-},{}],326:[function(require,module,exports){
+},{}],327:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -45509,7 +45617,7 @@ exports.post = post;
 exports.put = put;
 exports.remove = remove;
 
-},{"./accessTokenUtil":325,"jquery":25}],327:[function(require,module,exports){
+},{"./accessTokenUtil":326,"jquery":25}],328:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -45522,7 +45630,7 @@ var dispatcher = new _flux.Dispatcher();
 
 exports.default = dispatcher;
 
-},{"flux":22}],328:[function(require,module,exports){
+},{"flux":22}],329:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -45535,7 +45643,7 @@ controlCenterHubProxy.on('dummy', function () {});
 exports.hubConnection = hubConnection;
 exports.controlCenterHubProxy = controlCenterHubProxy;
 
-},{}],329:[function(require,module,exports){
+},{}],330:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -45557,6 +45665,10 @@ var getOrganizationsGroupName = function getOrganizationsGroupName() {
     return "organizations";
 };
 
+var getUsersGroupName = function getUsersGroupName() {
+    return "users";
+};
+
 var getContestantGroupName = function getContestantGroupName(contestantId) {
     return "contestants_" + contestantId;
 };
@@ -45565,9 +45677,10 @@ exports.getContolCenterGroupName = getContolCenterGroupName;
 exports.getShowGroupName = getShowGroupName;
 exports.getContestGroupName = getContestGroupName;
 exports.getOrganizationsGroupName = getOrganizationsGroupName;
+exports.getUsersGroupName = getUsersGroupName;
 exports.getContestantGroupName = getContestantGroupName;
 
-},{}],330:[function(require,module,exports){
+},{}],331:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -45732,7 +45845,7 @@ var ContestStore = function (_ChangeEventEmitter) {
 
 exports.default = new ContestStore();
 
-},{"../dispatcher":327,"./utils/broadcastUtil":340,"./utils/changeEventEmitter":341,"clone":6}],331:[function(require,module,exports){
+},{"../dispatcher":328,"./utils/broadcastUtil":342,"./utils/changeEventEmitter":343,"clone":6}],332:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -45897,7 +46010,7 @@ var ContestantStore = function (_ChangeEventEmitter) {
 
 exports.default = new ContestantStore();
 
-},{"../dispatcher":327,"./utils/broadcastUtil":340,"./utils/changeEventEmitter":341,"clone":6}],332:[function(require,module,exports){
+},{"../dispatcher":328,"./utils/broadcastUtil":342,"./utils/changeEventEmitter":343,"clone":6}],333:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -46033,7 +46146,7 @@ var CurrentUserStore = function (_ChangeEventEmitter) {
 
 exports.default = new CurrentUserStore();
 
-},{"../api/tokenApi":323,"../api/userApi":324,"../dispatcher":327,"./utils/changeEventEmitter":341}],333:[function(require,module,exports){
+},{"../api/tokenApi":324,"../api/userApi":325,"../dispatcher":328,"./utils/changeEventEmitter":343}],334:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -46191,7 +46304,7 @@ var DivisionStore = function (_ChangeEventEmitter) {
 
 exports.default = new DivisionStore();
 
-},{"../dispatcher":327,"./utils/broadcastUtil":340,"./utils/changeEventEmitter":341,"clone":6}],334:[function(require,module,exports){
+},{"../dispatcher":328,"./utils/broadcastUtil":342,"./utils/changeEventEmitter":343,"clone":6}],335:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -46356,7 +46469,7 @@ var JudgeStore = function (_ChangeEventEmitter) {
 
 exports.default = new JudgeStore();
 
-},{"../dispatcher":327,"./utils/broadcastUtil":340,"./utils/changeEventEmitter":341,"clone":6}],335:[function(require,module,exports){
+},{"../dispatcher":328,"./utils/broadcastUtil":342,"./utils/changeEventEmitter":343,"clone":6}],336:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -46518,7 +46631,7 @@ var OrganizationStore = function (_ChangeEventEmitter) {
 
 exports.default = new OrganizationStore();
 
-},{"../dispatcher":327,"./utils/broadcastUtil":340,"./utils/changeEventEmitter":341,"clone":6}],336:[function(require,module,exports){
+},{"../dispatcher":328,"./utils/broadcastUtil":342,"./utils/changeEventEmitter":343,"clone":6}],337:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -46683,7 +46796,7 @@ var PerformerStore = function (_ChangeEventEmitter) {
 
 exports.default = new PerformerStore();
 
-},{"../dispatcher":327,"./utils/broadcastUtil":340,"./utils/changeEventEmitter":341,"clone":6}],337:[function(require,module,exports){
+},{"../dispatcher":328,"./utils/broadcastUtil":342,"./utils/changeEventEmitter":343,"clone":6}],338:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -46848,7 +46961,7 @@ var ScoreCardStore = function (_ChangeEventEmitter) {
 
 exports.default = new ScoreCardStore();
 
-},{"../dispatcher":327,"./utils/broadcastUtil":340,"./utils/changeEventEmitter":341,"clone":6}],338:[function(require,module,exports){
+},{"../dispatcher":328,"./utils/broadcastUtil":342,"./utils/changeEventEmitter":343,"clone":6}],339:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47013,7 +47126,7 @@ var ScoreCriterionStore = function (_ChangeEventEmitter) {
 
 exports.default = new ScoreCriterionStore();
 
-},{"../dispatcher":327,"./utils/broadcastUtil":340,"./utils/changeEventEmitter":341,"clone":6}],339:[function(require,module,exports){
+},{"../dispatcher":328,"./utils/broadcastUtil":342,"./utils/changeEventEmitter":343,"clone":6}],340:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47171,7 +47284,167 @@ var ShowStore = function (_ChangeEventEmitter) {
 
 exports.default = new ShowStore();
 
-},{"../dispatcher":327,"./utils/broadcastUtil":340,"./utils/changeEventEmitter":341,"clone":6}],340:[function(require,module,exports){
+},{"../dispatcher":328,"./utils/broadcastUtil":342,"./utils/changeEventEmitter":343,"clone":6}],341:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _clone = require('clone');
+
+var _clone2 = _interopRequireDefault(_clone);
+
+var _changeEventEmitter = require('./utils/changeEventEmitter');
+
+var _changeEventEmitter2 = _interopRequireDefault(_changeEventEmitter);
+
+var _dispatcher = require('../dispatcher');
+
+var _dispatcher2 = _interopRequireDefault(_dispatcher);
+
+var _broadcastUtil = require('./utils/broadcastUtil');
+
+var BroadcastUtil = _interopRequireWildcard(_broadcastUtil);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var UserStore = function (_ChangeEventEmitter) {
+    _inherits(UserStore, _ChangeEventEmitter);
+
+    function UserStore() {
+        _classCallCheck(this, UserStore);
+
+        var _this = _possibleConstructorReturn(this, (UserStore.__proto__ || Object.getPrototypeOf(UserStore)).call(this));
+
+        _this.users = [];
+
+        var self = _this;
+
+        _this.setUsers = function (users) {
+            self.users = users;
+            self.emitChange();
+        };
+
+        _this.pushUsers = function (_users) {
+            for (var i = 0; i < _users.length; i++) {
+                this.pushUser(_users[i]);
+            }
+        };
+
+        _this.pushUser = function (user) {
+            var clonedUsers = (0, _clone2.default)(self.users);
+            var remainingUsers = clonedUsers.filter(function (s) {
+                return s.Id != user.Id;
+            });
+            remainingUsers.push(user);
+            self.setUsers(remainingUsers);
+        };
+
+        _this.removeUser = function (userId) {
+            var clonedUsers = (0, _clone2.default)(self.users);
+            var remainingUsers = clonedUsers.filter(function (s) {
+                return s.Id != userId;
+            });
+            self.setUsers(remainingUsers);
+        };
+
+        _this.getUsers = function () {
+            return self.users.sort(function (a, b) {
+                if (a.Email < b.Email) return -1;
+                if (a.Email > b.Email) return 1;
+                return 0;
+            });
+        };
+
+        _this.get = function (userId) {
+            if (self.users.find) {
+                return (0, _clone2.default)(self.users.find(function (user) {
+                    return user.Id == userId;
+                }));
+            } else {
+                //browser does not support find
+                for (var i = 0; i < self.users.length; i++) {
+                    var user = self.users[i];
+                    if (user.Id == userId) {
+                        return (0, _clone2.default)(user);
+                    }
+                }
+            }
+            return null;
+        };
+
+        _this.handleAction = function (action) {
+            switch (action.type) {
+                case "LOAD_USERS":
+                    //TODO
+                    break;
+                case "LOAD_USERS_SUCCESS":
+                    self.pushUsers(action.users);
+                    break;
+                case "LOAD_USERS_FAIL":
+                    //TODO
+                    break;
+                case "LOAD_USER":
+                    //TODO
+                    break;
+                case "LOAD_USER_SUCCESS":
+                    self.pushUser(action.user);
+                    break;
+                case "LOAD_USER_FAIL":
+                    //TODO
+                    break;
+                case "ADD_USER":
+                    //TODO
+                    break;
+                case "ADD_USER_SUCCESS":
+                    self.pushUser(action.user);
+                    BroadcastUtil.broadcastUserChange(action.groupName);
+                    break;
+                case "ADD_USER_FAIL":
+                    //TODO
+                    break;
+                case "UPDATE_USER":
+                    //TODO
+                    break;
+                case "UPDATE_USER_SUCCESS":
+                    self.pushUser(action.user);
+                    BroadcastUtil.broadcastUserChange(action.groupName);
+                    break;
+                case "UPDATE_USER_FAIL":
+                    //TODO
+                    break;
+                case "REMOVE_USER":
+                    //TODO
+                    break;
+                case "REMOVE_USER_SUCCESS":
+                    self.removeUser(action.userId);
+                    BroadcastUtil.broadcastUserChange(action.groupName);
+                    break;
+                case "REMOVE_USER_FAIL":
+                    //TODO
+                    break;
+            }
+        };
+
+        _dispatcher2.default.register(_this.handleAction.bind(_this));
+        return _this;
+    }
+
+    return UserStore;
+}(_changeEventEmitter2.default);
+
+exports.default = new UserStore();
+
+},{"../dispatcher":328,"./utils/broadcastUtil":342,"./utils/changeEventEmitter":343,"clone":6}],342:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47186,6 +47459,7 @@ exports.broadcastScoreCriterionChange = broadcastScoreCriterionChange;
 exports.broadcastScoreCardChange = broadcastScoreCardChange;
 exports.broadcastPerformerChange = broadcastPerformerChange;
 exports.broadcastOrganizationChange = broadcastOrganizationChange;
+exports.broadcastUserChange = broadcastUserChange;
 
 var _hubs = require('../../signalr/hubs');
 
@@ -47229,7 +47503,11 @@ function broadcastOrganizationChange(groupName) {
     Hubs.controlCenterHubProxy.invoke('OrganizationChanged', groupName);
 };
 
-},{"../../signalr/hubs":328}],341:[function(require,module,exports){
+function broadcastUserChange(groupName) {
+    Hubs.controlCenterHubProxy.invoke('UserChanged', groupName);
+};
+
+},{"../../signalr/hubs":329}],343:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47272,7 +47550,7 @@ var ChangeEventEmitter = function (_EventEmitter) {
 
 exports.default = ChangeEventEmitter;
 
-},{"event-emitter":7}],342:[function(require,module,exports){
+},{"event-emitter":7}],344:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47367,7 +47645,7 @@ var AddDivisionPage = function (_RoleAwareComponent) {
 
 exports.default = AddDivisionPage;
 
-},{"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/divisionActions":307,"../../../routing/navigation":391,"./divisionEditor":343,"react":290}],343:[function(require,module,exports){
+},{"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/divisionActions":307,"../../../routing/navigation":393,"./divisionEditor":345,"react":290}],345:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47496,7 +47774,7 @@ var DivisionEditor = function (_RoleAwareComponent) {
 
 exports.default = DivisionEditor;
 
-},{"../../../common/button":292,"../../../common/formGroup":293,"../../../common/input":294,"../../../common/roleAwareComponent":300,"clone":6,"react":290}],344:[function(require,module,exports){
+},{"../../../common/button":292,"../../../common/formGroup":293,"../../../common/input":294,"../../../common/roleAwareComponent":300,"clone":6,"react":290}],346:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47651,7 +47929,7 @@ var EditDivisionPage = function (_RoleAwareComponent) {
 
 exports.default = EditDivisionPage;
 
-},{"../../../common/button":292,"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/divisionActions":307,"../../../data/stores/divisionStore":333,"../../../routing/navigation":391,"./divisionEditor":343,"react":290}],345:[function(require,module,exports){
+},{"../../../common/button":292,"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/divisionActions":307,"../../../data/stores/divisionStore":334,"../../../routing/navigation":393,"./divisionEditor":345,"react":290}],347:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47785,7 +48063,7 @@ var DivisionsBox = function (_React$Component2) {
 
 exports.default = DivisionsPage;
 
-},{"../../common/button":292,"../../common/listPanel":297,"../../common/pageContent":298,"../../data/actions/divisionActions":307,"../../data/stores/divisionStore":333,"../../routing/navigation":391,"react":290}],346:[function(require,module,exports){
+},{"../../common/button":292,"../../common/listPanel":297,"../../common/pageContent":298,"../../data/actions/divisionActions":307,"../../data/stores/divisionStore":334,"../../routing/navigation":393,"react":290}],348:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -47881,7 +48159,7 @@ var AddOrganizationPage = function (_RoleAwareComponent) {
 
 exports.default = AddOrganizationPage;
 
-},{"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/organizationActions":309,"../../../routing/navigation":391,"./organizationEditor":348,"react":290}],347:[function(require,module,exports){
+},{"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/organizationActions":309,"../../../routing/navigation":393,"./organizationEditor":350,"react":290}],349:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48036,7 +48314,7 @@ var EditOrganizationPage = function (_RoleAwareComponent) {
 
 exports.default = EditOrganizationPage;
 
-},{"../../../common/button":292,"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/organizationActions":309,"../../../data/stores/organizationStore":335,"../../../routing/navigation":391,"./organizationEditor":348,"react":290}],348:[function(require,module,exports){
+},{"../../../common/button":292,"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/organizationActions":309,"../../../data/stores/organizationStore":336,"../../../routing/navigation":393,"./organizationEditor":350,"react":290}],350:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48230,7 +48508,7 @@ var OrganizationEditor = function (_RoleAwareComponent) {
 
 exports.default = OrganizationEditor;
 
-},{"../../../common/button":292,"../../../common/formGroup":293,"../../../common/input":294,"../../../common/roleAwareComponent":300,"../../../common/select":301,"../../../data/stores/organizationStore":335,"clone":6,"react":290}],349:[function(require,module,exports){
+},{"../../../common/button":292,"../../../common/formGroup":293,"../../../common/input":294,"../../../common/roleAwareComponent":300,"../../../common/select":301,"../../../data/stores/organizationStore":336,"clone":6,"react":290}],351:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48364,7 +48642,7 @@ var OrganizationsBox = function (_React$Component2) {
 
 exports.default = OrganizationsPage;
 
-},{"../../common/button":292,"../../common/listPanel":297,"../../common/pageContent":298,"../../data/actions/organizationActions":309,"../../data/stores/organizationStore":335,"../../routing/navigation":391,"react":290}],350:[function(require,module,exports){
+},{"../../common/button":292,"../../common/listPanel":297,"../../common/pageContent":298,"../../data/actions/organizationActions":309,"../../data/stores/organizationStore":336,"../../routing/navigation":393,"react":290}],352:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48459,7 +48737,7 @@ var AddShowPage = function (_RoleAwareComponent) {
 
 exports.default = AddShowPage;
 
-},{"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/showActions":313,"../../../routing/navigation":391,"./showEditor":386,"react":290}],351:[function(require,module,exports){
+},{"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/showActions":313,"../../../routing/navigation":393,"./showEditor":388,"react":290}],353:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48560,7 +48838,7 @@ var AddContestPage = function (_RoleAwareComponent) {
 
 exports.default = AddContestPage;
 
-},{"../../../../common/pageContent":298,"../../../../common/roleAwareComponent":300,"../../../../data/actions/contestActions":304,"../../../../routing/navigation":391,"./contestEditor":353,"react":290}],352:[function(require,module,exports){
+},{"../../../../common/pageContent":298,"../../../../common/roleAwareComponent":300,"../../../../data/actions/contestActions":304,"../../../../routing/navigation":393,"./contestEditor":355,"react":290}],354:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48769,7 +49047,7 @@ var ContestPage = function (_TimeoutComponent) {
 
 exports.default = ContestPage;
 
-},{"../../../../common/button":292,"../../../../common/pageContent":298,"../../../../common/timeoutComponent":302,"../../../../data/actions/contestActions":304,"../../../../data/actions/contestantActions":305,"../../../../data/actions/judgeActions":308,"../../../../data/actions/scoreCriterionActions":312,"../../../../data/stores/contestStore":330,"../../../../routing/navigation":391,"./contestants":370,"./judges":377,"./scoreCriteria":378,"react":290}],353:[function(require,module,exports){
+},{"../../../../common/button":292,"../../../../common/pageContent":298,"../../../../common/timeoutComponent":302,"../../../../data/actions/contestActions":304,"../../../../data/actions/contestantActions":305,"../../../../data/actions/judgeActions":308,"../../../../data/actions/scoreCriterionActions":312,"../../../../data/stores/contestStore":331,"../../../../routing/navigation":393,"./contestants":372,"./judges":379,"./scoreCriteria":380,"react":290}],355:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -48913,7 +49191,7 @@ var ContestEditor = function (_RoleAwareComponent) {
 
 exports.default = ContestEditor;
 
-},{"../../../../common/button":292,"../../../../common/formGroup":293,"../../../../common/input":294,"../../../../common/roleAwareComponent":300,"clone":6,"react":290}],354:[function(require,module,exports){
+},{"../../../../common/button":292,"../../../../common/formGroup":293,"../../../../common/input":294,"../../../../common/roleAwareComponent":300,"clone":6,"react":290}],356:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49023,7 +49301,7 @@ var AddContestantPage = function (_RoleAwareComponent) {
 
 exports.default = AddContestantPage;
 
-},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/contestantActions":305,"../../../../../routing/navigation":391,"./contestantEditor":356,"react":290}],355:[function(require,module,exports){
+},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/contestantActions":305,"../../../../../routing/navigation":393,"./contestantEditor":358,"react":290}],357:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49291,7 +49569,7 @@ var ContestantPage = function (_TimeoutComponent) {
 
 exports.default = ContestantPage;
 
-},{"../../../../../common/button":292,"../../../../../common/pageContent":298,"../../../../../common/timeoutComponent":302,"../../../../../data/actions/contestantActions":305,"../../../../../data/actions/judgeActions":308,"../../../../../data/actions/performerActions":310,"../../../../../data/actions/scoreCardActions":311,"../../../../../data/stores/contestantStore":331,"../../../../../data/stores/currentUserStore":332,"../../../../../data/stores/judgeStore":334,"../../../../../data/stores/scoreCardStore":337,"../../../../../routing/navigation":391,"./contestantUtil":357,"./performers":363,"./scoreCards":369,"react":290}],356:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/pageContent":298,"../../../../../common/timeoutComponent":302,"../../../../../data/actions/contestantActions":305,"../../../../../data/actions/judgeActions":308,"../../../../../data/actions/performerActions":310,"../../../../../data/actions/scoreCardActions":311,"../../../../../data/stores/contestantStore":332,"../../../../../data/stores/currentUserStore":333,"../../../../../data/stores/judgeStore":335,"../../../../../data/stores/scoreCardStore":338,"../../../../../routing/navigation":393,"./contestantUtil":359,"./performers":365,"./scoreCards":371,"react":290}],358:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49449,7 +49727,7 @@ var ContestantEditor = function (_RoleAwareComponent) {
 
 exports.default = ContestantEditor;
 
-},{"../../../../../common/button":292,"../../../../../common/formGroup":293,"../../../../../common/input":294,"../../../../../common/roleAwareComponent":300,"clone":6,"react":290}],357:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/formGroup":293,"../../../../../common/input":294,"../../../../../common/roleAwareComponent":300,"clone":6,"react":290}],359:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49476,7 +49754,7 @@ var getDescription = function getDescription(contestant) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],358:[function(require,module,exports){
+},{}],360:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49627,7 +49905,7 @@ var EditContestantPage = function (_RoleAwareComponent) {
 
 exports.default = EditContestantPage;
 
-},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/contestantActions":305,"../../../../../data/stores/contestantStore":331,"../../../../../routing/navigation":391,"./contestantEditor":356,"react":290}],359:[function(require,module,exports){
+},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/contestantActions":305,"../../../../../data/stores/contestantStore":332,"../../../../../routing/navigation":393,"./contestantEditor":358,"react":290}],361:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49758,7 +50036,7 @@ var AddPerformerPage = function (_RoleAwareComponent) {
 
 exports.default = AddPerformerPage;
 
-},{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/divisionActions":307,"../../../../../../data/actions/organizationActions":309,"../../../../../../data/actions/performerActions":310,"../../../../../../routing/navigation":391,"./performerEditor":361,"react":290}],360:[function(require,module,exports){
+},{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/divisionActions":307,"../../../../../../data/actions/organizationActions":309,"../../../../../../data/actions/performerActions":310,"../../../../../../routing/navigation":393,"./performerEditor":363,"react":290}],362:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49947,7 +50225,7 @@ var EditPerformerPage = function (_RoleAwareComponent) {
 
 exports.default = EditPerformerPage;
 
-},{"../../../../../../common/button":292,"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/divisionActions":307,"../../../../../../data/actions/organizationActions":309,"../../../../../../data/actions/performerActions":310,"../../../../../../data/stores/performerStore":336,"../../../../../../routing/navigation":391,"./performerEditor":361,"react":290}],361:[function(require,module,exports){
+},{"../../../../../../common/button":292,"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/divisionActions":307,"../../../../../../data/actions/organizationActions":309,"../../../../../../data/actions/performerActions":310,"../../../../../../data/stores/performerStore":337,"../../../../../../routing/navigation":393,"./performerEditor":363,"react":290}],363:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -50212,7 +50490,7 @@ var PerformerEditor = function (_RoleAwareComponent) {
 
 exports.default = PerformerEditor;
 
-},{"../../../../../../common/button":292,"../../../../../../common/formGroup":293,"../../../../../../common/input":294,"../../../../../../common/roleAwareComponent":300,"../../../../../../common/select":301,"../../../../../../data/stores/divisionStore":333,"../../../../../../data/stores/organizationStore":335,"clone":6,"react":290}],362:[function(require,module,exports){
+},{"../../../../../../common/button":292,"../../../../../../common/formGroup":293,"../../../../../../common/input":294,"../../../../../../common/roleAwareComponent":300,"../../../../../../common/select":301,"../../../../../../data/stores/divisionStore":334,"../../../../../../data/stores/organizationStore":336,"clone":6,"react":290}],364:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -50230,7 +50508,7 @@ var getDescription = function getDescription(performer) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],363:[function(require,module,exports){
+},{}],365:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -50356,7 +50634,7 @@ var PerformersBox = function (_React$Component) {
 
 exports.default = PerformersBox;
 
-},{"../../../../../common/button":292,"../../../../../common/listPanel":297,"../../../../../data/stores/performerStore":336,"../../../../../routing/navigation":391,"./performer/performerUtil":362,"react":290}],364:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/listPanel":297,"../../../../../data/stores/performerStore":337,"../../../../../routing/navigation":393,"./performer/performerUtil":364,"react":290}],366:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -50599,7 +50877,7 @@ var AddScoreCardPage = function (_RoleAwareComponent) {
 
 exports.default = AddScoreCardPage;
 
-},{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/contestantActions":305,"../../../../../../data/actions/judgeActions":308,"../../../../../../data/actions/scoreCardActions":311,"../../../../../../data/actions/scoreCriterionActions":312,"../../../../../../data/stores/contestantStore":331,"../../../../../../data/stores/currentUserStore":332,"../../../../../../data/stores/judgeStore":334,"../../../../../../data/stores/scoreCriterionStore":338,"../../../../../../routing/navigation":391,"./scoreCardEditor":367,"react":290}],365:[function(require,module,exports){
+},{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/contestantActions":305,"../../../../../../data/actions/judgeActions":308,"../../../../../../data/actions/scoreCardActions":311,"../../../../../../data/actions/scoreCriterionActions":312,"../../../../../../data/stores/contestantStore":332,"../../../../../../data/stores/currentUserStore":333,"../../../../../../data/stores/judgeStore":335,"../../../../../../data/stores/scoreCriterionStore":339,"../../../../../../routing/navigation":393,"./scoreCardEditor":369,"react":290}],367:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -50773,7 +51051,7 @@ var EditScoreCardPage = function (_RoleAwareComponent) {
 
 exports.default = EditScoreCardPage;
 
-},{"../../../../../../common/button":292,"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/scoreCardActions":311,"../../../../../../data/stores/scoreCardStore":337,"../../../../../../routing/navigation":391,"./scoreCardEditor":367,"react":290}],366:[function(require,module,exports){
+},{"../../../../../../common/button":292,"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/scoreCardActions":311,"../../../../../../data/stores/scoreCardStore":338,"../../../../../../routing/navigation":393,"./scoreCardEditor":369,"react":290}],368:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -50933,7 +51211,7 @@ var ScorableCriterion = function (_React$Component2) {
 
 exports.default = ScorableCriteria;
 
-},{"../../../../../../common/input":294,"../../../../../../common/panel":299,"../../../../../../data/stores/scoreCardStore":337,"clone":6,"react":290}],367:[function(require,module,exports){
+},{"../../../../../../common/input":294,"../../../../../../common/panel":299,"../../../../../../data/stores/scoreCardStore":338,"clone":6,"react":290}],369:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51062,7 +51340,7 @@ var ScoreCardEditor = function (_RoleAwareComponent) {
 
 exports.default = ScoreCardEditor;
 
-},{"../../../../../../common/button":292,"../../../../../../common/formGroup":293,"../../../../../../common/input":294,"../../../../../../common/roleAwareComponent":300,"./scorableCriteria":366,"clone":6,"react":290}],368:[function(require,module,exports){
+},{"../../../../../../common/button":292,"../../../../../../common/formGroup":293,"../../../../../../common/input":294,"../../../../../../common/roleAwareComponent":300,"./scorableCriteria":368,"clone":6,"react":290}],370:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51138,7 +51416,7 @@ var getDescription = function getDescription(scoreCard) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{"react":290}],369:[function(require,module,exports){
+},{"react":290}],371:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51268,7 +51546,7 @@ var ScoreCardsBox = function (_React$Component) {
 
 exports.default = ScoreCardsBox;
 
-},{"../../../../../common/button":292,"../../../../../common/listPanel":297,"../../../../../data/stores/scoreCardStore":337,"../../../../../routing/navigation":391,"./scoreCard/scoreCardUtil":368,"react":290}],370:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/listPanel":297,"../../../../../data/stores/scoreCardStore":338,"../../../../../routing/navigation":393,"./scoreCard/scoreCardUtil":370,"react":290}],372:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51387,7 +51665,7 @@ var ContestantsBox = function (_React$Component) {
 
 exports.default = ContestantsBox;
 
-},{"../../../../common/button":292,"../../../../common/listPanel":297,"../../../../data/stores/contestantStore":331,"../../../../routing/navigation":391,"./contestant/contestantUtil":357,"react":290}],371:[function(require,module,exports){
+},{"../../../../common/button":292,"../../../../common/listPanel":297,"../../../../data/stores/contestantStore":332,"../../../../routing/navigation":393,"./contestant/contestantUtil":359,"react":290}],373:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51530,7 +51808,7 @@ var EditContestPage = function (_RoleAwareComponent) {
 
 exports.default = EditContestPage;
 
-},{"../../../../common/pageContent":298,"../../../../common/roleAwareComponent":300,"../../../../data/actions/contestActions":304,"../../../../data/stores/contestStore":330,"../../../../routing/navigation":391,"./contestEditor":353,"react":290}],372:[function(require,module,exports){
+},{"../../../../common/pageContent":298,"../../../../common/roleAwareComponent":300,"../../../../data/actions/contestActions":304,"../../../../data/stores/contestStore":331,"../../../../routing/navigation":393,"./contestEditor":355,"react":290}],374:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51558,6 +51836,10 @@ var JudgeActions = _interopRequireWildcard(_judgeActions);
 var _organizationActions = require('../../../../../data/actions/organizationActions');
 
 var OrganizationActions = _interopRequireWildcard(_organizationActions);
+
+var _userActions = require('../../../../../data/actions/userActions');
+
+var UserActions = _interopRequireWildcard(_userActions);
 
 var _pageContent = require('../../../../../common/pageContent');
 
@@ -51599,12 +51881,15 @@ var AddJudgePage = function (_RoleAwareComponent) {
         value: function componentWillMount() {
             this.redirectUnauthorizedUser();
             OrganizationActions.loadOrganizations();
+            UserActions.loadUsers();
             OrganizationActions.joinHubGroup();
+            UserActions.joinHubGroup();
         }
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
             OrganizationActions.leaveHubGroup();
+            UserActions.leaveHubGroup();
         }
     }, {
         key: 'handleClickSave',
@@ -51648,7 +51933,7 @@ var AddJudgePage = function (_RoleAwareComponent) {
 
 exports.default = AddJudgePage;
 
-},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/judgeActions":308,"../../../../../data/actions/organizationActions":309,"../../../../../routing/navigation":391,"./judgeEditor":375,"react":290}],373:[function(require,module,exports){
+},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/judgeActions":308,"../../../../../data/actions/organizationActions":309,"../../../../../data/actions/userActions":314,"../../../../../routing/navigation":393,"./judgeEditor":377,"react":290}],375:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51680,6 +51965,10 @@ var JudgeActions = _interopRequireWildcard(_judgeActions);
 var _organizationActions = require('../../../../../data/actions/organizationActions');
 
 var OrganizationActions = _interopRequireWildcard(_organizationActions);
+
+var _userActions = require('../../../../../data/actions/userActions');
+
+var UserActions = _interopRequireWildcard(_userActions);
 
 var _pageContent = require('../../../../../common/pageContent');
 
@@ -51729,7 +52018,9 @@ var EditJudgePage = function (_RoleAwareComponent) {
             JudgeActions.loadJudge(this.getContestId(), this.getJudgeId());
             JudgeActions.joinHubGroup(this.getContestId());
             OrganizationActions.loadOrganizations();
+            UserActions.loadUsers();
             OrganizationActions.joinHubGroup();
+            UserActions.joinHubGroup();
         }
     }, {
         key: 'componentWillUnmount',
@@ -51737,6 +52028,7 @@ var EditJudgePage = function (_RoleAwareComponent) {
             _judgeStore2.default.off("change", this.storeChanged);
             JudgeActions.leaveHubGroup(this.getContestId());
             OrganizationActions.leaveHubGroup();
+            UserActions.leaveHubGroup();
         }
     }, {
         key: 'storeChanged',
@@ -51806,7 +52098,7 @@ var EditJudgePage = function (_RoleAwareComponent) {
 
 exports.default = EditJudgePage;
 
-},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/judgeActions":308,"../../../../../data/actions/organizationActions":309,"../../../../../data/stores/judgeStore":334,"../../../../../routing/navigation":391,"./judgeEditor":375,"react":290}],374:[function(require,module,exports){
+},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/judgeActions":308,"../../../../../data/actions/organizationActions":309,"../../../../../data/actions/userActions":314,"../../../../../data/stores/judgeStore":335,"../../../../../routing/navigation":393,"./judgeEditor":377,"react":290}],376:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51982,7 +52274,7 @@ var JudgePage = function (_TimeoutComponent) {
 
 exports.default = JudgePage;
 
-},{"../../../../../common/button":292,"../../../../../common/pageContent":298,"../../../../../common/timeoutComponent":302,"../../../../../data/actions/judgeActions":308,"../../../../../data/stores/judgeStore":334,"../../../../../routing/navigation":391,"react":290}],375:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/pageContent":298,"../../../../../common/timeoutComponent":302,"../../../../../data/actions/judgeActions":308,"../../../../../data/stores/judgeStore":335,"../../../../../routing/navigation":393,"react":290}],377:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -52002,6 +52294,10 @@ var _clone2 = _interopRequireDefault(_clone);
 var _organizationStore = require('../../../../../data/stores/organizationStore');
 
 var _organizationStore2 = _interopRequireDefault(_organizationStore);
+
+var _userStore = require('../../../../../data/stores/userStore');
+
+var _userStore2 = _interopRequireDefault(_userStore);
 
 var _formGroup = require('../../../../../common/formGroup');
 
@@ -52039,14 +52335,17 @@ var JudgeEditor = function (_RoleAwareComponent) {
 
         var _this = _possibleConstructorReturn(this, (JudgeEditor.__proto__ || Object.getPrototypeOf(JudgeEditor)).call(this, props));
 
+        _this.handleUserChange = _this.handleUserChange.bind(_this);
         _this.handleFirstNameChange = _this.handleFirstNameChange.bind(_this);
         _this.handleLastNameChange = _this.handleLastNameChange.bind(_this);
         _this.handleAffiliationChange = _this.handleAffiliationChange.bind(_this);
         _this.handleClickSave = _this.handleClickSave.bind(_this);
         _this.handleClickCancel = _this.handleClickCancel.bind(_this);
+        _this.getUserEmail = _this.getUserEmail.bind(_this);
         _this.getAffiliationName = _this.getAffiliationName.bind(_this);
         _this.getState = _this.getState.bind(_this);
         _this.storeChanged = _this.storeChanged.bind(_this);
+        _this.getUserOptions = _this.getUserOptions.bind(_this);
         _this.getOrganizationOptions = _this.getOrganizationOptions.bind(_this);
         _this.state = _this.getState();
         _this.authorizedRoles = [];
@@ -52057,6 +52356,7 @@ var JudgeEditor = function (_RoleAwareComponent) {
         key: 'componentWillMount',
         value: function componentWillMount() {
             _organizationStore2.default.on("change", this.storeChanged);
+            _userStore2.default.on("change", this.storeChanged);
             if (this.props.authorizedRoles && this.props.authorizedRoles.length) {
                 this.authorizedRoles = this.props.authorizedRoles;
             }
@@ -52066,11 +52366,21 @@ var JudgeEditor = function (_RoleAwareComponent) {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
             _organizationStore2.default.off("change", this.storeChanged);
+            _userStore2.default.off("change", this.storeChanged);
         }
     }, {
         key: 'storeChanged',
         value: function storeChanged() {
             this.setState(this.getState());
+        }
+    }, {
+        key: 'handleUserChange',
+        value: function handleUserChange(selectedOption) {
+            if (selectedOption && selectedOption.user) {
+                var judge = this.state.judge;
+                judge.UserId = selectedOption.user.Id;
+                this.setState(judge);
+            }
         }
     }, {
         key: 'handleFirstNameChange',
@@ -52089,9 +52399,11 @@ var JudgeEditor = function (_RoleAwareComponent) {
     }, {
         key: 'handleAffiliationChange',
         value: function handleAffiliationChange(selectedOption) {
-            var judge = this.state.judge;
-            judge.Affiliation = selectedOption.organization;
-            this.setState(judge);
+            if (selectedOption && selectedOption.organization) {
+                var judge = this.state.judge;
+                judge.Affiliation = selectedOption.organization;
+                this.setState(judge);
+            }
         }
     }, {
         key: 'handleClickSave',
@@ -52111,7 +52423,8 @@ var JudgeEditor = function (_RoleAwareComponent) {
             if (this.props.judge) {
                 return {
                     judge: (0, _clone2.default)(this.props.judge),
-                    organizations: _organizationStore2.default.getOrganizations()
+                    organizations: _organizationStore2.default.getOrganizations(),
+                    users: _userStore2.default.getUsers()
                 };
             } else {
                 return {
@@ -52122,16 +52435,50 @@ var JudgeEditor = function (_RoleAwareComponent) {
                             FirstName: "",
                             LastName: ""
                         },
-                        Affiliation: null
+                        Affiliation: null,
+                        UserId: null
                         //Affiliation: {
                         //    Id: 0,
                         //    Name: "",
                         //    Affiliation: null
                         //}
                     },
-                    organizations: _organizationStore2.default.getOrganizations()
+                    organizations: _organizationStore2.default.getOrganizations(),
+                    users: _userStore2.default.getUsers()
                 };
             }
+        }
+    }, {
+        key: 'getUserOptions',
+        value: function getUserOptions() {
+            var users = this.state.users;
+            var options = [];
+
+            for (var i = 0; i < users.length; i++) {
+                var user = users[i];
+                options.push({
+                    value: user.Email,
+                    label: user.Email,
+                    user: user
+                });
+            }
+
+            return options;
+        }
+    }, {
+        key: 'getUserEmail',
+        value: function getUserEmail() {
+            var judge = this.state.judge;
+            if (judge && judge.UserId) {
+                var users = this.state.users;
+                for (var i = 0; i < users.length; i++) {
+                    var user = users[i];
+                    if (user.Id == judge.UserId) {
+                        return user.Email;
+                    }
+                }
+            }
+            return "";
         }
     }, {
         key: 'getOrganizationOptions',
@@ -52167,6 +52514,12 @@ var JudgeEditor = function (_RoleAwareComponent) {
             return _react2.default.createElement(
                 'div',
                 null,
+                _react2.default.createElement(_select2.default, {
+                    name: 'user',
+                    label: 'User',
+                    value: this.getUserEmail(),
+                    options: this.getUserOptions(),
+                    onChange: this.handleUserChange }),
                 _react2.default.createElement(_input2.default, {
                     name: 'firstName',
                     type: 'text',
@@ -52201,7 +52554,7 @@ var JudgeEditor = function (_RoleAwareComponent) {
 
 exports.default = JudgeEditor;
 
-},{"../../../../../common/button":292,"../../../../../common/formGroup":293,"../../../../../common/input":294,"../../../../../common/roleAwareComponent":300,"../../../../../common/select":301,"../../../../../data/stores/organizationStore":335,"clone":6,"react":290}],376:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/formGroup":293,"../../../../../common/input":294,"../../../../../common/roleAwareComponent":300,"../../../../../common/select":301,"../../../../../data/stores/organizationStore":336,"../../../../../data/stores/userStore":341,"clone":6,"react":290}],378:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -52218,7 +52571,7 @@ var getDescription = function getDescription(judge) {
 exports.getName = getName;
 exports.getDescription = getDescription;
 
-},{}],377:[function(require,module,exports){
+},{}],379:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -52337,7 +52690,7 @@ var JudgesBox = function (_React$Component) {
 
 exports.default = JudgesBox;
 
-},{"../../../../common/button":292,"../../../../common/listPanel":297,"../../../../data/stores/judgeStore":334,"../../../../routing/navigation":391,"./judge/judgeUtil":376,"react":290}],378:[function(require,module,exports){
+},{"../../../../common/button":292,"../../../../common/listPanel":297,"../../../../data/stores/judgeStore":335,"../../../../routing/navigation":393,"./judge/judgeUtil":378,"react":290}],380:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -52452,7 +52805,7 @@ var ScoreCriteriaBox = function (_React$Component) {
 
 exports.default = ScoreCriteriaBox;
 
-},{"../../../../common/button":292,"../../../../common/listPanel":297,"../../../../data/stores/scoreCriterionStore":338,"../../../../routing/navigation":391,"react":290}],379:[function(require,module,exports){
+},{"../../../../common/button":292,"../../../../common/listPanel":297,"../../../../data/stores/scoreCriterionStore":339,"../../../../routing/navigation":393,"react":290}],381:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -52562,7 +52915,7 @@ var AddScoreCriterionPage = function (_RoleAwareComponent) {
 
 exports.default = AddScoreCriterionPage;
 
-},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/scoreCriterionActions":312,"../../../../../routing/navigation":391,"./scoreCriterionEditor":382,"react":290}],380:[function(require,module,exports){
+},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/scoreCriterionActions":312,"../../../../../routing/navigation":393,"./scoreCriterionEditor":384,"react":290}],382:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -52713,7 +53066,7 @@ var EditScoreCriterionPage = function (_RoleAwareComponent) {
 
 exports.default = EditScoreCriterionPage;
 
-},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/scoreCriterionActions":312,"../../../../../data/stores/scoreCriterionStore":338,"../../../../../routing/navigation":391,"./scoreCriterionEditor":382,"react":290}],381:[function(require,module,exports){
+},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/scoreCriterionActions":312,"../../../../../data/stores/scoreCriterionStore":339,"../../../../../routing/navigation":393,"./scoreCriterionEditor":384,"react":290}],383:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -52889,7 +53242,7 @@ var ScoreCriterionPage = function (_TimeoutComponent) {
 
 exports.default = ScoreCriterionPage;
 
-},{"../../../../../common/button":292,"../../../../../common/pageContent":298,"../../../../../common/timeoutComponent":302,"../../../../../data/actions/scoreCriterionActions":312,"../../../../../data/stores/scoreCriterionStore":338,"../../../../../routing/navigation":391,"react":290}],382:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/pageContent":298,"../../../../../common/timeoutComponent":302,"../../../../../data/actions/scoreCriterionActions":312,"../../../../../data/stores/scoreCriterionStore":339,"../../../../../routing/navigation":393,"react":290}],384:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53055,7 +53408,7 @@ var ScoreCriterionEditor = function (_RoleAwareComponent) {
 
 exports.default = ScoreCriterionEditor;
 
-},{"../../../../../common/button":292,"../../../../../common/formGroup":293,"../../../../../common/input":294,"../../../../../common/roleAwareComponent":300,"clone":6,"react":290}],383:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/formGroup":293,"../../../../../common/input":294,"../../../../../common/roleAwareComponent":300,"clone":6,"react":290}],385:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53162,7 +53515,7 @@ var ContestsBox = function (_React$Component) {
 
 exports.default = ContestsBox;
 
-},{"../../../common/button":292,"../../../common/listPanel":297,"../../../data/stores/contestStore":330,"../../../routing/navigation":391,"react":290}],384:[function(require,module,exports){
+},{"../../../common/button":292,"../../../common/listPanel":297,"../../../data/stores/contestStore":331,"../../../routing/navigation":393,"react":290}],386:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53299,7 +53652,7 @@ var EditShowPage = function (_RoleAwareComponent) {
 
 exports.default = EditShowPage;
 
-},{"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/showActions":313,"../../../data/stores/showStore":339,"../../../routing/navigation":391,"./showEditor":386,"react":290}],385:[function(require,module,exports){
+},{"../../../common/pageContent":298,"../../../common/roleAwareComponent":300,"../../../data/actions/showActions":313,"../../../data/stores/showStore":340,"../../../routing/navigation":393,"./showEditor":388,"react":290}],387:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53482,7 +53835,7 @@ var ShowPage = function (_TimeoutComponent) {
 
 exports.default = ShowPage;
 
-},{"../../../common/button":292,"../../../common/pageContent":298,"../../../common/timeoutComponent":302,"../../../data/actions/contestActions":304,"../../../data/actions/showActions":313,"../../../data/stores/showStore":339,"../../../routing/navigation":391,"./contests":383,"react":290}],386:[function(require,module,exports){
+},{"../../../common/button":292,"../../../common/pageContent":298,"../../../common/timeoutComponent":302,"../../../data/actions/contestActions":304,"../../../data/actions/showActions":313,"../../../data/stores/showStore":340,"../../../routing/navigation":393,"./contests":385,"react":290}],388:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53626,7 +53979,7 @@ var ShowEditor = function (_RoleAwareComponent) {
 
 exports.default = ShowEditor;
 
-},{"../../../common/button":292,"../../../common/formGroup":293,"../../../common/input":294,"../../../common/roleAwareComponent":300,"clone":6,"react":290}],387:[function(require,module,exports){
+},{"../../../common/button":292,"../../../common/formGroup":293,"../../../common/input":294,"../../../common/roleAwareComponent":300,"clone":6,"react":290}],389:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53765,7 +54118,7 @@ var ShowsBox = function (_React$Component2) {
 
 exports.default = ShowsPage;
 
-},{"../../common/button":292,"../../common/listPanel":297,"../../common/pageContent":298,"../../data/actions/showActions":313,"../../data/stores/showStore":339,"../../routing/navigation":391,"react":290}],388:[function(require,module,exports){
+},{"../../common/button":292,"../../common/listPanel":297,"../../common/pageContent":298,"../../data/actions/showActions":313,"../../data/stores/showStore":340,"../../routing/navigation":393,"react":290}],390:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53789,7 +54142,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"react":290}],389:[function(require,module,exports){
+},{"react":290}],391:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54042,7 +54395,7 @@ var LoginForm = _react2.default.createClass({
 
 exports.default = LoginBox;
 
-},{"../common/formGroup":293,"../common/input":294,"../data/actions/currentUserActions":306,"../data/stores/currentUserStore":332,"../routing/navigation":391,"jquery":25,"react":290,"react-router":203}],390:[function(require,module,exports){
+},{"../common/formGroup":293,"../common/input":294,"../data/actions/currentUserActions":306,"../data/stores/currentUserStore":333,"../routing/navigation":393,"jquery":25,"react":290,"react-router":203}],392:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54200,7 +54553,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"../common/formGroup":293,"../common/input":294,"../data/actions/currentUserActions":306,"../routing/navigation":391,"jquery":25,"react":290}],391:[function(require,module,exports){
+},{"../common/formGroup":293,"../common/input":294,"../data/actions/currentUserActions":306,"../routing/navigation":393,"jquery":25,"react":290}],393:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

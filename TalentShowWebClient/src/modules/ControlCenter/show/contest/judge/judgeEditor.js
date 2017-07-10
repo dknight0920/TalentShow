@@ -2,6 +2,7 @@
 import React from 'react';
 import Clone from 'clone';
 import OrganizationStore from '../../../../../data/stores/organizationStore';
+import UserStore from '../../../../../data/stores/userStore';
 import FormGroup from '../../../../../common/formGroup';
 import Input from '../../../../../common/input';
 import Button from '../../../../../common/button';
@@ -11,21 +12,25 @@ import RoleAwareComponent from '../../../../../common/roleAwareComponent';
 class JudgeEditor extends RoleAwareComponent {
     constructor(props) {
         super(props);
+        this.handleUserChange = this.handleUserChange.bind(this);
         this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
         this.handleLastNameChange = this.handleLastNameChange.bind(this);
         this.handleAffiliationChange = this.handleAffiliationChange.bind(this);
         this.handleClickSave = this.handleClickSave.bind(this);
-        this.handleClickCancel = this.handleClickCancel.bind(this);    
+        this.handleClickCancel = this.handleClickCancel.bind(this);
+        this.getUserEmail = this.getUserEmail.bind(this);
         this.getAffiliationName = this.getAffiliationName.bind(this);
         this.getState = this.getState.bind(this);
         this.storeChanged = this.storeChanged.bind(this);
+        this.getUserOptions = this.getUserOptions.bind(this);
         this.getOrganizationOptions = this.getOrganizationOptions.bind(this);
-        this.state =  this.getState();
+        this.state = this.getState();
         this.authorizedRoles = [];
     }
 
     componentWillMount(){  
         OrganizationStore.on("change", this.storeChanged);
+        UserStore.on("change", this.storeChanged);
         if(this.props.authorizedRoles && this.props.authorizedRoles.length){
             this.authorizedRoles = this.props.authorizedRoles;
         }
@@ -34,10 +39,19 @@ class JudgeEditor extends RoleAwareComponent {
 
     componentWillUnmount(){
         OrganizationStore.off("change", this.storeChanged);
+        UserStore.off("change", this.storeChanged);
     }
 
     storeChanged(){
         this.setState(this.getState());
+    }
+
+    handleUserChange(selectedOption) {
+        if(selectedOption && selectedOption.user){
+            var judge = this.state.judge;
+            judge.UserId = selectedOption.user.Id;
+            this.setState(judge);
+        }
     }
 
     handleFirstNameChange(e) {
@@ -53,9 +67,11 @@ class JudgeEditor extends RoleAwareComponent {
     }
 
     handleAffiliationChange(selectedOption) {
-        var judge = this.state.judge;
-        judge.Affiliation = selectedOption.organization;
-        this.setState(judge);
+        if(selectedOption && selectedOption.organization){
+            var judge = this.state.judge;
+            judge.Affiliation = selectedOption.organization;
+            this.setState(judge);
+        }
     }
 
     handleClickSave(e) {
@@ -72,7 +88,8 @@ class JudgeEditor extends RoleAwareComponent {
         if(this.props.judge){
             return { 
                 judge: Clone(this.props.judge),
-                organizations: OrganizationStore.getOrganizations()     
+                organizations: OrganizationStore.getOrganizations(),
+                users: UserStore.getUsers()
             };
         } else {
             return {
@@ -83,16 +100,48 @@ class JudgeEditor extends RoleAwareComponent {
                         FirstName: "",
                         LastName: ""
                     },
-                    Affiliation: null
+                    Affiliation: null,
+                    UserId: null
                     //Affiliation: {
                     //    Id: 0,
                     //    Name: "",
                     //    Affiliation: null
                     //}
                 },
-                organizations: OrganizationStore.getOrganizations()
+                organizations: OrganizationStore.getOrganizations(),
+                users: UserStore.getUsers()
             };
         }
+    }
+
+    getUserOptions() {
+        var users = this.state.users;
+        var options = [];
+
+        for (var i = 0; i < users.length; i++) {
+            var user = users[i];
+            options.push({
+                value: user.Email, 
+                label: user.Email,
+                user: user
+            });
+        }
+
+        return options;
+    }
+
+    getUserEmail() {
+        var judge = this.state.judge;
+        if(judge && judge.UserId){
+            var users = this.state.users;
+            for (var i = 0; i < users.length; i++) {
+                var user = users[i];
+                if(user.Id == judge.UserId){
+                    return user.Email;
+                }
+            }
+        }
+        return "";
     }
 
     getOrganizationOptions() {
@@ -124,6 +173,13 @@ class JudgeEditor extends RoleAwareComponent {
 
         return (
             <div>
+                <Select
+                    name="user"
+                    label="User"
+                    value={this.getUserEmail()}
+                    options={this.getUserOptions()}
+                    onChange={this.handleUserChange} />
+
                 <Input 
                     name="firstName" 
                     type="text"

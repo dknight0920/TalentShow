@@ -36,3 +36,7 @@ export function broadcastPerformerChange(groupName, id){
 export function broadcastOrganizationChange(groupName){
     Hubs.controlCenterHubProxy.invoke('OrganizationChanged', groupName);
 };
+
+export function broadcastUserChange(groupName){
+    Hubs.controlCenterHubProxy.invoke('UserChanged', groupName);
+};

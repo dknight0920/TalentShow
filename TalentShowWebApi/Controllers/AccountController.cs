@@ -66,6 +66,7 @@ namespace TalentShowWebApi.Controllers
 
             return new UserInfoViewModel
             {
+                Id = User.Identity.GetUserId(),
                 Email = User.Identity.GetUserName(),
                 Roles = UserManager.GetRoles(User.Identity.GetUserId()),
                 Claims = claims
@@ -93,6 +94,7 @@ namespace TalentShowWebApi.Controllers
 
                 users.Add(new UserInfoViewModel
                 {
+                    Id = user.Id,
                     Email = user.UserName,
                     Roles = UserManager.GetRoles(user.Id),
                     Claims = claims
