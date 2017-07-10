@@ -6,6 +6,7 @@ import ScoreCardStore from '../../../../../../data/stores/scoreCardStore';
 import * as ScoreCardActions from '../../../../../../data/actions/scoreCardActions';
 import PageContent from '../../../../../../common/pageContent';
 import RoleAwareComponent from '../../../../../../common/roleAwareComponent';
+import Button from '../../../../../../common/button';
 
 class EditScoreCardPage extends RoleAwareComponent {
     constructor(props) {
@@ -13,6 +14,7 @@ class EditScoreCardPage extends RoleAwareComponent {
         this.scoreCardStoreChanged = this.scoreCardStoreChanged.bind(this);
         this.getState = this.getState.bind(this);
         this.getScoreCard = this.getScoreCard.bind(this);
+        this.handleClickRemove = this.handleClickRemove.bind(this);
         this.handleClickSave = this.handleClickSave.bind(this);
         this.handleClickCancel = this.handleClickCancel.bind(this);
         this.navigateToContestantPage = this.navigateToContestantPage.bind(this); 
@@ -45,6 +47,12 @@ class EditScoreCardPage extends RoleAwareComponent {
 
     getScoreCard() {
         return ScoreCardStore.get(this.getContestantId(), this.getScoreCardId());
+    }
+
+    handleClickRemove(e) {
+        e.preventDefault();
+        ScoreCardActions.removeScoreCard(this.getContestantId(), this.getScoreCardId());
+        this.navigateToContestantPage();
     }
 
     handleClickSave(scoreCard) {
@@ -80,8 +88,14 @@ class EditScoreCardPage extends RoleAwareComponent {
         var scoreCard = this.state.scoreCard;
 
         if(scoreCard){
+            var removeScoreCardButton = ( 
+                <span>
+                    <Button type="primary" authorizedRoles={this.authorizedRoles} name="removeScoreCard" value="Remove" onClick={this.handleClickRemove} />
+                </span>
+            );
+
             return (
-                <PageContent title="Edit a Score Card" description="Use the form below to edit the score card.">
+                <PageContent title="Edit a Score Card" description="Use the form below to edit the score card." buttons={removeScoreCardButton} >
                     <ScoreCardEditor authorizedRoles={this.authorizedRoles}  scoreCard={scoreCard} OnClickSave={this.handleClickSave} OnClickCancel={this.handleClickCancel}/>
                 </PageContent>
             );

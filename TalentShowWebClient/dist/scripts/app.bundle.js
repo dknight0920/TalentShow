@@ -50636,6 +50636,10 @@ var _roleAwareComponent = require('../../../../../../common/roleAwareComponent')
 
 var _roleAwareComponent2 = _interopRequireDefault(_roleAwareComponent);
 
+var _button = require('../../../../../../common/button');
+
+var _button2 = _interopRequireDefault(_button);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -50657,6 +50661,7 @@ var EditScoreCardPage = function (_RoleAwareComponent) {
         _this.scoreCardStoreChanged = _this.scoreCardStoreChanged.bind(_this);
         _this.getState = _this.getState.bind(_this);
         _this.getScoreCard = _this.getScoreCard.bind(_this);
+        _this.handleClickRemove = _this.handleClickRemove.bind(_this);
         _this.handleClickSave = _this.handleClickSave.bind(_this);
         _this.handleClickCancel = _this.handleClickCancel.bind(_this);
         _this.navigateToContestantPage = _this.navigateToContestantPage.bind(_this);
@@ -50696,6 +50701,13 @@ var EditScoreCardPage = function (_RoleAwareComponent) {
         key: 'getScoreCard',
         value: function getScoreCard() {
             return _scoreCardStore2.default.get(this.getContestantId(), this.getScoreCardId());
+        }
+    }, {
+        key: 'handleClickRemove',
+        value: function handleClickRemove(e) {
+            e.preventDefault();
+            ScoreCardActions.removeScoreCard(this.getContestantId(), this.getScoreCardId());
+            this.navigateToContestantPage();
         }
     }, {
         key: 'handleClickSave',
@@ -50739,9 +50751,15 @@ var EditScoreCardPage = function (_RoleAwareComponent) {
             var scoreCard = this.state.scoreCard;
 
             if (scoreCard) {
+                var removeScoreCardButton = _react2.default.createElement(
+                    'span',
+                    null,
+                    _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: this.authorizedRoles, name: 'removeScoreCard', value: 'Remove', onClick: this.handleClickRemove })
+                );
+
                 return _react2.default.createElement(
                     _pageContent2.default,
-                    { title: 'Edit a Score Card', description: 'Use the form below to edit the score card.' },
+                    { title: 'Edit a Score Card', description: 'Use the form below to edit the score card.', buttons: removeScoreCardButton },
                     _react2.default.createElement(_scoreCardEditor2.default, { authorizedRoles: this.authorizedRoles, scoreCard: scoreCard, OnClickSave: this.handleClickSave, OnClickCancel: this.handleClickCancel })
                 );
             }
@@ -50755,7 +50773,7 @@ var EditScoreCardPage = function (_RoleAwareComponent) {
 
 exports.default = EditScoreCardPage;
 
-},{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/scoreCardActions":311,"../../../../../../data/stores/scoreCardStore":337,"../../../../../../routing/navigation":391,"./scoreCardEditor":367,"react":290}],366:[function(require,module,exports){
+},{"../../../../../../common/button":292,"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/scoreCardActions":311,"../../../../../../data/stores/scoreCardStore":337,"../../../../../../routing/navigation":391,"./scoreCardEditor":367,"react":290}],366:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

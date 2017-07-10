@@ -41,7 +41,7 @@ namespace TalentShow
 
         private void Init(int id, Contestant contestant, Judge judge, ICollection<ScorableCriterion> scorableCriteria)
         {
-            ValidateConstructorArgs(contestant, judge, scorableCriteria);
+            ValidateConstructorArgs(id, contestant, judge, scorableCriteria);
 
             Id = id;
             Contestant = contestant;
@@ -49,14 +49,14 @@ namespace TalentShow
             ScorableCriteria = scorableCriteria;
         }
 
-        private static void ValidateConstructorArgs(Contestant contestant, Judge judge, ICollection<ScorableCriterion> scorableCriteria)
+        private static void ValidateConstructorArgs(int id, Contestant contestant, Judge judge, ICollection<ScorableCriterion> scorableCriteria)
         {
             if (contestant == null)
-                throw new ApplicationException("A score card cannot be created without a contestant.");
+                throw new ApplicationException("A score card cannot be created without a contestant. Score Card Id: " + id);
             if (judge == null)
-                throw new ApplicationException("A score card cannot be created without a judge.");
+                throw new ApplicationException("A score card cannot be created without a judge. Score Card Id: " + id);
             if (scorableCriteria.IsNullOrEmpty())
-                throw new ApplicationException("A score card cannot be created without scorable score criteria.");
+                throw new ApplicationException("A score card cannot be created without scorable score criteria. Score Card Id: " + id);
         }
 
         public void SetId(int id)
