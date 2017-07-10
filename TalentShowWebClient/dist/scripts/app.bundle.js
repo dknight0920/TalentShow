@@ -49803,6 +49803,10 @@ var _roleAwareComponent = require('../../../../../../common/roleAwareComponent')
 
 var _roleAwareComponent2 = _interopRequireDefault(_roleAwareComponent);
 
+var _button = require('../../../../../../common/button');
+
+var _button2 = _interopRequireDefault(_button);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -49828,6 +49832,7 @@ var EditPerformerPage = function (_RoleAwareComponent) {
         _this.getContestantId = _this.getContestantId.bind(_this);
         _this.getContestId = _this.getContestId.bind(_this);
         _this.getShowId = _this.getShowId.bind(_this);
+        _this.handleClickRemove = _this.handleClickRemove.bind(_this);
         _this.handleClickSave = _this.handleClickSave.bind(_this);
         _this.handleClickCancel = _this.handleClickCancel.bind(_this);
         _this.navigateToContestantPage = _this.navigateToContestantPage.bind(_this);
@@ -49860,6 +49865,13 @@ var EditPerformerPage = function (_RoleAwareComponent) {
         key: 'storeChanged',
         value: function storeChanged() {
             this.setState(this.getState());
+        }
+    }, {
+        key: 'handleClickRemove',
+        value: function handleClickRemove(e) {
+            e.preventDefault();
+            PerformerActions.removePerformer(this.getContestantId(), this.getPerformerId());
+            this.navigateToContestantPage();
         }
     }, {
         key: 'handleClickSave',
@@ -49916,9 +49928,15 @@ var EditPerformerPage = function (_RoleAwareComponent) {
                 return _react2.default.createElement(_pageContent2.default, { title: 'Loading', description: 'The performer\'s details are loading, please wait.' });
             }
 
+            var removePerformerButton = _react2.default.createElement(
+                'span',
+                null,
+                _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: this.authorizedRoles, name: 'removePerformer', value: 'Remove', onClick: this.handleClickRemove })
+            );
+
             return _react2.default.createElement(
                 _pageContent2.default,
-                { title: 'Edit a Performer', description: 'Use the form below to edit the performer.' },
+                { title: 'Edit a Performer', description: 'Use the form below to edit the performer.', buttons: removePerformerButton },
                 _react2.default.createElement(_performerEditor2.default, { performer: performer, authorizedRoles: this.authorizedRoles, OnClickSave: this.handleClickSave, OnClickCancel: this.handleClickCancel })
             );
         }
@@ -49929,7 +49947,7 @@ var EditPerformerPage = function (_RoleAwareComponent) {
 
 exports.default = EditPerformerPage;
 
-},{"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/divisionActions":307,"../../../../../../data/actions/organizationActions":309,"../../../../../../data/actions/performerActions":310,"../../../../../../data/stores/performerStore":336,"../../../../../../routing/navigation":391,"./performerEditor":361,"react":290}],361:[function(require,module,exports){
+},{"../../../../../../common/button":292,"../../../../../../common/pageContent":298,"../../../../../../common/roleAwareComponent":300,"../../../../../../data/actions/divisionActions":307,"../../../../../../data/actions/organizationActions":309,"../../../../../../data/actions/performerActions":310,"../../../../../../data/stores/performerStore":336,"../../../../../../routing/navigation":391,"./performerEditor":361,"react":290}],361:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

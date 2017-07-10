@@ -8,6 +8,7 @@ import * as OrganizationActions from '../../../../../../data/actions/organizatio
 import * as DivisionActions from '../../../../../../data/actions/divisionActions';
 import PageContent from '../../../../../../common/pageContent';
 import RoleAwareComponent from '../../../../../../common/roleAwareComponent';
+import Button from '../../../../../../common/button';
 
 class EditPerformerPage extends RoleAwareComponent {
     constructor(props) {
@@ -19,6 +20,7 @@ class EditPerformerPage extends RoleAwareComponent {
         this.getContestantId = this.getContestantId.bind(this); 
         this.getContestId = this.getContestId.bind(this);
         this.getShowId = this.getShowId.bind(this);
+        this.handleClickRemove = this.handleClickRemove.bind(this);
         this.handleClickSave = this.handleClickSave.bind(this);
         this.handleClickCancel = this.handleClickCancel.bind(this);
         this.navigateToContestantPage = this.navigateToContestantPage.bind(this);
@@ -46,6 +48,12 @@ class EditPerformerPage extends RoleAwareComponent {
 
     storeChanged(){
         this.setState(this.getState());
+    }
+
+    handleClickRemove(e) {
+        e.preventDefault();
+        PerformerActions.removePerformer(this.getContestantId(), this.getPerformerId());
+        this.navigateToContestantPage();
     }
 
     handleClickSave(performer) {
@@ -92,10 +100,16 @@ class EditPerformerPage extends RoleAwareComponent {
             return (
                 <PageContent title="Loading" description="The performer's details are loading, please wait."></PageContent>
             );
-        }
+        }       
+
+        var removePerformerButton = ( 
+            <span>
+                <Button type="primary" authorizedRoles={this.authorizedRoles} name="removePerformer" value="Remove" onClick={this.handleClickRemove} />
+            </span>
+        );
 
         return (
-            <PageContent title="Edit a Performer" description="Use the form below to edit the performer.">
+            <PageContent title="Edit a Performer" description="Use the form below to edit the performer." buttons={removePerformerButton}>
                 <PerformerEditor performer={performer} authorizedRoles={this.authorizedRoles} OnClickSave={this.handleClickSave} OnClickCancel={this.handleClickCancel}/>
             </PageContent>
         );
