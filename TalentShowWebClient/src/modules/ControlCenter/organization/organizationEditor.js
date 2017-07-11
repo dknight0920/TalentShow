@@ -47,7 +47,13 @@ class OrganizationEditor extends RoleAwareComponent {
 
     handleParentChange(selectedOption) {
         var organization = this.state.organization;
-        organization.Parent = selectedOption.organization;
+
+        if(selectedOption && selectedOption.organization){      
+            organization.Parent = selectedOption.organization;     
+        } else {
+            organization.Parent = null;
+        }
+
         this.setState(organization);
     }
 
