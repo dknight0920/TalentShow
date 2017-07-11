@@ -25,6 +25,7 @@ namespace TalentShowWebApi.Controllers
         }
 
         // GET api/Organizations
+        [AllowAnonymous]
         public IEnumerable<OrganizationDto> Get()
         {
             return OrganizationService.GetAll().ConvertToDto();

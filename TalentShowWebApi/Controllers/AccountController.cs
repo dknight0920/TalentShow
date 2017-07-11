@@ -17,6 +17,8 @@ using TalentShowWebApi.Models;
 using TalentShowWebApi.Providers;
 using TalentShowWebApi.Results;
 using System.Linq;
+using TalentShowDataStorage;
+using TalentShow;
 
 namespace TalentShowWebApi.Controllers
 {
@@ -379,6 +381,23 @@ namespace TalentShowWebApi.Controllers
             {
                 UserId = user.Id,
                 RoleName = "Judge" 
+            });
+
+            var personName = new PersonName(model.FirstName, model.LastName);
+            new PersonNameRepo().Add(personName);
+
+            await AddClaimToUser(new UserClaimBindingModel()
+            {
+                UserId = user.Id,
+                Type = "personNameId",
+                Value = personName.Id.ToString()
+            });
+
+            await AddClaimToUser(new UserClaimBindingModel()
+            {
+                UserId = user.Id,
+                Type = "organizationId",
+                Value = model.OrganizationId.ToString()
             });
 
             return Ok();

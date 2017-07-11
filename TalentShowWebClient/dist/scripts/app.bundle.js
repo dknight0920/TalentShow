@@ -54422,6 +54422,10 @@ var _input = require('../common/input');
 
 var _input2 = _interopRequireDefault(_input);
 
+var _select = require('../common/select');
+
+var _select2 = _interopRequireDefault(_select);
+
 var _formGroup = require('../common/formGroup');
 
 var _formGroup2 = _interopRequireDefault(_formGroup);
@@ -54433,6 +54437,14 @@ var _jquery2 = _interopRequireDefault(_jquery);
 var _currentUserActions = require('../data/actions/currentUserActions');
 
 var CurrentUserActions = _interopRequireWildcard(_currentUserActions);
+
+var _organizationStore = require('../data/stores/organizationStore');
+
+var _organizationStore2 = _interopRequireDefault(_organizationStore);
+
+var _organizationActions = require('../data/actions/organizationActions');
+
+var OrganizationActions = _interopRequireWildcard(_organizationActions);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -54457,6 +54469,11 @@ var RegisterBox = function (_React$Component) {
     }
 
     _createClass(RegisterBox, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            OrganizationActions.loadOrganizations();
+        }
+    }, {
         key: 'register',
         value: function register(credentials) {
             CurrentUserActions.register(credentials);
@@ -54499,8 +54516,47 @@ var RegisterForm = _react2.default.createClass({
     getInitialState: function getInitialState() {
         return this.createInitialState();
     },
+    componentWillMount: function componentWillMount() {
+        _organizationStore2.default.on("change", this.storeChanged);
+    },
+    componentWillUnmount: function componentWillUnmount() {
+        _organizationStore2.default.off("change", this.storeChanged);
+    },
+    storeChanged: function storeChanged() {
+        this.setState({ Organizations: _organizationStore2.default.getOrganizations() });
+    },
     handleEmailChange: function handleEmailChange(e) {
         this.setState({ Email: e.target.value.trim() });
+    },
+    handleFirstNameChange: function handleFirstNameChange(e) {
+        this.setState({ FirstName: e.target.value.trim() });
+    },
+    handleLastNameChange: function handleLastNameChange(e) {
+        this.setState({ LastName: e.target.value.trim() });
+    },
+    handleAffiliationChange: function handleAffiliationChange(selectedOption) {
+        var organization = null;
+
+        if (selectedOption && selectedOption.organization && selectedOption.organization.Name) {
+            organization = selectedOption.organization;
+        }
+
+        this.setState({ Affiliation: organization });
+    },
+    getOrganizationOptions: function getOrganizationOptions() {
+        var organizations = this.state.Organizations;
+        var options = [];
+
+        for (var i = 0; i < organizations.length; i++) {
+            var organization = organizations[i];
+            options.push({
+                value: organization.Name,
+                label: organization.Name,
+                organization: organization
+            });
+        }
+
+        return options;
     },
     handlePasswordChange: function handlePasswordChange(e) {
         this.setState({ Password: e.target.value.trim() });
@@ -54510,15 +54566,31 @@ var RegisterForm = _react2.default.createClass({
     },
     handleSubmit: function handleSubmit(e) {
         e.preventDefault();
-        if (!this.state.Email || !this.state.Password || !this.state.ConfirmPassword) {
+        if (!this.state.Email || !this.state.FirstName || !this.state.LastName || !this.state.Affiliation || !this.state.Password || !this.state.ConfirmPassword) {
             return;
         }
 
-        this.props.onRegisterFormSubmit({ Email: this.state.Email, Password: this.state.Password, ConfirmPassword: this.state.ConfirmPassword });
+        this.props.onRegisterFormSubmit({
+            Email: this.state.Email,
+            FirstName: this.state.FirstName,
+            LastName: this.state.LastName,
+            OrganizationId: this.state.Affiliation.Id,
+            Password: this.state.Password,
+            ConfirmPassword: this.state.ConfirmPassword
+        });
+
         this.setState(this.createInitialState());
     },
     createInitialState: function createInitialState() {
-        return { Email: "", Password: "", ConfirmPassword: "" };
+        return {
+            Email: "",
+            FirstName: "",
+            LastName: "",
+            Affiliation: { Id: 0, Name: "", Parent: null },
+            Password: "",
+            ConfirmPassword: "",
+            Organizations: _organizationStore2.default.getOrganizations()
+        };
     },
     render: function render() {
         return _react2.default.createElement(
@@ -54530,6 +54602,24 @@ var RegisterForm = _react2.default.createClass({
                 label: 'Email',
                 value: this.state.Email,
                 onChange: this.handleEmailChange }),
+            _react2.default.createElement(_input2.default, {
+                name: 'firstName',
+                type: 'text',
+                label: 'First Name',
+                value: this.state.FirstName,
+                onChange: this.handleFirstNameChange }),
+            _react2.default.createElement(_input2.default, {
+                name: 'lastName',
+                type: 'text',
+                label: 'Last Name',
+                value: this.state.LastName,
+                onChange: this.handleLastNameChange }),
+            _react2.default.createElement(_select2.default, {
+                name: 'affiliation',
+                label: 'Affiliation',
+                value: this.state.Affiliation.Name,
+                options: this.getOrganizationOptions(),
+                onChange: this.handleAffiliationChange }),
             _react2.default.createElement(_input2.default, {
                 name: 'password',
                 type: 'password',
@@ -54559,7 +54649,7 @@ exports.default = _react2.default.createClass({
     }
 });
 
-},{"../common/formGroup":293,"../common/input":294,"../data/actions/currentUserActions":306,"../routing/navigation":393,"jquery":25,"react":290}],393:[function(require,module,exports){
+},{"../common/formGroup":293,"../common/input":294,"../common/select":301,"../data/actions/currentUserActions":306,"../data/actions/organizationActions":309,"../data/stores/organizationStore":336,"../routing/navigation":393,"jquery":25,"react":290}],393:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
