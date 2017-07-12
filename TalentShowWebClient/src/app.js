@@ -6,6 +6,8 @@ import about from './modules/about';
 import login from './modules/login';
 import register from './modules/register';
 import unauthorized from './common/unauthorizedUserPageContent';
+import CurrentUserStore from './data/stores/currentUserStore';
+import editUser from './modules/ControlCenter/user/editUser';
 import divisions from './modules/ControlCenter/divisions';
 import addDivision from './modules/ControlCenter/division/addDivision';
 import editDivision from './modules/ControlCenter/division/editDivision';
@@ -36,6 +38,7 @@ import * as Hubs from './data/signalr/hubs';
 
 var Menu = React.createClass({
     render: function () {
+        var currentUser = CurrentUserStore.getUserInfo();
         return (
             <div>
                 <nav className="navbar navbar-inverse navbar-static-top">
@@ -49,6 +52,7 @@ var Menu = React.createClass({
                             <li><Link to="/shows">Shows</Link></li>
                             <li><Link to="/divisions">Divisions</Link></li>
                             <li><Link to="/organizations">Organizations</Link></li>
+                            <li><Link to={"/user/" + currentUser.Id + "/edit"}>My Info</Link></li>
                             <li><Link to="/about">About</Link></li>
                         </ul>
                     </div>
@@ -80,6 +84,7 @@ function getToken(){
                     <Route path="/register" component={register} />
                     <Route onEnter={requireAuth} component={Menu}>
                         <Route path="/unauthorized" component={unauthorized} /> 
+                        <Route path="/user/:userId/edit" component={editUser} />
                         <Route path="/divisions" component={divisions} />
                         <Route path="/divisions/add" component={addDivision} />
                         <Route path="/division/:divisionId/edit" component={editDivision} />

@@ -214,6 +214,8 @@
     <Content Include="src\modules\ControlCenter\show\editShow.js" />
     <Content Include="src\modules\ControlCenter\show\show.js" />
     <Content Include="src\modules\ControlCenter\show\showEditor.js" />
+    <Content Include="src\modules\ControlCenter\user\editUser.js" />
+    <Content Include="src\modules\ControlCenter\user\userEditor.js" />
     <Content Include="src\modules\register.js" />
     <Content Include="src\routing\navigation.js" />
     <Content Include="tsconfig.json" />
