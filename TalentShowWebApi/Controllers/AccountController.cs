@@ -66,10 +66,38 @@ namespace TalentShowWebApi.Controllers
             foreach (var claim in UserManager.GetClaims(User.Identity.GetUserId()))
                 claims.Add(new UserClaimViewModel() { Type = claim.Type, Value = claim.Value });
 
+            var firstName = "";
+            var lastName = "";
+            var affiliationName = "";
+
+            var personNameIdClaim = claims.FirstOrDefault(n => n.Type == "personNameId");
+
+            if (personNameIdClaim != null)
+            {
+                var personNameId = Convert.ToInt32(personNameIdClaim.Value);
+                var personName = new PersonNameRepo().Get(personNameId);
+
+                firstName = personName.FirstName;
+                lastName = personName.LastName;
+            }
+
+            var organizationIdClaim = claims.FirstOrDefault(n => n.Type == "organizationId");
+
+            if (personNameIdClaim != null)
+            {
+                var organizationId = Convert.ToInt32(organizationIdClaim.Value);
+                var organization = new OrganizationRepo().Get(organizationId);
+
+                affiliationName = organization.Name;
+            }
+
             return new UserInfoViewModel
             {
                 Id = User.Identity.GetUserId(),
                 Email = User.Identity.GetUserName(),
+                FirstName = firstName,
+                LastName = lastName,
+                AffiliationName = affiliationName,
                 Roles = UserManager.GetRoles(User.Identity.GetUserId()),
                 Claims = claims
             };
@@ -94,10 +122,38 @@ namespace TalentShowWebApi.Controllers
                 foreach (var claim in user.Claims)
                     claims.Add(new UserClaimViewModel() { Type = claim.ClaimType, Value = claim.ClaimValue });
 
+                var firstName = "";
+                var lastName = "";
+                var affiliationName = "";
+
+                var personNameIdClaim = claims.FirstOrDefault(n => n.Type == "personNameId");
+
+                if (personNameIdClaim != null)
+                {
+                    var personNameId = Convert.ToInt32(personNameIdClaim.Value);
+                    var personName = new PersonNameRepo().Get(personNameId);
+
+                    firstName = personName.FirstName;
+                    lastName = personName.LastName;
+                }
+
+                var organizationIdClaim = claims.FirstOrDefault(n => n.Type == "organizationId");
+
+                if (personNameIdClaim != null)
+                {
+                    var organizationId = Convert.ToInt32(organizationIdClaim.Value);
+                    var organization = new OrganizationRepo().Get(organizationId);
+
+                    affiliationName = organization.Name;
+                }
+
                 users.Add(new UserInfoViewModel
                 {
                     Id = user.Id,
                     Email = user.UserName,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    AffiliationName = affiliationName,
                     Roles = UserManager.GetRoles(user.Id),
                     Claims = claims
                 });

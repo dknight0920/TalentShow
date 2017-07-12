@@ -2,8 +2,8 @@
 import React from 'react';
 
 var getName = function (scoreCard) {
-    var judgeName = scoreCard.Judge.Name;
-    return "Score Card by " + judgeName.FirstName + " " + judgeName.LastName;
+    var judgeId= scoreCard.Judge.Id;
+    return "Score Card by " + judgeId;
 };
 
 var getDescription = function (scoreCard) {

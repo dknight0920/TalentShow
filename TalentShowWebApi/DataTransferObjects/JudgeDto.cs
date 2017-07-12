@@ -12,8 +12,6 @@ namespace TalentShowWebApi.DataTransferObjects
         [DataMember]
         public int Id { get; set; }
         [DataMember]
-        public PersonNameDto Name { get; set; }
-        [DataMember]
-        public OrganizationDto Affiliation { get; set; }
+        public string UserId { get; set; }
     }
 }

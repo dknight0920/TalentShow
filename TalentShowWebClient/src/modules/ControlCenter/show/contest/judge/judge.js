@@ -110,7 +110,7 @@ class JudgePage extends TimeoutComponent {
         );
   
         return (
-            <PageContent title={"Judge: " + judge.Name.FirstName + " " + judge.Name.LastName} description={judge.Affiliation.Name} buttons={judgePageButtons}>
+            <PageContent title={"Judge: " + judge.Id} description={"User Id: " + judge.UserId} buttons={judgePageButtons}>
             </PageContent>
         );
     }

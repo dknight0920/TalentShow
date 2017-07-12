@@ -27,7 +27,7 @@ class ListPanelItem extends React.Component {
 
     render() {
         return (
-            <ListItem pathname={this.props.pathname}>
+            <ListItem className={this.props.className} pathname={this.props.pathname}>
                 <ItemHeading>{this.props.name}</ItemHeading>
                 <ItemText>{this.props.description}</ItemText>
             </ListItem> 

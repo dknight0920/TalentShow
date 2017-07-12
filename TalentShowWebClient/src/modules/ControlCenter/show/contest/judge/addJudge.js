@@ -3,7 +3,6 @@ import React from 'react';
 import * as Nav from '../../../../../routing/navigation';
 import JudgeEditor from './judgeEditor';
 import * as JudgeActions from '../../../../../data/actions/judgeActions';
-import * as OrganizationActions from '../../../../../data/actions/organizationActions';
 import * as UserActions from '../../../../../data/actions/userActions';
 import PageContent from '../../../../../common/pageContent';
 import RoleAwareComponent from '../../../../../common/roleAwareComponent';
@@ -21,14 +20,11 @@ class AddJudgePage extends RoleAwareComponent {
 
     componentWillMount(){
         this.redirectUnauthorizedUser();
-        OrganizationActions.loadOrganizations();
         UserActions.loadUsers();
-        OrganizationActions.joinHubGroup();
         UserActions.joinHubGroup();
     }
 
     componentWillUnmount(){
-        OrganizationActions.leaveHubGroup();
         UserActions.leaveHubGroup();
     }
 

@@ -8,6 +8,7 @@ import ContestStore from '../../../../data/stores/contestStore';
 import * as ContestActions from '../../../../data/actions/contestActions';
 import * as ContestantActions from '../../../../data/actions/contestantActions';
 import * as JudgeActions from '../../../../data/actions/judgeActions';
+import * as UserActions from '../../../../data/actions/userActions';
 import * as ScoreCriterionActions from '../../../../data/actions/scoreCriterionActions';
 import PageContent from '../../../../common/pageContent';
 import Button from '../../../../common/button';
@@ -32,11 +33,13 @@ class ContestPage extends TimeoutComponent {
         ContestStore.on("change", this.storeChanged);
         ContestActions.loadContest(this.getShowId(), this.getContestId());
         ContestantActions.loadContestContestants(this.getContestId());
-        JudgeActions.loadContestJudges(this.getContestId());   
+        JudgeActions.loadContestJudges(this.getContestId());
+        UserActions.loadUsers();
         ScoreCriterionActions.loadContestScoreCriteria(this.getContestId());
         ContestActions.joinHubGroup(this.getShowId());
         ContestantActions.joinHubGroup(this.getContestId());
         JudgeActions.joinHubGroup(this.getContestId());
+        UserActions.joinHubGroup();
     }
 
     componentWillUnmount(){
@@ -45,6 +48,7 @@ class ContestPage extends TimeoutComponent {
         ContestActions.leaveHubGroup(this.getShowId());
         ContestantActions.leaveHubGroup(this.getContestId());
         JudgeActions.leaveHubGroup(this.getContestId());
+        UserActions.leaveHubGroup();
     }
 
     storeChanged(){

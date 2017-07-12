@@ -11,13 +11,11 @@ namespace TalentShow.Tests
         [TestMethod]
         public void CreateJudge()
         {
-            PersonName name = new PersonName(firstName: "Jeff", lastName: "Beach");
-            Organization affiliation = new Organization("XYZ");
+            string userId = "abc";
 
-            Judge judge = new Judge(name, affiliation);
+            Judge judge = new Judge(userId);
 
-            Assert.AreEqual(name, judge.Name);
-            Assert.AreEqual(affiliation, judge.Affiliation);
+            Assert.AreEqual(userId, judge.UserId);
         }
     }
 

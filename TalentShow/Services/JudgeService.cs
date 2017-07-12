@@ -11,24 +11,16 @@ namespace TalentShow.Services
     public class JudgeService
     {
         private readonly IRepo<Judge> JudgeRepo;
-        private readonly IRepo<PersonName> PersonNameRepo;
-        private readonly IRepo<Organization> OrganizationRepo;
         private readonly ICrossReferenceRepo<ContestJudge> ContestJudgeRepo;
 
-        public JudgeService(IRepo<Judge> judgeRepo, IRepo<PersonName> personNameRepo, IRepo<Organization> organizationRepo, ICrossReferenceRepo<ContestJudge> contestJudgeRepo)
+        public JudgeService(IRepo<Judge> judgeRepo, ICrossReferenceRepo<ContestJudge> contestJudgeRepo)
         {
             if (judgeRepo == null)
                 throw new ApplicationException("A JudgeService cannot be constructed without a JudgeRepo.");
-            if (personNameRepo == null)
-                throw new ApplicationException("A JudgeService cannot be constructed without a PersonNameRepo.");
-            if (organizationRepo == null)
-                throw new ApplicationException("A JudgeService cannot be constructed without an OrganizationRepo.");
             if (contestJudgeRepo == null)
                 throw new ApplicationException("A JudgeService cannot be constructed without an ContestJudgeRepo.");
 
             JudgeRepo = judgeRepo;
-            PersonNameRepo = personNameRepo;
-            OrganizationRepo = organizationRepo;
             ContestJudgeRepo = contestJudgeRepo;
         }
 
@@ -69,14 +61,11 @@ namespace TalentShow.Services
 
         public void Add(Judge judge)
         {
-            AddNameAndAffiliation(judge);
             JudgeRepo.Add(judge);
         }
 
         public void Update(Judge judge)
         {
-            AddNameAndAffiliation(judge);
-            UpdateNameAndAffiliation(judge);
             JudgeRepo.Update(judge);
         }
 
@@ -93,20 +82,6 @@ namespace TalentShow.Services
         public void DeleteAll()
         {
             JudgeRepo.DeleteAll();
-        }
-
-        private void AddNameAndAffiliation(Judge judge)
-        {
-            if (judge.Name != null && !PersonNameRepo.Exists(judge.Name.Id))
-                PersonNameRepo.Add(judge.Name);
-            if (judge.Affiliation != null && !OrganizationRepo.Exists(judge.Affiliation.Id))
-                OrganizationRepo.Add(judge.Affiliation);
-        }
-
-        private void UpdateNameAndAffiliation(Judge judge)
-        {
-            PersonNameRepo.Update(judge.Name);
-            OrganizationRepo.Update(judge.Affiliation);
         }
     }
 }

@@ -1,10 +1,11 @@
 ﻿'use strict';
-var getName = function (judge) {
-    return judge.Name.FirstName + " " + judge.Name.LastName + " (" + judge.Id + ")" ;
+
+var getName = function (judge, user) {
+    return user.FirstName + " " + user.LastName + " (" + judge.Id + ")" ;
 };
 
-var getDescription = function (judge) {
-    return judge.Affiliation.Name;
+var getDescription = function (user) {
+    return user.AffiliationName;
 };
 
 export {getName, getDescription};

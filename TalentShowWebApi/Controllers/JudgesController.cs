@@ -21,7 +21,7 @@ namespace TalentShowWebApi.Controllers
 
         public JudgesController()
         {
-            JudgeService = new JudgeService(new JudgeRepo(), new PersonNameRepo(), new OrganizationRepo(), new ContestJudgeRepo());
+            JudgeService = new JudgeService(new JudgeRepo(), new ContestJudgeRepo());
         }
 
         // GET api/Judges/Contest/5

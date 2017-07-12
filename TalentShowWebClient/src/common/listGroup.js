@@ -23,8 +23,14 @@ class ListItem extends React.Component {
     }
 
     render() {
+        var classNames = 'list-group-item';
+
+        if(this.props.className){
+            classNames += ' ' + this.props.className;
+        }
+
         return (
-            <Link to={{ pathname: this.props.pathname }} className="list-group-item">
+            <Link to={{ pathname: this.props.pathname }} className={classNames}>
                 {this.props.children}
             </Link>  
         );

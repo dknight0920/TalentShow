@@ -55,7 +55,7 @@ namespace TalentShowWebApi.DataTransferObjects.Helpers
 
         public static Judge ConvertFromDto(this JudgeDto judgeDto)
         {
-            return new Judge(judgeDto.Id, ConvertFromDto(judgeDto.Name), ConvertFromDto(judgeDto.Affiliation));
+            return new Judge(judgeDto.Id, judgeDto.UserId);
         }
 
         public static PersonName ConvertFromDto(this PersonNameDto nameDto)
@@ -307,7 +307,7 @@ namespace TalentShowWebApi.DataTransferObjects.Helpers
 
         public static JudgeDto ConvertToDto(this Judge judge)
         {
-            return new JudgeDto() { Id = judge.Id, Name = ConvertToDto(judge.Name), Affiliation = ConvertToDto(judge.Affiliation) };
+            return new JudgeDto() { Id = judge.Id, UserId = judge.UserId };
         }
 
         public static PersonNameDto ConvertToDto(this PersonName name)

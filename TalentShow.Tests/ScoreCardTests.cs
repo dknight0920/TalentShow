@@ -24,7 +24,7 @@ namespace TalentShow.Tests
             Contest contest = new Contest("Talent Show");
             Performance performance = new Performance("Singing a song.", new TimeSpan(hours: 0, minutes: 4, seconds: 0));
             Contestant contestant = new Contestant(performance);
-            Judge judge = new Judge(new PersonName(firstName: "Sam", lastName: "Bam"), new Organization("ABC"));
+            Judge judge = new Judge("abc");
 
             ScoreCard scoreCard = new ScoreCard(contestant, judge, scorableCriteria);
 

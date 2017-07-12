@@ -42898,9 +42898,15 @@ var ListItem = function (_React$Component2) {
     _createClass(ListItem, [{
         key: 'render',
         value: function render() {
+            var classNames = 'list-group-item';
+
+            if (this.props.className) {
+                classNames += ' ' + this.props.className;
+            }
+
             return _react2.default.createElement(
                 _reactRouter.Link,
-                { to: { pathname: this.props.pathname }, className: 'list-group-item' },
+                { to: { pathname: this.props.pathname }, className: classNames },
                 this.props.children
             );
         }
@@ -43029,7 +43035,7 @@ var ListPanelItem = function (_React$Component2) {
         value: function render() {
             return _react2.default.createElement(
                 _listGroup.ListItem,
-                { pathname: this.props.pathname },
+                { className: this.props.className, pathname: this.props.pathname },
                 _react2.default.createElement(
                     _listGroup.ItemHeading,
                     null,
@@ -48889,6 +48895,10 @@ var _judgeActions = require('../../../../data/actions/judgeActions');
 
 var JudgeActions = _interopRequireWildcard(_judgeActions);
 
+var _userActions = require('../../../../data/actions/userActions');
+
+var UserActions = _interopRequireWildcard(_userActions);
+
 var _scoreCriterionActions = require('../../../../data/actions/scoreCriterionActions');
 
 var ScoreCriterionActions = _interopRequireWildcard(_scoreCriterionActions);
@@ -48943,10 +48953,12 @@ var ContestPage = function (_TimeoutComponent) {
             ContestActions.loadContest(this.getShowId(), this.getContestId());
             ContestantActions.loadContestContestants(this.getContestId());
             JudgeActions.loadContestJudges(this.getContestId());
+            UserActions.loadUsers();
             ScoreCriterionActions.loadContestScoreCriteria(this.getContestId());
             ContestActions.joinHubGroup(this.getShowId());
             ContestantActions.joinHubGroup(this.getContestId());
             JudgeActions.joinHubGroup(this.getContestId());
+            UserActions.joinHubGroup();
         }
     }, {
         key: 'componentWillUnmount',
@@ -48956,6 +48968,7 @@ var ContestPage = function (_TimeoutComponent) {
             ContestActions.leaveHubGroup(this.getShowId());
             ContestantActions.leaveHubGroup(this.getContestId());
             JudgeActions.leaveHubGroup(this.getContestId());
+            UserActions.leaveHubGroup();
         }
     }, {
         key: 'storeChanged',
@@ -49053,7 +49066,7 @@ var ContestPage = function (_TimeoutComponent) {
 
 exports.default = ContestPage;
 
-},{"../../../../common/button":292,"../../../../common/pageContent":298,"../../../../common/timeoutComponent":302,"../../../../data/actions/contestActions":304,"../../../../data/actions/contestantActions":305,"../../../../data/actions/judgeActions":308,"../../../../data/actions/scoreCriterionActions":312,"../../../../data/stores/contestStore":331,"../../../../routing/navigation":393,"./contestants":372,"./judges":379,"./scoreCriteria":380,"react":290}],355:[function(require,module,exports){
+},{"../../../../common/button":292,"../../../../common/pageContent":298,"../../../../common/timeoutComponent":302,"../../../../data/actions/contestActions":304,"../../../../data/actions/contestantActions":305,"../../../../data/actions/judgeActions":308,"../../../../data/actions/scoreCriterionActions":312,"../../../../data/actions/userActions":314,"../../../../data/stores/contestStore":331,"../../../../routing/navigation":393,"./contestants":372,"./judges":379,"./scoreCriteria":380,"react":290}],355:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51361,8 +51374,8 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var getName = function getName(scoreCard) {
-    var judgeName = scoreCard.Judge.Name;
-    return "Score Card by " + judgeName.FirstName + " " + judgeName.LastName;
+    var judgeId = scoreCard.Judge.Id;
+    return "Score Card by " + judgeId;
 };
 
 var getDescription = function getDescription(scoreCard) {
@@ -51444,6 +51457,10 @@ var _listPanel = require('../../../../../common/listPanel');
 var _scoreCardStore = require('../../../../../data/stores/scoreCardStore');
 
 var _scoreCardStore2 = _interopRequireDefault(_scoreCardStore);
+
+var _currentUserStore = require('../../../../../data/stores/currentUserStore');
+
+var _currentUserStore2 = _interopRequireDefault(_currentUserStore);
 
 var _button = require('../../../../../common/button');
 
@@ -51530,11 +51547,17 @@ var ScoreCardsBox = function (_React$Component) {
             var contestantId = this.getContestantId();
 
             var scoreCards = this.state.scoreCards.map(function (scoreCard) {
+                var isUsers = _currentUserStore2.default.getJudgeId() == scoreCard.Judge.Id;
+                var path = '/show/' + showId + '/contest/' + contestId + '/contestant/' + contestantId;
+                if (isUsers) {
+                    path += '/scorecard/' + scoreCard.Id + '/edit';
+                }
                 return _react2.default.createElement(_listPanel.ListPanelItem, {
+                    className: isUsers ? 'active' : '',
                     key: scoreCard.Id,
                     name: ScoreCardUtil.getName(scoreCard),
                     description: ScoreCardUtil.getDescription(scoreCard),
-                    pathname: '/show/' + showId + '/contest/' + contestId + '/contestant/' + contestantId + '/scorecard/' + scoreCard.Id + '/edit' });
+                    pathname: path });
             });
 
             var addScoreCardButton = null;
@@ -51552,7 +51575,7 @@ var ScoreCardsBox = function (_React$Component) {
 
 exports.default = ScoreCardsBox;
 
-},{"../../../../../common/button":292,"../../../../../common/listPanel":297,"../../../../../data/stores/scoreCardStore":338,"../../../../../routing/navigation":393,"./scoreCard/scoreCardUtil":370,"react":290}],372:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/listPanel":297,"../../../../../data/stores/currentUserStore":333,"../../../../../data/stores/scoreCardStore":338,"../../../../../routing/navigation":393,"./scoreCard/scoreCardUtil":370,"react":290}],372:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51839,10 +51862,6 @@ var _judgeActions = require('../../../../../data/actions/judgeActions');
 
 var JudgeActions = _interopRequireWildcard(_judgeActions);
 
-var _organizationActions = require('../../../../../data/actions/organizationActions');
-
-var OrganizationActions = _interopRequireWildcard(_organizationActions);
-
 var _userActions = require('../../../../../data/actions/userActions');
 
 var UserActions = _interopRequireWildcard(_userActions);
@@ -51886,15 +51905,12 @@ var AddJudgePage = function (_RoleAwareComponent) {
         key: 'componentWillMount',
         value: function componentWillMount() {
             this.redirectUnauthorizedUser();
-            OrganizationActions.loadOrganizations();
             UserActions.loadUsers();
-            OrganizationActions.joinHubGroup();
             UserActions.joinHubGroup();
         }
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
-            OrganizationActions.leaveHubGroup();
             UserActions.leaveHubGroup();
         }
     }, {
@@ -51939,7 +51955,7 @@ var AddJudgePage = function (_RoleAwareComponent) {
 
 exports.default = AddJudgePage;
 
-},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/judgeActions":308,"../../../../../data/actions/organizationActions":309,"../../../../../data/actions/userActions":314,"../../../../../routing/navigation":393,"./judgeEditor":377,"react":290}],375:[function(require,module,exports){
+},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/judgeActions":308,"../../../../../data/actions/userActions":314,"../../../../../routing/navigation":393,"./judgeEditor":377,"react":290}],375:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -51967,10 +51983,6 @@ var _judgeStore2 = _interopRequireDefault(_judgeStore);
 var _judgeActions = require('../../../../../data/actions/judgeActions');
 
 var JudgeActions = _interopRequireWildcard(_judgeActions);
-
-var _organizationActions = require('../../../../../data/actions/organizationActions');
-
-var OrganizationActions = _interopRequireWildcard(_organizationActions);
 
 var _userActions = require('../../../../../data/actions/userActions');
 
@@ -52023,9 +52035,7 @@ var EditJudgePage = function (_RoleAwareComponent) {
             _judgeStore2.default.on("change", this.storeChanged);
             JudgeActions.loadJudge(this.getContestId(), this.getJudgeId());
             JudgeActions.joinHubGroup(this.getContestId());
-            OrganizationActions.loadOrganizations();
             UserActions.loadUsers();
-            OrganizationActions.joinHubGroup();
             UserActions.joinHubGroup();
         }
     }, {
@@ -52033,7 +52043,6 @@ var EditJudgePage = function (_RoleAwareComponent) {
         value: function componentWillUnmount() {
             _judgeStore2.default.off("change", this.storeChanged);
             JudgeActions.leaveHubGroup(this.getContestId());
-            OrganizationActions.leaveHubGroup();
             UserActions.leaveHubGroup();
         }
     }, {
@@ -52104,7 +52113,7 @@ var EditJudgePage = function (_RoleAwareComponent) {
 
 exports.default = EditJudgePage;
 
-},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/judgeActions":308,"../../../../../data/actions/organizationActions":309,"../../../../../data/actions/userActions":314,"../../../../../data/stores/judgeStore":335,"../../../../../routing/navigation":393,"./judgeEditor":377,"react":290}],376:[function(require,module,exports){
+},{"../../../../../common/pageContent":298,"../../../../../common/roleAwareComponent":300,"../../../../../data/actions/judgeActions":308,"../../../../../data/actions/userActions":314,"../../../../../data/stores/judgeStore":335,"../../../../../routing/navigation":393,"./judgeEditor":377,"react":290}],376:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -52271,7 +52280,7 @@ var JudgePage = function (_TimeoutComponent) {
                 _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: authorizedRolesForButtons, name: 'removeJudge', value: 'Remove', onClick: this.handleRemoveJudgeClick })
             );
 
-            return _react2.default.createElement(_pageContent2.default, { title: "Judge: " + judge.Name.FirstName + " " + judge.Name.LastName, description: judge.Affiliation.Name, buttons: judgePageButtons });
+            return _react2.default.createElement(_pageContent2.default, { title: "Judge: " + judge.Id, description: "User Id: " + judge.UserId, buttons: judgePageButtons });
         }
     }]);
 
@@ -52297,10 +52306,6 @@ var _clone = require('clone');
 
 var _clone2 = _interopRequireDefault(_clone);
 
-var _organizationStore = require('../../../../../data/stores/organizationStore');
-
-var _organizationStore2 = _interopRequireDefault(_organizationStore);
-
 var _userStore = require('../../../../../data/stores/userStore');
 
 var _userStore2 = _interopRequireDefault(_userStore);
@@ -52308,10 +52313,6 @@ var _userStore2 = _interopRequireDefault(_userStore);
 var _formGroup = require('../../../../../common/formGroup');
 
 var _formGroup2 = _interopRequireDefault(_formGroup);
-
-var _input = require('../../../../../common/input');
-
-var _input2 = _interopRequireDefault(_input);
 
 var _button = require('../../../../../common/button');
 
@@ -52342,17 +52343,12 @@ var JudgeEditor = function (_RoleAwareComponent) {
         var _this = _possibleConstructorReturn(this, (JudgeEditor.__proto__ || Object.getPrototypeOf(JudgeEditor)).call(this, props));
 
         _this.handleUserChange = _this.handleUserChange.bind(_this);
-        _this.handleFirstNameChange = _this.handleFirstNameChange.bind(_this);
-        _this.handleLastNameChange = _this.handleLastNameChange.bind(_this);
-        _this.handleAffiliationChange = _this.handleAffiliationChange.bind(_this);
         _this.handleClickSave = _this.handleClickSave.bind(_this);
         _this.handleClickCancel = _this.handleClickCancel.bind(_this);
         _this.getUserEmail = _this.getUserEmail.bind(_this);
-        _this.getAffiliationName = _this.getAffiliationName.bind(_this);
         _this.getState = _this.getState.bind(_this);
         _this.storeChanged = _this.storeChanged.bind(_this);
         _this.getUserOptions = _this.getUserOptions.bind(_this);
-        _this.getOrganizationOptions = _this.getOrganizationOptions.bind(_this);
         _this.state = _this.getState();
         _this.authorizedRoles = [];
         return _this;
@@ -52361,7 +52357,6 @@ var JudgeEditor = function (_RoleAwareComponent) {
     _createClass(JudgeEditor, [{
         key: 'componentWillMount',
         value: function componentWillMount() {
-            _organizationStore2.default.on("change", this.storeChanged);
             _userStore2.default.on("change", this.storeChanged);
             if (this.props.authorizedRoles && this.props.authorizedRoles.length) {
                 this.authorizedRoles = this.props.authorizedRoles;
@@ -52371,7 +52366,6 @@ var JudgeEditor = function (_RoleAwareComponent) {
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
-            _organizationStore2.default.off("change", this.storeChanged);
             _userStore2.default.off("change", this.storeChanged);
         }
     }, {
@@ -52385,29 +52379,6 @@ var JudgeEditor = function (_RoleAwareComponent) {
             if (selectedOption && selectedOption.user) {
                 var judge = this.state.judge;
                 judge.UserId = selectedOption.user.Id;
-                this.setState(judge);
-            }
-        }
-    }, {
-        key: 'handleFirstNameChange',
-        value: function handleFirstNameChange(e) {
-            var judge = this.state.judge;
-            judge.Name.FirstName = e.target.value;
-            this.setState(judge);
-        }
-    }, {
-        key: 'handleLastNameChange',
-        value: function handleLastNameChange(e) {
-            var judge = this.state.judge;
-            judge.Name.LastName = e.target.value;
-            this.setState(judge);
-        }
-    }, {
-        key: 'handleAffiliationChange',
-        value: function handleAffiliationChange(selectedOption) {
-            if (selectedOption && selectedOption.organization) {
-                var judge = this.state.judge;
-                judge.Affiliation = selectedOption.organization;
                 this.setState(judge);
             }
         }
@@ -52429,27 +52400,14 @@ var JudgeEditor = function (_RoleAwareComponent) {
             if (this.props.judge) {
                 return {
                     judge: (0, _clone2.default)(this.props.judge),
-                    organizations: _organizationStore2.default.getOrganizations(),
                     users: _userStore2.default.getUsers()
                 };
             } else {
                 return {
                     judge: {
                         Id: 0,
-                        Name: {
-                            Id: 0,
-                            FirstName: "",
-                            LastName: ""
-                        },
-                        Affiliation: null,
                         UserId: null
-                        //Affiliation: {
-                        //    Id: 0,
-                        //    Name: "",
-                        //    Affiliation: null
-                        //}
                     },
-                    organizations: _organizationStore2.default.getOrganizations(),
                     users: _userStore2.default.getUsers()
                 };
             }
@@ -52487,32 +52445,6 @@ var JudgeEditor = function (_RoleAwareComponent) {
             return "";
         }
     }, {
-        key: 'getOrganizationOptions',
-        value: function getOrganizationOptions() {
-            var organizations = this.state.organizations;
-            var options = [];
-
-            for (var i = 0; i < organizations.length; i++) {
-                var organization = organizations[i];
-                options.push({
-                    value: organization.Name,
-                    label: organization.Name,
-                    organization: organization
-                });
-            }
-
-            return options;
-        }
-    }, {
-        key: 'getAffiliationName',
-        value: function getAffiliationName() {
-            var judge = this.state.judge;
-            if (judge && judge.Affiliation && judge.Affiliation.Name) {
-                return judge.Affiliation.Name;
-            }
-            return "";
-        }
-    }, {
         key: 'render',
         value: function render() {
             var judge = this.state.judge;
@@ -52526,24 +52458,6 @@ var JudgeEditor = function (_RoleAwareComponent) {
                     value: this.getUserEmail(),
                     options: this.getUserOptions(),
                     onChange: this.handleUserChange }),
-                _react2.default.createElement(_input2.default, {
-                    name: 'firstName',
-                    type: 'text',
-                    label: 'First Name',
-                    value: judge.Name.FirstName,
-                    onChange: this.handleFirstNameChange }),
-                _react2.default.createElement(_input2.default, {
-                    name: 'lastName',
-                    type: 'text',
-                    label: 'Last Name',
-                    value: judge.Name.LastName,
-                    onChange: this.handleLastNameChange }),
-                _react2.default.createElement(_select2.default, {
-                    name: 'affiliation',
-                    label: 'Affiliation',
-                    value: this.getAffiliationName(),
-                    options: this.getOrganizationOptions(),
-                    onChange: this.handleAffiliationChange }),
                 _react2.default.createElement(
                     _formGroup2.default,
                     null,
@@ -52560,18 +52474,18 @@ var JudgeEditor = function (_RoleAwareComponent) {
 
 exports.default = JudgeEditor;
 
-},{"../../../../../common/button":292,"../../../../../common/formGroup":293,"../../../../../common/input":294,"../../../../../common/roleAwareComponent":300,"../../../../../common/select":301,"../../../../../data/stores/organizationStore":336,"../../../../../data/stores/userStore":341,"clone":6,"react":290}],378:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/formGroup":293,"../../../../../common/roleAwareComponent":300,"../../../../../common/select":301,"../../../../../data/stores/userStore":341,"clone":6,"react":290}],378:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var getName = function getName(judge) {
-    return judge.Name.FirstName + " " + judge.Name.LastName + " (" + judge.Id + ")";
+var getName = function getName(judge, user) {
+    return user.FirstName + " " + user.LastName + " (" + judge.Id + ")";
 };
 
-var getDescription = function getDescription(judge) {
-    return judge.Affiliation.Name;
+var getDescription = function getDescription(user) {
+    return user.AffiliationName;
 };
 
 exports.getName = getName;
@@ -52599,6 +52513,10 @@ var _listPanel = require('../../../../common/listPanel');
 var _judgeStore = require('../../../../data/stores/judgeStore');
 
 var _judgeStore2 = _interopRequireDefault(_judgeStore);
+
+var _userStore = require('../../../../data/stores/userStore');
+
+var _userStore2 = _interopRequireDefault(_userStore);
 
 var _button = require('../../../../common/button');
 
@@ -52639,11 +52557,13 @@ var JudgesBox = function (_React$Component) {
         key: 'componentWillMount',
         value: function componentWillMount() {
             _judgeStore2.default.on("change", this.storeChanged);
+            _userStore2.default.on("change", this.storeChanged);
         }
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
             _judgeStore2.default.off("change", this.storeChanged);
+            _userStore2.default.off("change", this.storeChanged);
         }
     }, {
         key: 'storeChanged',
@@ -52678,11 +52598,19 @@ var JudgesBox = function (_React$Component) {
             var contestId = this.getContestId();
 
             var judges = this.state.judges.map(function (judge) {
+                var user = _userStore2.default.get(judge.UserId);
+                if (user) {
+                    return _react2.default.createElement(_listPanel.ListPanelItem, {
+                        key: judge.Id,
+                        name: JudgeUtil.getName(judge, user),
+                        description: JudgeUtil.getDescription(user),
+                        pathname: '/show/' + showId + '/contest/' + contestId + '/judge/' + judge.Id });
+                }
                 return _react2.default.createElement(_listPanel.ListPanelItem, {
                     key: judge.Id,
-                    name: JudgeUtil.getName(judge),
-                    description: JudgeUtil.getDescription(judge),
-                    pathname: '/show/' + showId + '/contest/' + contestId + '/judge/' + judge.Id });
+                    name: judge.Id,
+                    description: "User Id: " + judge.UserId,
+                    pathname: '/show/' + showId + '/contest/' + contestId + '/judge/' + judge.Id });;
             });
 
             var addJudgeButton = _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: ["admin"], name: 'addJudge', value: 'Add', onClick: this.handleAddJudgeClick });
@@ -52696,7 +52624,7 @@ var JudgesBox = function (_React$Component) {
 
 exports.default = JudgesBox;
 
-},{"../../../../common/button":292,"../../../../common/listPanel":297,"../../../../data/stores/judgeStore":335,"../../../../routing/navigation":393,"./judge/judgeUtil":378,"react":290}],380:[function(require,module,exports){
+},{"../../../../common/button":292,"../../../../common/listPanel":297,"../../../../data/stores/judgeStore":335,"../../../../data/stores/userStore":341,"../../../../routing/navigation":393,"./judge/judgeUtil":378,"react":290}],380:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

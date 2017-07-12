@@ -3,6 +3,7 @@ import React from 'react';
 import * as Nav from '../../../../../routing/navigation';
 import { ListPanel, ListPanelItem } from '../../../../../common/listPanel';
 import ScoreCardStore from '../../../../../data/stores/scoreCardStore';
+import CurrentUserStore from '../../../../../data/stores/currentUserStore';
 import Button from '../../../../../common/button';
 import * as ScoreCardUtil from './scoreCard/scoreCardUtil';
 
@@ -58,13 +59,20 @@ class ScoreCardsBox extends React.Component {
         var contestantId =  this.getContestantId();
 
         var scoreCards = this.state.scoreCards.map(function (scoreCard) {
+            var isUsers = CurrentUserStore.getJudgeId() == scoreCard.Judge.Id;
+            var path = '/show/' + showId + '/contest/' + contestId + '/contestant/' + contestantId;
+            if(isUsers){
+                path += '/scorecard/' + scoreCard.Id + '/edit';
+            }
             return (
                 <ListPanelItem 
+                    className = {(isUsers ? 'active' : '')}
                     key={scoreCard.Id} 
                     name={ScoreCardUtil.getName(scoreCard)} 
                     description={ScoreCardUtil.getDescription(scoreCard)} 
-                    pathname={ '/show/' + showId + '/contest/' + contestId + '/contestant/' + contestantId + '/scorecard/' + scoreCard.Id + '/edit' } />
+                    pathname={ path } />
             );
+            
         });
 
         var addScoreCardButton = null;

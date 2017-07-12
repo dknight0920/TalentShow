@@ -3,6 +3,7 @@ import React from 'react';
 import * as Nav from '../../../../routing/navigation';
 import { ListPanel, ListPanelItem } from '../../../../common/listPanel';
 import JudgeStore from '../../../../data/stores/judgeStore';
+import UserStore from '../../../../data/stores/userStore';
 import Button from '../../../../common/button';
 import * as JudgeUtil from './judge/judgeUtil';
 
@@ -20,10 +21,12 @@ class JudgesBox extends React.Component {
 
     componentWillMount(){
         JudgeStore.on("change", this.storeChanged);
+        UserStore.on("change", this.storeChanged);
     }
 
     componentWillUnmount(){
         JudgeStore.off("change", this.storeChanged);
+        UserStore.off("change", this.storeChanged);
     }
 
     storeChanged(){
@@ -52,13 +55,23 @@ class JudgesBox extends React.Component {
         var contestId =  this.getContestId();
 
         var judges = this.state.judges.map(function (judge) {
+            var user = UserStore.get(judge.UserId);
+            if(user){
+                return (
+                    <ListPanelItem 
+                        key={judge.Id} 
+                        name={JudgeUtil.getName(judge, user)} 
+                        description={JudgeUtil.getDescription(user)} 
+                        pathname={ '/show/' + showId + '/contest/' + contestId + '/judge/' + judge.Id } />
+                );
+            }
             return (
                 <ListPanelItem 
                     key={judge.Id} 
-                    name={JudgeUtil.getName(judge)} 
-                    description={JudgeUtil.getDescription(judge)} 
+                    name={judge.Id} 
+                    description={"User Id: " + judge.UserId} 
                     pathname={ '/show/' + showId + '/contest/' + contestId + '/judge/' + judge.Id } />
-            );
+            );;
         });
 
         var addJudgeButton = ( <Button type="primary" authorizedRoles={["admin"]} name="addJudge" value="Add" onClick={this.handleAddJudgeClick} /> );

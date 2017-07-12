@@ -11,17 +11,18 @@ namespace TalentShow
     public class Judge : IIdentity
     {
         public int Id { get; private set; }
-        public PersonName Name { get; private set; }
-        public Organization Affiliation { get; private set; }
+        public string UserId { get; private set; }
+        //public PersonName Name { get; private set; }
+       // public Organization Affiliation { get; private set; }
 
-        public Judge(int id, PersonName name, Organization affiliation)
+        public Judge(int id, string userId)
         {
-            Init(id, name, affiliation);
+            Init(id, userId);
         }
 
-        public Judge(PersonName name, Organization affiliation)
+        public Judge(string userId)
         {
-            Init(0, name, affiliation);
+            Init(0, userId);
         }
 
         public void SetId(int id)
@@ -29,11 +30,10 @@ namespace TalentShow
             Id = id;
         }
 
-        private void Init(int id, PersonName name, Organization affiliation)
+        private void Init(int id, string userId)
         {
             Id = id;
-            Name = name;
-            Affiliation = affiliation;
+            UserId = userId;
         }
     }
 }
