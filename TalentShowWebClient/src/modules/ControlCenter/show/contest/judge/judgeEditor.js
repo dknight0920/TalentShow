@@ -13,7 +13,8 @@ class JudgeEditor extends RoleAwareComponent {
         this.handleUserChange = this.handleUserChange.bind(this);
         this.handleClickSave = this.handleClickSave.bind(this);
         this.handleClickCancel = this.handleClickCancel.bind(this);
-        this.getUserEmail = this.getUserEmail.bind(this);
+        this.getUserOptionValue = this.getUserOptionValue.bind(this);
+        this.getUserOptionDisplayText = this.getUserOptionDisplayText.bind(this);
         this.getState = this.getState.bind(this);
         this.storeChanged = this.storeChanged.bind(this);
         this.getUserOptions = this.getUserOptions.bind(this);
@@ -79,8 +80,8 @@ class JudgeEditor extends RoleAwareComponent {
         for (var i = 0; i < users.length; i++) {
             var user = users[i];
             options.push({
-                value: user.Email, 
-                label: user.Email,
+                value: this.getUserOptionDisplayText(user), 
+                label: this.getUserOptionDisplayText(user),
                 user: user
             });
         }
@@ -88,18 +89,22 @@ class JudgeEditor extends RoleAwareComponent {
         return options;
     }
 
-    getUserEmail() {
+    getUserOptionValue() {
         var judge = this.state.judge;
         if(judge && judge.UserId){
             var users = this.state.users;
             for (var i = 0; i < users.length; i++) {
                 var user = users[i];
                 if(user.Id == judge.UserId){
-                    return user.Email;
+                    return this.getUserOptionDisplayText(user);
                 }
             }
         }
         return "";
+    }
+
+    getUserOptionDisplayText(user){
+        return (user.AffiliationName || '') + ' - ' + (user.FirstName || '') + ' ' + (user.LastName || '') + ' - ' + user.Email;
     }
 
     render() {
@@ -110,7 +115,7 @@ class JudgeEditor extends RoleAwareComponent {
                 <Select
                     name="user"
                     label="User"
-                    value={this.getUserEmail()}
+                    value={this.getUserOptionValue()}
                     options={this.getUserOptions()}
                     onChange={this.handleUserChange} />
 

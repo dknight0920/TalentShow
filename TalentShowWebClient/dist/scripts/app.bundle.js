@@ -52345,7 +52345,8 @@ var JudgeEditor = function (_RoleAwareComponent) {
         _this.handleUserChange = _this.handleUserChange.bind(_this);
         _this.handleClickSave = _this.handleClickSave.bind(_this);
         _this.handleClickCancel = _this.handleClickCancel.bind(_this);
-        _this.getUserEmail = _this.getUserEmail.bind(_this);
+        _this.getUserOptionValue = _this.getUserOptionValue.bind(_this);
+        _this.getUserOptionDisplayText = _this.getUserOptionDisplayText.bind(_this);
         _this.getState = _this.getState.bind(_this);
         _this.storeChanged = _this.storeChanged.bind(_this);
         _this.getUserOptions = _this.getUserOptions.bind(_this);
@@ -52421,8 +52422,8 @@ var JudgeEditor = function (_RoleAwareComponent) {
             for (var i = 0; i < users.length; i++) {
                 var user = users[i];
                 options.push({
-                    value: user.Email,
-                    label: user.Email,
+                    value: this.getUserOptionDisplayText(user),
+                    label: this.getUserOptionDisplayText(user),
                     user: user
                 });
             }
@@ -52430,19 +52431,24 @@ var JudgeEditor = function (_RoleAwareComponent) {
             return options;
         }
     }, {
-        key: 'getUserEmail',
-        value: function getUserEmail() {
+        key: 'getUserOptionValue',
+        value: function getUserOptionValue() {
             var judge = this.state.judge;
             if (judge && judge.UserId) {
                 var users = this.state.users;
                 for (var i = 0; i < users.length; i++) {
                     var user = users[i];
                     if (user.Id == judge.UserId) {
-                        return user.Email;
+                        return this.getUserOptionDisplayText(user);
                     }
                 }
             }
             return "";
+        }
+    }, {
+        key: 'getUserOptionDisplayText',
+        value: function getUserOptionDisplayText(user) {
+            return (user.AffiliationName || '') + ' - ' + (user.FirstName || '') + ' ' + (user.LastName || '') + ' - ' + user.Email;
         }
     }, {
         key: 'render',
@@ -52455,7 +52461,7 @@ var JudgeEditor = function (_RoleAwareComponent) {
                 _react2.default.createElement(_select2.default, {
                     name: 'user',
                     label: 'User',
-                    value: this.getUserEmail(),
+                    value: this.getUserOptionValue(),
                     options: this.getUserOptions(),
                     onChange: this.handleUserChange }),
                 _react2.default.createElement(
