@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TalentShow;
 
 namespace TalentShowWebApi.Models
 {
@@ -35,7 +36,7 @@ namespace TalentShowWebApi.Models
 
         public string LastName { get; set; }
 
-        public string AffiliationName { get; set; }
+        public Organization Affiliation { get; set; }
 
         public IEnumerable<string> Roles { get; set; }
 

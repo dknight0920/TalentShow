@@ -19,6 +19,7 @@ using TalentShowWebApi.Results;
 using System.Linq;
 using TalentShowDataStorage;
 using TalentShow;
+using TalentShow.Services;
 
 namespace TalentShowWebApi.Controllers
 {
@@ -59,16 +60,39 @@ namespace TalentShowWebApi.Controllers
         [Route("UserInfo")]
         public UserInfoViewModel GetUserInfo()
         {
-            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            return GetUser(UserManager.FindById(User.Identity.GetUserId()));
+        }
 
+        // GET api/Account/UserInfo
+        [Route("UsersInfo")]
+        public IEnumerable<UserInfoViewModel> GetUsersInfo()
+        {
+            var users = new List<UserInfoViewModel>();
+            var appUsers = new List<ApplicationUser>();
+
+            foreach (var user in UserManager.Users)
+            {
+                appUsers.Add(user);
+            }
+
+            foreach (var user in appUsers)
+            {
+                users.Add(GetUser(user));
+            }
+
+            return users;
+        }
+
+        private UserInfoViewModel GetUser(ApplicationUser user)
+        {
             var claims = new List<UserClaimViewModel>();
 
-            foreach (var claim in UserManager.GetClaims(User.Identity.GetUserId()))
-                claims.Add(new UserClaimViewModel() { Type = claim.Type, Value = claim.Value });
+            foreach (var claim in user.Claims)
+                claims.Add(new UserClaimViewModel() { Type = claim.ClaimType, Value = claim.ClaimValue });
 
-            var firstName = "";
-            var lastName = "";
-            var affiliationName = "";
+            string firstName = "";
+            string lastName = "";
+            Organization affiliation = null;
 
             var personNameIdClaim = claims.FirstOrDefault(n => n.Type == "personNameId");
 
@@ -86,80 +110,19 @@ namespace TalentShowWebApi.Controllers
             if (personNameIdClaim != null)
             {
                 var organizationId = Convert.ToInt32(organizationIdClaim.Value);
-                var organization = new OrganizationRepo().Get(organizationId);
-
-                affiliationName = organization.Name;
+                affiliation = new OrganizationRepo().Get(organizationId);
             }
 
             return new UserInfoViewModel
             {
-                Id = User.Identity.GetUserId(),
-                Email = User.Identity.GetUserName(),
+                Id = user.Id,
+                Email = user.UserName,
                 FirstName = firstName,
                 LastName = lastName,
-                AffiliationName = affiliationName,
-                Roles = UserManager.GetRoles(User.Identity.GetUserId()),
+                Affiliation = affiliation,
+                Roles = UserManager.GetRoles(user.Id),
                 Claims = claims
             };
-        }
-
-        // GET api/Account/UserInfo
-        [Route("UsersInfo")]
-        public IEnumerable<UserInfoViewModel> GetUsersInfo()
-        {
-            var users = new List<UserInfoViewModel>();
-            var appUsers = new List<ApplicationUser>();
-
-            foreach (var user in UserManager.Users)
-            {
-                appUsers.Add(user);
-            }
-
-            foreach (var user in appUsers)
-            {
-                var claims = new List<UserClaimViewModel>();
-
-                foreach (var claim in user.Claims)
-                    claims.Add(new UserClaimViewModel() { Type = claim.ClaimType, Value = claim.ClaimValue });
-
-                var firstName = "";
-                var lastName = "";
-                var affiliationName = "";
-
-                var personNameIdClaim = claims.FirstOrDefault(n => n.Type == "personNameId");
-
-                if (personNameIdClaim != null)
-                {
-                    var personNameId = Convert.ToInt32(personNameIdClaim.Value);
-                    var personName = new PersonNameRepo().Get(personNameId);
-
-                    firstName = personName.FirstName;
-                    lastName = personName.LastName;
-                }
-
-                var organizationIdClaim = claims.FirstOrDefault(n => n.Type == "organizationId");
-
-                if (personNameIdClaim != null)
-                {
-                    var organizationId = Convert.ToInt32(organizationIdClaim.Value);
-                    var organization = new OrganizationRepo().Get(organizationId);
-
-                    affiliationName = organization.Name;
-                }
-
-                users.Add(new UserInfoViewModel
-                {
-                    Id = user.Id,
-                    Email = user.UserName,
-                    FirstName = firstName,
-                    LastName = lastName,
-                    AffiliationName = affiliationName,
-                    Roles = UserManager.GetRoles(user.Id),
-                    Claims = claims
-                });
-            }
-
-            return users;
         }
 
         // POST api/Account/Logout
@@ -208,6 +171,36 @@ namespace TalentShowWebApi.Controllers
                 Logins = logins,
                 ExternalLoginProviders = GetExternalLogins(returnUrl, generateState)
             };
+        }
+
+        // POST api/Account/UpdateUserInfo
+        [Route("UpdateUserInfo")]
+        public HttpResponseMessage UpdateUserInfo(UpdateUserBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateResponse(System.Net.HttpStatusCode.BadRequest, ModelState);
+            }
+
+            var user = UserManager.FindById(model.Id);
+
+            user.Email = model.Email;
+            var personNameClaim = user.Claims.FirstOrDefault(n => n.ClaimType == "personNameId");
+
+            if(personNameClaim != null)
+            {
+                int personNameId = Convert.ToInt32(personNameClaim.ClaimValue);
+                new PersonNameRepo().Update(new PersonName(personNameId, model.FirstName, model.LastName));
+            }
+
+            foreach (var claim in UserManager.GetClaims(user.Id).Where(c => c.Type == "organizationId"))
+                UserManager.RemoveClaim(user.Id, claim);
+
+            UserManager.AddClaim(user.Id, new Claim("organizationId", model.OrganizationId.ToString()));
+
+            UserManager.ChangePassword(User.Identity.GetUserId(), model.OldPassword, model.Password);
+
+            return Request.CreateResponse(System.Net.HttpStatusCode.OK, GetUser(user));
         }
 
         // POST api/Account/ChangePassword

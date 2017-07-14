@@ -5,7 +5,7 @@ var getName = function (judge, user) {
 };
 
 var getDescription = function (user) {
-    return user.AffiliationName;
+    return user.Affiliation.Name;
 };
 
 export {getName, getDescription};

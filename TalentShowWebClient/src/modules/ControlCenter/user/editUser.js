@@ -19,7 +19,7 @@ class EditUserPage extends RoleAwareComponent {
         this.handleClickRemove = this.handleClickRemove.bind(this);
         this.handleClickSave = this.handleClickSave.bind(this);
         this.handleClickCancel = this.handleClickCancel.bind(this);
-        this.navigateToOrganizationsPage = this.navigateToOrganizationsPage.bind(this);
+        this.navigateToShowsPage = this.navigateToShowsPage.bind(this);
         this.authorizedRoles = ["admin", "judge"];
         this.state = this.getState();
     }
@@ -47,15 +47,15 @@ class EditUserPage extends RoleAwareComponent {
 
     handleClickSave(user) {
         UserActions.updateUser(user);
-        this.navigateToOrganizationsPage();
+        Nav.goToLogin();
     }
 
     handleClickCancel() {
-        this.navigateToOrganizationsPage();
+        this.navigateToShowsPage();
     }
 
-    navigateToOrganizationsPage() {
-        Nav.goToOrganizations();
+    navigateToShowsPage() {
+        Nav.goToShows();
     }
     
     getState(){
@@ -87,7 +87,7 @@ class EditUserPage extends RoleAwareComponent {
 
         return (
             <PageContent title="Edit a User" description="Use the form below to edit the user." buttons={removeOrganizationButton} >
-                <UserEditor user={user} authorizedRoles={this.authorizedRoles} OnClickSave={this.handleClickSave} OnClickCancel={this.handleClickCancel}/>
+                <UserEditor user={user} authorizedRoles={this.authorizedRoles} onUserFormSubmit={this.handleClickSave} OnClickCancel={this.handleClickCancel}/>
             </PageContent>
         );
     }

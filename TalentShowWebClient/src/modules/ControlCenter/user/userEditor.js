@@ -53,6 +53,9 @@ var UserEditor = React.createClass({
 
         return options;
     },
+    handleOldPasswordChange: function (e) {
+        this.setState({ OldPassword: e.target.value.trim() });
+    },
     handlePasswordChange: function (e) {
         this.setState({ Password: e.target.value.trim() });
     },
@@ -65,25 +68,37 @@ var UserEditor = React.createClass({
             return;
         }
 
-        this.props.onUserFormSubmit({ 
+        if(this.state.Id && !this.state.OldPassword){
+            return;
+        }
+
+        var userData = { 
             Email: this.state.Email,
             FirstName: this.state.FirstName,
             LastName: this.state.LastName,
             OrganizationId: this.state.Affiliation.Id,
             Password: this.state.Password,  
             ConfirmPassword: this.state.ConfirmPassword 
-        });
+        };
 
-        this.setState(this.createInitialState());
+        if(this.state.Id && this.state.OldPassword){
+            userData.Id = this.state.Id;
+            userData.OldPassword = this.state.OldPassword;
+        }
+
+        this.props.onUserFormSubmit(userData);
     },
     createInitialState: function () {
         var user = this.props.user;
+        var defaultAffiliation = { Id: 0, Name: "", Parent: null };
         if(user){
             return { 
+                Id: user.Id,
                 Email: user.Email, 
                 FirstName:  user.FirstName, 
                 LastName:  user.LastName, 
-                Affiliation: { Id: 0, Name: "", Parent: null }, 
+                Affiliation: (user.Affiliation || defaultAffiliation),
+                OldPassword: "",
                 Password: "", 
                 ConfirmPassword: "",
                 Organizations: OrganizationStore.getOrganizations() 
@@ -93,42 +108,70 @@ var UserEditor = React.createClass({
             Email: "", 
             FirstName: "", 
             LastName: "", 
-            Affiliation: { Id: 0, Name: "", Parent: null }, 
+            Affiliation: defaultAffiliation, 
             Password: "", 
             ConfirmPassword: "",
             Organizations: OrganizationStore.getOrganizations() 
         };
     },
     render: function() {
-        return (
-            <form className="registerForm"  onSubmit={this.handleSubmit}>
-                <Input 
+        var inputs = [];
+        inputs.push(( 
+             <Input 
+                    key={1}
                     name="email" 
                     type="text"
                     label="Email"
                     value={this.state.Email}
                     onChange={this.handleEmailChange} />
+        ));
 
-                <Input 
+        inputs.push((
+                <Input
+                    key={2}
                     name="firstName" 
                     type="text"
                     label="First Name"
                     value={this.state.FirstName}
                     onChange={this.handleFirstNameChange} />
+        ));
 
+        inputs.push((
                 <Input 
+                    key={3}
                     name="lastName" 
                     type="text"
                     label="Last Name"
                     value={this.state.LastName}
                     onChange={this.handleLastNameChange} />
+        ));
 
+        inputs.push((
                 <Select
+                    key={4}
                     name="affiliation"
                     label="Affiliation"
                     value={this.state.Affiliation.Name}
                     options={this.getOrganizationOptions()}
                     onChange={this.handleAffiliationChange} />
+        ));
+
+        if(this.state.Id){
+            inputs.push((
+                <Input 
+                    key={5}
+                    name="oldPassword" 
+                    type="password"
+                    label="Current Password"
+                    value={this.state.OldPassword}
+                    onChange={this.handleOldPasswordChange} />
+            ));
+        }
+
+        return (
+            <form className="registerForm"  onSubmit={this.handleSubmit}>
+            
+                {inputs}
 
                 <Input 
                     name="password" 

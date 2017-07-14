@@ -37,6 +37,18 @@ var register = function (credentials, success, fail) {
     }, JSON.stringify(credentials));
 };
 
+var update = function (user, success, fail) {
+    ApiHttpUtil.post({
+        url:  "api/Account/UpdateUserInfo",
+        success: function(result){
+            success(result);          
+        },
+        error: function(request, status, err){
+            fail(err);
+        }
+    }, JSON.stringify(user));
+};
+
 var addRole = function (userRole, success, fail) {
     ApiHttpUtil.post({
         url:  "api/Account/AddUserToRole",
@@ -85,4 +97,4 @@ var removeClaim = function (userClaim, success, fail) {
     }, JSON.stringify(userClaim));
 };
 
-export {getCurrentUser, getUsers, register, addRole, addClaim, removeRole, removeClaim};
+export {getCurrentUser, getUsers, register, update, addRole, addClaim, removeRole, removeClaim};

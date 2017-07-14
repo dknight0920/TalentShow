@@ -104,7 +104,7 @@ class JudgeEditor extends RoleAwareComponent {
     }
 
     getUserOptionDisplayText(user){
-        return (user.AffiliationName || '') + ' - ' + (user.FirstName || '') + ' ' + (user.LastName || '') + ' - ' + user.Email;
+        return (user.Affiliation.Name || '') + ' - ' + (user.FirstName || '') + ' ' + (user.LastName || '') + ' - ' + user.Email;
     }
 
     render() {

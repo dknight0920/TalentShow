@@ -45453,7 +45453,7 @@ exports.getToken = getToken;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.removeClaim = exports.removeRole = exports.addClaim = exports.addRole = exports.register = exports.getUsers = exports.getCurrentUser = undefined;
+exports.removeClaim = exports.removeRole = exports.addClaim = exports.addRole = exports.update = exports.register = exports.getUsers = exports.getCurrentUser = undefined;
 
 var _httpUtil = require('./utils/httpUtil.js');
 
@@ -45497,11 +45497,23 @@ var register = function register(credentials, _success3, fail) {
     }, JSON.stringify(credentials));
 };
 
-var addRole = function addRole(userRole, _success4, fail) {
+var update = function update(user, _success4, fail) {
+    ApiHttpUtil.post({
+        url: "api/Account/UpdateUserInfo",
+        success: function success(result) {
+            _success4(result);
+        },
+        error: function error(request, status, err) {
+            fail(err);
+        }
+    }, JSON.stringify(user));
+};
+
+var addRole = function addRole(userRole, _success5, fail) {
     ApiHttpUtil.post({
         url: "api/Account/AddUserToRole",
         success: function success() {
-            _success4();
+            _success5();
         },
         error: function error(request, status, err) {
             fail(err);
@@ -45509,11 +45521,11 @@ var addRole = function addRole(userRole, _success4, fail) {
     }, JSON.stringify(userRole));
 };
 
-var addClaim = function addClaim(userClaim, _success5, fail) {
+var addClaim = function addClaim(userClaim, _success6, fail) {
     ApiHttpUtil.post({
         url: "api/Account/AddClaimToUser",
         success: function success() {
-            _success5();
+            _success6();
         },
         error: function error(request, status, err) {
             fail(err);
@@ -45521,11 +45533,11 @@ var addClaim = function addClaim(userClaim, _success5, fail) {
     }, JSON.stringify(userClaim));
 };
 
-var removeRole = function removeRole(userRole, _success6, fail) {
+var removeRole = function removeRole(userRole, _success7, fail) {
     ApiHttpUtil.remove({
         url: "api/Account/DeleteUserRole",
         success: function success() {
-            _success6();
+            _success7();
         },
         error: function error(request, status, err) {
             fail(err);
@@ -45533,11 +45545,11 @@ var removeRole = function removeRole(userRole, _success6, fail) {
     }, JSON.stringify(userRole));
 };
 
-var removeClaim = function removeClaim(userClaim, _success7, fail) {
+var removeClaim = function removeClaim(userClaim, _success8, fail) {
     ApiHttpUtil.remove({
         url: "api/Account/DeleteUserClaim",
         success: function success() {
-            _success7();
+            _success8();
         },
         error: function error(request, status, err) {
             fail(err);
@@ -45548,6 +45560,7 @@ var removeClaim = function removeClaim(userClaim, _success7, fail) {
 exports.getCurrentUser = getCurrentUser;
 exports.getUsers = getUsers;
 exports.register = register;
+exports.update = update;
 exports.addRole = addRole;
 exports.addClaim = addClaim;
 exports.removeRole = removeRole;
@@ -52467,7 +52480,7 @@ var JudgeEditor = function (_RoleAwareComponent) {
     }, {
         key: 'getUserOptionDisplayText',
         value: function getUserOptionDisplayText(user) {
-            return (user.AffiliationName || '') + ' - ' + (user.FirstName || '') + ' ' + (user.LastName || '') + ' - ' + user.Email;
+            return (user.Affiliation.Name || '') + ' - ' + (user.FirstName || '') + ' ' + (user.LastName || '') + ' - ' + user.Email;
         }
     }, {
         key: 'render',
@@ -52510,7 +52523,7 @@ var getName = function getName(judge, user) {
 };
 
 var getDescription = function getDescription(user) {
-    return user.AffiliationName;
+    return user.Affiliation.Name;
 };
 
 exports.getName = getName;
@@ -54147,7 +54160,7 @@ var EditUserPage = function (_RoleAwareComponent) {
         _this.handleClickRemove = _this.handleClickRemove.bind(_this);
         _this.handleClickSave = _this.handleClickSave.bind(_this);
         _this.handleClickCancel = _this.handleClickCancel.bind(_this);
-        _this.navigateToOrganizationsPage = _this.navigateToOrganizationsPage.bind(_this);
+        _this.navigateToShowsPage = _this.navigateToShowsPage.bind(_this);
         _this.authorizedRoles = ["admin", "judge"];
         _this.state = _this.getState();
         return _this;
@@ -54182,17 +54195,17 @@ var EditUserPage = function (_RoleAwareComponent) {
         key: 'handleClickSave',
         value: function handleClickSave(user) {
             UserActions.updateUser(user);
-            this.navigateToOrganizationsPage();
+            Nav.goToLogin();
         }
     }, {
         key: 'handleClickCancel',
         value: function handleClickCancel() {
-            this.navigateToOrganizationsPage();
+            this.navigateToShowsPage();
         }
     }, {
-        key: 'navigateToOrganizationsPage',
-        value: function navigateToOrganizationsPage() {
-            Nav.goToOrganizations();
+        key: 'navigateToShowsPage',
+        value: function navigateToShowsPage() {
+            Nav.goToShows();
         }
     }, {
         key: 'getState',
@@ -54227,7 +54240,7 @@ var EditUserPage = function (_RoleAwareComponent) {
             return _react2.default.createElement(
                 _pageContent2.default,
                 { title: 'Edit a User', description: 'Use the form below to edit the user.', buttons: removeOrganizationButton },
-                _react2.default.createElement(_userEditor2.default, { user: user, authorizedRoles: this.authorizedRoles, OnClickSave: this.handleClickSave, OnClickCancel: this.handleClickCancel })
+                _react2.default.createElement(_userEditor2.default, { user: user, authorizedRoles: this.authorizedRoles, onUserFormSubmit: this.handleClickSave, OnClickCancel: this.handleClickCancel })
             );
         }
     }]);
@@ -54324,6 +54337,9 @@ var UserEditor = _react2.default.createClass({
 
         return options;
     },
+    handleOldPasswordChange: function handleOldPasswordChange(e) {
+        this.setState({ OldPassword: e.target.value.trim() });
+    },
     handlePasswordChange: function handlePasswordChange(e) {
         this.setState({ Password: e.target.value.trim() });
     },
@@ -54336,25 +54352,37 @@ var UserEditor = _react2.default.createClass({
             return;
         }
 
-        this.props.onUserFormSubmit({
+        if (this.state.Id && !this.state.OldPassword) {
+            return;
+        }
+
+        var userData = {
             Email: this.state.Email,
             FirstName: this.state.FirstName,
             LastName: this.state.LastName,
             OrganizationId: this.state.Affiliation.Id,
             Password: this.state.Password,
             ConfirmPassword: this.state.ConfirmPassword
-        });
+        };
 
-        this.setState(this.createInitialState());
+        if (this.state.Id && this.state.OldPassword) {
+            userData.Id = this.state.Id;
+            userData.OldPassword = this.state.OldPassword;
+        }
+
+        this.props.onUserFormSubmit(userData);
     },
     createInitialState: function createInitialState() {
         var user = this.props.user;
+        var defaultAffiliation = { Id: 0, Name: "", Parent: null };
         if (user) {
             return {
+                Id: user.Id,
                 Email: user.Email,
                 FirstName: user.FirstName,
                 LastName: user.LastName,
-                Affiliation: { Id: 0, Name: "", Parent: null },
+                Affiliation: user.Affiliation || defaultAffiliation,
+                OldPassword: "",
                 Password: "",
                 ConfirmPassword: "",
                 Organizations: _organizationStore2.default.getOrganizations()
@@ -54364,40 +54392,60 @@ var UserEditor = _react2.default.createClass({
             Email: "",
             FirstName: "",
             LastName: "",
-            Affiliation: { Id: 0, Name: "", Parent: null },
+            Affiliation: defaultAffiliation,
             Password: "",
             ConfirmPassword: "",
             Organizations: _organizationStore2.default.getOrganizations()
         };
     },
     render: function render() {
+        var inputs = [];
+        inputs.push(_react2.default.createElement(_input2.default, {
+            key: 1,
+            name: 'email',
+            type: 'text',
+            label: 'Email',
+            value: this.state.Email,
+            onChange: this.handleEmailChange }));
+
+        inputs.push(_react2.default.createElement(_input2.default, {
+            key: 2,
+            name: 'firstName',
+            type: 'text',
+            label: 'First Name',
+            value: this.state.FirstName,
+            onChange: this.handleFirstNameChange }));
+
+        inputs.push(_react2.default.createElement(_input2.default, {
+            key: 3,
+            name: 'lastName',
+            type: 'text',
+            label: 'Last Name',
+            value: this.state.LastName,
+            onChange: this.handleLastNameChange }));
+
+        inputs.push(_react2.default.createElement(_select2.default, {
+            key: 4,
+            name: 'affiliation',
+            label: 'Affiliation',
+            value: this.state.Affiliation.Name,
+            options: this.getOrganizationOptions(),
+            onChange: this.handleAffiliationChange }));
+
+        if (this.state.Id) {
+            inputs.push(_react2.default.createElement(_input2.default, {
+                key: 5,
+                name: 'oldPassword',
+                type: 'password',
+                label: 'Current Password',
+                value: this.state.OldPassword,
+                onChange: this.handleOldPasswordChange }));
+        }
+
         return _react2.default.createElement(
             'form',
             { className: 'registerForm', onSubmit: this.handleSubmit },
-            _react2.default.createElement(_input2.default, {
-                name: 'email',
-                type: 'text',
-                label: 'Email',
-                value: this.state.Email,
-                onChange: this.handleEmailChange }),
-            _react2.default.createElement(_input2.default, {
-                name: 'firstName',
-                type: 'text',
-                label: 'First Name',
-                value: this.state.FirstName,
-                onChange: this.handleFirstNameChange }),
-            _react2.default.createElement(_input2.default, {
-                name: 'lastName',
-                type: 'text',
-                label: 'Last Name',
-                value: this.state.LastName,
-                onChange: this.handleLastNameChange }),
-            _react2.default.createElement(_select2.default, {
-                name: 'affiliation',
-                label: 'Affiliation',
-                value: this.state.Affiliation.Name,
-                options: this.getOrganizationOptions(),
-                onChange: this.handleAffiliationChange }),
+            inputs,
             _react2.default.createElement(_input2.default, {
                 name: 'password',
                 type: 'password',
