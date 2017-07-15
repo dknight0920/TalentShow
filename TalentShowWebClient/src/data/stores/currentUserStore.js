@@ -90,6 +90,20 @@ class CurrentUserStore extends ChangeEventEmitter {
                     self.isProcessingAccountRegistration = false;
                     self.emitChange();
                     break;
+                case "UPDATE_CURRENT_USER_PASSWORD":
+                    //TODO
+                    break;
+                case "UPDATE_CURRENT_USER_PASSWORD_SUCCESS":
+                    self.setUserInfo(action.userInfo)
+                    self.emitChange();
+                    break;
+                case "UPDATE_CURRENT_USER_PASSWORD_FAIL":
+                    //TODO
+                    break;
+                case "UPDATE_USER_SUCCESS":
+                    self.setUserInfo(action.user);
+                    self.emitChange();
+                    break;
             }
         };
 

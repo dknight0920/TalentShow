@@ -3,6 +3,7 @@ import React from 'react';
 import Clone from 'clone';
 import * as Nav from '../../../routing/navigation';
 import Input from '../../../common/input';
+import Button from '../../../common/button';
 import Select from '../../../common/select';
 import FormGroup from '../../../common/formGroup';
 import OrganizationStore from '../../../data/stores/organizationStore';
@@ -53,9 +54,6 @@ var UserEditor = React.createClass({
 
         return options;
     },
-    handleOldPasswordChange: function (e) {
-        this.setState({ OldPassword: e.target.value.trim() });
-    },
     handlePasswordChange: function (e) {
         this.setState({ Password: e.target.value.trim() });
     },
@@ -64,11 +62,11 @@ var UserEditor = React.createClass({
     },
     handleSubmit: function (e) {
         e.preventDefault();
-        if (!this.state.Email || !this.state.FirstName || !this.state.LastName || !this.state.Affiliation || !this.state.Password || !this.state.ConfirmPassword) {
+        if (!this.state.Email || !this.state.FirstName || !this.state.LastName || !this.state.Affiliation) {
             return;
         }
 
-        if(this.state.Id && !this.state.OldPassword){
+        if(!this.state.Id && (!this.state.Password || !this.state.ConfirmPassword)){
             return;
         }
 
@@ -76,14 +74,14 @@ var UserEditor = React.createClass({
             Email: this.state.Email,
             FirstName: this.state.FirstName,
             LastName: this.state.LastName,
-            OrganizationId: this.state.Affiliation.Id,
-            Password: this.state.Password,  
-            ConfirmPassword: this.state.ConfirmPassword 
+            OrganizationId: this.state.Affiliation.Id
         };
 
-        if(this.state.Id && this.state.OldPassword){
+        if(this.state.Id){
             userData.Id = this.state.Id;
-            userData.OldPassword = this.state.OldPassword;
+        } else {
+            userData.Password = this.state.Password;
+            userData.ConfirmPassword = this.state.ConfirmPassword;
         }
 
         this.props.onUserFormSubmit(userData);
@@ -98,9 +96,6 @@ var UserEditor = React.createClass({
                 FirstName:  user.FirstName, 
                 LastName:  user.LastName, 
                 Affiliation: (user.Affiliation || defaultAffiliation),
-                OldPassword: "",
-                Password: "", 
-                ConfirmPassword: "",
                 Organizations: OrganizationStore.getOrganizations() 
             };
         }
@@ -117,80 +112,75 @@ var UserEditor = React.createClass({
     render: function() {
         var inputs = [];
         inputs.push(( 
-             <Input 
-                    key={1}
-                    name="email" 
-                    type="text"
-                    label="Email"
-                    value={this.state.Email}
-                    onChange={this.handleEmailChange} />
+            <Input 
+                key={1}
+                name="email" 
+                type="text"
+                label="Email"
+                value={this.state.Email}
+                onChange={this.handleEmailChange} />
         ));
 
         inputs.push((
-                <Input
-                    key={2}
-                    name="firstName" 
-                    type="text"
-                    label="First Name"
-                    value={this.state.FirstName}
-                    onChange={this.handleFirstNameChange} />
+            <Input
+                key={2}
+                name="firstName" 
+                type="text"
+                label="First Name"
+                value={this.state.FirstName}
+                onChange={this.handleFirstNameChange} />
         ));
 
         inputs.push((
-                <Input 
-                    key={3}
-                    name="lastName" 
-                    type="text"
-                    label="Last Name"
-                    value={this.state.LastName}
-                    onChange={this.handleLastNameChange} />
+            <Input 
+                key={3}
+                name="lastName" 
+                type="text"
+                label="Last Name"
+                value={this.state.LastName}
+                onChange={this.handleLastNameChange} />
         ));
 
         inputs.push((
-                <Select
-                    key={4}
-                    name="affiliation"
-                    label="Affiliation"
-                    value={this.state.Affiliation.Name}
-                    options={this.getOrganizationOptions()}
-                    onChange={this.handleAffiliationChange} />
+            <Select
+                key={4}
+                name="affiliation"
+                label="Affiliation"
+                value={this.state.Affiliation.Name}
+                options={this.getOrganizationOptions()}
+                onChange={this.handleAffiliationChange} />
         ));
 
-        if(this.state.Id){
+        if(!this.state.Id){
             inputs.push((
                 <Input 
                     key={5}
-                    name="oldPassword" 
-                    type="password"
-                    label="Current Password"
-                    value={this.state.OldPassword}
-                    onChange={this.handleOldPasswordChange} />
-            ));
-        }
-
-        return (
-            <form className="registerForm"  onSubmit={this.handleSubmit}>
-            
-                {inputs}
-
-                <Input 
                     name="password" 
                     type="password"
                     label="Password"
                     value={this.state.Password}
                     onChange={this.handlePasswordChange} />
+            ));
 
+            inputs.push((
                 <Input 
+                    key={6}
                     name="confirmPassword" 
                     type="password"
                     label="Confirm Password"
                     value={this.state.ConfirmPassword}
                     onChange={this.handleConfirmPasswordChange} />
+            ));
+        }
+
+        return (
+            <div>    
+                {inputs}
 
                 <FormGroup>
-                    <input className="btn btn-primary" type="submit" value="Submit" />
+                    <Button type="primary" authorizedRoles={this.props.authorizedRoles} name="submit" value="Submit" onClick={this.handleSubmit} />
                 </FormGroup>
-            </form>
+            </div>
         );
     }
 });

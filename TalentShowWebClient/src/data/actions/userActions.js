@@ -55,6 +55,20 @@ var updateUser = function(user){
         });
 };
 
+var updatePassword = function(credentials){
+    var groupName = getHubGroupName();
+
+    Dispatcher.dispatch({type: "UPDATE_CURRENT_USER_PASSWORD", credentials: credentials, groupName: groupName});
+
+    UserApi.updatePassword(credentials, 
+        function success(userInfo){
+            Dispatcher.dispatch({type: "UPDATE_CURRENT_USER_PASSWORD_SUCCESS", userInfo: userInfo, groupName: groupName});
+        }, 
+        function fail(err){
+            Dispatcher.dispatch({type: "UPDATE_CURRENT_USER_PASSWORD_FAIL", error: err, groupName: groupName});
+        });
+};
+
 var removeUser = function(userId){
     var groupName = getHubGroupName();
 
@@ -85,4 +99,4 @@ Hubs.controlCenterHubProxy.on('usersChanged', function() {
     loadUsers(); 
 });
 
-export {loadUsers, loadUser, addUser, updateUser, removeUser, joinHubGroup, leaveHubGroup};
+export {loadUsers, loadUser, addUser, updateUser, updatePassword, removeUser, joinHubGroup, leaveHubGroup};

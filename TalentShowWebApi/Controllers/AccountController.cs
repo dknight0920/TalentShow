@@ -197,30 +197,22 @@ namespace TalentShowWebApi.Controllers
                 UserManager.RemoveClaim(user.Id, claim);
 
             UserManager.AddClaim(user.Id, new Claim("organizationId", model.OrganizationId.ToString()));
-
-            UserManager.ChangePassword(User.Identity.GetUserId(), model.OldPassword, model.Password);
-
+            
             return Request.CreateResponse(System.Net.HttpStatusCode.OK, GetUser(user));
         }
 
         // POST api/Account/ChangePassword
         [Route("ChangePassword")]
-        public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
+        public HttpResponseMessage ChangePassword(ChangePasswordBindingModel model)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return Request.CreateResponse(System.Net.HttpStatusCode.BadRequest, ModelState);
             }
 
-            IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
-                model.NewPassword);
+            IdentityResult result = UserManager.ChangePassword(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
             
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-
-            return Ok();
+            return Request.CreateResponse(System.Net.HttpStatusCode.OK, GetUserInfo());
         }
 
         // POST api/Account/SetPassword
