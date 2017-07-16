@@ -17,4 +17,8 @@ var getDescription = function (contestant) {
     return contestant.Performance.Description;
 };
 
-export {getName, getDescription};
+var getPerformanceDurationInSeconds = function (contestant) {
+    return contestant.Performance.Duration / 10000000;
+};
+
+export {getName, getDescription, getPerformanceDurationInSeconds};

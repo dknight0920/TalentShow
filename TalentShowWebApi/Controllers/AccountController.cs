@@ -187,10 +187,20 @@ namespace TalentShowWebApi.Controllers
             user.Email = model.Email;
             var personNameClaim = user.Claims.FirstOrDefault(n => n.ClaimType == "personNameId");
 
-            if(personNameClaim != null)
+            if (personNameClaim != null)
             {
                 int personNameId = Convert.ToInt32(personNameClaim.ClaimValue);
                 new PersonNameRepo().Update(new PersonName(personNameId, model.FirstName, model.LastName));
+            }
+            else
+            {
+                var newPersonName = new PersonName(model.FirstName, model.LastName);
+                new PersonNameRepo().Add(newPersonName);
+
+                foreach (var claim in UserManager.GetClaims(user.Id).Where(c => c.Type == "personNameId"))
+                    UserManager.RemoveClaim(user.Id, claim);
+
+                UserManager.AddClaim(user.Id, new Claim("personNameId", newPersonName.Id.ToString()));
             }
 
             foreach (var claim in UserManager.GetClaims(user.Id).Where(c => c.Type == "organizationId"))

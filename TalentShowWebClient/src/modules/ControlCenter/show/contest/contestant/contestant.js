@@ -1,5 +1,7 @@
 ﻿'use strict';
 import React from 'react';
+import Panel from '../../../../../common/panel';
+import Stopwatch from '../../../../../common/stopwatch';
 import * as Nav from '../../../../../routing/navigation';
 import CurrentUser from '../../../../../data/stores/currentUserStore';
 import JudgeStore from '../../../../../data/stores/judgeStore';
@@ -28,6 +30,7 @@ class ContestantPage extends TimeoutComponent {
         this.isUserAContestJudge = this.isUserAContestJudge.bind(this);
         this.hasUserAddedScoreCard = this.hasUserAddedScoreCard.bind(this);
         this.canAddScoreCard = this.canAddScoreCard.bind(this);
+        this.handleStopWatchFinished = this.handleStopWatchFinished.bind(this);
         this.handleEditContestantClick = this.handleEditContestantClick.bind(this);
         this.handleRemoveContestantClick = this.handleRemoveContestantClick.bind(this);
         this.getLoadingPageContent = this.getLoadingPageContent.bind(this);
@@ -135,6 +138,11 @@ class ContestantPage extends TimeoutComponent {
         return false;
     }
 
+    handleStopWatchFinished(seconds) {
+        console.log(seconds);
+        //TODO update performance duration
+    }
+
     handleEditContestantClick(e) {
         e.preventDefault();
         Nav.goToEditContestant(this.getShowId(), this.getContestId(), this.getContestantId());
@@ -168,6 +176,9 @@ class ContestantPage extends TimeoutComponent {
   
         return (
             <PageContent title={"Contestant: " + ContestantUtil.getName(contestant)} description={ContestantUtil.getDescription(contestant)} buttons={contestantPageButtons}>
+                <Panel title="Performance Duration">
+                    <Stopwatch onStop={this.handleStopWatchFinished} secondsElapsed={() => ContestantUtil.getPerformanceDurationInSeconds(contestant) } authorizedRoles={["admin", "judge"]} />
+                </Panel>
                 <ScoreCardsBox showId={this.getShowId()} contestId={this.getContestId()} contestantId={this.getContestantId()} showAddScoreCardButton={this.canAddScoreCard} />
                 <PerformersBox showId={this.getShowId()} contestId={this.getContestId()} contestantId={this.getContestantId()} />
             </PageContent>
