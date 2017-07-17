@@ -13,11 +13,19 @@ class Stopwatch extends React.Component {
         this.handleStopClick = this.handleStopClick.bind(this);
         this.handleResetClick = this.handleResetClick.bind(this);
         this.state = { 
-            secondsElapsed: this.props.secondsElapsed(),
+            secondsElapsed: this.props.secondsElapsed,
             lastClearedIncrementer: null
         };
         this.incrementer = null;
     }  
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({ 
+            secondsElapsed: nextProps.secondsElapsed,
+            lastClearedIncrementer: null
+        });
+        this.incrementer = null;
+    }
     
     handleStartClick() {
         this.incrementer = setInterval( () =>

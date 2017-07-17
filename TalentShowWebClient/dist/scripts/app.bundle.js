@@ -43385,7 +43385,7 @@ var Stopwatch = function (_React$Component) {
         _this.handleStopClick = _this.handleStopClick.bind(_this);
         _this.handleResetClick = _this.handleResetClick.bind(_this);
         _this.state = {
-            secondsElapsed: _this.props.secondsElapsed(),
+            secondsElapsed: _this.props.secondsElapsed,
             lastClearedIncrementer: null
         };
         _this.incrementer = null;
@@ -43393,6 +43393,15 @@ var Stopwatch = function (_React$Component) {
     }
 
     _createClass(Stopwatch, [{
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(nextProps) {
+            this.setState({
+                secondsElapsed: nextProps.secondsElapsed,
+                lastClearedIncrementer: null
+            });
+            this.incrementer = null;
+        }
+    }, {
         key: 'handleStartClick',
         value: function handleStartClick() {
             var _this2 = this;
@@ -49721,8 +49730,10 @@ var ContestantPage = function (_TimeoutComponent) {
     }, {
         key: 'handleStopWatchFinished',
         value: function handleStopWatchFinished(seconds) {
-            console.log(seconds);
-            //TODO update performance duration
+            var contestant = this.state.contestant;
+            contestant.Performance.Duration = seconds * 10000000;
+            this.setState({ contestant: contestant });
+            ContestantActions.updateContestant(this.getContestId(), contestant);
         }
     }, {
         key: 'handleEditContestantClick',
@@ -49767,9 +49778,7 @@ var ContestantPage = function (_TimeoutComponent) {
                 _react2.default.createElement(
                     _panel2.default,
                     { title: 'Performance Duration' },
-                    _react2.default.createElement(_stopwatch2.default, { onStop: this.handleStopWatchFinished, secondsElapsed: function secondsElapsed() {
-                            return ContestantUtil.getPerformanceDurationInSeconds(contestant);
-                        }, authorizedRoles: ["admin", "judge"] })
+                    _react2.default.createElement(_stopwatch2.default, { onStop: this.handleStopWatchFinished, secondsElapsed: ContestantUtil.getPerformanceDurationInSeconds(contestant), authorizedRoles: ["admin", "judge"] })
                 ),
                 _react2.default.createElement(_scoreCards2.default, { showId: this.getShowId(), contestId: this.getContestId(), contestantId: this.getContestantId(), showAddScoreCardButton: this.canAddScoreCard }),
                 _react2.default.createElement(_performers2.default, { showId: this.getShowId(), contestId: this.getContestId(), contestantId: this.getContestantId() })

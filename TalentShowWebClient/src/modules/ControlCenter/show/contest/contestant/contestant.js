@@ -139,8 +139,10 @@ class ContestantPage extends TimeoutComponent {
     }
 
     handleStopWatchFinished(seconds) {
-        console.log(seconds);
-        //TODO update performance duration
+        var contestant = this.state.contestant;
+        contestant.Performance.Duration = seconds * 10000000;
+        this.setState({ contestant: contestant });
+        ContestantActions.updateContestant(this.getContestId(), contestant);
     }
 
     handleEditContestantClick(e) {
@@ -177,7 +179,7 @@ class ContestantPage extends TimeoutComponent {
         return (
             <PageContent title={"Contestant: " + ContestantUtil.getName(contestant)} description={ContestantUtil.getDescription(contestant)} buttons={contestantPageButtons}>
                 <Panel title="Performance Duration">
-                    <Stopwatch onStop={this.handleStopWatchFinished} secondsElapsed={() => ContestantUtil.getPerformanceDurationInSeconds(contestant) } authorizedRoles={["admin", "judge"]} />
+                    <Stopwatch onStop={this.handleStopWatchFinished} secondsElapsed={ContestantUtil.getPerformanceDurationInSeconds(contestant)} authorizedRoles={["admin", "judge"]} />
                 </Panel>
                 <ScoreCardsBox showId={this.getShowId()} contestId={this.getContestId()} contestantId={this.getContestantId()} showAddScoreCardButton={this.canAddScoreCard} />
                 <PerformersBox showId={this.getShowId()} contestId={this.getContestId()} contestantId={this.getContestantId()} />
