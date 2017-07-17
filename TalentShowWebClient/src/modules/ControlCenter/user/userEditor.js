@@ -178,6 +178,7 @@ var UserEditor = React.createClass({
                 {inputs}
 
                 <FormGroup>
+                    
                     <Button type="primary" authorizedRoles={this.props.authorizedRoles} name="submit" value="Submit" onClick={this.handleSubmit} />
                 </FormGroup>
             </div>

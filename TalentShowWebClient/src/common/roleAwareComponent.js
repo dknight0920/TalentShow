@@ -15,6 +15,13 @@ class RoleAwareComponent extends React.Component {
     }
  
     shouldBeVisible() {
+        for (var j = 0; j < this.authorizedRoles.length; j++) {
+            var authorizedRole = this.authorizedRoles[j];
+            if(authorizedRole === "*"){
+                return true;
+            }
+        }
+
         var userRoles = CurrentUserStore.getUserRoles();
 
         for (var i = 0; i < userRoles.length; i++) {

@@ -43256,6 +43256,13 @@ var RoleAwareComponent = function (_React$Component) {
     }, {
         key: 'shouldBeVisible',
         value: function shouldBeVisible() {
+            for (var j = 0; j < this.authorizedRoles.length; j++) {
+                var authorizedRole = this.authorizedRoles[j];
+                if (authorizedRole === "*") {
+                    return true;
+                }
+            }
+
             var userRoles = _currentUserStore2.default.getUserRoles();
 
             for (var i = 0; i < userRoles.length; i++) {
@@ -55121,7 +55128,7 @@ var RegisterBox = function (_React$Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'panel-body' },
-                        _react2.default.createElement(_userEditor2.default, { onUserFormSubmit: this.register })
+                        _react2.default.createElement(_userEditor2.default, { authorizedRoles: ["*"], onUserFormSubmit: this.register })
                     )
                 )
             );

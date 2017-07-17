@@ -29,7 +29,7 @@ class RegisterBox extends React.Component {
                 </div>
                 <div className="registerBox panel panel-default">
                     <div className="panel-body">
-                        <UserEditor onUserFormSubmit={this.register}/>
+                        <UserEditor authorizedRoles={["*"]} onUserFormSubmit={this.register}/>
                     </div>
                 </div>
             </div>
