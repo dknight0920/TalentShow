@@ -62,7 +62,7 @@ class Stopwatch extends React.Component {
                 
                 {" "}
         
-                {(this.state.secondsElapsed !== 0 &&    this.incrementer === this.state.lastClearedIncrementer
+                {(this.state.secondsElapsed !== 0 && this.incrementer === this.state.lastClearedIncrementer
                   ? <Button type="default" authorizedRoles={this.props.authorizedRoles} name="reset" value="Reset" onClick={this.handleResetClick} />
                   : null
                 )}

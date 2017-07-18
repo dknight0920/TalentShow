@@ -85,6 +85,7 @@ namespace TalentShowWebApi.Controllers
 
         private UserInfoViewModel GetUser(ApplicationUser user)
         {
+            var roles = UserManager.GetRoles(user.Id);
             var claims = new List<UserClaimViewModel>();
 
             foreach (var claim in user.Claims)
@@ -113,6 +114,14 @@ namespace TalentShowWebApi.Controllers
                 affiliation = new OrganizationRepo().Get(organizationId);
             }
 
+            if (roles.Contains("Judge"))
+            {
+                var judges = new JudgeService(new JudgeRepo(), new ContestJudgeRepo()).GetAll().Where(j => j.UserId == user.Id);
+
+                foreach (var judge in judges)
+                    claims.Add(new UserClaimViewModel() { Type = "judgeId", Value = judge.Id.ToString() });
+            }
+
             return new UserInfoViewModel
             {
                 Id = user.Id,
@@ -120,7 +129,7 @@ namespace TalentShowWebApi.Controllers
                 FirstName = firstName,
                 LastName = lastName,
                 Affiliation = affiliation,
-                Roles = UserManager.GetRoles(user.Id),
+                Roles = roles,
                 Claims = claims
             };
         }

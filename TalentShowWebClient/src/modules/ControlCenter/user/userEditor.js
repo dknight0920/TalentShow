@@ -110,75 +110,55 @@ var UserEditor = React.createClass({
         };
     },
     render: function() {
-        var inputs = [];
-        inputs.push(( 
-            <Input 
-                key={1}
-                name="email" 
-                type="text"
-                label="Email"
-                value={this.state.Email}
-                onChange={this.handleEmailChange} />
-        ));
-
-        inputs.push((
-            <Input
-                key={2}
-                name="firstName" 
-                type="text"
-                label="First Name"
-                value={this.state.FirstName}
-                onChange={this.handleFirstNameChange} />
-        ));
-
-        inputs.push((
-            <Input 
-                key={3}
-                name="lastName" 
-                type="text"
-                label="Last Name"
-                value={this.state.LastName}
-                onChange={this.handleLastNameChange} />
-        ));
-
-        inputs.push((
-            <Select
-                key={4}
-                name="affiliation"
-                label="Affiliation"
-                value={this.state.Affiliation.Name}
-                options={this.getOrganizationOptions()}
-                onChange={this.handleAffiliationChange} />
-        ));
-
-        if(!this.state.Id){
-            inputs.push((
-                <Input 
-                    key={5}
-                    name="password" 
-                    type="password"
-                    label="Password"
-                    value={this.state.Password}
-                    onChange={this.handlePasswordChange} />
-            ));
-
-            inputs.push((
-                <Input 
-                    key={6}
-                    name="confirmPassword" 
-                    type="password"
-                    label="Confirm Password"
-                    value={this.state.ConfirmPassword}
-                    onChange={this.handleConfirmPasswordChange} />
-            ));
-        }
-
         return (
-            <div>    
-                {inputs}
+            <div>
+                <Input 
+                    name="email" 
+                    type="text"
+                    label="Email"
+                    value={this.state.Email}
+                    onChange={this.handleEmailChange} />
 
-                <FormGroup>
+                <Input
+                    name="firstName" 
+                    type="text"
+                    label="First Name"
+                    value={this.state.FirstName}
+                    onChange={this.handleFirstNameChange} />
+
+                <Input 
+                    name="lastName" 
+                    type="text"
+                    label="Last Name"
+                    value={this.state.LastName}
+                    onChange={this.handleLastNameChange} />
+
+                <Select
+                    name="affiliation"
+                    label="Affiliation"
+                    value={this.state.Affiliation.Name}
+                    options={this.getOrganizationOptions()}
+                    onChange={this.handleAffiliationChange} />
+
+                {(!this.state.Id ? 
+                    <div>
+                        <Input name="password" 
+                            type="password"
+                            label="Password"
+                            value={this.state.Password}
+                            onChange={this.handlePasswordChange} />
                     
+                        <Input
+                            name="confirmPassword" 
+                            type="password"
+                            label="Confirm Password"
+                            value={this.state.ConfirmPassword}
+                            onChange={this.handleConfirmPasswordChange} />
+                    </div>
+                    : null
+                )}
+
+                <FormGroup>               
                     <Button type="primary" authorizedRoles={this.props.authorizedRoles} name="submit" value="Submit" onClick={this.handleSubmit} />
                 </FormGroup>
             </div>

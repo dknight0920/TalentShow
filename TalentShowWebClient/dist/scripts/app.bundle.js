@@ -54702,61 +54702,48 @@ var UserEditor = _react2.default.createClass({
         };
     },
     render: function render() {
-        var inputs = [];
-        inputs.push(_react2.default.createElement(_input2.default, {
-            key: 1,
-            name: 'email',
-            type: 'text',
-            label: 'Email',
-            value: this.state.Email,
-            onChange: this.handleEmailChange }));
-
-        inputs.push(_react2.default.createElement(_input2.default, {
-            key: 2,
-            name: 'firstName',
-            type: 'text',
-            label: 'First Name',
-            value: this.state.FirstName,
-            onChange: this.handleFirstNameChange }));
-
-        inputs.push(_react2.default.createElement(_input2.default, {
-            key: 3,
-            name: 'lastName',
-            type: 'text',
-            label: 'Last Name',
-            value: this.state.LastName,
-            onChange: this.handleLastNameChange }));
-
-        inputs.push(_react2.default.createElement(_select2.default, {
-            key: 4,
-            name: 'affiliation',
-            label: 'Affiliation',
-            value: this.state.Affiliation.Name,
-            options: this.getOrganizationOptions(),
-            onChange: this.handleAffiliationChange }));
-
-        if (!this.state.Id) {
-            inputs.push(_react2.default.createElement(_input2.default, {
-                key: 5,
-                name: 'password',
-                type: 'password',
-                label: 'Password',
-                value: this.state.Password,
-                onChange: this.handlePasswordChange }));
-
-            inputs.push(_react2.default.createElement(_input2.default, {
-                key: 6,
-                name: 'confirmPassword',
-                type: 'password',
-                label: 'Confirm Password',
-                value: this.state.ConfirmPassword,
-                onChange: this.handleConfirmPasswordChange }));
-        }
-
         return _react2.default.createElement(
             'div',
             null,
-            inputs,
+            _react2.default.createElement(_input2.default, {
+                name: 'email',
+                type: 'text',
+                label: 'Email',
+                value: this.state.Email,
+                onChange: this.handleEmailChange }),
+            _react2.default.createElement(_input2.default, {
+                name: 'firstName',
+                type: 'text',
+                label: 'First Name',
+                value: this.state.FirstName,
+                onChange: this.handleFirstNameChange }),
+            _react2.default.createElement(_input2.default, {
+                name: 'lastName',
+                type: 'text',
+                label: 'Last Name',
+                value: this.state.LastName,
+                onChange: this.handleLastNameChange }),
+            _react2.default.createElement(_select2.default, {
+                name: 'affiliation',
+                label: 'Affiliation',
+                value: this.state.Affiliation.Name,
+                options: this.getOrganizationOptions(),
+                onChange: this.handleAffiliationChange }),
+            !this.state.Id ? _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(_input2.default, { name: 'password',
+                    type: 'password',
+                    label: 'Password',
+                    value: this.state.Password,
+                    onChange: this.handlePasswordChange }),
+                _react2.default.createElement(_input2.default, {
+                    name: 'confirmPassword',
+                    type: 'password',
+                    label: 'Confirm Password',
+                    value: this.state.ConfirmPassword,
+                    onChange: this.handleConfirmPasswordChange })
+            ) : null,
             _react2.default.createElement(
                 _formGroup2.default,
                 null,
