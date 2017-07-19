@@ -110,7 +110,13 @@ class ScoreCriterionPage extends TimeoutComponent {
         );
   
         return (
-            <PageContent title={"Score Criterion: " + scoreCriterion.Id + " - " + scoreCriterion.CriterionDescription} description={"Min: " + scoreCriterion.ScoreRange.Min + " Max: " + scoreCriterion.ScoreRange.Max} buttons={scoreCriterionPageButtons}>
+            <PageContent 
+                title={"Score Criterion: " + scoreCriterion.Id + " - " + scoreCriterion.CriterionDescription} 
+                description={"Min: " + scoreCriterion.ScoreRange.Min + " Max: " + scoreCriterion.ScoreRange.Max} 
+                buttons={scoreCriterionPageButtons}  
+                backButtonPath={"/show/" + this.getShowId() + "/contest/" + this.getContestId() + "/"} 
+                backButtonText={"Contest"} 
+            >
             </PageContent>
         );
     }

@@ -45,7 +45,7 @@ namespace TalentShowWebApi.DataTransferObjects.Helpers
 
         public static Contest ConvertFromDto(this ContestDto contestDto)
         {
-            return new Contest(contestDto.Id, contestDto.Name, contestDto.Description);
+            return new Contest(contestDto.Id, contestDto.Name, contestDto.Description, contestDto.TimeKeeperId);
         }
 
         public static Division ConvertFromDto(this DivisionDto divisionDto)
@@ -216,6 +216,7 @@ namespace TalentShowWebApi.DataTransferObjects.Helpers
                 Contestants = ConvertToDto(contest.Contestants),
                 Judges = ConvertToDto(contest.Judges),
                 Name = contest.Name,
+                TimeKeeperId = contest.TimeKeeperId,
                 Description = contest.Description,
                 ScoreCards = ConvertToDto(contest.ScoreCards),
                 ScoreCriteria = ConvertToDto(contest.ScoreCriteria)

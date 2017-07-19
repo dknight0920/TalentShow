@@ -82,7 +82,10 @@ class EditScoreCriterionPage extends RoleAwareComponent {
         }
 
         return (
-            <PageContent title="Edit a Score Criterion" description="Use the form below to edit the score criterion.">
+            <PageContent 
+                title="Edit a Score Criterion" 
+                description="Use the form below to edit the score criterion."
+            >
                 <ScoreCriterionEditor scoreCriterion={scoreCriterion} authorizedRoles={this.authorizedRoles} OnClickSave={this.handleClickSave} OnClickCancel={this.handleClickCancel}/>
             </PageContent>
         );

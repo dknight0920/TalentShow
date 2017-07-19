@@ -10,7 +10,7 @@ namespace TalentShow.Tests
         {
             string name = "Dance";
 
-            Contest contest = new Contest(name);
+            Contest contest = new Contest(name , timeKeeperId: "123");
         }
     }
 }

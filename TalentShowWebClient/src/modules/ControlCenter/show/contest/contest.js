@@ -124,7 +124,13 @@ class ContestPage extends TimeoutComponent {
         );
   
         return (
-            <PageContent title={"Contest: " + contest.Name} description={contest.Description} buttons={contestPageButtons}>
+            <PageContent 
+                title={"Contest: " + contest.Name} 
+                description={contest.Description} 
+                backButtonPath={"/show/" + this.getShowId() + "/"} 
+                backButtonText={"Contests"} 
+                buttons={contestPageButtons}
+            >
                 <ContestantsBox showId={showId} contestId={contestId} />         
                 <JudgesBox showId={showId} contestId={contestId} />
                 <ScoreCriteriaBox showId={showId} contestId={contestId} />

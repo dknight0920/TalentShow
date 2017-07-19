@@ -1,4 +1,5 @@
 ﻿import React from 'react';
+import { Link } from 'react-router';
 
 class PageContent extends React.Component {
 
@@ -13,6 +14,10 @@ class PageContent extends React.Component {
 
         return (
             <div>
+                {(this.props.backButtonPath
+                    ? <Link to={this.props.backButtonPath}>{"<<"} {( this.props.backButtonText || "Back")}</Link>
+                    : null)
+                }    
                 <h1>{this.props.title}</h1>
                 <p>{this.props.description}</p>
                 {buttons}

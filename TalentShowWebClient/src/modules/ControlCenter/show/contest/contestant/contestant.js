@@ -179,7 +179,7 @@ class ContestantPage extends TimeoutComponent {
         return (
             <PageContent title={"Contestant: " + ContestantUtil.getName(contestant)} description={ContestantUtil.getDescription(contestant)} buttons={contestantPageButtons}>
                 <Panel title="Performance Duration">
-                    <Stopwatch onStop={this.handleStopWatchFinished} secondsElapsed={ContestantUtil.getPerformanceDurationInSeconds(contestant)} authorizedRoles={["admin", "judge"]} />
+                    <Stopwatch onStop={this.handleStopWatchFinished} secondsElapsed={ContestantUtil.getPerformanceDurationInSeconds(contestant)} authorizedRoles={["timekeeper"]} />
                 </Panel>
                 <ScoreCardsBox showId={this.getShowId()} contestId={this.getContestId()} contestantId={this.getContestantId()} showAddScoreCardButton={this.canAddScoreCard} />
                 <PerformersBox showId={this.getShowId()} contestId={this.getContestId()} contestantId={this.getContestantId()} />

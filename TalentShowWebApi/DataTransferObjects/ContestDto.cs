@@ -14,5 +14,6 @@ namespace TalentShowWebApi.DataTransferObjects
         public ICollection<JudgeDto> Judges { get; set; }
         public ICollection<ScoreCriterionDto> ScoreCriteria { get; set; }
         public ICollection<ScoreCardDto> ScoreCards { get; set; }
+        public string TimeKeeperId { get; set; }
     }
 }

@@ -4,6 +4,7 @@ import * as Nav from '../../../../routing/navigation';
 import ContestEditor from './contestEditor';
 import ContestStore from '../../../../data/stores/contestStore';
 import * as ContestActions from '../../../../data/actions/contestActions';
+import * as UserActions from '../../../../data/actions/userActions';
 import PageContent from '../../../../common/pageContent';
 import RoleAwareComponent from '../../../../common/roleAwareComponent';
 
@@ -25,11 +26,14 @@ class EditContestPage extends RoleAwareComponent {
     componentWillMount(){
         this.redirectUnauthorizedUser();
         ContestStore.on("change", this.storeChanged);
-        ContestActions.loadContest(this.getShowId(), this.getContestId());
+        ContestActions.loadContest(this.getShowId(), this.getContestId());    
+        UserActions.loadUsers();
+        UserActions.joinHubGroup();
     }
 
     componentWillUnmount(){
         ContestStore.off("change", this.storeChanged);
+        UserActions.leaveHubGroup();
     }
 
     storeChanged(){

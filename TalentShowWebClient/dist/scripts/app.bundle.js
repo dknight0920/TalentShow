@@ -43088,6 +43088,8 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouter = require('react-router');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -43117,6 +43119,13 @@ var PageContent = function (_React$Component) {
             return _react2.default.createElement(
                 'div',
                 null,
+                this.props.backButtonPath ? _react2.default.createElement(
+                    _reactRouter.Link,
+                    { to: this.props.backButtonPath },
+                    "<<",
+                    ' ',
+                    this.props.backButtonText || "Back"
+                ) : null,
                 _react2.default.createElement(
                     'h1',
                     null,
@@ -43139,7 +43148,7 @@ var PageContent = function (_React$Component) {
 
 exports.default = PageContent;
 
-},{"react":290}],299:[function(require,module,exports){
+},{"react":290,"react-router":203}],299:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49241,7 +49250,13 @@ var ContestPage = function (_TimeoutComponent) {
 
             return _react2.default.createElement(
                 _pageContent2.default,
-                { title: "Contest: " + contest.Name, description: contest.Description, buttons: contestPageButtons },
+                {
+                    title: "Contest: " + contest.Name,
+                    description: contest.Description,
+                    backButtonPath: "/show/" + this.getShowId() + "/",
+                    backButtonText: "Contests",
+                    buttons: contestPageButtons
+                },
                 _react2.default.createElement(_contestants2.default, { showId: showId, contestId: contestId }),
                 _react2.default.createElement(_judges2.default, { showId: showId, contestId: contestId }),
                 _react2.default.createElement(_scoreCriteria2.default, { showId: showId, contestId: contestId })
@@ -49271,6 +49286,10 @@ var _clone = require('clone');
 
 var _clone2 = _interopRequireDefault(_clone);
 
+var _userStore = require('../../../../data/stores/userStore');
+
+var _userStore2 = _interopRequireDefault(_userStore);
+
 var _formGroup = require('../../../../common/formGroup');
 
 var _formGroup2 = _interopRequireDefault(_formGroup);
@@ -49282,6 +49301,10 @@ var _input2 = _interopRequireDefault(_input);
 var _button = require('../../../../common/button');
 
 var _button2 = _interopRequireDefault(_button);
+
+var _select = require('../../../../common/select');
+
+var _select2 = _interopRequireDefault(_select);
 
 var _roleAwareComponent = require('../../../../common/roleAwareComponent');
 
@@ -49303,11 +49326,16 @@ var ContestEditor = function (_RoleAwareComponent) {
 
         var _this = _possibleConstructorReturn(this, (ContestEditor.__proto__ || Object.getPrototypeOf(ContestEditor)).call(this, props));
 
+        _this.handleUserChange = _this.handleUserChange.bind(_this);
         _this.handleNameChange = _this.handleNameChange.bind(_this);
         _this.handleDescriptionChange = _this.handleDescriptionChange.bind(_this);
         _this.handleClickSave = _this.handleClickSave.bind(_this);
         _this.handleClickCancel = _this.handleClickCancel.bind(_this);
+        _this.getUserOptionValue = _this.getUserOptionValue.bind(_this);
+        _this.getUserOptionDisplayText = _this.getUserOptionDisplayText.bind(_this);
+        _this.getUserOptions = _this.getUserOptions.bind(_this);
         _this.getState = _this.getState.bind(_this);
+        _this.storeChanged = _this.storeChanged.bind(_this);
         _this.state = _this.getState();
         _this.authorizedRoles = [];
         return _this;
@@ -49316,10 +49344,30 @@ var ContestEditor = function (_RoleAwareComponent) {
     _createClass(ContestEditor, [{
         key: 'componentWillMount',
         value: function componentWillMount() {
+            _userStore2.default.on("change", this.storeChanged);
             if (this.props.authorizedRoles && this.props.authorizedRoles.length) {
                 this.authorizedRoles = this.props.authorizedRoles;
             }
             this.redirectUnauthorizedUser();
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            _userStore2.default.off("change", this.storeChanged);
+        }
+    }, {
+        key: 'storeChanged',
+        value: function storeChanged() {
+            this.setState(this.getState());
+        }
+    }, {
+        key: 'handleUserChange',
+        value: function handleUserChange(selectedOption) {
+            if (selectedOption && selectedOption.user) {
+                var contest = this.state.contest;
+                contest.TimeKeeperId = selectedOption.user.Id;
+                this.setState(contest);
+            }
         }
     }, {
         key: 'handleNameChange',
@@ -49352,7 +49400,8 @@ var ContestEditor = function (_RoleAwareComponent) {
         value: function getState() {
             if (this.props.contest) {
                 return {
-                    contest: (0, _clone2.default)(this.props.contest)
+                    contest: (0, _clone2.default)(this.props.contest),
+                    users: _userStore2.default.getUsers()
                 };
             } else {
                 return {
@@ -49360,9 +49409,47 @@ var ContestEditor = function (_RoleAwareComponent) {
                         Id: 0,
                         Name: "",
                         Description: ""
-                    }
+                    },
+                    users: _userStore2.default.getUsers()
                 };
             }
+        }
+    }, {
+        key: 'getUserOptions',
+        value: function getUserOptions() {
+            var users = this.state.users;
+            var options = [];
+
+            for (var i = 0; i < users.length; i++) {
+                var user = users[i];
+                options.push({
+                    value: this.getUserOptionDisplayText(user),
+                    label: this.getUserOptionDisplayText(user),
+                    user: user
+                });
+            }
+
+            return options;
+        }
+    }, {
+        key: 'getUserOptionValue',
+        value: function getUserOptionValue() {
+            var contest = this.state.contest;
+            if (contest && contest.TimeKeeperId) {
+                var users = this.state.users;
+                for (var i = 0; i < users.length; i++) {
+                    var user = users[i];
+                    if (user.Id == contest.TimeKeeperId) {
+                        return this.getUserOptionDisplayText(user);
+                    }
+                }
+            }
+            return "";
+        }
+    }, {
+        key: 'getUserOptionDisplayText',
+        value: function getUserOptionDisplayText(user) {
+            return (user.Affiliation.Name || '') + ' - ' + (user.FirstName || '') + ' ' + (user.LastName || '') + ' - ' + user.Email;
         }
     }, {
         key: 'render',
@@ -49382,6 +49469,12 @@ var ContestEditor = function (_RoleAwareComponent) {
                     label: 'Description',
                     value: this.state.contest.Description,
                     onChange: this.handleDescriptionChange }),
+                _react2.default.createElement(_select2.default, {
+                    name: 'user',
+                    label: 'Time Keeper',
+                    value: this.getUserOptionValue(),
+                    options: this.getUserOptions(),
+                    onChange: this.handleUserChange }),
                 _react2.default.createElement(
                     _formGroup2.default,
                     null,
@@ -49398,7 +49491,7 @@ var ContestEditor = function (_RoleAwareComponent) {
 
 exports.default = ContestEditor;
 
-},{"../../../../common/button":292,"../../../../common/formGroup":293,"../../../../common/input":294,"../../../../common/roleAwareComponent":300,"clone":6,"react":290}],357:[function(require,module,exports){
+},{"../../../../common/button":292,"../../../../common/formGroup":293,"../../../../common/input":294,"../../../../common/roleAwareComponent":300,"../../../../common/select":301,"../../../../data/stores/userStore":342,"clone":6,"react":290}],357:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49785,7 +49878,7 @@ var ContestantPage = function (_TimeoutComponent) {
                 _react2.default.createElement(
                     _panel2.default,
                     { title: 'Performance Duration' },
-                    _react2.default.createElement(_stopwatch2.default, { onStop: this.handleStopWatchFinished, secondsElapsed: ContestantUtil.getPerformanceDurationInSeconds(contestant), authorizedRoles: ["admin", "judge"] })
+                    _react2.default.createElement(_stopwatch2.default, { onStop: this.handleStopWatchFinished, secondsElapsed: ContestantUtil.getPerformanceDurationInSeconds(contestant), authorizedRoles: ["timekeeper"] })
                 ),
                 _react2.default.createElement(_scoreCards2.default, { showId: this.getShowId(), contestId: this.getContestId(), contestantId: this.getContestantId(), showAddScoreCardButton: this.canAddScoreCard }),
                 _react2.default.createElement(_performers2.default, { showId: this.getShowId(), contestId: this.getContestId(), contestantId: this.getContestantId() })
@@ -51938,6 +52031,10 @@ var _contestActions = require('../../../../data/actions/contestActions');
 
 var ContestActions = _interopRequireWildcard(_contestActions);
 
+var _userActions = require('../../../../data/actions/userActions');
+
+var UserActions = _interopRequireWildcard(_userActions);
+
 var _pageContent = require('../../../../common/pageContent');
 
 var _pageContent2 = _interopRequireDefault(_pageContent);
@@ -51983,11 +52080,14 @@ var EditContestPage = function (_RoleAwareComponent) {
             this.redirectUnauthorizedUser();
             _contestStore2.default.on("change", this.storeChanged);
             ContestActions.loadContest(this.getShowId(), this.getContestId());
+            UserActions.loadUsers();
+            UserActions.joinHubGroup();
         }
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
             _contestStore2.default.off("change", this.storeChanged);
+            UserActions.leaveHubGroup();
         }
     }, {
         key: 'storeChanged',
@@ -52052,7 +52152,7 @@ var EditContestPage = function (_RoleAwareComponent) {
 
 exports.default = EditContestPage;
 
-},{"../../../../common/pageContent":298,"../../../../common/roleAwareComponent":300,"../../../../data/actions/contestActions":305,"../../../../data/stores/contestStore":332,"../../../../routing/navigation":397,"./contestEditor":356,"react":290}],375:[function(require,module,exports){
+},{"../../../../common/pageContent":298,"../../../../common/roleAwareComponent":300,"../../../../data/actions/contestActions":305,"../../../../data/actions/userActions":315,"../../../../data/stores/contestStore":332,"../../../../routing/navigation":397,"./contestEditor":356,"react":290}],375:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53210,7 +53310,10 @@ var EditScoreCriterionPage = function (_RoleAwareComponent) {
 
             return _react2.default.createElement(
                 _pageContent2.default,
-                { title: 'Edit a Score Criterion', description: 'Use the form below to edit the score criterion.' },
+                {
+                    title: 'Edit a Score Criterion',
+                    description: 'Use the form below to edit the score criterion.'
+                },
                 _react2.default.createElement(_scoreCriterionEditor2.default, { scoreCriterion: scoreCriterion, authorizedRoles: this.authorizedRoles, OnClickSave: this.handleClickSave, OnClickCancel: this.handleClickCancel })
             );
         }
@@ -53388,7 +53491,13 @@ var ScoreCriterionPage = function (_TimeoutComponent) {
                 _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: authorizedRolesForButtons, name: 'removeScoreCriterion', value: 'Remove', onClick: this.handleRemoveScoreCriterionClick })
             );
 
-            return _react2.default.createElement(_pageContent2.default, { title: "Score Criterion: " + scoreCriterion.Id + " - " + scoreCriterion.CriterionDescription, description: "Min: " + scoreCriterion.ScoreRange.Min + " Max: " + scoreCriterion.ScoreRange.Max, buttons: scoreCriterionPageButtons });
+            return _react2.default.createElement(_pageContent2.default, {
+                title: "Score Criterion: " + scoreCriterion.Id + " - " + scoreCriterion.CriterionDescription,
+                description: "Min: " + scoreCriterion.ScoreRange.Min + " Max: " + scoreCriterion.ScoreRange.Max,
+                buttons: scoreCriterionPageButtons,
+                backButtonPath: "/show/" + this.getShowId() + "/contest/" + this.getContestId() + "/",
+                backButtonText: "Contest"
+            });
         }
     }]);
 
