@@ -4,9 +4,11 @@ import Panel from '../../../../../common/panel';
 import Stopwatch from '../../../../../common/stopwatch';
 import * as Nav from '../../../../../routing/navigation';
 import CurrentUser from '../../../../../data/stores/currentUserStore';
+import ContestStore from '../../../../../data/stores/contestStore';
 import JudgeStore from '../../../../../data/stores/judgeStore';
 import ScoreCardStore from '../../../../../data/stores/scoreCardStore';
 import ContestantStore from '../../../../../data/stores/contestantStore';
+import * as ContestActions from '../../../../../data/actions/contestActions';
 import * as ContestantActions from '../../../../../data/actions/contestantActions';
 import * as ScoreCardActions from '../../../../../data/actions/scoreCardActions';
 import * as PerformerActions from '../../../../../data/actions/performerActions';
@@ -40,10 +42,13 @@ class ContestantPage extends TimeoutComponent {
 
     componentWillMount(){
         ContestantStore.on("change", this.storeChanged);
+        ContestStore.on("change", this.storeChanged);
+        ContestActions.loadContest(this.getShowId(), this.getContestId());
         ContestantActions.loadContestant(this.getContestId(), this.getContestantId());
         ScoreCardActions.loadContestantScoreCards(this.getContestantId());
         PerformerActions.loadContestantPerformers(this.getContestantId());
         JudgeActions.loadContestJudges(this.getContestId());
+        ContestActions.joinHubGroup(this.getShowId());
         ContestantActions.joinHubGroup(this.getContestId());
         ScoreCardActions.joinHubGroup(this.getContestantId());
         PerformerActions.joinHubGroup(this.getContestantId());
@@ -53,6 +58,8 @@ class ContestantPage extends TimeoutComponent {
     componentWillUnmount(){
         this.resetTimeout();
         ContestantStore.off("change", this.storeChanged);
+        ContestStore.off("change", this.storeChanged);
+        ContestActions.leaveHubGroup(this.getShowId());
         ContestantActions.leaveHubGroup(this.getContestId());
         ScoreCardActions.leaveHubGroup(this.getContestantId());
         PerformerActions.leaveHubGroup(this.getContestantId());
@@ -64,7 +71,7 @@ class ContestantPage extends TimeoutComponent {
     }
 
     getState(){
-        return { contestant: this.getContestant() };
+        return { contestant: this.getContestant(), contest: ContestStore.get(this.getShowId(), this.getContestId()) };
     }
 
     getContestant() {
@@ -175,11 +182,13 @@ class ContestantPage extends TimeoutComponent {
                 <Button type="primary" authorizedRoles={authorizedRolesForButtons} name="editContestant" value="Edit" onClick={this.handleEditContestantClick} /> <Button type="primary" authorizedRoles={authorizedRolesForButtons} name="removeContestant" value="Remove" onClick={this.handleRemoveContestantClick} />
             </span>
         );
+
+        var userIsTimeKeeper = this.state.contest && CurrentUser.getUserInfo().Id == this.state.contest.TimeKeeperId;
   
         return (
             <PageContent title={"Contestant: " + ContestantUtil.getName(contestant)} description={ContestantUtil.getDescription(contestant)} buttons={contestantPageButtons}>
                 <Panel title="Performance Duration">
-                    <Stopwatch onStop={this.handleStopWatchFinished} secondsElapsed={ContestantUtil.getPerformanceDurationInSeconds(contestant)} authorizedRoles={["timekeeper"]} />
+                    <Stopwatch onStop={this.handleStopWatchFinished} secondsElapsed={ContestantUtil.getPerformanceDurationInSeconds(contestant)} authorizedRoles={["timekeeper"]} hideButtons={!userIsTimeKeeper} />
                 </Panel>
                 <ScoreCardsBox showId={this.getShowId()} contestId={this.getContestId()} contestantId={this.getContestantId()} showAddScoreCardButton={this.canAddScoreCard} />
                 <PerformersBox showId={this.getShowId()} contestId={this.getContestId()} contestantId={this.getContestantId()} />

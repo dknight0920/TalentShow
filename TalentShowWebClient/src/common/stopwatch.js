@@ -13,6 +13,7 @@ class Stopwatch extends React.Component {
         this.handleStopClick = this.handleStopClick.bind(this);
         this.handleResetClick = this.handleResetClick.bind(this);
         this.state = { 
+            hideButtons: this.props.hideButtons,
             secondsElapsed: this.props.secondsElapsed,
             lastClearedIncrementer: null
         };
@@ -21,6 +22,7 @@ class Stopwatch extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         this.setState({ 
+            hideButtons: nextProps.hideButtons,
             secondsElapsed: nextProps.secondsElapsed,
             lastClearedIncrementer: null
         });
@@ -55,16 +57,21 @@ class Stopwatch extends React.Component {
             <div className="stopwatch">
                 <h1 className="stopwatch-timer">{formattedSeconds(this.state.secondsElapsed)}</h1>
    
-                {(this.state.secondsElapsed === 0 || this.incrementer === this.state.lastClearedIncrementer
-                  ? <Button type="primary" authorizedRoles={this.props.authorizedRoles} name="start" value="Start" onClick={this.handleStartClick} />
-                  : <Button type="primary" authorizedRoles={this.props.authorizedRoles} name="stop" value="Stop" onClick={this.handleStopClick} />
-                )}
+                {(!this.state.hideButtons 
+                    ? <div>
+                        {(this.state.secondsElapsed === 0 || this.incrementer === this.state.lastClearedIncrementer
+                          ? <Button type="primary" authorizedRoles={this.props.authorizedRoles} name="start" value="Start" onClick={this.handleStartClick} />
+                          : <Button type="primary" authorizedRoles={this.props.authorizedRoles} name="stop" value="Stop" onClick={this.handleStopClick} />
+                        )}
                 
-                {" "}
+                        {" "}
         
-                {(this.state.secondsElapsed !== 0 && this.incrementer === this.state.lastClearedIncrementer
-                  ? <Button type="default" authorizedRoles={this.props.authorizedRoles} name="reset" value="Reset" onClick={this.handleResetClick} />
-                  : null
+                        {(this.state.secondsElapsed !== 0 && this.incrementer === this.state.lastClearedIncrementer
+                          ? <Button type="default" authorizedRoles={this.props.authorizedRoles} name="reset" value="Reset" onClick={this.handleResetClick} />
+                          : null
+                        )}
+                    </div>
+                    : null
                 )}
             </div>
         );

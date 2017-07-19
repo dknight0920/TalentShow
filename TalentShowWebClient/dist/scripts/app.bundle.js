@@ -43401,6 +43401,7 @@ var Stopwatch = function (_React$Component) {
         _this.handleStopClick = _this.handleStopClick.bind(_this);
         _this.handleResetClick = _this.handleResetClick.bind(_this);
         _this.state = {
+            hideButtons: _this.props.hideButtons,
             secondsElapsed: _this.props.secondsElapsed,
             lastClearedIncrementer: null
         };
@@ -43412,6 +43413,7 @@ var Stopwatch = function (_React$Component) {
         key: 'componentWillReceiveProps',
         value: function componentWillReceiveProps(nextProps) {
             this.setState({
+                hideButtons: nextProps.hideButtons,
                 secondsElapsed: nextProps.secondsElapsed,
                 lastClearedIncrementer: null
             });
@@ -43457,9 +43459,13 @@ var Stopwatch = function (_React$Component) {
                     { className: 'stopwatch-timer' },
                     formattedSeconds(this.state.secondsElapsed)
                 ),
-                this.state.secondsElapsed === 0 || this.incrementer === this.state.lastClearedIncrementer ? _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: this.props.authorizedRoles, name: 'start', value: 'Start', onClick: this.handleStartClick }) : _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: this.props.authorizedRoles, name: 'stop', value: 'Stop', onClick: this.handleStopClick }),
-                " ",
-                this.state.secondsElapsed !== 0 && this.incrementer === this.state.lastClearedIncrementer ? _react2.default.createElement(_button2.default, { type: 'default', authorizedRoles: this.props.authorizedRoles, name: 'reset', value: 'Reset', onClick: this.handleResetClick }) : null
+                !this.state.hideButtons ? _react2.default.createElement(
+                    'div',
+                    null,
+                    this.state.secondsElapsed === 0 || this.incrementer === this.state.lastClearedIncrementer ? _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: this.props.authorizedRoles, name: 'start', value: 'Start', onClick: this.handleStartClick }) : _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: this.props.authorizedRoles, name: 'stop', value: 'Stop', onClick: this.handleStopClick }),
+                    " ",
+                    this.state.secondsElapsed !== 0 && this.incrementer === this.state.lastClearedIncrementer ? _react2.default.createElement(_button2.default, { type: 'default', authorizedRoles: this.props.authorizedRoles, name: 'reset', value: 'Reset', onClick: this.handleResetClick }) : null
+                ) : null
             );
         }
     }]);
@@ -49630,6 +49636,10 @@ var _currentUserStore = require('../../../../../data/stores/currentUserStore');
 
 var _currentUserStore2 = _interopRequireDefault(_currentUserStore);
 
+var _contestStore = require('../../../../../data/stores/contestStore');
+
+var _contestStore2 = _interopRequireDefault(_contestStore);
+
 var _judgeStore = require('../../../../../data/stores/judgeStore');
 
 var _judgeStore2 = _interopRequireDefault(_judgeStore);
@@ -49641,6 +49651,10 @@ var _scoreCardStore2 = _interopRequireDefault(_scoreCardStore);
 var _contestantStore = require('../../../../../data/stores/contestantStore');
 
 var _contestantStore2 = _interopRequireDefault(_contestantStore);
+
+var _contestActions = require('../../../../../data/actions/contestActions');
+
+var ContestActions = _interopRequireWildcard(_contestActions);
 
 var _contestantActions = require('../../../../../data/actions/contestantActions');
 
@@ -49722,10 +49736,13 @@ var ContestantPage = function (_TimeoutComponent) {
         key: 'componentWillMount',
         value: function componentWillMount() {
             _contestantStore2.default.on("change", this.storeChanged);
+            _contestStore2.default.on("change", this.storeChanged);
+            ContestActions.loadContest(this.getShowId(), this.getContestId());
             ContestantActions.loadContestant(this.getContestId(), this.getContestantId());
             ScoreCardActions.loadContestantScoreCards(this.getContestantId());
             PerformerActions.loadContestantPerformers(this.getContestantId());
             JudgeActions.loadContestJudges(this.getContestId());
+            ContestActions.joinHubGroup(this.getShowId());
             ContestantActions.joinHubGroup(this.getContestId());
             ScoreCardActions.joinHubGroup(this.getContestantId());
             PerformerActions.joinHubGroup(this.getContestantId());
@@ -49736,6 +49753,8 @@ var ContestantPage = function (_TimeoutComponent) {
         value: function componentWillUnmount() {
             this.resetTimeout();
             _contestantStore2.default.off("change", this.storeChanged);
+            _contestStore2.default.off("change", this.storeChanged);
+            ContestActions.leaveHubGroup(this.getShowId());
             ContestantActions.leaveHubGroup(this.getContestId());
             ScoreCardActions.leaveHubGroup(this.getContestantId());
             PerformerActions.leaveHubGroup(this.getContestantId());
@@ -49749,7 +49768,7 @@ var ContestantPage = function (_TimeoutComponent) {
     }, {
         key: 'getState',
         value: function getState() {
-            return { contestant: this.getContestant() };
+            return { contestant: this.getContestant(), contest: _contestStore2.default.get(this.getShowId(), this.getContestId()) };
         }
     }, {
         key: 'getContestant',
@@ -49872,13 +49891,15 @@ var ContestantPage = function (_TimeoutComponent) {
                 _react2.default.createElement(_button2.default, { type: 'primary', authorizedRoles: authorizedRolesForButtons, name: 'removeContestant', value: 'Remove', onClick: this.handleRemoveContestantClick })
             );
 
+            var userIsTimeKeeper = this.state.contest && _currentUserStore2.default.getUserInfo().Id == this.state.contest.TimeKeeperId;
+
             return _react2.default.createElement(
                 _pageContent2.default,
                 { title: "Contestant: " + ContestantUtil.getName(contestant), description: ContestantUtil.getDescription(contestant), buttons: contestantPageButtons },
                 _react2.default.createElement(
                     _panel2.default,
                     { title: 'Performance Duration' },
-                    _react2.default.createElement(_stopwatch2.default, { onStop: this.handleStopWatchFinished, secondsElapsed: ContestantUtil.getPerformanceDurationInSeconds(contestant), authorizedRoles: ["timekeeper"] })
+                    _react2.default.createElement(_stopwatch2.default, { onStop: this.handleStopWatchFinished, secondsElapsed: ContestantUtil.getPerformanceDurationInSeconds(contestant), authorizedRoles: ["timekeeper"], hideButtons: !userIsTimeKeeper })
                 ),
                 _react2.default.createElement(_scoreCards2.default, { showId: this.getShowId(), contestId: this.getContestId(), contestantId: this.getContestantId(), showAddScoreCardButton: this.canAddScoreCard }),
                 _react2.default.createElement(_performers2.default, { showId: this.getShowId(), contestId: this.getContestId(), contestantId: this.getContestantId() })
@@ -49891,7 +49912,7 @@ var ContestantPage = function (_TimeoutComponent) {
 
 exports.default = ContestantPage;
 
-},{"../../../../../common/button":292,"../../../../../common/pageContent":298,"../../../../../common/panel":299,"../../../../../common/stopwatch":302,"../../../../../common/timeoutComponent":303,"../../../../../data/actions/contestantActions":306,"../../../../../data/actions/judgeActions":309,"../../../../../data/actions/performerActions":311,"../../../../../data/actions/scoreCardActions":312,"../../../../../data/stores/contestantStore":333,"../../../../../data/stores/currentUserStore":334,"../../../../../data/stores/judgeStore":336,"../../../../../data/stores/scoreCardStore":339,"../../../../../routing/navigation":397,"./contestantUtil":360,"./performers":366,"./scoreCards":372,"react":290}],359:[function(require,module,exports){
+},{"../../../../../common/button":292,"../../../../../common/pageContent":298,"../../../../../common/panel":299,"../../../../../common/stopwatch":302,"../../../../../common/timeoutComponent":303,"../../../../../data/actions/contestActions":305,"../../../../../data/actions/contestantActions":306,"../../../../../data/actions/judgeActions":309,"../../../../../data/actions/performerActions":311,"../../../../../data/actions/scoreCardActions":312,"../../../../../data/stores/contestStore":332,"../../../../../data/stores/contestantStore":333,"../../../../../data/stores/currentUserStore":334,"../../../../../data/stores/judgeStore":336,"../../../../../data/stores/scoreCardStore":339,"../../../../../routing/navigation":397,"./contestantUtil":360,"./performers":366,"./scoreCards":372,"react":290}],359:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

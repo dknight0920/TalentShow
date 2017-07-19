@@ -122,6 +122,11 @@ namespace TalentShowWebApi.Controllers
                     claims.Add(new UserClaimViewModel() { Type = "judgeId", Value = judge.Id.ToString() });
             }
 
+            var contests = new ContestService(new ContestRepo(), new ShowContestRepo()).GetAll().Where(c => c.TimeKeeperId == user.Id);
+
+            if (contests.Any())
+                roles.Add("TimeKeeper");
+
             return new UserInfoViewModel
             {
                 Id = user.Id,
