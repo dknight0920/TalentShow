@@ -18,6 +18,7 @@ class Stopwatch extends React.Component {
             lastClearedIncrementer: null
         };
         this.incrementer = null;
+        this.startAt = null;
     }  
 
     componentWillReceiveProps(nextProps) {
@@ -27,13 +28,15 @@ class Stopwatch extends React.Component {
             lastClearedIncrementer: null
         });
         this.incrementer = null;
+        this.startAt = null;
     }
     
     handleStartClick() {
+        this.startAt = Math.floor(Date.now() / 1000) - this.state.secondsElapsed;
         this.incrementer = setInterval( () =>
             this.setState({
-                secondsElapsed: this.state.secondsElapsed + 1
-            }), 1000);
+                secondsElapsed: Math.floor(Math.floor(Date.now() / 1000) - this.startAt)
+            }), 300);
     }
   
     handleStopClick() {

@@ -43414,6 +43414,7 @@ var Stopwatch = function (_React$Component) {
             lastClearedIncrementer: null
         };
         _this.incrementer = null;
+        _this.startAt = null;
         return _this;
     }
 
@@ -43426,17 +43427,19 @@ var Stopwatch = function (_React$Component) {
                 lastClearedIncrementer: null
             });
             this.incrementer = null;
+            this.startAt = null;
         }
     }, {
         key: 'handleStartClick',
         value: function handleStartClick() {
             var _this2 = this;
 
+            this.startAt = Math.floor(Date.now() / 1000) - this.state.secondsElapsed;
             this.incrementer = setInterval(function () {
                 return _this2.setState({
-                    secondsElapsed: _this2.state.secondsElapsed + 1
+                    secondsElapsed: Math.floor(Math.floor(Date.now() / 1000) - _this2.startAt)
                 });
-            }, 1000);
+            }, 300);
         }
     }, {
         key: 'handleStopClick',
