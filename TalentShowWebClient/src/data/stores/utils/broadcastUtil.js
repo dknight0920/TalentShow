@@ -1,42 +1,60 @@
 ﻿'use strict';
 import * as Hubs from '../../signalr/hubs';
 
+var invokeRemoteHubMethod = function(name, groupName, id){
+    if(id){
+        Hubs.controlCenterHubProxy.invoke(name, groupName, id);
+    } else {
+        Hubs.controlCenterHubProxy.invoke(name, groupName);
+    }
+};
+
+var invokeHubMethod = function(name, groupName, id){
+    if (Hubs.hubConnection.state === $.signalR.connectionState.disconnected) {
+        Hubs.hubConnection.start({ transport: ['webSockets'], jsonp: true }).done(function(){
+            invokeRemoteHubMethod(name, groupName, id);
+        });
+    } else {
+         invokeRemoteHubMethod(name, groupName, id);
+    }
+};
+
 export function broadcastShowChange(groupName){
-    Hubs.controlCenterHubProxy.invoke('ShowChanged', groupName);
+    invokeHubMethod('ShowChanged', groupName);
 };
 
 export function broadcastDivisionChange(groupName){
-    Hubs.controlCenterHubProxy.invoke('DivisionChanged', groupName);
+    invokeHubMethod('DivisionChanged', groupName);
 };
 
 export function broadcastContestChange(groupName, id){
-    Hubs.controlCenterHubProxy.invoke('ContestChanged', groupName, id);
+    invokeHubMethod('ContestChanged', groupName, id);
 };
 
 export function broadcastContestantChange(groupName, id){
-    Hubs.controlCenterHubProxy.invoke('ContestantChanged', groupName, id);
+    invokeHubMethod('ContestantChanged', groupName, id);
 };
 
 export function broadcastJudgeChange(groupName, id){
-    Hubs.controlCenterHubProxy.invoke('JudgeChanged', groupName, id);
+    invokeHubMethod('JudgeChanged', groupName, id);
 };
 
 export function broadcastScoreCriterionChange(groupName, id){
-    Hubs.controlCenterHubProxy.invoke('ScoreCriterionChanged', groupName, id);
+    invokeHubMethod('ScoreCriterionChanged', groupName, id);
 };
 
 export function broadcastScoreCardChange(groupName, id){
-    Hubs.controlCenterHubProxy.invoke('ScoreCardChanged', groupName, id);
+    invokeHubMethod('ScoreCardChanged', groupName, id);
 };
 
 export function broadcastPerformerChange(groupName, id){
-    Hubs.controlCenterHubProxy.invoke('PerformerChanged', groupName, id);
+    invokeHubMethod('PerformerChanged', groupName, id);
 };
 
 export function broadcastOrganizationChange(groupName){
-    Hubs.controlCenterHubProxy.invoke('OrganizationChanged', groupName);
+    invokeHubMethod('OrganizationChanged', groupName);
 };
 
 export function broadcastUserChange(groupName){
-    Hubs.controlCenterHubProxy.invoke('UserChanged', groupName);
+    invokeHubMethod('UserChanged', groupName);
 };

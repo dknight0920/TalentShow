@@ -186,7 +186,13 @@ class ContestantPage extends TimeoutComponent {
         var userIsTimeKeeper = this.state.contest && CurrentUser.getUserInfo().Id == this.state.contest.TimeKeeperId;
   
         return (
-            <PageContent title={"Contestant: " + ContestantUtil.getName(contestant)} description={ContestantUtil.getDescription(contestant)} buttons={contestantPageButtons}>
+            <PageContent 
+                title={"Contestant: " + ContestantUtil.getName(contestant)} 
+                description={ContestantUtil.getDescription(contestant)} 
+                buttons={contestantPageButtons}                
+                backButtonPath={"/show/" + this.getShowId() + "/contest/" + this.getContestId() + "/"} 
+                backButtonText={"Contest"} 
+            >
                 <Panel title="Performance Duration">
                     <Stopwatch onStop={this.handleStopWatchFinished} secondsElapsed={ContestantUtil.getPerformanceDurationInSeconds(contestant)} authorizedRoles={["timekeeper"]} hideButtons={!userIsTimeKeeper} />
                 </Panel>

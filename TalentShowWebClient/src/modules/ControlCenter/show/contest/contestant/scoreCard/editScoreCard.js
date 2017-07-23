@@ -95,7 +95,13 @@ class EditScoreCardPage extends RoleAwareComponent {
             );
 
             return (
-                <PageContent title="Edit a Score Card" description="Use the form below to edit the score card." buttons={removeScoreCardButton} >
+                <PageContent 
+                    title="Edit a Score Card" 
+                    description="Use the form below to edit the score card." 
+                    buttons={removeScoreCardButton} 
+                    backButtonPath={"/show/" + this.getShowId() + "/contest/" + this.getContestId() + "/contestant/" + this.getContestantId() + "/"} 
+                    backButtonText={"Contestant"}
+                >
                     <ScoreCardEditor authorizedRoles={this.authorizedRoles}  scoreCard={scoreCard} OnClickSave={this.handleClickSave} OnClickCancel={this.handleClickCancel}/>
                 </PageContent>
             );

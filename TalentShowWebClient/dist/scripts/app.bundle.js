@@ -42587,6 +42587,14 @@ function getToken() {
 Hubs.hubConnection.start({ transport: ['webSockets'], jsonp: true }).done(function () {
     console.log("Connected");
 
+    Hubs.hubConnection.disconnected(function () {
+        setTimeout(function () {
+            Hubs.hubConnection.start({ transport: ['webSockets'], jsonp: true }).done(function () {
+                console.log("Reconnected");
+            });
+        }, 500);
+    });
+
     (0, _reactDom.render)(_react2.default.createElement(
         _reactRouter.Router,
         { history: _reactRouter.hashHistory },
@@ -47676,44 +47684,62 @@ var Hubs = _interopRequireWildcard(_hubs);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+var invokeRemoteHubMethod = function invokeRemoteHubMethod(name, groupName, id) {
+    if (id) {
+        Hubs.controlCenterHubProxy.invoke(name, groupName, id);
+    } else {
+        Hubs.controlCenterHubProxy.invoke(name, groupName);
+    }
+};
+
+var invokeHubMethod = function invokeHubMethod(name, groupName, id) {
+    if (Hubs.hubConnection.state === $.signalR.connectionState.disconnected) {
+        Hubs.hubConnection.start({ transport: ['webSockets'], jsonp: true }).done(function () {
+            invokeRemoteHubMethod(name, groupName, id);
+        });
+    } else {
+        invokeRemoteHubMethod(name, groupName, id);
+    }
+};
+
 function broadcastShowChange(groupName) {
-    Hubs.controlCenterHubProxy.invoke('ShowChanged', groupName);
+    invokeHubMethod('ShowChanged', groupName);
 };
 
 function broadcastDivisionChange(groupName) {
-    Hubs.controlCenterHubProxy.invoke('DivisionChanged', groupName);
+    invokeHubMethod('DivisionChanged', groupName);
 };
 
 function broadcastContestChange(groupName, id) {
-    Hubs.controlCenterHubProxy.invoke('ContestChanged', groupName, id);
+    invokeHubMethod('ContestChanged', groupName, id);
 };
 
 function broadcastContestantChange(groupName, id) {
-    Hubs.controlCenterHubProxy.invoke('ContestantChanged', groupName, id);
+    invokeHubMethod('ContestantChanged', groupName, id);
 };
 
 function broadcastJudgeChange(groupName, id) {
-    Hubs.controlCenterHubProxy.invoke('JudgeChanged', groupName, id);
+    invokeHubMethod('JudgeChanged', groupName, id);
 };
 
 function broadcastScoreCriterionChange(groupName, id) {
-    Hubs.controlCenterHubProxy.invoke('ScoreCriterionChanged', groupName, id);
+    invokeHubMethod('ScoreCriterionChanged', groupName, id);
 };
 
 function broadcastScoreCardChange(groupName, id) {
-    Hubs.controlCenterHubProxy.invoke('ScoreCardChanged', groupName, id);
+    invokeHubMethod('ScoreCardChanged', groupName, id);
 };
 
 function broadcastPerformerChange(groupName, id) {
-    Hubs.controlCenterHubProxy.invoke('PerformerChanged', groupName, id);
+    invokeHubMethod('PerformerChanged', groupName, id);
 };
 
 function broadcastOrganizationChange(groupName) {
-    Hubs.controlCenterHubProxy.invoke('OrganizationChanged', groupName);
+    invokeHubMethod('OrganizationChanged', groupName);
 };
 
 function broadcastUserChange(groupName) {
-    Hubs.controlCenterHubProxy.invoke('UserChanged', groupName);
+    invokeHubMethod('UserChanged', groupName);
 };
 
 },{"../../signalr/hubs":330}],344:[function(require,module,exports){
@@ -49895,7 +49921,13 @@ var ContestantPage = function (_TimeoutComponent) {
 
             return _react2.default.createElement(
                 _pageContent2.default,
-                { title: "Contestant: " + ContestantUtil.getName(contestant), description: ContestantUtil.getDescription(contestant), buttons: contestantPageButtons },
+                {
+                    title: "Contestant: " + ContestantUtil.getName(contestant),
+                    description: ContestantUtil.getDescription(contestant),
+                    buttons: contestantPageButtons,
+                    backButtonPath: "/show/" + this.getShowId() + "/contest/" + this.getContestId() + "/",
+                    backButtonText: "Contest"
+                },
                 _react2.default.createElement(
                     _panel2.default,
                     { title: 'Performance Duration' },
@@ -51385,7 +51417,13 @@ var EditScoreCardPage = function (_RoleAwareComponent) {
 
                 return _react2.default.createElement(
                     _pageContent2.default,
-                    { title: 'Edit a Score Card', description: 'Use the form below to edit the score card.', buttons: removeScoreCardButton },
+                    {
+                        title: 'Edit a Score Card',
+                        description: 'Use the form below to edit the score card.',
+                        buttons: removeScoreCardButton,
+                        backButtonPath: "/show/" + this.getShowId() + "/contest/" + this.getContestId() + "/contestant/" + this.getContestantId() + "/",
+                        backButtonText: "Contestant"
+                    },
                     _react2.default.createElement(_scoreCardEditor2.default, { authorizedRoles: this.authorizedRoles, scoreCard: scoreCard, OnClickSave: this.handleClickSave, OnClickCancel: this.handleClickCancel })
                 );
             }

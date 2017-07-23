@@ -75,8 +75,16 @@ function getToken(){
 
  Hubs.hubConnection.start({ transport: ['webSockets'], jsonp: true })
     .done(function(){
-        console.log("Connected");     
+        console.log("Connected"); 
 
+        Hubs.hubConnection.disconnected(function() {
+            setTimeout(function() {
+                Hubs.hubConnection.start({ transport: ['webSockets'], jsonp: true }).done(function(){
+                    console.log("Reconnected");
+                });
+            }, 500);
+        });
+        
         render((
             <Router history={hashHistory}>
                 <Route path="/">
