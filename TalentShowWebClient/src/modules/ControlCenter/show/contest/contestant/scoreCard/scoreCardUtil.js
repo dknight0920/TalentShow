@@ -27,7 +27,7 @@ var getDescription = function (scoreCard) {
         }
     }
     description.push( (<hr key={key++} />) );
-    description.push( (<span key={key++}><h4>Average Score: {scoreCard.AverageScore} Total Score: {scoreCard.TotalScore}</h4></span>) );
+    description.push( (<span key={key++}><h4>Total Score: {scoreCard.TotalScore}</h4></span>) );
     return description;
 };
 

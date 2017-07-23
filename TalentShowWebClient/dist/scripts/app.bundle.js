@@ -50122,7 +50122,13 @@ var getName = function getName(contestant) {
         performerNames += performerName.FirstName + " " + performerName.LastName;
     }
 
-    return performerNames + " (" + contestant.Id + ")";
+    var score = "";
+
+    if (contestant.Performance.Duration > 0) {
+        score = " - Total Score: " + contestant.TotalScore;
+    }
+
+    return performerNames + " (" + contestant.Id + ")" + score;
 };
 
 var getDescription = function getDescription(contestant) {
@@ -51793,9 +51799,7 @@ var getDescription = function getDescription(scoreCard) {
         _react2.default.createElement(
             'h4',
             null,
-            'Average Score: ',
-            scoreCard.AverageScore,
-            ' Total Score: ',
+            'Total Score: ',
             scoreCard.TotalScore
         )
     ));

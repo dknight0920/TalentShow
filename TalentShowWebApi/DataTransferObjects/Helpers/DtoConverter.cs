@@ -148,11 +148,16 @@ namespace TalentShowWebApi.DataTransferObjects.Helpers
 
             var performers = performerService.GetContestantPerformers(contestant.Id);
 
+            var scoreCardService = new ScoreCardService(new ScoreCardRepo(), new ScorableCriterionRepo());
+
+            var totalScore = scoreCardService.GetContestantTotalScore(contestant.Id);
+
             return new ContestantDto()
             {
                 Id = contestant.Id,
                 Performance = ConvertToDto(contestant.Performance),
-                Performers = performers.ConvertToDto()
+                Performers = performers.ConvertToDto(),
+                TotalScore = totalScore
             };
         }
 

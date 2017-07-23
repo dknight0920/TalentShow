@@ -87,5 +87,17 @@ namespace TalentShow.Services
         {
             ScoreCardRepo.DeleteAll();
         }
+
+        public double GetContestantTotalScore(int contestantId)
+        {
+            var scoreCards = GetContestantScoreCards(contestantId);
+
+            double totalScore = 0;
+
+            foreach (var scoreCard in scoreCards)
+                totalScore += scoreCard.TotalScore;
+
+            return totalScore;
+        }
     }
 }

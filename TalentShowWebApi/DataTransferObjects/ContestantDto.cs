@@ -12,5 +12,7 @@ namespace TalentShowWebApi.DataTransferObjects
         public PerformanceDto Performance { get; set; }
         [DataMember]
         public ICollection<PerformerDto> Performers { get; set; }
+        [DataMember]
+        public double TotalScore { get; set; }
     }
 }

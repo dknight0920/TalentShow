@@ -10,7 +10,13 @@ var getName = function (contestant) {
         performerNames += performerName.FirstName + " " + performerName.LastName;
     }
 
-    return performerNames + " (" + contestant.Id + ")";
+    var score = "";
+
+    if(contestant.Performance.Duration > 0){
+        score = " - Total Score: " +  contestant.TotalScore;
+    }
+
+    return performerNames + " (" + contestant.Id + ")" + score;
 };
 
 var getDescription = function (contestant) {
