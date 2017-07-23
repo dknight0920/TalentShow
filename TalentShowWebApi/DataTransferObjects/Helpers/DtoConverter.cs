@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using TalentShow;
+using TalentShow.Services;
+using TalentShowDataStorage;
 
 namespace TalentShowWebApi.DataTransferObjects.Helpers
 {
@@ -141,10 +143,16 @@ namespace TalentShowWebApi.DataTransferObjects.Helpers
 
         public static ContestantDto ConvertToDto(this Contestant contestant)
         {
+            var performerService = new PerformerService(new PerformerRepo(),
+                new DivisionRepo(), new PersonNameRepo(), new OrganizationRepo(), new ContestantPerformerRepo());
+
+            var performers = performerService.GetContestantPerformers(contestant.Id);
+
             return new ContestantDto()
             {
                 Id = contestant.Id,
-                Performance = ConvertToDto(contestant.Performance)
+                Performance = ConvertToDto(contestant.Performance),
+                Performers = performers.ConvertToDto()
             };
         }
 

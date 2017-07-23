@@ -10,5 +10,7 @@ namespace TalentShowWebApi.DataTransferObjects
         public int Id { get; set; }
         [DataMember]
         public PerformanceDto Performance { get; set; }
+        [DataMember]
+        public ICollection<PerformerDto> Performers { get; set; }
     }
 }
