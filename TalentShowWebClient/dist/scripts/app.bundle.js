@@ -43411,10 +43411,10 @@ var Stopwatch = function (_React$Component) {
         _this.state = {
             hideButtons: _this.props.hideButtons,
             secondsElapsed: _this.props.secondsElapsed,
-            lastClearedIncrementer: null
+            lastClearedIncrementer: null,
+            startAt: null
         };
         _this.incrementer = null;
-        _this.startAt = null;
         return _this;
     }
 
@@ -43424,21 +43424,28 @@ var Stopwatch = function (_React$Component) {
             this.setState({
                 hideButtons: nextProps.hideButtons,
                 secondsElapsed: nextProps.secondsElapsed,
-                lastClearedIncrementer: null
+                lastClearedIncrementer: null,
+                startAt: null
             });
             this.incrementer = null;
-            this.startAt = null;
         }
     }, {
         key: 'handleStartClick',
         value: function handleStartClick() {
             var _this2 = this;
 
-            this.startAt = Math.floor(Date.now() / 1000) - this.state.secondsElapsed;
+            clearInterval(this.incrementer);
+            this.setState({
+                lastClearedIncrementer: this.incrementer,
+                startAt: Math.floor(Date.now() / 1000) - this.state.secondsElapsed
+            });
+            var self = this;
             this.incrementer = setInterval(function () {
-                return _this2.setState({
-                    secondsElapsed: Math.floor(Math.floor(Date.now() / 1000) - _this2.startAt)
-                });
+                if (self.state.startAt > 0) {
+                    _this2.setState({
+                        secondsElapsed: Math.floor(Math.floor(Date.now() / 1000) - self.state.startAt)
+                    });
+                }
             }, 300);
         }
     }, {
@@ -43446,7 +43453,8 @@ var Stopwatch = function (_React$Component) {
         value: function handleStopClick() {
             clearInterval(this.incrementer);
             this.setState({
-                lastClearedIncrementer: this.incrementer
+                lastClearedIncrementer: this.incrementer,
+                startAt: null
             });
             this.props.onStop(this.state.secondsElapsed);
         }
@@ -43455,7 +43463,8 @@ var Stopwatch = function (_React$Component) {
         value: function handleResetClick() {
             clearInterval(this.incrementer);
             this.setState({
-                secondsElapsed: 0
+                secondsElapsed: 0,
+                startAt: null
             });
             this.props.onStop(0);
         }

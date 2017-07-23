@@ -12,16 +12,20 @@ namespace TalentShow.Services
     {
         private readonly IRepo<ScoreCard> ScoreCardRepo;
         private readonly IRepo<ScorableCriterion> ScorableCriterionRepo;
+        private readonly IRepo<Contestant> ContestantRepo;
 
-        public ScoreCardService(IRepo<ScoreCard> scoreCardRepo, IRepo<ScorableCriterion> scorableCriterionRepo)
+        public ScoreCardService(IRepo<ScoreCard> scoreCardRepo, IRepo<ScorableCriterion> scorableCriterionRepo, IRepo<Contestant> contestantRepo)
         {
             if (scoreCardRepo == null)
                 throw new ApplicationException("A ScoreCardService cannot be constructed without a ScoreCardRepo.");
             if (scorableCriterionRepo == null)
                 throw new ApplicationException("A ScoreCardService cannot be constructed without a ScorableCriterionRepo.");
+            if (contestantRepo == null)
+                throw new ApplicationException("A ScoreCardService cannot be constructed without a ContestantRepo.");
 
             ScoreCardRepo = scoreCardRepo;
             ScorableCriterionRepo = scorableCriterionRepo;
+            ContestantRepo = contestantRepo;
         }
 
         public ICollection<ScoreCard> GetContestantScoreCards(int contestantId)
@@ -91,8 +95,15 @@ namespace TalentShow.Services
         public double GetContestantTotalScore(int contestantId)
         {
             var scoreCards = GetContestantScoreCards(contestantId);
+            var contestant = ContestantRepo.Get(contestantId);
+            var maxDuration = new TimeSpan(0, 5, 0); //five minutes
 
-            double totalScore = 0;
+            double penaltyPoints = 0;
+
+            if (contestant.Performance.Duration > maxDuration)
+                penaltyPoints = (contestant.Performance.Duration - maxDuration).TotalSeconds;
+
+            double totalScore = 0 - penaltyPoints;
 
             foreach (var scoreCard in scoreCards)
                 totalScore += scoreCard.TotalScore;

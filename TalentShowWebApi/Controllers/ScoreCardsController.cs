@@ -22,7 +22,7 @@ namespace TalentShowWebApi.Controllers
 
         public ScoreCardsController()
         {
-            ScoreCardService = new ScoreCardService(new ScoreCardRepo(), new ScorableCriterionRepo());
+            ScoreCardService = new ScoreCardService(new ScoreCardRepo(), new ScorableCriterionRepo(), new ContestantRepo());
         }
 
         // GET api/ScoreCards/Contestant/5
