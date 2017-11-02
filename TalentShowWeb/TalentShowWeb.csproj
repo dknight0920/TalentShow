@@ -202,6 +202,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="CustomControls\HyperlinkListPanel.ascx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -245,6 +246,8 @@
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Shows.aspx" />
+    <Content Include="Show\Contests.aspx" />
     <Content Include="Site.Master" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
@@ -384,6 +387,16 @@
     <Compile Include="Contact.aspx.designer.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
     </Compile>
+    <Compile Include="CustomControls\Renderers\HyperlinkListPanelRenderer.cs" />
+    <Compile Include="CustomControls\HyperlinkListPanel.ascx.cs">
+      <DependentUpon>HyperlinkListPanel.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CustomControls\HyperlinkListPanel.ascx.designer.cs">
+      <DependentUpon>HyperlinkListPanel.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\Models\HyperlinkListPanelConfig.cs" />
+    <Compile Include="CustomControls\Models\HyperlinkListPanelItem.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -396,6 +409,20 @@
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shows.aspx.cs">
+      <DependentUpon>Shows.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Shows.aspx.designer.cs">
+      <DependentUpon>Shows.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Show\Contests.aspx.cs">
+      <DependentUpon>Contests.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Show\Contests.aspx.designer.cs">
+      <DependentUpon>Contests.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -421,6 +448,17 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Utils\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TalentShowDataStorage\TalentShowDataStorage.csproj">
+      <Project>{4293fdbe-9698-4569-b515-9d2e639d9565}</Project>
+      <Name>TalentShowDataStorage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TalentShow\TalentShow.csproj">
+      <Project>{93110d1b-b66b-41e7-8d1f-42a9877525fa}</Project>
+      <Name>TalentShow</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
