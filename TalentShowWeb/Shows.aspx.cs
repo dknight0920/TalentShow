@@ -18,14 +18,14 @@ namespace TalentShowWeb
             var items = new List<HyperlinkListPanelItem>();
 
             foreach (var show in new ShowService(new ShowRepo()).GetAll())
-                items.Add(new HyperlinkListPanelItem(URL: "~/Show/Contests.aspx?showId=" + show.Id, Heading: show.Name, Text: show.Description));
+                items.Add(new HyperlinkListPanelItem(URL: "~/Show/Show.aspx?showId=" + show.Id, Heading: show.Name, Text: show.Description));
 
             HyperlinkListPanelRenderer.Render(showsList, new HyperlinkListPanelConfig("Talent Shows", items, ButtonAddShowClick));
         }
 
         protected void ButtonAddShowClick(object sender, EventArgs evnt)
         {
-            Response.Redirect("~/About.aspx");
+            Response.Redirect("~/Show/AddShow.aspx");
         }
     }
 }

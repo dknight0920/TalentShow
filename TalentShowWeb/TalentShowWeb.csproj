@@ -247,7 +247,8 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Shows.aspx" />
-    <Content Include="Show\Contests.aspx" />
+    <Content Include="Show\AddShow.aspx" />
+    <Content Include="Show\Show.aspx" />
     <Content Include="Show\Contest\Contest.aspx" />
     <Content Include="Site.Master" />
     <Content Include="ViewSwitcher.ascx" />
@@ -417,12 +418,19 @@
     <Compile Include="Shows.aspx.designer.cs">
       <DependentUpon>Shows.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Show\Contests.aspx.cs">
-      <DependentUpon>Contests.aspx</DependentUpon>
+    <Compile Include="Show\AddShow.aspx.cs">
+      <DependentUpon>AddShow.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Show\Contests.aspx.designer.cs">
-      <DependentUpon>Contests.aspx</DependentUpon>
+    <Compile Include="Show\AddShow.aspx.designer.cs">
+      <DependentUpon>AddShow.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Show\Show.aspx.cs">
+      <DependentUpon>Show.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Show\Show.aspx.designer.cs">
+      <DependentUpon>Show.aspx</DependentUpon>
     </Compile>
     <Compile Include="Show\Contest\Contest.aspx.cs">
       <DependentUpon>Contest.aspx</DependentUpon>

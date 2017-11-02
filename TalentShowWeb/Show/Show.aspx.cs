@@ -11,7 +11,7 @@ using TalentShowWeb.CustomControls.Renderers;
 
 namespace TalentShowWeb.Show
 {
-    public partial class Contests : System.Web.UI.Page
+    public partial class Show : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
