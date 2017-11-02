@@ -63,7 +63,7 @@ namespace TalentShowWeb.Show.Contest
                 scoreCriterionItems.Add(new HyperlinkListPanelItem(url, heading, text));
             }
 
-            HyperlinkListPanelRenderer.Render(scoreCriteriaList, new HyperlinkListPanelConfig("Judges", scoreCriterionItems, ButtonAddScoreCriterionClick));
+            HyperlinkListPanelRenderer.Render(scoreCriteriaList, new HyperlinkListPanelConfig("Score Criteria", scoreCriterionItems, ButtonAddScoreCriterionClick));
         }
 
         private string GetContestantHeadingText(Contestant contestant)
