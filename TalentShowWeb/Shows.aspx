@@ -3,5 +3,6 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2><%: Title %></h2>
+    <hr />
     <custom:HyperlinkListPanel runat="server" ID="showsList" />
 </asp:Content>

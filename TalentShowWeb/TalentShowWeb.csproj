@@ -248,6 +248,7 @@
     <Content Include="Global.asax" />
     <Content Include="Shows.aspx" />
     <Content Include="Show\Contests.aspx" />
+    <Content Include="Show\Contest\Contest.aspx" />
     <Content Include="Site.Master" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
@@ -422,6 +423,13 @@
     </Compile>
     <Compile Include="Show\Contests.aspx.designer.cs">
       <DependentUpon>Contests.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Show\Contest\Contest.aspx.cs">
+      <DependentUpon>Contest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Show\Contest\Contest.aspx.designer.cs">
+      <DependentUpon>Contest.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>

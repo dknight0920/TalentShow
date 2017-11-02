@@ -7,10 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TalentShowWeb.Show {
+namespace TalentShowWeb.Show.Contest {
     
     
-    public partial class Contests {
+    public partial class Contest {
         
         /// <summary>
         /// labelPageTitle control.
@@ -31,12 +31,30 @@ namespace TalentShowWeb.Show {
         protected global::System.Web.UI.WebControls.Label labelPageDescription;
         
         /// <summary>
-        /// contestsList control.
+        /// contestantsList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::TalentShowWeb.CustomControls.HyperlinkListPanel contestsList;
+        protected global::TalentShowWeb.CustomControls.HyperlinkListPanel contestantsList;
+        
+        /// <summary>
+        /// judgesList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::TalentShowWeb.CustomControls.HyperlinkListPanel judgesList;
+        
+        /// <summary>
+        /// scoreCriteriaList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::TalentShowWeb.CustomControls.HyperlinkListPanel scoreCriteriaList;
     }
 }
