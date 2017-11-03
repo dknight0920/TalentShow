@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Add Show" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="AddShow.aspx.cs" Inherits="TalentShowWeb.Show.AddShow" %>
+﻿<%@ Page Title="Update Show" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="UpdateShow.aspx.cs" Inherits="TalentShowWeb.Show.UpdateShow" %>
 <%@ Register TagPrefix="custom" TagName="ShowForm" Src="~/Show/ShowForm.ascx" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">

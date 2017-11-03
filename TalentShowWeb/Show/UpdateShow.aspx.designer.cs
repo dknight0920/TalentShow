@@ -10,7 +10,7 @@
 namespace TalentShowWeb.Show {
     
     
-    public partial class AddShow {
+    public partial class UpdateShow {
         
         /// <summary>
         /// labelPageTitle control.

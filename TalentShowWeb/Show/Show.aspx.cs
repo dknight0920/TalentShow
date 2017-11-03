@@ -17,7 +17,7 @@ namespace TalentShowWeb.Show
         protected void Page_Load(object sender, EventArgs e)
         {
             var items = new List<HyperlinkListPanelItem>();
-            var showId = Convert.ToInt32(Request.QueryString["showId"]);
+            var showId = GetShowId();
             var show = ServiceFactory.ShowService.Get(showId);
 
             labelPageTitle.Text = "Show: " + show.Name;
@@ -34,6 +34,22 @@ namespace TalentShowWeb.Show
         protected void ButtonAddContestClick(object sender, EventArgs evnt)
         {
             Response.Redirect("~/About.aspx");
+        }
+
+        protected void btnEdit_Click(object sender, EventArgs e)
+        {
+            NavUtil.GoToUpdateShowPage(Response, GetShowId());
+        }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            ServiceFactory.ShowService.Delete(GetShowId());
+            NavUtil.GoToShowsPage(Response);
+        }
+
+        private int GetShowId()
+        {
+            return Convert.ToInt32(Request.QueryString["showId"]);
         }
     }
 }

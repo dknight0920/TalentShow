@@ -14,15 +14,11 @@ namespace TalentShowWeb.CustomControls.Renderers
             Panel.ShowAddButton = Config.ButtonClickHandler == null ? false : true;
 
             if (Panel.ShowAddButton)
-            {
-                var panelAddButton = (Button)Panel.FindControl("panelAddButton");
-                panelAddButton.Click += new EventHandler(Config.ButtonClickHandler);
-            }
+                Panel.GetPanelAddButton().Click += new EventHandler(Config.ButtonClickHandler);
 
-            var panelTitleLabel = (Label)Panel.FindControl("panelTitle");
-            panelTitleLabel.Text = Config.PanelTitle;
+            Panel.GetPanelTitleLabel().Text = Config.PanelTitle;
 
-            var linkRepeater = (Repeater)Panel.FindControl("hyperLinkList");
+            var linkRepeater = Panel.GetHyperlinkListRepeater();
             linkRepeater.DataSource = Config.Items;
             linkRepeater.DataBind();
         }

@@ -15,5 +15,20 @@ namespace TalentShowWeb.CustomControls
         {
 
         }
+
+        public Label GetPanelTitleLabel()
+        {
+            return panelTitle;
+        }
+
+        public Button GetPanelAddButton()
+        {
+            return panelAddButton;
+        }
+
+        public Repeater GetHyperlinkListRepeater()
+        {
+            return hyperLinkList;
+        }
     }
 }

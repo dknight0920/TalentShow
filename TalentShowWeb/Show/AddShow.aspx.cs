@@ -16,11 +16,23 @@ namespace TalentShowWeb.Show
         {
             labelPageTitle.Text = "Add a Show";
             labelPageDescription.Text = "Use the form below to create a new show.";
+
+            showForm.GetSubmitButton().Click += new EventHandler(btnAddShow_Click);
+            showForm.GetCancelButton().Click += new EventHandler(btnCancel_Click);
         }
 
         protected void btnAddShow_Click(object sender, EventArgs e)
         {
-            ServiceFactory.ShowService.Add(new TalentShow.Show(0, txtShowName.Text, txtDescription.Text));
+            if (!Page.IsValid)
+            {
+                //TODO
+                return;
+            }
+
+            var showName = showForm.GetShowNameTextBox().Text.Trim();
+            var description = showForm.GetDescriptionTextBox().Text.Trim();
+            var show = new TalentShow.Show(0, showName, description);
+            ServiceFactory.ShowService.Add(show);
             GoToShowsPage();
         }
 

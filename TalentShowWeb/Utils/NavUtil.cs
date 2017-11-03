@@ -38,6 +38,16 @@ namespace TalentShowWeb.Utils
             return "~/Show/Show.aspx?showId=" + showId;
         }
 
+        internal static void GoToUpdateShowPage(HttpResponse Response, int showId)
+        {
+            GoToPage(Response, GetUpdateShowPageUrl(showId));
+        }
+
+        private static string GetUpdateShowPageUrl(int showId)
+        {
+            return "~/Show/UpdateShow.aspx?showId=" + showId;
+        }
+
         internal static void GoToContestPage(HttpResponse Response, int showId, int contestId)
         {
             GoToPage(Response, GetContestPageUrl(showId, contestId));
