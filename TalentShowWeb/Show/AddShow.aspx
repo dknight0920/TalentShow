@@ -13,5 +13,8 @@
         <asp:TextBox runat="server" ID="txtDescription" CssClass="form-control" />
     </div>
     <br />
-    <asp:Button runat="server" ID="btnAddShow" Text="Submit" OnClick="btnAddShow_Click" CssClass="btn btn-primary" />
+    <div class="form-group">
+        <asp:Button runat="server" ID="btnAddShow" Text="Submit" OnClick="btnAddShow_Click" CssClass="btn btn-primary" />
+        <asp:Button runat="server" ID="btnCancel" Text="Cancel" OnClick="btnCancel_Click" CssClass="btn btn-danger" />
+    </div>
 </asp:Content>

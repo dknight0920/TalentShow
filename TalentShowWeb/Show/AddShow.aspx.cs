@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using TalentShow.Services;
 using TalentShowDataStorage;
+using TalentShowWeb.Utils;
 
 namespace TalentShowWeb.Show
 {
@@ -19,8 +20,18 @@ namespace TalentShowWeb.Show
 
         protected void btnAddShow_Click(object sender, EventArgs e)
         {
-            new ShowService(new ShowRepo()).Add(new TalentShow.Show(0, txtShowName.Text, txtDescription.Text));
-            Response.Redirect("~/Shows.aspx");
+            ServiceFactory.ShowService.Add(new TalentShow.Show(0, txtShowName.Text, txtDescription.Text));
+            GoToShowsPage();
+        }
+
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+            GoToShowsPage();
+        }
+
+        private void GoToShowsPage()
+        {
+            NavUtil.GoToShowsPage(Response);
         }
     }
 }

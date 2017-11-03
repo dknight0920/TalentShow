@@ -8,6 +8,7 @@ using TalentShow.Services;
 using TalentShowDataStorage;
 using TalentShowWeb.CustomControls.Models;
 using TalentShowWeb.CustomControls.Renderers;
+using TalentShowWeb.Utils;
 
 namespace TalentShowWeb
 {
@@ -17,15 +18,17 @@ namespace TalentShowWeb
         {
             var items = new List<HyperlinkListPanelItem>();
 
-            foreach (var show in new ShowService(new ShowRepo()).GetAll())
-                items.Add(new HyperlinkListPanelItem(URL: "~/Show/Show.aspx?showId=" + show.Id, Heading: show.Name, Text: show.Description));
+            var showService = ServiceFactory.ShowService;
+
+            foreach (var show in showService.GetAll())
+                items.Add(new HyperlinkListPanelItem(URL: NavUtil.GetShowPageUrl(show.Id), Heading: show.Name, Text: show.Description));
 
             HyperlinkListPanelRenderer.Render(showsList, new HyperlinkListPanelConfig("Talent Shows", items, ButtonAddShowClick));
         }
 
         protected void ButtonAddShowClick(object sender, EventArgs evnt)
         {
-            Response.Redirect("~/Show/AddShow.aspx");
+            NavUtil.GoToAddShowPage(Response);
         }
     }
 }

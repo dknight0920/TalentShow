@@ -248,6 +248,7 @@
     <Content Include="Global.asax" />
     <Content Include="Shows.aspx" />
     <Content Include="Show\AddShow.aspx" />
+    <Content Include="Show\Contest\Contestant\Contestant.aspx" />
     <Content Include="Show\Show.aspx" />
     <Content Include="Show\Contest\Contest.aspx" />
     <Content Include="Site.Master" />
@@ -425,6 +426,13 @@
     <Compile Include="Show\AddShow.aspx.designer.cs">
       <DependentUpon>AddShow.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Show\Contest\Contestant\Contestant.aspx.cs">
+      <DependentUpon>Contestant.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Show\Contest\Contestant\Contestant.aspx.designer.cs">
+      <DependentUpon>Contestant.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Show\Show.aspx.cs">
       <DependentUpon>Show.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -454,6 +462,9 @@
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
+    <Compile Include="Utils\NavUtil.cs" />
+    <Compile Include="Utils\RepoFactory.cs" />
+    <Compile Include="Utils\ServiceFactory.cs" />
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -464,7 +475,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Utils\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TalentShowDataStorage\TalentShowDataStorage.csproj">

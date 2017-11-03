@@ -9,6 +9,7 @@ using TalentShow.Services;
 using TalentShowDataStorage;
 using TalentShowWeb.CustomControls.Models;
 using TalentShowWeb.CustomControls.Renderers;
+using TalentShowWeb.Utils;
 
 namespace TalentShowWeb.Show.Contest
 {
@@ -17,11 +18,10 @@ namespace TalentShowWeb.Show.Contest
         protected void Page_Load(object sender, EventArgs e)
         {
             var showId = Convert.ToInt32(Request.QueryString["showId"]);
-            var show = new ShowService(new ShowRepo()).Get(showId);
+            var show = ServiceFactory.ShowService.Get(showId);
 
             var contestId = Convert.ToInt32(Request.QueryString["contestId"]);
-            var contestService = new ContestService(new ContestRepo(), new ShowContestRepo());
-            var contest = contestService.Get(contestId);
+            var contest = ServiceFactory.ContestService.Get(contestId);
 
             labelPageTitle.Text = "Contest: " + contest.Name;
             labelPageDescription.Text = contest.Description;
@@ -30,7 +30,7 @@ namespace TalentShowWeb.Show.Contest
 
             foreach (var contestant in contest.Contestants)
             {
-                var url = "~";
+                var url = NavUtil.GetContestantPageUrl(contestant.Id);
                 var heading = GetContestantHeadingText(contestant);
                 var text = GetContestantDescriptionText(contestant);
 
@@ -66,15 +66,13 @@ namespace TalentShowWeb.Show.Contest
             HyperlinkListPanelRenderer.Render(scoreCriteriaList, new HyperlinkListPanelConfig("Score Criteria", scoreCriterionItems, ButtonAddScoreCriterionClick));
         }
 
-        private string GetContestantHeadingText(Contestant contestant)
-        {
-            string text = "";
-
-            var performerService = new PerformerService(new PerformerRepo(), new DivisionRepo(), new PersonNameRepo(), new OrganizationRepo(), new ContestantPerformerRepo());
-
-            var performers = performerService.GetContestantPerformers(contestant.Id);
+        private string GetContestantHeadingText(TalentShow.Contestant contestant)
+        {       
+            var performers = ServiceFactory.PerformerService.GetContestantPerformers(contestant.Id);
 
             bool isFirst = true;
+
+            string text = "";
 
             foreach (var performer in performers)
             {
@@ -85,7 +83,7 @@ namespace TalentShowWeb.Show.Contest
             return text;
         }
 
-        private string GetContestantDescriptionText(Contestant contestant)
+        private string GetContestantDescriptionText(TalentShow.Contestant contestant)
         {
              return contestant.Performance.Description;
         }

@@ -7,10 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TalentShowWeb.Show {
+namespace TalentShowWeb.Show.Contest.Contestant {
     
     
-    public partial class AddShow {
+    public partial class Contestant {
         
         /// <summary>
         /// labelPageTitle control.
@@ -31,39 +31,12 @@ namespace TalentShowWeb.Show {
         protected global::System.Web.UI.WebControls.Label labelPageDescription;
         
         /// <summary>
-        /// txtShowName control.
+        /// performersList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtShowName;
-        
-        /// <summary>
-        /// txtDescription control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDescription;
-        
-        /// <summary>
-        /// btnAddShow control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAddShow;
-        
-        /// <summary>
-        /// btnCancel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnCancel;
+        protected global::TalentShowWeb.CustomControls.HyperlinkListPanel performersList;
     }
 }
