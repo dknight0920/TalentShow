@@ -33,7 +33,7 @@ namespace TalentShowWeb.Show
 
         protected void ButtonAddContestClick(object sender, EventArgs evnt)
         {
-            Response.Redirect("~/About.aspx");
+            NavUtil.GoToAddContestPage(Response, GetShowId());
         }
 
         protected void btnEdit_Click(object sender, EventArgs e)

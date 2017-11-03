@@ -256,7 +256,9 @@
     <Content Include="Global.asax" />
     <Content Include="Shows.aspx" />
     <Content Include="Show\AddShow.aspx" />
+    <Content Include="Show\Contest\AddContest.aspx" />
     <Content Include="Show\Contest\Contestant\Contestant.aspx" />
+    <Content Include="Show\Contest\ContestForm.ascx" />
     <Content Include="Show\Show.aspx" />
     <Content Include="Show\Contest\Contest.aspx" />
     <Content Include="Show\ShowForm.ascx" />
@@ -436,12 +438,26 @@
     <Compile Include="Show\AddShow.aspx.designer.cs">
       <DependentUpon>AddShow.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Show\Contest\AddContest.aspx.cs">
+      <DependentUpon>AddContest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Show\Contest\AddContest.aspx.designer.cs">
+      <DependentUpon>AddContest.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Show\Contest\Contestant\Contestant.aspx.cs">
       <DependentUpon>Contestant.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Show\Contest\Contestant\Contestant.aspx.designer.cs">
       <DependentUpon>Contestant.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Show\Contest\ContestForm.ascx.cs">
+      <DependentUpon>ContestForm.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Show\Contest\ContestForm.ascx.designer.cs">
+      <DependentUpon>ContestForm.ascx</DependentUpon>
     </Compile>
     <Compile Include="Show\Show.aspx.cs">
       <DependentUpon>Show.aspx</DependentUpon>
