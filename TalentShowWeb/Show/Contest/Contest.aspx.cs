@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using TalentShow;
 using TalentShow.Services;
 using TalentShowDataStorage;
+using TalentShowWeb.Account.Util;
 using TalentShowWeb.CustomControls.Models;
 using TalentShowWeb.CustomControls.Renderers;
 using TalentShowWeb.Utils;
@@ -90,7 +91,7 @@ namespace TalentShowWeb.Show.Contest
 
         private string GetJudgeHeadingText(Judge judge)
         {
-            return judge.UserId;
+            return new AccountUtil(Context).GetUserEmail(judge.UserId);
         }
 
         private string GetJudgeDescriptionText(Judge judge)

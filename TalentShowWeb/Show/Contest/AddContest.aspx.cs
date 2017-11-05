@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using TalentShowWeb.Account.Util;
 using TalentShowWeb.Utils;
 
 namespace TalentShowWeb.Show.Contest
@@ -22,12 +23,14 @@ namespace TalentShowWeb.Show.Contest
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var timeKeepersDropDownList = contestForm.GetTimeKeepersDropDownList();
 
             timeKeepersDropDownList.Items.Add(new ListItem("-- Select a User ID --", ""));
 
-            foreach (var user in manager.Users)
+            var accountUtil = new AccountUtil(Context);
+            var users = accountUtil.GetAllUsers();
+
+            foreach (var user in users)
                 timeKeepersDropDownList.Items.Add(new ListItem(user.Email, user.Id));
 
             timeKeepersDropDownList.Items.FindByValue("").Selected = true;
