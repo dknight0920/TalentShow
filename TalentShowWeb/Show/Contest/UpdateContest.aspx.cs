@@ -9,31 +9,33 @@ using TalentShowWeb.Utils;
 
 namespace TalentShowWeb.Show.Contest
 {
-    public partial class AddContest : System.Web.UI.Page
+    public partial class UpdateContest : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            labelPageTitle.Text = "Add a Contest";
-            labelPageDescription.Text = "Use the form below to create a new contest.";
+            labelPageTitle.Text = "Update the Contest";
+            labelPageDescription.Text = "Use the form below to update the contest.";
 
-            contestForm.GetSubmitButton().Click += new EventHandler(btnAddContest_Click);
+            contestForm.GetSubmitButton().Click += new EventHandler(btnUpdateContest_Click);
             contestForm.GetCancelButton().Click += new EventHandler(btnCancel_Click);
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
+            var contest = ServiceFactory.ContestService.Get(GetContestId());
+            contestForm.GetContestNameTextBox().Text = contest.Name;
+            contestForm.GetDescriptionTextBox().Text = contest.Description;
+
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var timeKeepersDropDownList = contestForm.GetTimeKeepersDropDownList();
-
-            timeKeepersDropDownList.Items.Add(new ListItem("-- Select a User ID --", ""));
 
             foreach (var user in manager.Users)
                 timeKeepersDropDownList.Items.Add(new ListItem(user.Email, user.Id));
 
-            timeKeepersDropDownList.Items.FindByValue("").Selected = true;
+            timeKeepersDropDownList.Items.FindByValue(contest.TimeKeeperId).Selected = true;
         }
 
-        protected void btnAddContest_Click(object sender, EventArgs e)
+        protected void btnUpdateContest_Click(object sender, EventArgs e)
         {
             if (!Page.IsValid)
             {
@@ -44,24 +46,29 @@ namespace TalentShowWeb.Show.Contest
             var contestName = contestForm.GetContestNameTextBox().Text.Trim();
             var description = contestForm.GetDescriptionTextBox().Text.Trim();
             var timeKeeper = contestForm.GetTimeKeepersDropDownList().SelectedValue.Trim();
-            var contest = new TalentShow.Contest(0, contestName, description, timeKeeper);
-            ServiceFactory.ContestService.AddShowContest(GetShowId(), contest);
-            GoToShowPage();
+            var contest = new TalentShow.Contest(GetContestId(), contestName, description, timeKeeper);
+            ServiceFactory.ContestService.Update(contest);
+            GoToContestPage();
         }
 
         protected void btnCancel_Click(object sender, EventArgs e)
         {
-            GoToShowPage();
+            GoToContestPage();
         }
 
-        private void GoToShowPage()
+        private void GoToContestPage()
         {
-            NavUtil.GoToShowPage(Response, GetShowId());
+            NavUtil.GoToContestPage(Response, GetShowId(), GetContestId());
         }
 
         private int GetShowId()
         {
             return Convert.ToInt32(Request.QueryString["showId"]);
+        }
+
+        private int GetContestId()
+        {
+            return Convert.ToInt32(Request.QueryString["contestId"]);
         }
     }
 }

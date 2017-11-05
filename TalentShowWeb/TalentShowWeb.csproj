@@ -259,6 +259,7 @@
     <Content Include="Show\Contest\AddContest.aspx" />
     <Content Include="Show\Contest\Contestant\Contestant.aspx" />
     <Content Include="Show\Contest\ContestForm.ascx" />
+    <Content Include="Show\Contest\UpdateContest.aspx" />
     <Content Include="Show\Show.aspx" />
     <Content Include="Show\Contest\Contest.aspx" />
     <Content Include="Show\ShowForm.ascx" />
@@ -458,6 +459,13 @@
     </Compile>
     <Compile Include="Show\Contest\ContestForm.ascx.designer.cs">
       <DependentUpon>ContestForm.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Show\Contest\UpdateContest.aspx.cs">
+      <DependentUpon>UpdateContest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Show\Contest\UpdateContest.aspx.designer.cs">
+      <DependentUpon>UpdateContest.aspx</DependentUpon>
     </Compile>
     <Compile Include="Show\Show.aspx.cs">
       <DependentUpon>Show.aspx</DependentUpon>

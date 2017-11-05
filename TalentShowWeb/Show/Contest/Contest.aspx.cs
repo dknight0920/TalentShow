@@ -122,5 +122,26 @@ namespace TalentShowWeb.Show.Contest
         {
             Response.Redirect("~/About.aspx");
         }
+
+        protected void btnEdit_Click(object sender, EventArgs e)
+        {
+            NavUtil.GoToUpdateContestPage(Response, GetShowId(), GetContestId());
+        }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            ServiceFactory.ContestService.Delete(GetContestId());
+            NavUtil.GoToShowPage(Response, GetShowId());
+        }
+
+        private int GetShowId()
+        {
+            return Convert.ToInt32(Request.QueryString["showId"]);
+        }
+
+        private int GetContestId()
+        {
+            return Convert.ToInt32(Request.QueryString["contestId"]);
+        }
     }
 }
