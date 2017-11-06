@@ -257,7 +257,10 @@
     <Content Include="Shows.aspx" />
     <Content Include="Show\AddShow.aspx" />
     <Content Include="Show\Contest\AddContest.aspx" />
+    <Content Include="Show\Contest\Contestant\AddContestant.aspx" />
     <Content Include="Show\Contest\Contestant\Contestant.aspx" />
+    <Content Include="Show\Contest\Contestant\ContestantForm.ascx" />
+    <Content Include="Show\Contest\Contestant\UpdateContestant.aspx" />
     <Content Include="Show\Contest\ContestForm.ascx" />
     <Content Include="Show\Contest\UpdateContest.aspx" />
     <Content Include="Show\Show.aspx" />
@@ -447,12 +450,33 @@
     <Compile Include="Show\Contest\AddContest.aspx.designer.cs">
       <DependentUpon>AddContest.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Show\Contest\Contestant\AddContestant.aspx.cs">
+      <DependentUpon>AddContestant.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Show\Contest\Contestant\AddContestant.aspx.designer.cs">
+      <DependentUpon>AddContestant.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Show\Contest\Contestant\Contestant.aspx.cs">
       <DependentUpon>Contestant.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Show\Contest\Contestant\Contestant.aspx.designer.cs">
       <DependentUpon>Contestant.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Show\Contest\Contestant\ContestantForm.ascx.cs">
+      <DependentUpon>ContestantForm.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Show\Contest\Contestant\ContestantForm.ascx.designer.cs">
+      <DependentUpon>ContestantForm.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Show\Contest\Contestant\UpdateContestant.aspx.cs">
+      <DependentUpon>UpdateContestant.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Show\Contest\Contestant\UpdateContestant.aspx.designer.cs">
+      <DependentUpon>UpdateContestant.aspx</DependentUpon>
     </Compile>
     <Compile Include="Show\Contest\ContestForm.ascx.cs">
       <DependentUpon>ContestForm.ascx</DependentUpon>

@@ -18,10 +18,10 @@ namespace TalentShowWeb.Show.Contest
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            var showId = Convert.ToInt32(Request.QueryString["showId"]);
+            var showId = GetShowId();
             var show = ServiceFactory.ShowService.Get(showId);
 
-            var contestId = Convert.ToInt32(Request.QueryString["contestId"]);
+            var contestId = GetContestId();
             var contest = ServiceFactory.ContestService.Get(contestId);
 
             labelPageTitle.Text = "Contest: " + contest.Name;
@@ -31,7 +31,7 @@ namespace TalentShowWeb.Show.Contest
 
             foreach (var contestant in contest.Contestants)
             {
-                var url = NavUtil.GetContestantPageUrl(contestant.Id);
+                var url = NavUtil.GetContestantPageUrl(showId, contestId, contestant.Id);
                 var heading = GetContestantHeadingText(contestant);
                 var text = GetContestantDescriptionText(contestant);
 
@@ -71,8 +71,10 @@ namespace TalentShowWeb.Show.Contest
         {       
             var performers = ServiceFactory.PerformerService.GetContestantPerformers(contestant.Id);
 
-            bool isFirst = true;
+            if (!performers.Any())
+                return "Contestant ID: " + contestant.Id;
 
+            bool isFirst = true;
             string text = "";
 
             foreach (var performer in performers)
@@ -111,7 +113,7 @@ namespace TalentShowWeb.Show.Contest
 
         protected void ButtonAddContestantClick(object sender, EventArgs evnt)
         {
-            Response.Redirect("~/About.aspx");
+            NavUtil.GoToAddContestantPage(Response, GetShowId(), GetContestId());
         }
 
         protected void ButtonAddJudgeClick(object sender, EventArgs evnt)

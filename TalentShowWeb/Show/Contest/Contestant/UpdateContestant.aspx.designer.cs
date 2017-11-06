@@ -10,7 +10,7 @@
 namespace TalentShowWeb.Show.Contest.Contestant {
     
     
-    public partial class Contestant {
+    public partial class UpdateContestant {
         
         /// <summary>
         /// labelPageTitle control.
@@ -31,30 +31,12 @@ namespace TalentShowWeb.Show.Contest.Contestant {
         protected global::System.Web.UI.WebControls.Label labelPageDescription;
         
         /// <summary>
-        /// btnEdit control.
+        /// contestantForm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnEdit;
-        
-        /// <summary>
-        /// btnDelete control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnDelete;
-        
-        /// <summary>
-        /// performersList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::TalentShowWeb.CustomControls.HyperlinkListPanel performersList;
+        protected global::TalentShowWeb.Show.Contest.Contestant.ContestantForm contestantForm;
     }
 }

@@ -78,14 +78,34 @@ namespace TalentShowWeb.Utils
             return "~/Show/Contest/UpdateContest.aspx?showId=" + showId + "&contestId=" + contestId;
         }
 
-        internal static void GoToContestantPage(HttpResponse Response, int contestantId)
+        internal static void GoToContestantPage(HttpResponse Response, int showId, int contestId, int contestantId)
         {
-            GoToPage(Response, GetContestantPageUrl(contestantId));
+            GoToPage(Response, GetContestantPageUrl(showId, contestId, contestantId));
         }
 
-        internal static string GetContestantPageUrl(int contestantId)
+        internal static string GetContestantPageUrl(int showId, int contestId, int contestantId)
         {
-            return "~/Show/Contest/Contestant/Contestant.aspx?contestantId=" + contestantId;
+            return "~/Show/Contest/Contestant/Contestant.aspx?showId=" + showId + "&contestId=" + contestId + "&contestantId=" + contestantId;
+        }
+
+        internal static void GoToUpdateContestantPage(HttpResponse Response, int showId, int contestId, int contestantId)
+        {
+            GoToPage(Response, GetUpdateContestantPageUrl(showId, contestId, contestantId));
+        }
+
+        private static string GetUpdateContestantPageUrl(int showId, int contestId, int contestantId)
+        {
+            return "~/Show/Contest/Contestant/UpdateContestant.aspx?showId=" + showId + "&contestId=" + contestId + "&contestantId=" + contestantId;
+        }
+
+        internal static void GoToAddContestantPage(HttpResponse Response, int showId, int contestId)
+        {
+            GoToPage(Response, GetAddContestantPageUrl(showId, contestId));
+        }
+
+        private static string GetAddContestantPageUrl(int showId, int contestId)
+        {
+            return "~/Show/Contest/Contestant/AddContestant.aspx?showId=" + showId + "&contestId=" + contestId;
         }
 
         internal static void GoToHomePage(HttpResponse Response)

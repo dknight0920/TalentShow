@@ -17,7 +17,7 @@ namespace TalentShowWeb.Show.Contest.Contestant
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            var contestantId = Convert.ToInt32(Request.QueryString["contestantId"]);
+            var contestantId = GetContestantId();
             var contestant = ServiceFactory.ContestantService.Get(contestantId);
             var performers = ServiceFactory.PerformerService.GetContestantPerformers(contestant.Id);
 
@@ -73,6 +73,32 @@ namespace TalentShowWeb.Show.Contest.Contestant
         protected void ButtonAddPerformerClick(object sender, EventArgs evnt)
         {
             Response.Redirect("~/About.aspx");
+        }
+
+        protected void btnEdit_Click(object sender, EventArgs e)
+        {
+            NavUtil.GoToUpdateContestantPage(Response, GetShowId(), GetContestId(), GetContestantId());
+        }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            ServiceFactory.ContestantService.Delete(GetContestantId());
+            NavUtil.GoToContestPage(Response, GetShowId(), GetContestId());
+        }
+
+        private int GetShowId()
+        {
+            return Convert.ToInt32(Request.QueryString["showId"]);
+        }
+
+        private int GetContestId()
+        {
+            return Convert.ToInt32(Request.QueryString["contestId"]);
+        }
+
+        private int GetContestantId()
+        {
+            return Convert.ToInt32(Request.QueryString["contestantId"]);
         }
     }
 }

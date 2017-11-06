@@ -10,51 +10,33 @@
 namespace TalentShowWeb.Show.Contest.Contestant {
     
     
-    public partial class Contestant {
+    public partial class ContestantForm {
         
         /// <summary>
-        /// labelPageTitle control.
+        /// txtPerformanceDescription control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label labelPageTitle;
+        protected global::System.Web.UI.WebControls.TextBox txtPerformanceDescription;
         
         /// <summary>
-        /// labelPageDescription control.
+        /// btnSubmit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label labelPageDescription;
+        protected global::System.Web.UI.WebControls.Button btnSubmit;
         
         /// <summary>
-        /// btnEdit control.
+        /// btnCancel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnEdit;
-        
-        /// <summary>
-        /// btnDelete control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnDelete;
-        
-        /// <summary>
-        /// performersList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::TalentShowWeb.CustomControls.HyperlinkListPanel performersList;
+        protected global::System.Web.UI.WebControls.Button btnCancel;
     }
 }
