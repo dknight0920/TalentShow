@@ -44,7 +44,7 @@ namespace TalentShowWeb.Show.Contest
 
             foreach (var judge in contest.Judges)
             {
-                var url = "~";
+                var url = NavUtil.GetUpdateJudgePageUrl(showId, contestId, judge.Id);
                 var heading = GetJudgeHeadingText(judge);
                 var text = GetJudgeDescriptionText(judge);
 
@@ -91,12 +91,12 @@ namespace TalentShowWeb.Show.Contest
              return contestant.Performance.Description;
         }
 
-        private string GetJudgeHeadingText(Judge judge)
+        private string GetJudgeHeadingText(TalentShow.Judge judge)
         {
             return new AccountUtil(Context).GetUserEmail(judge.UserId);
         }
 
-        private string GetJudgeDescriptionText(Judge judge)
+        private string GetJudgeDescriptionText(TalentShow.Judge judge)
         {
             return "";
         }
@@ -118,7 +118,7 @@ namespace TalentShowWeb.Show.Contest
 
         protected void ButtonAddJudgeClick(object sender, EventArgs evnt)
         {
-            Response.Redirect("~/About.aspx");
+            NavUtil.GoToAddJudgePage(Response, GetShowId(), GetContestId());
         }
 
         protected void ButtonAddScoreCriterionClick(object sender, EventArgs evnt)

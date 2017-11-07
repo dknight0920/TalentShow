@@ -43,7 +43,7 @@ namespace TalentShowWeb.Utils
             GoToPage(Response, GetUpdateShowPageUrl(showId));
         }
 
-        private static string GetUpdateShowPageUrl(int showId)
+        internal static string GetUpdateShowPageUrl(int showId)
         {
             return "~/Show/UpdateShow.aspx?showId=" + showId;
         }
@@ -53,7 +53,7 @@ namespace TalentShowWeb.Utils
             GoToPage(Response, GetAddContestPageUrl(showId));
         }
 
-        private static string GetAddContestPageUrl(int showId)
+        internal static string GetAddContestPageUrl(int showId)
         {
             return "~/Show/Contest/AddContest.aspx?showId=" + showId;
         }
@@ -93,7 +93,7 @@ namespace TalentShowWeb.Utils
             GoToPage(Response, GetUpdateContestantPageUrl(showId, contestId, contestantId));
         }
 
-        private static string GetUpdateContestantPageUrl(int showId, int contestId, int contestantId)
+        internal static string GetUpdateContestantPageUrl(int showId, int contestId, int contestantId)
         {
             return "~/Show/Contest/Contestant/UpdateContestant.aspx?showId=" + showId + "&contestId=" + contestId + "&contestantId=" + contestantId;
         }
@@ -103,9 +103,24 @@ namespace TalentShowWeb.Utils
             GoToPage(Response, GetAddContestantPageUrl(showId, contestId));
         }
 
-        private static string GetAddContestantPageUrl(int showId, int contestId)
+        internal static string GetAddContestantPageUrl(int showId, int contestId)
         {
             return "~/Show/Contest/Contestant/AddContestant.aspx?showId=" + showId + "&contestId=" + contestId;
+        }
+
+        internal static void GoToAddJudgePage(HttpResponse Response, int showId, int contestId)
+        {
+            GoToPage(Response, GetAddJudgePageUrl(showId, contestId));
+        }
+
+        internal static string GetAddJudgePageUrl(int showId, int contestId)
+        {
+            return "~/Show/Contest/Judge/AddJudge.aspx?showId=" + showId + "&contestId=" + contestId;
+        }
+
+        internal static string GetUpdateJudgePageUrl(int showId, int contestId, int judgeId)
+        {
+            return "~/Show/Contest/Judge/UpdateJudge.aspx?showId=" + showId + "&contestId=" + contestId + "&judgeId=" + judgeId;
         }
 
         internal static void GoToHomePage(HttpResponse Response)
