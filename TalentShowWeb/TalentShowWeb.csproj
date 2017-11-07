@@ -265,6 +265,9 @@
     <Content Include="Show\Contest\Judge\AddJudge.aspx" />
     <Content Include="Show\Contest\Judge\JudgeForm.ascx" />
     <Content Include="Show\Contest\Judge\UpdateJudge.aspx" />
+    <Content Include="Show\Contest\ScoreCriterion\AddScoreCriterion.aspx" />
+    <Content Include="Show\Contest\ScoreCriterion\ScoreCriterionForm.ascx" />
+    <Content Include="Show\Contest\ScoreCriterion\UpdateScoreCriterion.aspx" />
     <Content Include="Show\Contest\UpdateContest.aspx" />
     <Content Include="Show\Show.aspx" />
     <Content Include="Show\Contest\Contest.aspx" />
@@ -508,6 +511,27 @@
     </Compile>
     <Compile Include="Show\Contest\Judge\UpdateJudge.aspx.designer.cs">
       <DependentUpon>UpdateJudge.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Show\Contest\ScoreCriterion\AddScoreCriterion.aspx.cs">
+      <DependentUpon>AddScoreCriterion.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Show\Contest\ScoreCriterion\AddScoreCriterion.aspx.designer.cs">
+      <DependentUpon>AddScoreCriterion.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Show\Contest\ScoreCriterion\ScoreCriterionForm.ascx.cs">
+      <DependentUpon>ScoreCriterionForm.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Show\Contest\ScoreCriterion\ScoreCriterionForm.ascx.designer.cs">
+      <DependentUpon>ScoreCriterionForm.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Show\Contest\ScoreCriterion\UpdateScoreCriterion.aspx.cs">
+      <DependentUpon>UpdateScoreCriterion.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Show\Contest\ScoreCriterion\UpdateScoreCriterion.aspx.designer.cs">
+      <DependentUpon>UpdateScoreCriterion.aspx</DependentUpon>
     </Compile>
     <Compile Include="Show\Contest\UpdateContest.aspx.cs">
       <DependentUpon>UpdateContest.aspx</DependentUpon>

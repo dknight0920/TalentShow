@@ -123,6 +123,21 @@ namespace TalentShowWeb.Utils
             return "~/Show/Contest/Judge/UpdateJudge.aspx?showId=" + showId + "&contestId=" + contestId + "&judgeId=" + judgeId;
         }
 
+        internal static void GoToAddScoreCriterionPage(HttpResponse Response, int showId, int contestId)
+        {
+            GoToPage(Response, GetAddScoreCriterionPageUrl(showId, contestId));
+        }
+
+        internal static string GetAddScoreCriterionPageUrl(int showId, int contestId)
+        {
+            return "~/Show/Contest/ScoreCriterion/AddScoreCriterion.aspx?showId=" + showId + "&contestId=" + contestId;
+        }
+
+        internal static string GetUpdateScoreCriterionPageUrl(int showId, int contestId, int scoreCriterionId)
+        {
+            return "~/Show/Contest/ScoreCriterion/UpdateScoreCriterion.aspx?showId=" + showId + "&contestId=" + contestId + "&scoreCriterionId=" + scoreCriterionId;
+        }
+
         internal static void GoToHomePage(HttpResponse Response)
         {
             GoToPage(Response, "~");

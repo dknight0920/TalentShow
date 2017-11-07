@@ -57,7 +57,7 @@ namespace TalentShowWeb.Show.Contest
 
             foreach (var scoreCriterion in contest.ScoreCriteria)
             {
-                var url = "~";
+                var url = NavUtil.GetUpdateScoreCriterionPageUrl(showId, contestId, scoreCriterion.Id);
                 var heading = GetScoreCriterionHeadingText(scoreCriterion);
                 var text = GetScoreCriterionDescriptionText(scoreCriterion);
 
@@ -101,12 +101,12 @@ namespace TalentShowWeb.Show.Contest
             return "";
         }
 
-        private string GetScoreCriterionHeadingText(ScoreCriterion scoreCriterion)
+        private string GetScoreCriterionHeadingText(TalentShow.ScoreCriterion scoreCriterion)
         {
             return scoreCriterion.CriterionDescription;
         }
 
-        private string GetScoreCriterionDescriptionText(ScoreCriterion scoreCriterion)
+        private string GetScoreCriterionDescriptionText(TalentShow.ScoreCriterion scoreCriterion)
         {
             return "Min: " + scoreCriterion.ScoreRange.Min + " Max: " + scoreCriterion.ScoreRange.Max;
         }
@@ -123,7 +123,7 @@ namespace TalentShowWeb.Show.Contest
 
         protected void ButtonAddScoreCriterionClick(object sender, EventArgs evnt)
         {
-            Response.Redirect("~/About.aspx");
+            NavUtil.GoToAddScoreCriterionPage(Response, GetShowId(), GetContestId());
         }
 
         protected void btnEdit_Click(object sender, EventArgs e)
