@@ -108,6 +108,21 @@ namespace TalentShowWeb.Utils
             return "~/Show/Contest/Contestant/AddContestant.aspx?showId=" + showId + "&contestId=" + contestId;
         }
 
+        internal static void GoToAddPerformerPage(HttpResponse Response, int showId, int contestId, int contestantId)
+        {
+            GoToPage(Response, GetAddPerformerPageUrl(showId, contestId, contestantId));
+        }
+
+        internal static string GetAddPerformerPageUrl(int showId, int contestId, int contestantId)
+        {
+            return "~/Show/Contest/Contestant/Performer/AddPerformer.aspx?showId=" + showId + "&contestId=" + contestId + "&contestantId=" + contestantId;
+        }
+
+        internal static string GetUpdatePerformerPageUrl(int showId, int contestId, int contestantId, int performerId)
+        {
+            return "~/Show/Contest/Contestant/Performer/UpdatePerformer.aspx?showId=" + showId + "&contestId=" + contestId + "&contestantId=" + contestantId + "&performerId=" + performerId;
+        }
+
         internal static void GoToAddJudgePage(HttpResponse Response, int showId, int contestId)
         {
             GoToPage(Response, GetAddJudgePageUrl(showId, contestId));

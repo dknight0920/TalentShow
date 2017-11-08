@@ -260,6 +260,9 @@
     <Content Include="Show\Contest\Contestant\AddContestant.aspx" />
     <Content Include="Show\Contest\Contestant\Contestant.aspx" />
     <Content Include="Show\Contest\Contestant\ContestantForm.ascx" />
+    <Content Include="Show\Contest\Contestant\Performer\AddPerformer.aspx" />
+    <Content Include="Show\Contest\Contestant\Performer\PerformerForm.ascx" />
+    <Content Include="Show\Contest\Contestant\Performer\UpdatePerformer.aspx" />
     <Content Include="Show\Contest\Contestant\UpdateContestant.aspx" />
     <Content Include="Show\Contest\ContestForm.ascx" />
     <Content Include="Show\Contest\Judge\AddJudge.aspx" />
@@ -477,6 +480,27 @@
     <Compile Include="Show\Contest\Contestant\ContestantForm.ascx.designer.cs">
       <DependentUpon>ContestantForm.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Show\Contest\Contestant\Performer\AddPerformer.aspx.cs">
+      <DependentUpon>AddPerformer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Show\Contest\Contestant\Performer\AddPerformer.aspx.designer.cs">
+      <DependentUpon>AddPerformer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Show\Contest\Contestant\Performer\PerformerForm.ascx.cs">
+      <DependentUpon>PerformerForm.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Show\Contest\Contestant\Performer\PerformerForm.ascx.designer.cs">
+      <DependentUpon>PerformerForm.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Show\Contest\Contestant\Performer\UpdatePerformer.aspx.cs">
+      <DependentUpon>UpdatePerformer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Show\Contest\Contestant\Performer\UpdatePerformer.aspx.designer.cs">
+      <DependentUpon>UpdatePerformer.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Show\Contest\Contestant\UpdateContestant.aspx.cs">
       <DependentUpon>UpdateContestant.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -611,6 +635,7 @@
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

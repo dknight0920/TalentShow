@@ -28,7 +28,7 @@ namespace TalentShowWeb.Show.Contest.Contestant
 
             foreach (var performer in performers)
             {
-                var url = "~";
+                var url = NavUtil.GetUpdatePerformerPageUrl(GetShowId(), GetContestId(), GetContestantId(), performer.Id);
                 var heading = GetPerformerHeadingText(performer);
                 var text = GetPerformerDescriptionText(performer);
 
@@ -60,19 +60,19 @@ namespace TalentShowWeb.Show.Contest.Contestant
             return contestant.Performance.Description;
         }
 
-        private string GetPerformerHeadingText(Performer performer)
+        private string GetPerformerHeadingText(TalentShow.Performer performer)
         {
             return performer.Name.FirstName + " " + performer.Name.LastName;
         }
 
-        private string GetPerformerDescriptionText(Performer performer)
+        private string GetPerformerDescriptionText(TalentShow.Performer performer)
         {
             return "Division: " + performer.Division.Name + " Affiliation: " + performer.Affiliation.Name;
         }
 
         protected void ButtonAddPerformerClick(object sender, EventArgs evnt)
         {
-            Response.Redirect("~/About.aspx");
+            NavUtil.GoToAddPerformerPage(Response, GetShowId(), GetContestId(), GetContestantId());
         }
 
         protected void btnEdit_Click(object sender, EventArgs e)
