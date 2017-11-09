@@ -10,31 +10,30 @@
 
     <div class="row">
         <div class="col-md-4">
-            <h2>Getting started</h2>
+            <h2>YouthQuest</h2>
             <p>
-                ASP.NET Web Forms lets you build dynamic websites using a familiar drag-and-drop, event-driven model.
-            A design surface and hundreds of controls and components let you rapidly build sophisticated, powerful UI-driven sites with data access.
+                YouthQuest is a four-day conference hosted by Student Ministries, of IPHC Discipleship Ministries. Students and leaders will be challenged to live a life of true discipleship through powerful worship, inspiring speakers, and loads of fun.
             </p>
             <p>
-                <a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301948">Learn more &raquo;</a>
-            </p>
-        </div>
-        <div class="col-md-4">
-            <h2>Get more libraries</h2>
-            <p>
-                NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.
-            </p>
-            <p>
-                <a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301949">Learn more &raquo;</a>
+                <a class="btn btn-default" href="http://iphc.org/youthquest/history/" target="_blank">Learn more &raquo;</a>
             </p>
         </div>
         <div class="col-md-4">
-            <h2>Web Hosting</h2>
+            <h2>IPHC</h2>
             <p>
-                You can easily find a web hosting company that offers the right mix of features and price for your applications.
+                The International Pentecostal Holiness Church (IPHC) is a historical Pentecostal denomination formed in 1898, but our spiritual roots are in the Day of Pentecost mentioned in the book of Acts. We currently have more than two million members and affiliates in 103 countries. 
             </p>
             <p>
-                <a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301950">Learn more &raquo;</a>
+                <a class="btn btn-default" href="http://iphc.org/about-us/" target="_blank">Learn more &raquo;</a>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h2>Discipleship</h2>
+            <p>
+                Discipleship Ministries exists to lead generations in actively following Christ.
+            </p>
+            <p>
+                <a class="btn btn-default" href="http://iphc.org/discipleship/" target="_blank">Learn more &raquo;</a>
             </p>
         </div>
     </div>
