@@ -210,6 +210,10 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Divisions.aspx" />
+    <Content Include="Division\AddDivision.aspx" />
+    <Content Include="Division\DivisionForm.ascx" />
+    <Content Include="Division\UpdateDivision.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -220,6 +224,11 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Images\logo.png" />
+    <Content Include="Organizations.aspx" />
+    <Content Include="Organization\AddOrganization.aspx" />
+    <Content Include="Organization\OrganizationForm.ascx" />
+    <Content Include="Organization\UpdateOrganization.aspx" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -433,10 +442,66 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Divisions.aspx.cs">
+      <DependentUpon>Divisions.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Divisions.aspx.designer.cs">
+      <DependentUpon>Divisions.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Division\AddDivision.aspx.cs">
+      <DependentUpon>AddDivision.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Division\AddDivision.aspx.designer.cs">
+      <DependentUpon>AddDivision.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Division\DivisionForm.ascx.cs">
+      <DependentUpon>DivisionForm.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Division\DivisionForm.ascx.designer.cs">
+      <DependentUpon>DivisionForm.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Division\UpdateDivision.aspx.cs">
+      <DependentUpon>UpdateDivision.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Division\UpdateDivision.aspx.designer.cs">
+      <DependentUpon>UpdateDivision.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Organizations.aspx.cs">
+      <DependentUpon>Organizations.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Organizations.aspx.designer.cs">
+      <DependentUpon>Organizations.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Organization\AddOrganization.aspx.cs">
+      <DependentUpon>AddOrganization.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Organization\AddOrganization.aspx.designer.cs">
+      <DependentUpon>AddOrganization.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Organization\OrganizationForm.ascx.cs">
+      <DependentUpon>OrganizationForm.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Organization\OrganizationForm.ascx.designer.cs">
+      <DependentUpon>OrganizationForm.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Organization\UpdateOrganization.aspx.cs">
+      <DependentUpon>UpdateOrganization.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Organization\UpdateOrganization.aspx.designer.cs">
+      <DependentUpon>UpdateOrganization.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shows.aspx.cs">
       <DependentUpon>Shows.aspx</DependentUpon>

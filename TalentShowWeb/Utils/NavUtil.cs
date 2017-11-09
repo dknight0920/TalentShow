@@ -8,6 +8,51 @@ namespace TalentShowWeb.Utils
 {
     internal static class NavUtil
     {
+        internal static void GoToAddOrganizationPage(HttpResponse Response)
+        {
+            GoToPage(Response, GetAddOrganizationPageUrl());
+        }
+
+        private static string GetAddOrganizationPageUrl()
+        {
+            return "~/Organization/AddOrganization.aspx";
+        }
+
+        internal static string GetUpdateOrganizationPageUrl(int organizationId)
+        {
+            return "~/Organization/UpdateOrganization.aspx?organizationId=" + organizationId;
+        }
+
+        internal static void GoToOrganizationsPage(HttpResponse Response)
+        {
+            GoToPage(Response, GetOrganizationsPageUrl());
+        }
+
+        private static string GetOrganizationsPageUrl()
+        {
+            return "~/Organizations.aspx";
+        }
+
+        internal static void GoToAddDivisionPage(HttpResponse Response)
+        {
+            GoToPage(Response, GetAddDivisionPageUrl());
+        }
+
+        private static string GetAddDivisionPageUrl()
+        {
+            return "~/Division/AddDivision.aspx";
+        }
+
+        internal static void GoToDivisionsPage(HttpResponse Response)
+        {
+            GoToPage(Response, GetDivisionsPageUrl());
+        }
+
+        private static string GetDivisionsPageUrl()
+        {
+            return "~/Divisions.aspx";
+        }
+
         internal static void GoToShowsPage(HttpResponse Response)
         {
             GoToPage(Response, GetShowsPageUrl());
@@ -16,6 +61,11 @@ namespace TalentShowWeb.Utils
         internal static string GetShowsPageUrl()
         {
             return "~/Shows.aspx";
+        }
+
+        internal static string GetUpdateDivisionPageUrl(int divisionId)
+        {
+            return "~/Division/UpdateDivision.aspx?divisionId=" + divisionId;
         }
 
         internal static void GoToAddShowPage(HttpResponse Response)
