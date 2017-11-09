@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="Contest" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Contest.aspx.cs" Inherits="TalentShowWeb.Show.Contest.Contest" %>
 <%@ Register TagPrefix="custom" TagName="HyperlinkListPanel" Src="~/CustomControls/HyperlinkListPanel.ascx" %>
+<%@ Register TagPrefix="custom" TagName="ScoreForm" Src="~/Show/Contest/ScoreForm.ascx" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2><asp:Label runat="server" ID="labelPageTitle" /></h2>
@@ -9,6 +10,8 @@
         <asp:Button runat="server" ID="btnDelete" Text="Delete" OnClick="btnDelete_Click" OnClientClick="return confirm('Are you sure you want to delete this contest?');" CssClass="btn btn-sm btn-danger" />
     </div>
     <hr />
+    <custom:ScoreForm runat="server" ID="scoreForm" />
+    <br />
     <custom:HyperlinkListPanel runat="server" ID="contestantsList" />
     <br />
     <custom:HyperlinkListPanel runat="server" ID="judgesList" />

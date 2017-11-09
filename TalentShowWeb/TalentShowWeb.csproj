@@ -280,6 +280,7 @@
     <Content Include="Show\Contest\ScoreCriterion\AddScoreCriterion.aspx" />
     <Content Include="Show\Contest\ScoreCriterion\ScoreCriterionForm.ascx" />
     <Content Include="Show\Contest\ScoreCriterion\UpdateScoreCriterion.aspx" />
+    <Content Include="Show\Contest\ScoreForm.ascx" />
     <Content Include="Show\Contest\UpdateContest.aspx" />
     <Content Include="Show\Show.aspx" />
     <Content Include="Show\Contest\Contest.aspx" />
@@ -621,6 +622,13 @@
     </Compile>
     <Compile Include="Show\Contest\ScoreCriterion\UpdateScoreCriterion.aspx.designer.cs">
       <DependentUpon>UpdateScoreCriterion.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Show\Contest\ScoreForm.ascx.cs">
+      <DependentUpon>ScoreForm.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Show\Contest\ScoreForm.ascx.designer.cs">
+      <DependentUpon>ScoreForm.ascx</DependentUpon>
     </Compile>
     <Compile Include="Show\Contest\UpdateContest.aspx.cs">
       <DependentUpon>UpdateContest.aspx</DependentUpon>
