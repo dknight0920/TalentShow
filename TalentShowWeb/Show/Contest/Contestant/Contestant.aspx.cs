@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using TalentShow;
 using TalentShow.Services;
 using TalentShowDataStorage;
+using TalentShowWeb.Account.Util;
 using TalentShowWeb.CustomControls.Models;
 using TalentShowWeb.CustomControls.Renderers;
 using TalentShowWeb.Utils;
@@ -15,13 +16,16 @@ namespace TalentShowWeb.Show.Contest.Contestant
 {
     public partial class Contestant : System.Web.UI.Page
     {
+        private ICollection<TalentShow.ScoreCard> scoreCards;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             var contestantId = GetContestantId();
             var contestant = ServiceFactory.ContestantService.Get(contestantId);
-            var performers = ServiceFactory.PerformerService.GetContestantPerformers(contestant.Id);
+            this.scoreCards = ServiceFactory.ScoreCardService.GetContestantScoreCards(contestantId);
+            var performers = ServiceFactory.PerformerService.GetContestantPerformers(contestantId);
 
-            labelPageTitle.Text = "Contestant: " + GetContestantHeadingText(contestant);
+            labelPageTitle.Text = "Contestant: " + GetContestantHeadingText(performers);
             labelPageDescription.Text = GetContestantDescriptionText(contestant);
 
             var performerItems = new List<HyperlinkListPanelItem>();
@@ -38,10 +42,26 @@ namespace TalentShowWeb.Show.Contest.Contestant
             HyperlinkListPanelRenderer.Render(performersList, new HyperlinkListPanelConfig("Performers", performerItems, ButtonAddPerformerClick));
         }
 
-        private string GetContestantHeadingText(TalentShow.Contestant contestant)
+        protected ICollection<TalentShow.ScoreCard> GetScoreCards()
         {
-            var performers = ServiceFactory.PerformerService.GetContestantPerformers(contestant.Id);
+            return ServiceFactory.ScoreCardService.GetContestantScoreCards(GetContestantId());
+        }
 
+        protected string GetJudgeEmailAddress(string userId)
+        {
+            return new AccountUtil(Context).GetUserEmail(userId);
+        }
+
+        protected double GetTotalScore()
+        {
+            if (scoreCards == null || !scoreCards.Any())
+                return 0;
+
+            return scoreCards.Sum(s => s.TotalScore);
+        }
+
+        private string GetContestantHeadingText(ICollection<TalentShow.Performer> performers)
+        {
             bool isFirst = true;
 
             string text = "";

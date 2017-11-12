@@ -23,63 +23,30 @@
             <h3 class="panel-title pull-left">Score Cards</h3>
         </div>
         <div class="panel-body">
-            <div class="panel panel-warning">
-                <div class="panel-heading clearfix">
-                    <h3 class="panel-title pull-left">Score Card</h3>
-                </div>
-                <div class="panel-body">
-                    <h4>Pitch </h4>
-                    <p><b>Score</b>: 6</p>
-                    <p><b>Comment</b>: The is the comment about how the pitch was</p>
-                    <hr />
-                    <h4>Pitch </h4>
-                    <p><b>Score</b>: 6</p>
-                    <p><b>Comment</b>: The is the comment about how the pitch was</p>
-                    <hr />
-                    <h4>Pitch </h4>
-                    <p><b>Score</b>: 6</p>
-                    <p><b>Comment</b>: The is the comment about how the pitch was</p>
-                    <hr />
-                    <h4>Pitch </h4>
-                    <p><b>Score</b>: 6</p>
-                    <p><b>Comment</b>: The is the comment about how the pitch was</p>
-                    <hr />
-                    <h4>Pitch </h4>
-                    <p><b>Score</b>: 6</p>
-                    <p><b>Comment</b>: The is the comment about how the pitch was</p>
-                    <hr />
-                    <h3>Card Total: 8.5</h3>
-                </div>
-            </div>
-            <br />
-            <div class="panel panel-warning">
-                <div class="panel-heading clearfix">
-                    <h3 class="panel-title pull-left">Score Card</h3>
-                </div>
-                <div class="panel-body">
-                    <h4>Pitch </h4>
-                    <p><b>Score</b>: 6</p>
-                    <p><b>Comment</b>: The is the comment about how the pitch was</p>
-                    <hr />
-                    <h4>Pitch </h4>
-                    <p><b>Score</b>: 6</p>
-                    <p><b>Comment</b>: The is the comment about how the pitch was</p>
-                    <hr />
-                    <h4>Pitch </h4>
-                    <p><b>Score</b>: 6</p>
-                    <p><b>Comment</b>: The is the comment about how the pitch was</p>
-                    <hr />
-                    <h4>Pitch </h4>
-                    <p><b>Score</b>: 6</p>
-                    <p><b>Comment</b>: The is the comment about how the pitch was</p>
-                    <hr />
-                    <h4>Pitch </h4>
-                    <p><b>Score</b>: 6</p>
-                    <p><b>Comment</b>: The is the comment about how the pitch was</p>
-                    <hr />
-                    <h3>Card Total: 3.5</h3>
-                </div>
-            </div>
+
+            <% foreach (var scoreCard in GetScoreCards())
+                { %>
+                    <div class="panel panel-warning">
+                        <div class="panel-heading clearfix">
+                            <h3 class="panel-title pull-left">Score Card by <% Response.Write(GetJudgeEmailAddress(scoreCard.Judge.UserId)); %></h3>
+                        </div>
+                        <div class="panel-body">
+                            <% foreach (var scorableCriterion in scoreCard.ScorableCriteria)
+                                { %>
+                                    <h4><% Response.Write(scorableCriterion.ScoreCriterion.CriterionDescription); %></h4>
+                                    <p><b>Score</b>: <% Response.Write(scorableCriterion.Score); %></p>
+                                    <% if(!String.IsNullOrWhiteSpace(scorableCriterion.Comment))
+                                        { %>
+                                            <p><b>Comment</b>: <% Response.Write(scorableCriterion.Comment); %></p>
+                                    <% } %>
+                                    <hr />
+                            <% } %>
+                            <h3>Card Total: <% Response.Write(scoreCard.TotalScore); %></h3>
+                        </div>
+                    </div>
+                    <br />
+             <% } %>
+            <h2>Total Score: <% Response.Write(GetTotalScore()); %></h2>
         </div>
     </div>
     <br />

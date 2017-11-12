@@ -19,16 +19,20 @@ namespace TalentShowWeb.Show.Contest
 {
     public partial class Contest : System.Web.UI.Page
     {
+        private TalentShow.Contest contest;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             var showId = GetShowId();
             var show = ServiceFactory.ShowService.Get(showId);
 
             var contestId = GetContestId();
-            var contest = ServiceFactory.ContestService.Get(contestId);
+            this.contest = ServiceFactory.ContestService.Get(contestId);
 
             labelPageTitle.Text = "Contest: " + contest.Name;
             labelPageDescription.Text = contest.Description;
+
+            if (IsContestJudge()) return;
 
             var contestantItems = new List<HyperlinkListPanelItem>();
 
@@ -68,6 +72,11 @@ namespace TalentShowWeb.Show.Contest
             }
 
             HyperlinkListPanelRenderer.Render(scoreCriteriaList, new HyperlinkListPanelConfig("Score Criteria", scoreCriterionItems, ButtonAddScoreCriterionClick));
+        }
+
+        protected bool IsContestJudge()
+        {
+            return contest != null && contest.Judges != null && contest.Judges.Any(j => j.UserId == Context.User.Identity.GetUserId());
         }
 
         private string GetContestantHeadingText(TalentShow.Contestant contestant)
