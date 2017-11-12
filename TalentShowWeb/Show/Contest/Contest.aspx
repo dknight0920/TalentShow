@@ -18,15 +18,35 @@
     <br />
     <custom:HyperlinkListPanel runat="server" ID="scoreCriteriaList" />
     <script type="text/javascript">
-        function SetScore(contestId, contestantId, scoreCriterionId, score, elem) {
+        function AddWarningFeedback(elem){
             $elem = $(elem).parent();
             $span = $elem.find("span");
 
             $elem.removeClass("has-success");
             $span.removeClass("glyphicon-ok"); 
 
+            $elem.removeClass("has-warning");      
+            $span.removeClass("glyphicon-warning-sign");
+
             $elem.removeClass("has-error");      
             $span.removeClass("glyphicon-remove");
+
+            $elem.addClass("has-warning");
+            $span.addClass("glyphicon-warning-sign");
+        }
+
+        function SetScore(contestId, contestantId, scoreCriterionId, score, elem) {
+            $elem = $(elem).parent();
+            $span = $elem.find("span");
+
+            $elem.removeClass("has-success");
+            $span.removeClass("glyphicon-ok");
+
+            $elem.removeClass("has-warning");      
+            $span.removeClass("glyphicon-warning-sign"); 
+
+            $elem.removeClass("has-error");      
+            $span.removeClass("glyphicon-remove"); 
 
             $elem.addClass("has-warning");
             $span.addClass("glyphicon-warning-sign");
