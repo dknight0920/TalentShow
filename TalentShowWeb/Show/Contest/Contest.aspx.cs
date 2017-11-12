@@ -11,6 +11,9 @@ using TalentShowWeb.Account.Util;
 using TalentShowWeb.CustomControls.Models;
 using TalentShowWeb.CustomControls.Renderers;
 using TalentShowWeb.Utils;
+using System.Web.Script.Services;
+using System.Web.Services;
+using Microsoft.AspNet.Identity;
 
 namespace TalentShowWeb.Show.Contest
 {
@@ -145,6 +148,28 @@ namespace TalentShowWeb.Show.Contest
         private int GetContestId()
         {
             return Convert.ToInt32(Request.QueryString["contestId"]);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public static void SetScore(int contestId, int contestantId, int scoreCriterionId, double score)
+        {
+            var contest = ServiceFactory.ContestService.Get(contestId);
+            var currentUserId = HttpContext.Current.User.Identity.GetUserId();
+            var judge = contest.Judges.FirstOrDefault(j => j.UserId == currentUserId);
+
+            if (judge == null) return;
+
+            var scoreCards = ServiceFactory.ScoreCardService.GetContestantScoreCards(contestantId);
+
+            if (scoreCards == null || !scoreCards.Any()) return;
+
+            var scoreCard = scoreCards.FirstOrDefault(s => s.Contestant.Id == contestantId && s.Judge.Id == judge.Id);
+
+            if (scoreCard == null) return;
+
+            var scorableCriterion = scoreCard.ScorableCriteria.FirstOrDefault(s => s.ScoreCriterion.Id == scoreCriterionId);
+            scorableCriterion.SetScore(score);
+            ServiceFactory.ScoreCardService.AddOrUpdate(scorableCriterion);
         }
     }
 }

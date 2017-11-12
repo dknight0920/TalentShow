@@ -37,11 +37,26 @@ namespace TalentShow
 
         public void SetScoreAndComment(double score, string comment)
         {
-            if (score > ScoreCriterion.ScoreRange.Max || score < ScoreCriterion.ScoreRange.Min)
-                throw new ApplicationException("The score cannot be less than " + ScoreCriterion.ScoreRange.Min + " or greater than " + ScoreCriterion.ScoreRange.Max);
-
+            EnsureScoreInValidRange(score);
             Score = score;
             Comment = comment;
+        }
+
+        public void SetScore(double score)
+        {
+            EnsureScoreInValidRange(score);
+            Score = score;
+        }
+
+        public void SetComment(string comment)
+        {
+            Comment = comment;
+        }
+
+        private void EnsureScoreInValidRange(double score)
+        {
+            if (score > ScoreCriterion.ScoreRange.Max || score < ScoreCriterion.ScoreRange.Min)
+                throw new ApplicationException("The score cannot be less than " + ScoreCriterion.ScoreRange.Min + " or greater than " + ScoreCriterion.ScoreRange.Max);
         }
 
         public void SetId(int id)

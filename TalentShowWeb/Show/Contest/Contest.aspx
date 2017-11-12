@@ -17,4 +17,42 @@
     <custom:HyperlinkListPanel runat="server" ID="judgesList" />
     <br />
     <custom:HyperlinkListPanel runat="server" ID="scoreCriteriaList" />
+    <script type="text/javascript">
+        function SetScore(contestId, contestantId, scoreCriterionId, score, elem) {
+            $elem = $(elem).parent();
+            $span = $elem.find("span");
+
+            $elem.removeClass("has-success");
+            $span.removeClass("glyphicon-ok"); 
+
+            $elem.removeClass("has-error");      
+            $span.removeClass("glyphicon-remove");
+
+            $elem.addClass("has-warning");
+            $span.addClass("glyphicon-warning-sign");
+
+            var data = JSON.stringify({"contestId": contestId, "contestantId": contestantId, "scoreCriterionId": scoreCriterionId, "score":score});
+            $.ajax({
+                type: 'POST',
+                url: '<%= ResolveUrl("~/Show/Contest/Contest.aspx/SetScore") %>',
+                data: data,
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function (msg) {        
+                    $elem.removeClass("has-warning")
+                    $span.removeClass("glyphicon-warning-sign");
+
+                    $elem.addClass("has-success");
+                    $span.addClass("glyphicon-ok");
+                },
+                error: function (jqXHR, exception) {
+                    $elem.removeClass("has-warning")
+                    $span.removeClass("glyphicon-warning-sign");
+
+                    $elem.addClass("has-error");
+                    $span.addClass("glyphicon-remove");
+                }      
+            });
+        }
+    </script>
 </asp:Content>

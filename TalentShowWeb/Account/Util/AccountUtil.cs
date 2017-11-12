@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -13,9 +14,11 @@ namespace TalentShowWeb.Account.Util
     public class AccountUtil
     {
         private ApplicationUserManager manager;
+        private HttpContext context;
 
         public AccountUtil(HttpContext Context)
         {
+            context = Context;
             manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
         }
 

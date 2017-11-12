@@ -77,6 +77,14 @@ namespace TalentShow.Services
             ScoreCardRepo.Update(scoreCard);
         }
 
+        public void AddOrUpdate(ScorableCriterion scoreableCriterion)
+        {
+            if (ScorableCriterionRepo.Exists(scoreableCriterion.Id))
+                ScorableCriterionRepo.Update(scoreableCriterion);
+            else
+                ScorableCriterionRepo.Add(scoreableCriterion);
+        }
+
         public void Delete(int id)
         {
             ScoreCardRepo.Delete(id);

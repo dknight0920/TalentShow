@@ -51,7 +51,7 @@ namespace TalentShow
 
         public ScoreCard GetBlankScoreCard(Contestant contestant, Judge judge)
         {
-            if (!Judges.Contains(judge))
+            if (!Judges.Any(j => j.Id == judge.Id))
                 throw new ApplicationException("Only judges belonging to the contest can get a blank score card.");
 
             var scorableCriteria = new List<ScorableCriterion>();
