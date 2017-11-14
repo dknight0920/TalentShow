@@ -32,7 +32,7 @@ namespace TalentShowWeb.Show.Contest
             labelPageTitle.Text = "Contest: " + contest.Name;
             labelPageDescription.Text = contest.Description;
 
-            if (IsContestJudge()) return;
+            if (!IsUserAnAdmin()) return;
 
             var contestantItems = new List<HyperlinkListPanelItem>();
 
@@ -77,6 +77,11 @@ namespace TalentShowWeb.Show.Contest
         protected bool IsContestJudge()
         {
             return contest != null && contest.Judges != null && contest.Judges.Any(j => j.UserId == Context.User.Identity.GetUserId());
+        }
+
+        protected bool IsUserAnAdmin()
+        {
+            return new AccountUtil(Context).IsUserAnAdmin();
         }
 
         private string GetContestantHeadingText(TalentShow.Contestant contestant)

@@ -5,7 +5,7 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2><asp:Label runat="server" ID="labelPageTitle" /></h2>
     <p><asp:Label runat="server" ID="labelPageDescription" /></p>
-    <% if (!IsContestJudge())
+    <% if (IsUserAnAdmin())
         { %>
             <div class="form-group">
                 <asp:Button runat="server" ID="btnEdit" Text="Edit" OnClick="btnEdit_Click" CssClass="btn btn-sm btn-primary" />
@@ -18,7 +18,7 @@
             <custom:ScoreForm runat="server" ID="scoreForm" />
             <br />
     <% }
-      else
+      if(IsUserAnAdmin())
        { %>
             <custom:HyperlinkListPanel runat="server" ID="contestantsList" />
             <br />
