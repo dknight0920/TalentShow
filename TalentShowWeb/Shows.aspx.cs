@@ -20,7 +20,7 @@ namespace TalentShowWeb
 
             var showService = ServiceFactory.ShowService;
 
-            foreach (var show in showService.GetAll())
+            foreach (var show in showService.GetAll().OrderByDescending(s => s.Id))
                 items.Add(new HyperlinkListPanelItem(URL: NavUtil.GetShowPageUrl(show.Id), Heading: show.Name, Text: show.Description));
 
             HyperlinkListPanelRenderer.Render(showsList, new HyperlinkListPanelConfig("Talent Shows", items, ButtonAddShowClick));
