@@ -20,11 +20,12 @@
     <br />
     <div class="panel panel-default">
         <div class="panel-heading clearfix">
-            <h3 class="panel-title pull-left">Score Cards</h3>
+            <% var scoreCards = GetScoreCards();  %>
+            <h3 class="panel-title pull-left">Score Cards <span class="badge"><% Response.Write(scoreCards.Count()); %></span></h3>
         </div>
         <div class="panel-body">
 
-            <% foreach (var scoreCard in GetScoreCards())
+            <% foreach (var scoreCard in scoreCards)
                 { %>
                     <div class="panel panel-warning">
                         <div class="panel-heading clearfix">

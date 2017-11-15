@@ -16,6 +16,11 @@ namespace TalentShowWeb.CustomControls
 
         }
 
+        public Label GetPanelTitleCountBadgeLabel()
+        {
+            return panelTitleCountBadge;
+        }
+
         public Label GetPanelTitleLabel()
         {
             return panelTitle;

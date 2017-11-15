@@ -18,6 +18,7 @@ namespace TalentShowWeb.CustomControls.Renderers
                 Panel.GetPanelAddButton().Click += new EventHandler(Config.ButtonClickHandler);
 
             Panel.GetPanelTitleLabel().Text = Config.PanelTitle;
+            Panel.GetPanelTitleCountBadgeLabel().Text = Convert.ToString(Config.Items.Count());
 
             var linkRepeater = Panel.GetHyperlinkListRepeater();
             linkRepeater.DataSource = Config.Items;
