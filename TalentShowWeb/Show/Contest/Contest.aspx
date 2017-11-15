@@ -28,8 +28,8 @@
     <% } %>
     <script type="text/javascript">
         function AddWarningFeedback(elem){
-            $elem = $(elem).parent();
-            $span = $elem.find("span");
+            var $elem = $(elem).parent();
+            var $span = $elem.find("span");
 
             $elem.removeClass("has-success");
             $span.removeClass("glyphicon-ok"); 
@@ -45,8 +45,8 @@
         }
 
         function SetScore(contestId, contestantId, scoreCriterionId, score, elem) {
-            $elem = $(elem).parent();
-            $span = $elem.find("span");
+            var $elem = $(elem).parent();
+            var $span = $elem.find("span");
 
             $elem.removeClass("has-success");
             $span.removeClass("glyphicon-ok");
@@ -67,7 +67,7 @@
                 data: data,
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
-                success: function (msg) {        
+                success: function (msg) {     
                     $elem.removeClass("has-warning")
                     $span.removeClass("glyphicon-warning-sign");
 

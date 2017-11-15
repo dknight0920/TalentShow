@@ -27,7 +27,7 @@
                         %>
                             <td>
                                 <div class="form-group has-success has-feedback">
-                                    <input type="text" onkeypress="AddWarningFeedback(this)" onChange="SetScore(<% Response.Write(GetContest().Id); %>, <% Response.Write(contestant.Id); %>, <% Response.Write(scoreCriterion.Id); %>, this.value, this);" value="<% Response.Write(score); %>"" class="form-control" />
+                                    <input type="text" onkeypress="AddWarningFeedback(this)" onBlur="SetScore(<% Response.Write(GetContest().Id); %>, <% Response.Write(contestant.Id); %>, <% Response.Write(scoreCriterion.Id); %>, this.value, this);" value="<% Response.Write(score); %>"" class="form-control" />
                                     <span class="glyphicon glyphicon-ok form-control-feedback"></span>
                                 </div>
                             </td>
