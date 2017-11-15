@@ -179,11 +179,7 @@ namespace TalentShowWeb.Show.Contest
 
             var scoreCard = scoreCards.FirstOrDefault(s => s.Contestant.Id == contestantId && s.Judge.Id == judge.Id);
 
-            if (scoreCard == null) return;
-
-            var scorableCriterion = scoreCard.ScorableCriteria.FirstOrDefault(s => s.ScoreCriterion.Id == scoreCriterionId);
-            scorableCriterion.SetScore(score);
-            ServiceFactory.ScoreCardService.AddOrUpdate(scorableCriterion);
+            ServiceFactory.ScoreCardService.SetScore(scoreCard, scoreCriterionId, score, ServiceFactory.ScoreCriterionService);
         }
     }
 }

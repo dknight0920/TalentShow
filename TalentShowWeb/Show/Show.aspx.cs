@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,6 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using TalentShow.Services;
 using TalentShowDataStorage;
+using TalentShowWeb.Account.Util;
 using TalentShowWeb.CustomControls.Models;
 using TalentShowWeb.CustomControls.Renderers;
 using TalentShowWeb.Utils;
@@ -25,10 +27,18 @@ namespace TalentShowWeb.Show
 
             var contests = ServiceFactory.ContestService.GetShowContests(showId);
 
+            if (!IsUserAnAdmin())
+                contests = contests.Where(c => c.Judges.Any(j => j.UserId == Context.User.Identity.GetUserId())).ToList();
+
             foreach (var contest in contests)
                 items.Add(new HyperlinkListPanelItem(URL: NavUtil.GetContestPageUrl(showId, contest.Id), Heading: contest.Name, Text: contest.Description));
 
             HyperlinkListPanelRenderer.Render(contestsList, new HyperlinkListPanelConfig("Contests", items, ButtonAddContestClick));
+        }
+
+        protected bool IsUserAnAdmin()
+        {
+            return new AccountUtil(Context).IsUserAnAdmin();
         }
 
         protected void ButtonAddContestClick(object sender, EventArgs evnt)

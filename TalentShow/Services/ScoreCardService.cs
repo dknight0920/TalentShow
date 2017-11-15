@@ -70,19 +70,19 @@ namespace TalentShow.Services
         {
             foreach (var scorableCriterion in scoreCard.ScorableCriteria)
             {
-                if (scorableCriterion != null)
+                if (scorableCriterion != null && ScorableCriterionRepo.Exists(scorableCriterion.Id))
                     ScorableCriterionRepo.Update(scorableCriterion);
             }
 
             ScoreCardRepo.Update(scoreCard);
         }
 
-        public void AddOrUpdate(ScorableCriterion scoreableCriterion)
+        public void AddOrUpdate(ScorableCriterion scorableCriterion)
         {
-            if (ScorableCriterionRepo.Exists(scoreableCriterion.Id))
-                ScorableCriterionRepo.Update(scoreableCriterion);
+            if (ScorableCriterionRepo.Exists(scorableCriterion.Id))
+                ScorableCriterionRepo.Update(scorableCriterion);
             else
-                ScorableCriterionRepo.Add(scoreableCriterion);
+                ScorableCriterionRepo.Add(scorableCriterion);
         }
 
         public void Delete(int id)
@@ -117,6 +117,28 @@ namespace TalentShow.Services
                 totalScore += scoreCard.TotalScore;
 
             return totalScore;
+        }
+
+        public void SetScore(ScoreCard scoreCard, int scoreCriterionId, double score, ScoreCriterionService scoreCriterionService)
+        {
+            if (scoreCard == null) return;
+
+            if (scoreCard.ScorableCriteria == null || !scoreCard.ScorableCriteria.Any()) return;
+
+            var scorableCriterion = scoreCard.ScorableCriteria.FirstOrDefault(s => s.ScoreCriterion.Id == scoreCriterionId);
+
+            if (scorableCriterion == null)
+            {
+                scorableCriterion = new ScorableCriterion(0, scoreCriterionService.Get(scoreCriterionId));
+                scorableCriterion.SetScore(score);
+                scoreCard.ScorableCriteria.Add(scorableCriterion);
+                Update(scoreCard);
+            }
+            else
+            {
+                scorableCriterion.SetScore(score);
+                AddOrUpdate(scorableCriterion);
+            }
         }
     }
 }

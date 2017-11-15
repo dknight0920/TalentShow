@@ -45,7 +45,15 @@ namespace TalentShowDataStorage
             ScorableCriterionRepo repo = new ScorableCriterionRepo();
 
             foreach (ScorableCriterion scorableCriterion in scoreCard.ScorableCriteria)
-                repo.Update(scorableCriterion);
+            {
+                if (repo.Exists(scorableCriterion.Id))
+                    repo.Update(scorableCriterion);
+                else
+                {
+                    repo.Add(scorableCriterion);
+                    new ScoreCardScorableCriterionRepo().Add(new ScoreCardScorableCriterion(scoreCard.Id, scorableCriterion.Id));
+                }
+            }
         }
 
         protected override Dictionary<string, object> GetFieldNamesAndValuesForInsertOrUpdate(ScoreCard scoreCard)
