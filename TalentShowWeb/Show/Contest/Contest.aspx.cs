@@ -181,5 +181,23 @@ namespace TalentShowWeb.Show.Contest
 
             ServiceFactory.ScoreCardService.SetScore(scoreCard, scoreCriterionId, score, ServiceFactory.ScoreCriterionService);
         }
+
+        [WebMethod(EnableSession = true)]
+        public static void SetComment(int contestId, int contestantId, int scoreCriterionId, string comment)
+        {
+            var contest = ServiceFactory.ContestService.Get(contestId);
+            var currentUserId = HttpContext.Current.User.Identity.GetUserId();
+            var judge = contest.Judges.FirstOrDefault(j => j.UserId == currentUserId);
+
+            if (judge == null) return;
+
+            var scoreCards = ServiceFactory.ScoreCardService.GetContestantScoreCards(contestantId);
+
+            if (scoreCards == null || !scoreCards.Any()) return;
+
+            var scoreCard = scoreCards.FirstOrDefault(s => s.Contestant.Id == contestantId && s.Judge.Id == judge.Id);
+
+            ServiceFactory.ScoreCardService.SetComment(scoreCard, scoreCriterionId, comment, ServiceFactory.ScoreCriterionService);
+        }
     }
 }

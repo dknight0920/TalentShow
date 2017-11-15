@@ -140,5 +140,27 @@ namespace TalentShow.Services
                 AddOrUpdate(scorableCriterion);
             }
         }
+
+        public void SetComment(ScoreCard scoreCard, int scoreCriterionId, string comment, ScoreCriterionService scoreCriterionService)
+        {
+            if (scoreCard == null) return;
+
+            if (scoreCard.ScorableCriteria == null || !scoreCard.ScorableCriteria.Any()) return;
+
+            var scorableCriterion = scoreCard.ScorableCriteria.FirstOrDefault(s => s.ScoreCriterion.Id == scoreCriterionId);
+
+            if (scorableCriterion == null)
+            {
+                scorableCriterion = new ScorableCriterion(0, scoreCriterionService.Get(scoreCriterionId));
+                scorableCriterion.SetComment(comment);
+                scoreCard.ScorableCriteria.Add(scorableCriterion);
+                Update(scoreCard);
+            }
+            else
+            {
+                scorableCriterion.SetComment(comment);
+                AddOrUpdate(scorableCriterion);
+            }
+        }
     }
 }

@@ -65,6 +65,21 @@ namespace TalentShowWeb.Show.Contest
             return score;
         }
 
+        protected string GetComment(TalentShow.ScoreCard scoreCard, TalentShow.ScoreCriterion scoreCriterion)
+        {
+            string comment = "";
+
+            if (scoreCard != null)
+            {
+                var scorableCriterion = scoreCard.ScorableCriteria.FirstOrDefault(s => s.ScoreCriterion.Id == scoreCriterion.Id);
+
+                if (scorableCriterion != null)
+                    comment = scorableCriterion.Comment;
+            }
+
+            return comment;
+        }
+
         protected string GetContestantHeadingText(TalentShow.Contestant contestant)
         {
             var performers = ServiceFactory.PerformerService.GetContestantPerformers(contestant.Id);

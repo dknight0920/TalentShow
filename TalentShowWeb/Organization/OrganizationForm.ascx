@@ -6,7 +6,7 @@
     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtName" ForeColor="Red" ErrorMessage="Required" Display="Dynamic" />
 </div>
 <div class="form-group">
-    <asp:Label runat="server" Text="User" AssociatedControlID="dropDownListOrganizations" CssClass="control-label" />
+    <asp:Label runat="server" Text="Parent Organization" AssociatedControlID="dropDownListOrganizations" CssClass="control-label" />
     <asp:DropDownList runat="server" ID="dropDownListOrganizations" CssClass="form-control" Width="275" />
 </div>
 <br />
