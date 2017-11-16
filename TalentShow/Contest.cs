@@ -18,23 +18,24 @@ namespace TalentShow
         public ICollection<ScoreCriterion> ScoreCriteria { get; private set; }
         public ICollection<ScoreCard> ScoreCards { get; private set; }
         public string TimeKeeperId { get; set; }
+        public TimeSpan MaxDuration { get; set; }
 
-        public Contest(int id, string name, string description, string timeKeeperId)
+        public Contest(int id, string name, string description, string timeKeeperId, TimeSpan maxDuration)
         {
-            Init(id, name, timeKeeperId, description);
+            Init(id, name, timeKeeperId, maxDuration, description);
         }
 
-        public Contest(int id, string name, string timeKeeperId)
+        public Contest(int id, string name, string timeKeeperId, TimeSpan maxDuration)
         {
-            Init(id, name, timeKeeperId);
+            Init(id, name, timeKeeperId, maxDuration);
         }
 
-        public Contest(string name, string timeKeeperId)
+        public Contest(string name, string timeKeeperId, TimeSpan maxDuration)
         {
-            Init(0, name, timeKeeperId);
+            Init(0, name, timeKeeperId, maxDuration);
         }
 
-        private void Init(int id, string name, string timeKeeperId, string description = null)
+        private void Init(int id, string name, string timeKeeperId, TimeSpan maxDuration, string description = null)
         {
             if (String.IsNullOrWhiteSpace(name))
                 throw new ApplicationException("A contest cannot be constructed without a name.");
@@ -42,6 +43,7 @@ namespace TalentShow
             Id = id;
             Name = name;
             TimeKeeperId = timeKeeperId;
+            MaxDuration = maxDuration;
             Description = description;
             Contestants = new List<Contestant>();
             Judges = new List<Judge>();

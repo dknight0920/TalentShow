@@ -12,7 +12,8 @@ namespace TalentShow.Tests
         [TestMethod]
         public void CreateContestantWithOnePerformer()
         {
-            Contest contest = new Contest(name: "Dance", timeKeeperId: "1234");
+            TimeSpan maxDuration = new TimeSpan(0, 5, 0);
+            Contest contest = new Contest(name: "Dance", timeKeeperId: "1234", maxDuration: maxDuration);
 
             Division division = new Division("Alpha");
             PersonName name = new PersonName(firstName: "John", lastName: "Smith");
@@ -28,7 +29,8 @@ namespace TalentShow.Tests
         [TestMethod]
         public void CreateContestantWithMultiplePerformers()
         {
-            Contest contest = new Contest(name: "Dance", timeKeeperId: "123");
+            TimeSpan maxDuration = new TimeSpan(0, 5, 0);
+            Contest contest = new Contest(name: "Dance", timeKeeperId: "123", maxDuration: maxDuration);
 
             Division division = new Division("Alpha");
             PersonName name = new PersonName(firstName: "John", lastName: "Smith");
@@ -49,7 +51,8 @@ namespace TalentShow.Tests
         [ExpectedException(typeof(ApplicationException))]
         public void CreateContestantWithZeroPerformers()
         {
-            Contest contest = new Contest(name: "Dance", timeKeeperId: "123");
+            TimeSpan maxDuration = new TimeSpan(0, 5, 0);
+            Contest contest = new Contest(name: "Dance", timeKeeperId: "123", maxDuration: maxDuration);
 
             Performance performance = new Performance(description: "Dancing an abc to xyz", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
 

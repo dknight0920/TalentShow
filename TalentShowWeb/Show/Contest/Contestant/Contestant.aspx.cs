@@ -17,11 +17,14 @@ namespace TalentShowWeb.Show.Contest.Contestant
     public partial class Contestant : System.Web.UI.Page
     {
         private ICollection<TalentShow.ScoreCard> scoreCards;
+        private TalentShow.Contestant contestant;
+        private TalentShow.Contest contest;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             var contestantId = GetContestantId();
-            var contestant = ServiceFactory.ContestantService.Get(contestantId);
+            this.contestant = ServiceFactory.ContestantService.Get(contestantId);
+            this.contest = ServiceFactory.ContestService.Get(GetContestId());
             this.scoreCards = ServiceFactory.ScoreCardService.GetContestantScoreCards(contestantId);
             var performers = ServiceFactory.PerformerService.GetContestantPerformers(contestantId);
 
@@ -58,6 +61,14 @@ namespace TalentShowWeb.Show.Contest.Contestant
                 return 0;
 
             return scoreCards.Sum(s => s.TotalScore);
+        }
+
+        protected double GetFinalScore()
+        {
+            if (scoreCards == null || !scoreCards.Any())
+                return 0;
+
+            return ServiceFactory.ScoreCardService.GetContestantTotalScore(contestant, contest.MaxDuration);
         }
 
         private string GetContestantHeadingText(ICollection<TalentShow.Performer> performers)

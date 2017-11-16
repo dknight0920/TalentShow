@@ -47,7 +47,7 @@ namespace TalentShowWebApi.DataTransferObjects.Helpers
 
         public static Contest ConvertFromDto(this ContestDto contestDto)
         {
-            return new Contest(contestDto.Id, contestDto.Name, contestDto.Description, contestDto.TimeKeeperId);
+            return new Contest(contestDto.Id, contestDto.Name, contestDto.Description, contestDto.TimeKeeperId, contestDto.MaxDuration);
         }
 
         public static Division ConvertFromDto(this DivisionDto divisionDto)
@@ -150,7 +150,7 @@ namespace TalentShowWebApi.DataTransferObjects.Helpers
 
             var scoreCardService = new ScoreCardService(new ScoreCardRepo(), new ScorableCriterionRepo(), new ContestantRepo());
 
-            var totalScore = scoreCardService.GetContestantTotalScore(contestant.Id);
+            var totalScore = scoreCardService.GetContestantTotalScore(contestant.Id, new TimeSpan(0, 5, 0));
 
             return new ContestantDto()
             {
@@ -230,6 +230,7 @@ namespace TalentShowWebApi.DataTransferObjects.Helpers
                 Judges = ConvertToDto(contest.Judges),
                 Name = contest.Name,
                 TimeKeeperId = contest.TimeKeeperId,
+                MaxDuration = contest.MaxDuration,
                 Description = contest.Description,
                 ScoreCards = ConvertToDto(contest.ScoreCards),
                 ScoreCriteria = ConvertToDto(contest.ScoreCriteria)

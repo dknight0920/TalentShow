@@ -24,6 +24,11 @@ namespace TalentShowWeb.Show.Contest
             return txtDescription;
         }
 
+        public TextBox GetMaxDurationTextBox()
+        {
+            return txtMaxDuration;
+        }
+
         public DropDownList GetTimeKeepersDropDownList()
         {
             return dropDownListTimeKeepers;

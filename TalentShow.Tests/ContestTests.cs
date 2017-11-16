@@ -9,8 +9,8 @@ namespace TalentShow.Tests
         public void CreateContest()
         {
             string name = "Dance";
-
-            Contest contest = new Contest(name , timeKeeperId: "123");
+            var maxDuration = new TimeSpan(0, 5, 0);
+            Contest contest = new Contest(name , timeKeeperId: "123", maxDuration: maxDuration);
         }
     }
 }

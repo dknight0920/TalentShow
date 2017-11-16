@@ -48,6 +48,7 @@
                     <br />
              <% } %>
             <h2>Total Score: <% Response.Write(GetTotalScore()); %></h2>
+            <h1>Final Score: <% Response.Write(GetFinalScore()); %></h1>
         </div>
     </div>
     <br />

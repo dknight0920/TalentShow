@@ -100,11 +100,15 @@ namespace TalentShow.Services
             ScoreCardRepo.DeleteAll();
         }
 
-        public double GetContestantTotalScore(int contestantId)
-        {
-            var scoreCards = GetContestantScoreCards(contestantId);
+        public double GetContestantTotalScore(int contestantId, TimeSpan maxDuration)
+        {  
             var contestant = ContestantRepo.Get(contestantId);
-            var maxDuration = new TimeSpan(0, 5, 0); //five minutes
+            return GetContestantTotalScore(contestant, maxDuration);
+        }
+
+        public double GetContestantTotalScore(Contestant contestant, TimeSpan maxDuration)
+        {
+            var scoreCards = GetContestantScoreCards(contestant.Id);
 
             double penaltyPoints = 0;
 

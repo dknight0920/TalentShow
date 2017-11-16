@@ -15,5 +15,6 @@ namespace TalentShowWebApi.DataTransferObjects
         public ICollection<ScoreCriterionDto> ScoreCriteria { get; set; }
         public ICollection<ScoreCardDto> ScoreCards { get; set; }
         public string TimeKeeperId { get; set; }
+        public TimeSpan MaxDuration { get; set; }
     }
 }

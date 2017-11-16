@@ -26,6 +26,7 @@ namespace TalentShowWeb.Show.Contest
             var contest = ServiceFactory.ContestService.Get(GetContestId());
             contestForm.GetContestNameTextBox().Text = contest.Name;
             contestForm.GetDescriptionTextBox().Text = contest.Description;
+            contestForm.GetMaxDurationTextBox().Text = Convert.ToString(contest.MaxDuration.Minutes);
 
             var timeKeepersDropDownList = contestForm.GetTimeKeepersDropDownList();
 
@@ -49,7 +50,8 @@ namespace TalentShowWeb.Show.Contest
             var contestName = contestForm.GetContestNameTextBox().Text.Trim();
             var description = contestForm.GetDescriptionTextBox().Text.Trim();
             var timeKeeper = contestForm.GetTimeKeepersDropDownList().SelectedValue.Trim();
-            var contest = new TalentShow.Contest(GetContestId(), contestName, description, timeKeeper);
+            var maxDuration = new TimeSpan(0, Convert.ToInt32(contestForm.GetMaxDurationTextBox().Text.Trim()), 0);
+            var contest = new TalentShow.Contest(GetContestId(), contestName, description, timeKeeper, maxDuration);
             ServiceFactory.ContestService.Update(contest);
             GoToContestPage();
         }
