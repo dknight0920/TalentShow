@@ -73,6 +73,11 @@ namespace TalentShow.Services
             ContestantRepo.Update(contestant);
         }
 
+        public void UpdatePerformance(Performance performance)
+        {
+            PerformanceRepo.Update(performance);
+        }
+
         public void Delete(int id)
         {
             ContestantRepo.Delete(id);

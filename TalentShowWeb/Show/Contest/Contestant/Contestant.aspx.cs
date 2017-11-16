@@ -11,13 +11,15 @@ using TalentShowWeb.Account.Util;
 using TalentShowWeb.CustomControls.Models;
 using TalentShowWeb.CustomControls.Renderers;
 using TalentShowWeb.Utils;
+using System.Web.Script.Services;
+using System.Web.Services;
 
 namespace TalentShowWeb.Show.Contest.Contestant
 {
     public partial class Contestant : System.Web.UI.Page
     {
         private ICollection<TalentShow.ScoreCard> scoreCards;
-        private TalentShow.Contestant contestant;
+        protected TalentShow.Contestant contestant;
         private TalentShow.Contest contest;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -61,6 +63,11 @@ namespace TalentShowWeb.Show.Contest.Contestant
                 return 0;
 
             return scoreCards.Sum(s => s.TotalScore);
+        }
+
+        protected double GetPenaltyPoints()
+        {
+            return GetTotalScore() - GetFinalScore();
         }
 
         protected double GetFinalScore()
@@ -130,6 +137,18 @@ namespace TalentShowWeb.Show.Contest.Contestant
         private int GetContestantId()
         {
             return Convert.ToInt32(Request.QueryString["contestantId"]);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public static void SetDuration(int contestantId, int duration)
+        {
+            var contestant = ServiceFactory.ContestantService.Get(contestantId);
+
+            if (contestant == null || contestant.Id != contestantId) return;
+
+            var performance = new TalentShow.Performance(contestant.Performance.Id, contestant.Performance.Description, new TimeSpan(0,0,0,0, duration));
+
+            ServiceFactory.ContestantService.UpdatePerformance(performance);
         }
     }
 }

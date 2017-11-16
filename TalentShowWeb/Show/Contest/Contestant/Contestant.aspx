@@ -47,8 +47,34 @@
                     </div>
                     <br />
              <% } %>
-            <h2>Total Score: <% Response.Write(GetTotalScore()); %></h2>
-            <h1>Final Score: <% Response.Write(GetFinalScore()); %></h1>
+            <div class="well">
+                <table style="width:30%;">
+                    <tr>
+                        <td class="pull-left">
+                            <h3>Total Score:</h3>
+                        </td>
+                        <td class="pull-right">
+                            <h3><% Response.Write(GetTotalScore()); %></h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="pull-left">
+                            <h3>Penalty Points:</h3>
+                        </td>
+                        <td class="pull-right">
+                            <h3><% Response.Write(GetPenaltyPoints()); %></h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="pull-left">
+                            <h2>Final Score:</h2>
+                        </td>
+                        <td class="pull-right">
+                            <h2><% Response.Write(GetFinalScore()); %></h2>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
     <br />
@@ -76,7 +102,7 @@
           elem.appendChild(resetButton);
 
           // initialize
-          reset();
+          initClock();
 
           // private functions
           function createTimer() {
@@ -109,11 +135,18 @@
             if (interval) {
               clearInterval(interval);
               interval = null;
+              SetPerformanceDuration(clock);  
             }
           }
 
           function reset() {
             clock = 0;
+            SetPerformanceDuration(clock); 
+            render();
+          }
+
+          function initClock() {
+            clock = <%= contestant.Performance.Duration.TotalMilliseconds %>;
             render();
           }
 
@@ -123,7 +156,7 @@
           }
 
           function render() {
-            timer.innerHTML = clock/1000; 
+            timer.innerHTML = msToHMS(clock); 
           }
 
           function delta() {
@@ -144,6 +177,50 @@
 
         for (var i=0, len=elems.length; i<len; i++) {
             new Stopwatch(elems[i], {delay: 10});
+        }
+
+        function msToHMS( ms ) {
+            // 1- Convert to seconds:
+            var seconds = ms / 1000;
+            // 2- Extract hours:
+            var hours = parseInt( seconds / 3600 ); // 3,600 seconds in 1 hour
+            seconds = seconds % 3600; // seconds remaining after extracting hours
+            // 3- Extract minutes:
+            var minutes = parseInt( seconds / 60 ); // 60 seconds in 1 minute
+            // 4- Keep only seconds not extracted to minutes:
+            seconds = seconds % 60;
+
+            return formatNumberToTwoDigits(hours) + ":" + formatNumberToTwoDigits(minutes) + ":" + formatNumberToTwoDigits(parseInt(seconds));
+        }
+
+        function formatNumberToTwoDigits(num){
+            if(!num || num == 0) {
+                return "00";
+            }
+            var formattedNum = num + "";
+
+            while(formattedNum.length < 2 ){
+                formattedNum = "0" + formattedNum;
+            }
+
+            return formattedNum;
+        }
+
+        function SetPerformanceDuration(duration) {
+            var data = JSON.stringify({"contestantId": <%= contestant.Id %>, "duration": duration});
+            $.ajax({
+                type: 'POST',
+                url: '<%= ResolveUrl("~/Show/Contest/Contestant/Contestant.aspx/SetDuration") %>',
+                data: data,
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function (msg) {     
+                    location.reload();
+                },
+                error: function (jqXHR, exception) {
+                    alert("The was a problem and the duration could not be saved.");
+                }      
+            });
         }
     </script>  
 </asp:Content>

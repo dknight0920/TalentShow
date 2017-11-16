@@ -110,10 +110,10 @@ namespace TalentShow.Services
         {
             var scoreCards = GetContestantScoreCards(contestant.Id);
 
-            double penaltyPoints = 0;
+            int penaltyPoints = 0;
 
             if (contestant.Performance.Duration > maxDuration)
-                penaltyPoints = (contestant.Performance.Duration - maxDuration).TotalSeconds;
+                penaltyPoints = Convert.ToInt32(Math.Floor((contestant.Performance.Duration - maxDuration).TotalSeconds));
 
             double totalScore = 0 - penaltyPoints;
 
