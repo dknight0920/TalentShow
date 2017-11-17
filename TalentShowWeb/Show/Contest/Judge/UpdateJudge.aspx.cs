@@ -29,10 +29,14 @@ namespace TalentShowWeb.Show.Contest.Judge
             var accountUtil = new AccountUtil(Context);
             var users = accountUtil.GetAllUsers();
 
-            foreach (var user in users)
-                usersDropDownList.Items.Add(new ListItem(user.Email, user.Id));
-
+            var contest = ServiceFactory.ContestService.Get(GetContestId());
             var judge = ServiceFactory.JudgeService.Get(GetJudgeId());
+
+            foreach (var user in users)
+            {
+                if(user.Id == judge.UserId || !contest.Judges.Any(j => j.UserId == user.Id))
+                    usersDropDownList.Items.Add(new ListItem(user.Email, user.Id));
+            }
 
             usersDropDownList.Items.FindByValue(judge.UserId).Selected = true;
         }
