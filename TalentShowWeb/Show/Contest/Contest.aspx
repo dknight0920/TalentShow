@@ -18,10 +18,13 @@
             <custom:ScoreForm runat="server" ID="scoreForm" />
             <br />
     <% }
-      if(IsUserAnAdmin())
+      if(IsAllowedToViewContestantsList())
        { %>
             <custom:HyperlinkListPanel runat="server" ID="contestantsList" />
             <br />
+    <% }
+      if(IsUserAnAdmin())
+       { %>
             <custom:HyperlinkListPanel runat="server" ID="judgesList" />
             <br />
             <custom:HyperlinkListPanel runat="server" ID="scoreCriteriaList" />

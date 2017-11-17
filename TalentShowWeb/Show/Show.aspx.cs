@@ -28,7 +28,10 @@ namespace TalentShowWeb.Show
             var contests = ServiceFactory.ContestService.GetShowContests(showId);
 
             if (!IsUserAnAdmin())
-                contests = contests.Where(c => c.Judges.Any(j => j.UserId == Context.User.Identity.GetUserId())).ToList();
+            {
+                var currentUserId = Context.User.Identity.GetUserId();
+                contests = contests.Where(c => c.Judges.Any(j => j.UserId == currentUserId) || c.TimeKeeperId == currentUserId).ToList();
+            }
 
             foreach (var contest in contests)
                 items.Add(new HyperlinkListPanelItem(URL: NavUtil.GetContestPageUrl(showId, contest.Id), Heading: contest.Name, Text: contest.Description));

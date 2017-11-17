@@ -13,6 +13,7 @@ using TalentShowWeb.CustomControls.Renderers;
 using TalentShowWeb.Utils;
 using System.Web.Script.Services;
 using System.Web.Services;
+using Microsoft.AspNet.Identity;
 
 namespace TalentShowWeb.Show.Contest.Contestant
 {
@@ -33,6 +34,8 @@ namespace TalentShowWeb.Show.Contest.Contestant
             labelPageTitle.Text = "Contestant: " + GetContestantHeadingText(performers);
             labelPageDescription.Text = GetContestantDescriptionText(contestant);
 
+            if (!IsUserAnAdmin()) return;
+
             var performerItems = new List<HyperlinkListPanelItem>();
 
             foreach (var performer in performers)
@@ -45,6 +48,21 @@ namespace TalentShowWeb.Show.Contest.Contestant
             }
 
             HyperlinkListPanelRenderer.Render(performersList, new HyperlinkListPanelConfig("Performers", performerItems, ButtonAddPerformerClick));
+        }
+
+        protected bool IsAllowedToViewStopWatch()
+        {
+            return IsUserAnAdmin() || IsUserTheTimeKeeper();
+        }
+
+        private bool IsUserTheTimeKeeper()
+        {
+            return contest.TimeKeeperId == Context.User.Identity.GetUserId();
+        }
+
+        protected bool IsUserAnAdmin()
+        {
+            return new AccountUtil(Context).IsUserAnAdmin();
         }
 
         protected ICollection<TalentShow.ScoreCard> GetScoreCards()

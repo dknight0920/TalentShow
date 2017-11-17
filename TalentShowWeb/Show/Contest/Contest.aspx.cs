@@ -32,20 +32,23 @@ namespace TalentShowWeb.Show.Contest
             labelPageTitle.Text = "Contest: " + contest.Name;
             labelPageDescription.Text = contest.Description;
 
-            if (!IsUserAnAdmin()) return;
-
-            var contestantItems = new List<HyperlinkListPanelItem>();
-
-            foreach (var contestant in contest.Contestants)
+            if (IsAllowedToViewContestantsList())
             {
-                var url = NavUtil.GetContestantPageUrl(showId, contestId, contestant.Id);
-                var heading = GetContestantHeadingText(contestant);
-                var text = GetContestantDescriptionText(contestant);
+                var contestantItems = new List<HyperlinkListPanelItem>();
 
-                contestantItems.Add(new HyperlinkListPanelItem(url, heading, text));
+                foreach (var contestant in contest.Contestants)
+                {
+                    var url = NavUtil.GetContestantPageUrl(showId, contestId, contestant.Id);
+                    var heading = GetContestantHeadingText(contestant);
+                    var text = GetContestantDescriptionText(contestant);
+
+                    contestantItems.Add(new HyperlinkListPanelItem(url, heading, text));
+                }
+
+                HyperlinkListPanelRenderer.Render(contestantsList, new HyperlinkListPanelConfig("Contestants", contestantItems, ButtonAddContestantClick));
             }
 
-            HyperlinkListPanelRenderer.Render(contestantsList, new HyperlinkListPanelConfig("Contestants", contestantItems, ButtonAddContestantClick));
+            if (!IsUserAnAdmin()) return;
 
             var judgeItems = new List<HyperlinkListPanelItem>();
 
@@ -74,6 +77,16 @@ namespace TalentShowWeb.Show.Contest
             HyperlinkListPanelRenderer.Render(scoreCriteriaList, new HyperlinkListPanelConfig("Score Criteria", scoreCriterionItems, ButtonAddScoreCriterionClick));
         }
 
+        protected bool IsAllowedToViewContestantsList()
+        {
+            return IsUserAnAdmin() || IsUserTheTimeKeeper();
+        }
+
+        private bool IsUserTheTimeKeeper()
+        {
+            return contest.TimeKeeperId == Context.User.Identity.GetUserId();
+        }
+
         protected bool IsContestJudge()
         {
             return contest != null && contest.Judges != null && contest.Judges.Any(j => j.UserId == Context.User.Identity.GetUserId());
@@ -88,11 +101,15 @@ namespace TalentShowWeb.Show.Contest
         {       
             var performers = ServiceFactory.PerformerService.GetContestantPerformers(contestant.Id);
 
+            string text = "";
+
+            if (contestant.Performance.Duration.TotalMilliseconds > 0)
+                text += "<span class=\"glyphicon glyphicon-time\" alt=\"Performance Duration Captured\"></span> ";
+
             if (!performers.Any())
-                return "Contestant ID: " + contestant.Id;
+                return text + "Contestant ID: " + contestant.Id;
 
             bool isFirst = true;
-            string text = "";
 
             foreach (var performer in performers)
             {
