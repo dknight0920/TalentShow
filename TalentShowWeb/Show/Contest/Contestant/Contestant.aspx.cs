@@ -70,9 +70,9 @@ namespace TalentShowWeb.Show.Contest.Contestant
             return ServiceFactory.ScoreCardService.GetContestantScoreCards(GetContestantId());
         }
 
-        protected string GetJudgeEmailAddress(string userId)
+        protected string GetJudgeUserName(string userId)
         {
-            return new AccountUtil(Context).GetUserEmail(userId);
+            return new AccountUtil(Context).GetUser(userId).UserName;
         }
 
         protected double GetTotalScore()

@@ -32,7 +32,7 @@ namespace TalentShowWeb.Show.Contest.Judge
             var contest = ServiceFactory.ContestService.Get(GetContestId());
 
             foreach (var user in users.Where(u => !contest.Judges.Any(j => j.UserId == u.Id)))
-                usersDropDownList.Items.Add(new ListItem(user.Email, user.Id));
+                usersDropDownList.Items.Add(new ListItem(user.UserName, user.Id));
 
             usersDropDownList.Items.FindByValue("").Selected = true;
         }

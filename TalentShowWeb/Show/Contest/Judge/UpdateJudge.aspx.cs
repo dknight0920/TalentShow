@@ -35,7 +35,7 @@ namespace TalentShowWeb.Show.Contest.Judge
             foreach (var user in users)
             {
                 if(user.Id == judge.UserId || !contest.Judges.Any(j => j.UserId == user.Id))
-                    usersDropDownList.Items.Add(new ListItem(user.Email, user.Id));
+                    usersDropDownList.Items.Add(new ListItem(user.UserName, user.Id));
             }
 
             usersDropDownList.Items.FindByValue(judge.UserId).Selected = true;

@@ -15,6 +15,7 @@ namespace TalentShowWeb.Account.Util
 {
     public class AccountUtil
     {
+        private const string ADMIN = "Admin";
         private ApplicationUserManager manager;
         private ApplicationRoleManager roleManager;
         private HttpContext context;
@@ -44,31 +45,52 @@ namespace TalentShowWeb.Account.Util
 
         public bool IsUserAnAdmin()
         {
-            return IsUserInRole("Admin");
+            return IsUserInRole(ADMIN, context.User.Identity.GetUserId());
         }
 
-        public bool IsUserAJudge()
+        public bool IsUserAnAdmin(string userId)
         {
-            return IsUserInRole("Judge");
-            
+            return IsUserInRole(ADMIN, userId);
         }
-
-        public bool IsUserATimeKeeper()
-        {
-            return IsUserInRole("TimerKeeper");
-        }
-
-        public bool IsUserInRole(string roleName)
+      
+        public bool IsUserInRole(string roleName, string userId)
         {
             var role = roleManager.Roles.FirstOrDefault(r => r.Name == roleName);
 
             if (role == null) return false;
-
-            var userId = context.User.Identity.GetUserId();
-
+            
             var user = role.Users.FirstOrDefault(u => u.UserId == userId);
 
             return user != null;
+        }
+
+        public void SetEmail(string userId, string Email)
+        {
+            manager.SetEmail(userId, Email);
+        }
+
+        public void SetUserName(string userId, string userName)
+        {
+            
+        }
+
+        public void AddToAdminRole(string userId)
+        {
+            if (IsUserInRole(ADMIN, userId)) return;
+
+            manager.AddToRole(userId, ADMIN);
+        }
+
+        public void RemoveFromAdminRole(string userId)
+        {
+            if (!IsUserInRole(ADMIN, userId)) return;
+
+            manager.RemoveFromRole(userId, ADMIN);
+        }
+
+        public void DeleteUser(string userId)
+        {
+            manager.Delete(GetUser(userId));
         }
     }
 }

@@ -286,6 +286,8 @@
     <Content Include="Show\UpdateShow.aspx" />
     <Content Include="Site.Master" />
     <Content Include="Users.aspx" />
+    <Content Include="User\UpdateUser.aspx" />
+    <Content Include="User\UserForm.ascx" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
@@ -671,6 +673,20 @@
     </Compile>
     <Compile Include="Users.aspx.designer.cs">
       <DependentUpon>Users.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="User\UpdateUser.aspx.cs">
+      <DependentUpon>UpdateUser.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="User\UpdateUser.aspx.designer.cs">
+      <DependentUpon>UpdateUser.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="User\UserForm.ascx.cs">
+      <DependentUpon>UserForm.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="User\UserForm.ascx.designer.cs">
+      <DependentUpon>UserForm.ascx</DependentUpon>
     </Compile>
     <Compile Include="Utils\NavUtil.cs" />
     <Compile Include="Utils\RepoFactory.cs" />

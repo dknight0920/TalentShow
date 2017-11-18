@@ -53,9 +53,9 @@ namespace TalentShowWeb.Utils
             return "~/Divisions.aspx";
         }
 
-        internal static string GetUpdateUserPageUrl(string id)
+        internal static string GetUpdateUserPageUrl(string userId)
         {
-            return "~/User/UpdateUser.aspx";
+            return "~/User/UpdateUser.aspx?userId=" + userId;
         }
 
         internal static void GoToShowsPage(HttpResponse Response)
@@ -71,6 +71,16 @@ namespace TalentShowWeb.Utils
         internal static string GetUpdateDivisionPageUrl(int divisionId)
         {
             return "~/Division/UpdateDivision.aspx?divisionId=" + divisionId;
+        }
+
+        internal static void GoToUsersPage(HttpResponse Response)
+        {
+            GoToPage(Response, GetUsersPageUrl());
+        }
+
+        private static string GetUsersPageUrl()
+        {
+            return "~/Users.aspx";
         }
 
         internal static void GoToAddShowPage(HttpResponse Response)

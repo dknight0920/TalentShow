@@ -127,7 +127,7 @@ namespace TalentShowWeb.Show.Contest
 
         private string GetJudgeHeadingText(TalentShow.Judge judge)
         {
-            return new AccountUtil(Context).GetUserEmail(judge.UserId);
+            return new AccountUtil(Context).GetUser(judge.UserId).UserName;
         }
 
         private string GetJudgeDescriptionText(TalentShow.Judge judge)

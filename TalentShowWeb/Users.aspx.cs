@@ -19,8 +19,13 @@ namespace TalentShowWeb
 
             var divisionService = ServiceFactory.DivisionService;
 
-            foreach (var user in new AccountUtil(Context).GetAllUsers())
-                items.Add(new HyperlinkListPanelItem(URL: NavUtil.GetUpdateUserPageUrl(user.Id), Heading: user.Email, Text: ""));
+            var accountUtil = new AccountUtil(Context);
+
+            foreach (var user in new AccountUtil(Context).GetAllUsers().OrderBy(u => u.Email))
+                items.Add(new HyperlinkListPanelItem(
+                    URL: NavUtil.GetUpdateUserPageUrl(user.Id), 
+                    Heading: user.UserName + (accountUtil.IsUserAnAdmin(user.Id) ? " (Administrator)" : ""), 
+                    Text: user.Email));
 
             HyperlinkListPanelRenderer.Render(usersList, new HyperlinkListPanelConfig("Users", items));
         }

@@ -37,7 +37,7 @@
                         { %>
                             <div class="panel panel-warning">
                                 <div class="panel-heading clearfix">
-                                    <h3 class="panel-title pull-left">Score Card by <% Response.Write(GetJudgeEmailAddress(scoreCard.Judge.UserId)); %></h3>
+                                    <h3 class="panel-title pull-left">Score Card by <% Response.Write(GetJudgeUserName(scoreCard.Judge.UserId)); %></h3>
                                 </div>
                                 <div class="panel-body">
                                     <% foreach (var scorableCriterion in scoreCard.ScorableCriteria)
