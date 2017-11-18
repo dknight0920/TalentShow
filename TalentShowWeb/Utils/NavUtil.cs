@@ -53,6 +53,11 @@ namespace TalentShowWeb.Utils
             return "~/Divisions.aspx";
         }
 
+        internal static string GetUpdateUserPageUrl(string id)
+        {
+            return "~/User/UpdateUser.aspx";
+        }
+
         internal static void GoToShowsPage(HttpResponse Response)
         {
             GoToPage(Response, GetShowsPageUrl());
