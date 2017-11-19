@@ -14,6 +14,9 @@ namespace TalentShowWeb.Show
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            RedirectUtil.RedirectUnauthenticatedUserToLoginPage();
+            RedirectUtil.RedirectNonAdminUserToHomePage();
+
             labelPageTitle.Text = "Add a Show";
             labelPageDescription.Text = "Use the form below to create a new show.";
 

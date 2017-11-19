@@ -12,6 +12,9 @@ namespace TalentShowWeb.Organization
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            RedirectUtil.RedirectUnauthenticatedUserToLoginPage();
+            RedirectUtil.RedirectNonAdminUserToHomePage();
+
             labelPageTitle.Text = "Add an Organization";
             labelPageDescription.Text = "Use the form below to create a new organization.";
 

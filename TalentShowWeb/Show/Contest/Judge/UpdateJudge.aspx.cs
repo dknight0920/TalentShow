@@ -13,6 +13,9 @@ namespace TalentShowWeb.Show.Contest.Judge
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            RedirectUtil.RedirectUnauthenticatedUserToLoginPage();
+            RedirectUtil.RedirectNonAdminUserToHomePage();
+
             labelPageTitle.Text = "Update the Judge";
             labelPageDescription.Text = "Use the form below to update the judge.";
 

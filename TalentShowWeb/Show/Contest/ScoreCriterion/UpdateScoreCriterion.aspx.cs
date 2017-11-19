@@ -12,6 +12,9 @@ namespace TalentShowWeb.Show.Contest.ScoreCriterion
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            RedirectUtil.RedirectUnauthenticatedUserToLoginPage();
+            RedirectUtil.RedirectNonAdminUserToHomePage();
+
             labelPageTitle.Text = "Update the Score Criterion";
             labelPageDescription.Text = "Use the form below to update the score criterion.";
 

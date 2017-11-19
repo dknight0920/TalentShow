@@ -18,6 +18,8 @@ namespace TalentShowWeb.Show
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            RedirectUtil.RedirectUnauthenticatedUserToLoginPage();
+
             var items = new List<HyperlinkListPanelItem>();
             var showId = GetShowId();
             var show = ServiceFactory.ShowService.Get(showId);

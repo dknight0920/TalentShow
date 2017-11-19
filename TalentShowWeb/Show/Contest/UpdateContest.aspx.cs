@@ -14,6 +14,9 @@ namespace TalentShowWeb.Show.Contest
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            RedirectUtil.RedirectUnauthenticatedUserToLoginPage();
+            RedirectUtil.RedirectNonAdminUserToHomePage();
+
             labelPageTitle.Text = "Update the Contest";
             labelPageDescription.Text = "Use the form below to update the contest.";
 

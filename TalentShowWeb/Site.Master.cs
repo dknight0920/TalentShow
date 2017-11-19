@@ -7,6 +7,7 @@ using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Microsoft.AspNet.Identity;
+using TalentShowWeb.Account.Util;
 
 namespace TalentShowWeb
 {
@@ -70,6 +71,11 @@ namespace TalentShowWeb
         protected void Page_Load(object sender, EventArgs e)
         {
 
+        }
+
+        protected bool IsUserAnAdmin()
+        {
+            return new AccountUtil(Context).IsUserAnAdmin();
         }
 
         protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)

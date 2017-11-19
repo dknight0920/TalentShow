@@ -4,7 +4,7 @@
 
     <div class="jumbotron">
         <h1>Welcome <img runat="server" style="float:right;" src="~/Images/logo.png" width="200" height="195" /></h1>
-        <p class="lead">This is the Talent Show Control Center for IPHC Fine Arts Festival.</p>
+        <p class="lead">This is the Talent Show Control Center for the IPHC Fine Arts Festival.</p>
         <p><a href="http://iphc.org/youthquest/fine-arts-festival/" target="_blank" class="btn btn-primary btn-lg">Learn more about IPHC FAF &raquo;</a></p>
     </div>
 

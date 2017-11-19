@@ -689,6 +689,7 @@
       <DependentUpon>UserForm.ascx</DependentUpon>
     </Compile>
     <Compile Include="Utils\NavUtil.cs" />
+    <Compile Include="Utils\RedirectUtil.cs" />
     <Compile Include="Utils\RepoFactory.cs" />
     <Compile Include="Utils\ServiceFactory.cs" />
     <Compile Include="ViewSwitcher.ascx.cs">

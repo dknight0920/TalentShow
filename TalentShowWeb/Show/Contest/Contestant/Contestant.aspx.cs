@@ -25,6 +25,8 @@ namespace TalentShowWeb.Show.Contest.Contestant
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            RedirectUtil.RedirectUnauthenticatedUserToLoginPage();
+
             var contestantId = GetContestantId();
             this.contestant = ServiceFactory.ContestantService.Get(contestantId);
             this.contest = ServiceFactory.ContestService.Get(GetContestId());

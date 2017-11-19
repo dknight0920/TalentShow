@@ -15,6 +15,9 @@ namespace TalentShowWeb.User
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            RedirectUtil.RedirectUnauthenticatedUserToLoginPage();
+            RedirectUtil.RedirectNonAdminUserToHomePage();
+
             this.accountUtil = new AccountUtil(Context);
 
             labelPageTitle.Text = "Update the User";

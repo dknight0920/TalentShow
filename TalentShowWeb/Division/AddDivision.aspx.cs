@@ -12,6 +12,9 @@ namespace TalentShowWeb.Division
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            RedirectUtil.RedirectUnauthenticatedUserToLoginPage();
+            RedirectUtil.RedirectNonAdminUserToHomePage();
+
             labelPageTitle.Text = "Add a Division";
             labelPageDescription.Text = "Use the form below to create a new division.";
 

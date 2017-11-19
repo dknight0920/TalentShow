@@ -23,6 +23,8 @@ namespace TalentShowWeb.Show.Contest
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            RedirectUtil.RedirectUnauthenticatedUserToLoginPage();
+
             var showId = GetShowId();
             var show = ServiceFactory.ShowService.Get(showId);
 

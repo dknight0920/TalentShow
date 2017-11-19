@@ -14,6 +14,9 @@ namespace TalentShowWeb
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            RedirectUtil.RedirectUnauthenticatedUserToLoginPage();
+            RedirectUtil.RedirectNonAdminUserToHomePage();
+
             var items = new List<HyperlinkListPanelItem>();
 
             var organizationService = ServiceFactory.OrganizationService;

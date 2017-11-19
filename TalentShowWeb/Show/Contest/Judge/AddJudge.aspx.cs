@@ -13,6 +13,9 @@ namespace TalentShowWeb.Show.Contest.Judge
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            RedirectUtil.RedirectUnauthenticatedUserToLoginPage();
+            RedirectUtil.RedirectNonAdminUserToHomePage();
+
             labelPageTitle.Text = "Add a Judge";
             labelPageDescription.Text = "Use the form below to create a new judge.";
 
