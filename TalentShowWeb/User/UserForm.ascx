@@ -7,8 +7,8 @@
 </div>
 <div class="form-group">
     <asp:Label runat="server" Text="Email" AssociatedControlID="txtEmail" CssClass="control-label" />
-    <asp:TextBox runat="server" ID="txtEmail" CssClass="form-control" />
-    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtEmail" ForeColor="Red" ErrorMessage="Required" Display="Dynamic" />
+    <asp:TextBox runat="server" ID="txtEmail" CssClass="form-control" TextMode="Email" />
+    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtEmail" CssClass="text-danger" ErrorMessage="Required" Display="Dynamic" />
 </div>
 <div class="form-group">
     <asp:CheckBox runat="server" ID="chkIsAdmin" /> <asp:Label runat="server" Text="Is an Administrator" AssociatedControlID="chkIsAdmin" CssClass="control-label" /> 

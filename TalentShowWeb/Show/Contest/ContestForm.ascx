@@ -3,23 +3,23 @@
 <div class="form-group">
     <asp:Label runat="server" Text="Contest Name" AssociatedControlID="txtContestName" CssClass="control-label" />
     <asp:TextBox runat="server" ID="txtContestName" CssClass="form-control" />
-    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtContestName" ForeColor="Red" ErrorMessage="Required" Display="Dynamic" />
+    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtContestName" CssClass="text-danger" ErrorMessage="Required" Display="Dynamic" />
 </div>
 <div class="form-group">
     <asp:Label runat="server" Text="Description" AssociatedControlID="txtDescription" CssClass="control-label" />
     <asp:TextBox runat="server" ID="txtDescription" CssClass="form-control" />
-    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDescription" ForeColor="Red" ErrorMessage="Required" Display="Dynamic" />
+    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDescription" CssClass="text-danger" ErrorMessage="Required" Display="Dynamic" />
 </div>
 <div class="form-group">
     <asp:Label runat="server" Text="Maximum Duration in Minutes" AssociatedControlID="txtMaxDuration" CssClass="control-label" />
     <asp:TextBox runat="server" ID="txtMaxDuration" CssClass="form-control" />
-    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtMaxDuration" ForeColor="Red" ErrorMessage="Required" Display="Dynamic" />
-    <asp:RegularExpressionValidator runat="server" ControlToValidate="txtMaxDuration" ForeColor="Red" ErrorMessage="Only Numbers Allowed" ValidationExpression="\d+" Display="Dynamic" />
+    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtMaxDuration" CssClass="text-danger" ErrorMessage="Required" Display="Dynamic" />
+    <asp:RegularExpressionValidator runat="server" ControlToValidate="txtMaxDuration" CssClass="text-danger" ErrorMessage="Only Numbers Allowed" ValidationExpression="\d+" Display="Dynamic" />
 </div>
 <div class="form-group">
     <asp:Label runat="server" Text="Time Keeper" AssociatedControlID="dropDownListTimeKeepers" CssClass="control-label" />
     <asp:DropDownList runat="server" ID="dropDownListTimeKeepers" CssClass="form-control" Width="275" />
-    <asp:RequiredFieldValidator runat="server" ControlToValidate="dropDownListTimeKeepers" ForeColor="Red" ErrorMessage="Required" Display="Dynamic" />
+    <asp:RequiredFieldValidator runat="server" ControlToValidate="dropDownListTimeKeepers" CssClass="text-danger" ErrorMessage="Required" Display="Dynamic" />
 </div>
 <br />
 <div class="form-group">

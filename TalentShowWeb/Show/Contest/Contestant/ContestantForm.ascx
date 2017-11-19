@@ -3,7 +3,7 @@
 <div class="form-group">
     <asp:Label runat="server" Text="Performance Description" AssociatedControlID="txtPerformanceDescription" CssClass="control-label" />
     <asp:TextBox runat="server" ID="txtPerformanceDescription" CssClass="form-control" />
-    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtPerformanceDescription" ForeColor="Red" ErrorMessage="Required" Display="Dynamic" />
+    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtPerformanceDescription" CssClass="text-danger" ErrorMessage="Required" Display="Dynamic" />
 </div>
 <br />
 <div class="form-group">
