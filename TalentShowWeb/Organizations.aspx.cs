@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using TalentShowWeb.CustomControls.Models;
 using TalentShowWeb.CustomControls.Renderers;
+using TalentShowWeb.Models;
 using TalentShowWeb.Utils;
 
 namespace TalentShowWeb
@@ -16,6 +17,12 @@ namespace TalentShowWeb
         {
             RedirectUtil.RedirectUnauthenticatedUserToLoginPage();
             RedirectUtil.RedirectNonAdminUserToHomePage();
+
+            BreadCrumbUtil.DataBind(Page, new List<BreadCrumb>()
+            {
+                new BreadCrumb(NavUtil.GetHomePageUrl(), "Home"),
+                new BreadCrumb(NavUtil.GetOrganizationsPageUrl(), "Organizations", IsActive: true),
+            });
 
             var items = new List<HyperlinkListPanelItem>();
 

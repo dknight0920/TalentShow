@@ -461,6 +461,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BreadCrumb.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Organizations.aspx.cs">
       <DependentUpon>Organizations.aspx</DependentUpon>
@@ -688,6 +689,7 @@
     <Compile Include="User\UserForm.ascx.designer.cs">
       <DependentUpon>UserForm.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Utils\BreadCrumbUtil.cs" />
     <Compile Include="Utils\NavUtil.cs" />
     <Compile Include="Utils\RedirectUtil.cs" />
     <Compile Include="Utils\RepoFactory.cs" />

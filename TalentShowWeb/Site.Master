@@ -49,9 +49,6 @@
                     <a class="navbar-brand" runat="server" href="~/">Talent Show Control Center</a>
                 </div>
                 <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a runat="server" href="~/">Home</a></li>
-                    </ul>
                     <asp:LoginView runat="server" ViewStateMode="Disabled">
                         <AnonymousTemplate>
                             <ul class="nav navbar-nav navbar-right">
@@ -80,6 +77,13 @@
                 </div>
             </div>
         </div>
+        <ol class="breadcrumb">
+            <asp:Repeater runat="server" ID="breadCrumbItems">
+                <ItemTemplate>
+                    <%# Convert.ToBoolean(Eval("IsActive")) ? "<li class=\"active\">" + Eval("Name") + "</li>" : "<li><a href=\"" + ResolveUrl(Convert.ToString(Eval("URL"))) + "\">" + Eval("Name") + "</a></li>" %>
+                </ItemTemplate>
+            </asp:Repeater>
+        </ol>
         <div class="container body-content">
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>

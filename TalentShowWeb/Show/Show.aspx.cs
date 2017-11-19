@@ -10,6 +10,7 @@ using TalentShowDataStorage;
 using TalentShowWeb.Account.Util;
 using TalentShowWeb.CustomControls.Models;
 using TalentShowWeb.CustomControls.Renderers;
+using TalentShowWeb.Models;
 using TalentShowWeb.Utils;
 
 namespace TalentShowWeb.Show
@@ -19,6 +20,13 @@ namespace TalentShowWeb.Show
         protected void Page_Load(object sender, EventArgs e)
         {
             RedirectUtil.RedirectUnauthenticatedUserToLoginPage();
+
+            BreadCrumbUtil.DataBind(Page, new List<BreadCrumb>()
+            {
+                new BreadCrumb(NavUtil.GetHomePageUrl(), "Home"),
+                new BreadCrumb(NavUtil.GetShowsPageUrl(), "Shows"),
+                new BreadCrumb(NavUtil.GetShowPageUrl(GetShowId()), "Show", IsActive: true),
+            });
 
             var items = new List<HyperlinkListPanelItem>();
             var showId = GetShowId();

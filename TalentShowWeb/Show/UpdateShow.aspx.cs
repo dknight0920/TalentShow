@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using TalentShowWeb.Models;
 using TalentShowWeb.Utils;
 
 namespace TalentShowWeb.Show
@@ -14,6 +15,14 @@ namespace TalentShowWeb.Show
         {
             RedirectUtil.RedirectUnauthenticatedUserToLoginPage();
             RedirectUtil.RedirectNonAdminUserToHomePage();
+
+            BreadCrumbUtil.DataBind(Page, new List<BreadCrumb>()
+            {
+                new BreadCrumb(NavUtil.GetHomePageUrl(), "Home"),
+                new BreadCrumb(NavUtil.GetShowsPageUrl(), "Shows"),
+                new BreadCrumb(NavUtil.GetShowPageUrl(GetShowId()), "Show"),
+                new BreadCrumb(NavUtil.GetUpdateShowPageUrl(GetShowId()), "Update Show", IsActive: true),
+            });
 
             labelPageTitle.Text = "Update the Show";
             labelPageDescription.Text = "Use the form below to update the show.";

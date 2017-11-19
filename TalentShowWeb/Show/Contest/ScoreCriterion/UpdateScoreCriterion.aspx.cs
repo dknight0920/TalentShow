@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using TalentShowWeb.Models;
 using TalentShowWeb.Utils;
 
 namespace TalentShowWeb.Show.Contest.ScoreCriterion
@@ -14,6 +15,15 @@ namespace TalentShowWeb.Show.Contest.ScoreCriterion
         {
             RedirectUtil.RedirectUnauthenticatedUserToLoginPage();
             RedirectUtil.RedirectNonAdminUserToHomePage();
+
+            BreadCrumbUtil.DataBind(Page, new List<BreadCrumb>()
+            {
+                new BreadCrumb(NavUtil.GetHomePageUrl(), "Home"),
+                new BreadCrumb(NavUtil.GetShowsPageUrl(), "Shows"),
+                new BreadCrumb(NavUtil.GetShowPageUrl(GetShowId()), "Show"),
+                new BreadCrumb(NavUtil.GetContestPageUrl(GetShowId(), GetContestId()), "Contest"),
+                new BreadCrumb(NavUtil.GetUpdateScoreCriterionPageUrl(GetShowId(), GetContestId(), GetScoreCriterionId()), "Update Score Criterion", IsActive: true),
+            });
 
             labelPageTitle.Text = "Update the Score Criterion";
             labelPageDescription.Text = "Use the form below to update the score criterion.";

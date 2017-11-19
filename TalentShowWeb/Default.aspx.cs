@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using TalentShowWeb.Models;
+using TalentShowWeb.Utils;
 
 namespace TalentShowWeb
 {
@@ -11,7 +13,10 @@ namespace TalentShowWeb
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            BreadCrumbUtil.DataBind(Page, new List<BreadCrumb>()
+            {
+                new BreadCrumb(NavUtil.GetHomePageUrl(), "Home", IsActive: true)
+            });
         }
     }
 }

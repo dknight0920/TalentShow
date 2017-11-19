@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using TalentShow.Services;
 using TalentShowDataStorage;
+using TalentShowWeb.Models;
 using TalentShowWeb.Utils;
 
 namespace TalentShowWeb.Show
@@ -16,6 +17,13 @@ namespace TalentShowWeb.Show
         {
             RedirectUtil.RedirectUnauthenticatedUserToLoginPage();
             RedirectUtil.RedirectNonAdminUserToHomePage();
+
+            BreadCrumbUtil.DataBind(Page, new List<BreadCrumb>()
+            {
+                new BreadCrumb(NavUtil.GetHomePageUrl(), "Home"),
+                new BreadCrumb(NavUtil.GetShowsPageUrl(), "Shows"),
+                new BreadCrumb(NavUtil.GetAddShowPageUrl(), "Add Show", IsActive: true),
+            });
 
             labelPageTitle.Text = "Add a Show";
             labelPageDescription.Text = "Use the form below to create a new show.";

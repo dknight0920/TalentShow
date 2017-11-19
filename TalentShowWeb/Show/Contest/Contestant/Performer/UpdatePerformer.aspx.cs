@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using TalentShowWeb.Models;
 using TalentShowWeb.Utils;
 
 namespace TalentShowWeb.Show.Contest.Contestant.Performer
@@ -14,6 +15,16 @@ namespace TalentShowWeb.Show.Contest.Contestant.Performer
         {
             RedirectUtil.RedirectUnauthenticatedUserToLoginPage();
             RedirectUtil.RedirectNonAdminUserToHomePage();
+
+            BreadCrumbUtil.DataBind(Page, new List<BreadCrumb>()
+            {
+                new BreadCrumb(NavUtil.GetHomePageUrl(), "Home"),
+                new BreadCrumb(NavUtil.GetShowsPageUrl(), "Shows"),
+                new BreadCrumb(NavUtil.GetShowPageUrl(GetShowId()), "Show"),
+                new BreadCrumb(NavUtil.GetContestPageUrl(GetShowId(), GetContestId()), "Contest"),
+                new BreadCrumb(NavUtil.GetContestantPageUrl(GetShowId(), GetContestId(), GetContestantId()), "Contestant"),
+                new BreadCrumb(NavUtil.GetUpdatePerformerPageUrl(GetShowId(), GetContestId(), GetContestantId(), GetPerformerId()), "Update Performer", IsActive: true),
+            });
 
             labelPageTitle.Text = "Update the Performer";
             labelPageDescription.Text = "Use the form below to update the performer.";

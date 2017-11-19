@@ -5,6 +5,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Owin;
 using TalentShowWeb.Models;
+using TalentShowWeb.Utils;
+using System.Collections.Generic;
 
 namespace TalentShowWeb.Account
 {
@@ -12,6 +14,12 @@ namespace TalentShowWeb.Account
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            BreadCrumbUtil.DataBind(Page, new List<BreadCrumb>()
+            {
+                new BreadCrumb(NavUtil.GetHomePageUrl(), "Home"),
+                new BreadCrumb(NavUtil.GetLoginPageUrl(), "Login", IsActive: true),
+            });
+
             RegisterHyperLink.NavigateUrl = "Register";
             // Enable this once you have account confirmation enabled for password reset functionality
             //ForgotPasswordHyperLink.NavigateUrl = "Forgot";

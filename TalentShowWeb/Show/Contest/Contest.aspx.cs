@@ -14,6 +14,7 @@ using TalentShowWeb.Utils;
 using System.Web.Script.Services;
 using System.Web.Services;
 using Microsoft.AspNet.Identity;
+using TalentShowWeb.Models;
 
 namespace TalentShowWeb.Show.Contest
 {
@@ -24,6 +25,14 @@ namespace TalentShowWeb.Show.Contest
         protected void Page_Load(object sender, EventArgs e)
         {
             RedirectUtil.RedirectUnauthenticatedUserToLoginPage();
+
+            BreadCrumbUtil.DataBind(Page, new List<BreadCrumb>()
+            {
+                new BreadCrumb(NavUtil.GetHomePageUrl(), "Home"),
+                new BreadCrumb(NavUtil.GetShowsPageUrl(), "Shows"),
+                new BreadCrumb(NavUtil.GetShowPageUrl(GetShowId()), "Show"),
+                new BreadCrumb(NavUtil.GetContestPageUrl(GetShowId(), GetContestId()), "Contest", IsActive: true),
+            });
 
             var showId = GetShowId();
             var show = ServiceFactory.ShowService.Get(showId);

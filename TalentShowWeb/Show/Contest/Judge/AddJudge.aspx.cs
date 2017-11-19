@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using TalentShowWeb.Account.Util;
+using TalentShowWeb.Models;
 using TalentShowWeb.Utils;
 
 namespace TalentShowWeb.Show.Contest.Judge
@@ -15,6 +16,15 @@ namespace TalentShowWeb.Show.Contest.Judge
         {
             RedirectUtil.RedirectUnauthenticatedUserToLoginPage();
             RedirectUtil.RedirectNonAdminUserToHomePage();
+
+            BreadCrumbUtil.DataBind(Page, new List<BreadCrumb>()
+            {
+                new BreadCrumb(NavUtil.GetHomePageUrl(), "Home"),
+                new BreadCrumb(NavUtil.GetShowsPageUrl(), "Shows"),
+                new BreadCrumb(NavUtil.GetShowPageUrl(GetShowId()), "Show"),
+                new BreadCrumb(NavUtil.GetContestPageUrl(GetShowId(), GetContestId()), "Contest"),
+                new BreadCrumb(NavUtil.GetAddJudgePageUrl(GetShowId(), GetContestId()), "Add Judge", IsActive: true),
+            });
 
             labelPageTitle.Text = "Add a Judge";
             labelPageDescription.Text = "Use the form below to create a new judge.";

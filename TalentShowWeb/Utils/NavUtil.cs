@@ -13,7 +13,7 @@ namespace TalentShowWeb.Utils
             GoToPage(Response, GetAddOrganizationPageUrl());
         }
 
-        private static string GetAddOrganizationPageUrl()
+        internal static string GetAddOrganizationPageUrl()
         {
             return "~/Organization/AddOrganization.aspx";
         }
@@ -28,7 +28,7 @@ namespace TalentShowWeb.Utils
             GoToPage(Response, GetOrganizationsPageUrl());
         }
 
-        private static string GetOrganizationsPageUrl()
+        internal static string GetOrganizationsPageUrl()
         {
             return "~/Organizations.aspx";
         }
@@ -38,7 +38,7 @@ namespace TalentShowWeb.Utils
             GoToPage(Response, GetAddDivisionPageUrl());
         }
 
-        private static string GetAddDivisionPageUrl()
+        internal static string GetAddDivisionPageUrl()
         {
             return "~/Division/AddDivision.aspx";
         }
@@ -48,7 +48,7 @@ namespace TalentShowWeb.Utils
             GoToPage(Response, GetDivisionsPageUrl());
         }
 
-        private static string GetDivisionsPageUrl()
+        internal static string GetDivisionsPageUrl()
         {
             return "~/Divisions.aspx";
         }
@@ -78,7 +78,7 @@ namespace TalentShowWeb.Utils
             GoToPage(Response, GetUsersPageUrl());
         }
 
-        private static string GetUsersPageUrl()
+        internal static string GetUsersPageUrl()
         {
             return "~/Users.aspx";
         }
@@ -220,7 +220,12 @@ namespace TalentShowWeb.Utils
 
         internal static void GoToHomePage(HttpResponse Response)
         {
-            GoToPage(Response, "~");
+            GoToPage(Response, GetHomePageUrl());
+        }
+
+        internal static string GetHomePageUrl()
+        {
+            return "~";
         }
 
         internal static void GoToLoginPageIfNotAuthorized(HttpResponse Response, IPrincipal User)
@@ -231,7 +236,12 @@ namespace TalentShowWeb.Utils
 
         internal static void GoToLoginPage(HttpResponse Response)
         {
-            GoToPage(Response, "~/Account/Login.aspx");
+            GoToPage(Response, GetLoginPageUrl());
+        }
+
+        internal static string GetLoginPageUrl()
+        {
+            return "~/Account/Login.aspx";
         }
 
         private static void GoToPage(HttpResponse Response, string path)
