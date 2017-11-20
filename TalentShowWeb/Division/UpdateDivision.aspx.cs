@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using TalentShowWeb.Models;
 using TalentShowWeb.Utils;
 
 namespace TalentShowWeb.Division
@@ -14,6 +15,13 @@ namespace TalentShowWeb.Division
         {
             RedirectUtil.RedirectUnauthenticatedUserToLoginPage();
             RedirectUtil.RedirectNonAdminUserToHomePage();
+
+            BreadCrumbUtil.DataBind(Page, new List<BreadCrumb>()
+            {
+                new BreadCrumb(NavUtil.GetHomePageUrl(), "Home"),
+                new BreadCrumb(NavUtil.GetDivisionsPageUrl(), "Divisions"),
+                new BreadCrumb(NavUtil.GetUpdateDivisionPageUrl(GetDivisionId()), "Update Division", IsActive: true),
+            });
 
             labelPageTitle.Text = "Update the Division";
             labelPageDescription.Text = "Use the form below to update the division.";

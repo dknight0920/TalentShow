@@ -6,11 +6,22 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Owin;
 using TalentShowWeb.Models;
+using TalentShowWeb.Utils;
+using System.Collections.Generic;
 
 namespace TalentShowWeb.Account
 {
     public partial class Register : Page
     {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            BreadCrumbUtil.DataBind(Page, new List<BreadCrumb>()
+            {
+                new BreadCrumb(NavUtil.GetHomePageUrl(), "Home"),
+                new BreadCrumb(NavUtil.GetRegisterPageUrl(), "Register", IsActive: true),
+            });
+        }
+
         protected void CreateUser_Click(object sender, EventArgs e)
         {
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();

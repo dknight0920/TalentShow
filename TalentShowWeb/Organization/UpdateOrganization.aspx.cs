@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using TalentShowWeb.Models;
 using TalentShowWeb.Utils;
 
 namespace TalentShowWeb.Organization
@@ -14,6 +15,13 @@ namespace TalentShowWeb.Organization
         {
             RedirectUtil.RedirectUnauthenticatedUserToLoginPage();
             RedirectUtil.RedirectNonAdminUserToHomePage();
+
+            BreadCrumbUtil.DataBind(Page, new List<BreadCrumb>()
+            {
+                new BreadCrumb(NavUtil.GetHomePageUrl(), "Home"),
+                new BreadCrumb(NavUtil.GetOrganizationsPageUrl(), "Organizations"),
+                new BreadCrumb(NavUtil.GetUpdateOrganizationPageUrl(GetOrganizationId()), "Update Organization", IsActive: true),
+            });
 
             labelPageTitle.Text = "Update the Organization";
             labelPageDescription.Text = "Use the form below to update the organization.";

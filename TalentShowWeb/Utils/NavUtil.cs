@@ -244,6 +244,11 @@ namespace TalentShowWeb.Utils
             return "~/Account/Login.aspx";
         }
 
+        internal static string GetRegisterPageUrl()
+        {
+            return "~/Account/Register.aspx";
+        }
+
         private static void GoToPage(HttpResponse Response, string path)
         {
             Response.Redirect(path);

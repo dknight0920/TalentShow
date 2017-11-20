@@ -77,14 +77,14 @@
                 </div>
             </div>
         </div>
-        <ol class="breadcrumb">
-            <asp:Repeater runat="server" ID="breadCrumbItems">
-                <ItemTemplate>
-                    <%# Convert.ToBoolean(Eval("IsActive")) ? "<li class=\"active\">" + Eval("Name") + "</li>" : "<li><a href=\"" + ResolveUrl(Convert.ToString(Eval("URL"))) + "\">" + Eval("Name") + "</a></li>" %>
-                </ItemTemplate>
-            </asp:Repeater>
-        </ol>
         <div class="container body-content">
+             <ol class="breadcrumb" style="background-color: #ffffff;">
+                <asp:Repeater runat="server" ID="breadCrumbItems">
+                    <ItemTemplate>
+                        <%# Convert.ToBoolean(Eval("IsActive")) ? "<li class=\"active\">" + Eval("Name") + "</li>" : "<li><a href=\"" + ResolveUrl(Convert.ToString(Eval("URL"))) + "\">" + Eval("Name") + "</a></li>" %>
+                    </ItemTemplate>
+                </asp:Repeater>
+            </ol>
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
             <hr />
