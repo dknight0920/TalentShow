@@ -23,13 +23,14 @@ namespace TalentShowWeb.Show
             {
                 new BreadCrumb(NavUtil.GetHomePageUrl(), "Home"),
                 new BreadCrumb(NavUtil.GetShowsPageUrl(), "Shows"),
+                new BreadCrumb(NavUtil.GetShowPageUrl(GetShowId()), "Show"),
                 new BreadCrumb(NavUtil.GetShowReportPageUrl(GetShowId()), "Report", IsActive: true),
             });
 
             var showId = GetShowId();
             var show = ServiceFactory.ShowService.Get(showId);
 
-            labelPageTitle.Text = "Report: " + show.Name;
+            labelPageTitle.Text = show.Name;
             labelPageDescription.Text = show.Description;
 
             this.contests = ServiceFactory.ContestService.GetShowContests(showId);
@@ -53,6 +54,7 @@ namespace TalentShowWeb.Show
             var penaltyPoints = totalScore - finalScore;
 
             return new ReportContestant(
+                ContestantId: contestant.Id,
                 Name: GetContestantName(contestant.Id), 
                 PerformanceDescription: contestant.Performance.Description, 
                 PerformanceDuration: contestant.Performance.Duration, 
@@ -62,6 +64,11 @@ namespace TalentShowWeb.Show
                 NumberOfScoreCards: scoreCards.Count,
                 NumberOfJudges: contest.Judges.Count
             );
+        }
+
+        protected string GetContestantURL(int contestantId, TalentShow.Contest contest)
+        {
+            return NavUtil.GetContestantPageUrl(GetShowId(), contest.Id, contestantId);
         }
 
         private string GetContestantName(int contestantId)

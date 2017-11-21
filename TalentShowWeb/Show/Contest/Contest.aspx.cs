@@ -40,7 +40,7 @@ namespace TalentShowWeb.Show.Contest
             var contestId = GetContestId();
             this.contest = ServiceFactory.ContestService.Get(contestId);
 
-            labelPageTitle.Text = "Contest: " + contest.Name;
+            labelPageTitle.Text = contest.Name;
             labelPageDescription.Text = contest.Description;
 
             if (IsAllowedToViewContestantsList())

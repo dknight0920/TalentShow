@@ -7,6 +7,7 @@ namespace TalentShowWeb.Models
 {
     public class ReportContestant
     {
+        public int ContestantId { get; private set; }
         public string Name { get; private set; }
         public string PerformanceDescription { get; private set; }
         public TimeSpan PerformanceDuration { get; private set; }
@@ -16,9 +17,10 @@ namespace TalentShowWeb.Models
         public double NumberOfScoreCards { get; private set; }
         public double NumberOfJudges { get; private set; }
 
-        public ReportContestant(string Name, string PerformanceDescription, TimeSpan PerformanceDuration, 
+        public ReportContestant(int ContestantId, string Name, string PerformanceDescription, TimeSpan PerformanceDuration, 
             double TotalScore, double PenaltyPoints, double FinalScore, double NumberOfScoreCards, double NumberOfJudges)
         {
+            this.ContestantId = ContestantId;
             this.Name = Name;
             this.PerformanceDescription = PerformanceDescription;
             this.PerformanceDuration = PerformanceDuration;

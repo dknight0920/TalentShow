@@ -95,8 +95,8 @@ namespace TalentShowWeb.Show.Contest
                 text += (!isFirst ? ", " : "") + performer.Name.FirstName + " " + performer.Name.LastName;
                 isFirst = false;
             }
-
-            return text;
+            
+            return text.Length > 25 ? text.Substring(0, 25) + " ..." : text;
         }
     }
 }

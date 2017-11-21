@@ -1,12 +1,12 @@
 ﻿<%@ Page Title="Report" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Report.aspx.cs" Inherits="TalentShowWeb.Show.Report" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-    <h2><asp:Label runat="server" ID="labelPageTitle" /></h2>
+    <h2><small>Show:</small> <asp:Label runat="server" ID="labelPageTitle" /></h2>
     <p><asp:Label runat="server" ID="labelPageDescription" /></p>
     <hr />
     <%  foreach (var contest in contests)
         { %>
-            <h2><%= contest.Name %></h2>
+            <h2><small>Contest:</small> <%= contest.Name %></h2>
             <table class="table table-bordered table-condensed table-striped">
                 <thead>
                     <tr>
@@ -16,22 +16,22 @@
                         <th>
                             Performance Description
                         </th>
-                        <th>
+                        <th class="text-right">
                             Performance Duration
                         </th>
-                        <th>
+                        <th class="text-right">
                             Total Score
                         </th>
-                        <th>
+                        <th class="text-right">
                             Penalty Points
                         </th>
-                        <th>
+                        <th class="text-right">
                             Final Score
                         </th>
-                        <th>
+                        <th class="text-right">
                             Number of Score Cards
                         </th>
-                        <th>
+                        <th class="text-right">
                             Number of Judges
                         </th>
                     </tr>
@@ -40,28 +40,30 @@
                     <%  foreach (var contestant in GetReportContestants(contest))
                         { %>
                             <tr <%= (contestant.NumberOfJudges > contestant.NumberOfScoreCards ? "class=\"warning\"" : "") %>>
-                                <td>
-                                    <% Response.Write(contestant.Name); %>
+                                <td style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+                                    <a href="<% Response.Write(Page.ResolveUrl(GetContestantURL(contestant.ContestantId, contest))); %>">
+                                        <% Response.Write(contestant.Name.Length > 25 ? contestant.Name.Substring(0, 25) + " ..." : contestant.Name); %>
+                                    </a>  
                                 </td>
                                 <td>
-                                    <% Response.Write(contestant.PerformanceDescription); %>
+                                    <% Response.Write(contestant.PerformanceDescription.Length > 25 ? contestant.PerformanceDescription.Substring(0, 25) + " ..." : contestant.PerformanceDescription); %>
                                 </td>
-                                <td>
+                                <td class="text-right">
                                     <% Response.Write(contestant.PerformanceDuration.Hours.ToString("00") + ":" + contestant.PerformanceDuration.Minutes.ToString("00") + ":" + contestant.PerformanceDuration.Seconds.ToString("00")); %>
                                 </td>
-                                <td>
+                                <td class="text-right">
                                     <% Response.Write(contestant.TotalScore); %>
                                 </td>
-                                <td>
+                                <td class="text-right">
                                     <% Response.Write(contestant.PenaltyPoints); %>
                                 </td>
-                                <td>
+                                <td class="text-right">
                                     <% Response.Write(contestant.FinalScore); %>
                                 </td>
-                                <td>
+                                <td class="text-right">
                                     <% Response.Write(contestant.NumberOfScoreCards); %>
                                 </td>
-                                <td>
+                                <td class="text-right">
                                     <% Response.Write(contestant.NumberOfJudges); %>
                                 </td>
                             </tr>

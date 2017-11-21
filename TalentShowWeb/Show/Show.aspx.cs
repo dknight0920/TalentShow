@@ -32,7 +32,7 @@ namespace TalentShowWeb.Show
             var showId = GetShowId();
             var show = ServiceFactory.ShowService.Get(showId);
 
-            labelPageTitle.Text = "Show: " + show.Name;
+            labelPageTitle.Text = show.Name;
             labelPageDescription.Text = show.Description;
 
             var contests = ServiceFactory.ContestService.GetShowContests(showId);
@@ -68,6 +68,11 @@ namespace TalentShowWeb.Show
         {
             ServiceFactory.ShowService.Delete(GetShowId());
             NavUtil.GoToShowsPage(Response);
+        }
+
+        protected void btnViewReport_Click(object sender, EventArgs e)
+        {
+            NavUtil.GoToShowReportPage(Response, GetShowId());
         }
 
         private int GetShowId()

@@ -43,7 +43,7 @@ namespace TalentShowWeb.Show.Contest.Contestant
             this.scoreCards = ServiceFactory.ScoreCardService.GetContestantScoreCards(contestantId);
             var performers = ServiceFactory.PerformerService.GetContestantPerformers(contestantId);
 
-            labelPageTitle.Text = "Contestant: " + GetContestantHeadingText(performers);
+            labelPageTitle.Text = GetContestantHeadingText(performers);
             labelPageDescription.Text = GetContestantDescriptionText(contestant);
 
             if (!IsUserAnAdmin()) return;

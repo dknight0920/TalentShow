@@ -3,7 +3,7 @@
 <%@ Register TagPrefix="custom" TagName="ScoreForm" Src="~/Show/Contest/ScoreForm.ascx" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-    <h2><asp:Label runat="server" ID="labelPageTitle" /></h2>
+    <h2><small>Contest:</small> <asp:Label runat="server" ID="labelPageTitle" /></h2>
     <p><asp:Label runat="server" ID="labelPageDescription" /></p>
     <% if (IsUserAnAdmin())
         { %>
