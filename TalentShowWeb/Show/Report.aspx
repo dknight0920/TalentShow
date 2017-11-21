@@ -39,7 +39,7 @@
                 <tbody>
                     <%  foreach (var contestant in GetReportContestants(contest))
                         { %>
-                            <tr <%= (contestant.NumberOfJudges > contestant.NumberOfScoreCards ? "class=\"warning\"" : "") %>>
+                            <tr>
                                 <td style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
                                     <a href="<% Response.Write(Page.ResolveUrl(GetContestantURL(contestant.ContestantId, contest))); %>">
                                         <% Response.Write(contestant.Name.Length > 25 ? contestant.Name.Substring(0, 25) + " ..." : contestant.Name); %>
@@ -48,7 +48,7 @@
                                 <td>
                                     <% Response.Write(contestant.PerformanceDescription.Length > 25 ? contestant.PerformanceDescription.Substring(0, 25) + " ..." : contestant.PerformanceDescription); %>
                                 </td>
-                                <td class="text-right">
+                                <td class="text-right <%= (contestant.PerformanceDuration.TotalMilliseconds == 0 ? " warning" : "") %>">
                                     <% Response.Write(contestant.PerformanceDuration.Hours.ToString("00") + ":" + contestant.PerformanceDuration.Minutes.ToString("00") + ":" + contestant.PerformanceDuration.Seconds.ToString("00")); %>
                                 </td>
                                 <td class="text-right">
@@ -60,7 +60,7 @@
                                 <td class="text-right">
                                     <% Response.Write(contestant.FinalScore); %>
                                 </td>
-                                <td class="text-right">
+                                <td class="text-right <%= (contestant.NumberOfJudges > contestant.NumberOfScoreCards ? " warning" : "") %>">
                                     <% Response.Write(contestant.NumberOfScoreCards); %>
                                 </td>
                                 <td class="text-right">
