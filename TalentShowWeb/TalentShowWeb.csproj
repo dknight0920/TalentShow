@@ -222,6 +222,7 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Images\JudgeSheetHeader.png" />
     <Content Include="Images\logo.png" />
     <Content Include="Organizations.aspx" />
     <Content Include="Organization\AddOrganization.aspx" />
@@ -280,6 +281,7 @@
     <Content Include="Show\Contest\ScoreCriterion\UpdateScoreCriterion.aspx" />
     <Content Include="Show\Contest\ScoreForm.ascx" />
     <Content Include="Show\Contest\UpdateContest.aspx" />
+    <Content Include="Show\JudgeSheetReport.aspx" />
     <Content Include="Show\Report.aspx" />
     <Content Include="Show\Show.aspx" />
     <Content Include="Show\Contest\Contest.aspx" />
@@ -464,6 +466,7 @@
     </Compile>
     <Compile Include="Models\BreadCrumb.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\JudgeSheetReportContestantScoreCard.cs" />
     <Compile Include="Models\ReportContestant.cs" />
     <Compile Include="Organizations.aspx.cs">
       <DependentUpon>Organizations.aspx</DependentUpon>
@@ -626,6 +629,13 @@
     </Compile>
     <Compile Include="Show\Contest\UpdateContest.aspx.designer.cs">
       <DependentUpon>UpdateContest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Show\JudgeSheetReport.aspx.cs">
+      <DependentUpon>JudgeSheetReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Show\JudgeSheetReport.aspx.designer.cs">
+      <DependentUpon>JudgeSheetReport.aspx</DependentUpon>
     </Compile>
     <Compile Include="Show\Report.aspx.cs">
       <DependentUpon>Report.aspx</DependentUpon>

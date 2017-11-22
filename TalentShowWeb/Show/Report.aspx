@@ -31,9 +31,6 @@
                         <th class="text-right">
                             Number of Score Cards
                         </th>
-                        <th class="text-right">
-                            Number of Judges
-                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,10 +58,7 @@
                                     <% Response.Write(contestant.FinalScore); %>
                                 </td>
                                 <td class="text-right <%= (contestant.NumberOfJudges > contestant.NumberOfScoreCards ? " warning" : "") %>">
-                                    <% Response.Write(contestant.NumberOfScoreCards); %>
-                                </td>
-                                <td class="text-right">
-                                    <% Response.Write(contestant.NumberOfJudges); %>
+                                    <% Response.Write(contestant.NumberOfScoreCards); %> of <% Response.Write(contestant.NumberOfJudges); %>
                                 </td>
                             </tr>
                     <%  } %>
