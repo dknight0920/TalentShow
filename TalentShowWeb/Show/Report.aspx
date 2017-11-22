@@ -6,6 +6,7 @@
     <hr />
     <%  foreach (var contest in contests)
         { %>
+            <p style='overflow:hidden;page-break-before:always;'></p>
             <h2><small>Contest:</small> <%= contest.Name %></h2>
             <table class="table table-bordered table-condensed table-striped">
                 <thead>
@@ -65,4 +66,5 @@
                 </tbody>
             </table>
     <%  } %>
+    <p style='overflow:hidden;page-break-before:always;'></p>
 </asp:Content>
