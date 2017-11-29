@@ -115,7 +115,7 @@ namespace TalentShow.Services
             if (contestant.Performance.Duration > maxDuration)
                 penaltyPoints = Convert.ToInt32(Math.Floor((contestant.Performance.Duration - maxDuration).TotalSeconds));
 
-            double totalScore = 0 - penaltyPoints;
+            double totalScore = 0 - (penaltyPoints + contestant.RuleViolationPenalty);
 
             foreach (var scoreCard in scoreCards)
                 totalScore += scoreCard.TotalScore;

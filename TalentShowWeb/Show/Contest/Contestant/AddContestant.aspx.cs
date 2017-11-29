@@ -32,6 +32,11 @@ namespace TalentShowWeb.Show.Contest.Contestant
             contestantForm.GetCancelButton().Click += new EventHandler(btnCancel_Click);
         }
 
+        protected void Page_PreRender(object sender, EventArgs e)
+        {
+            contestantForm.GetRuleViolationPenaltyPointsTextBox().Text = Convert.ToString(0);
+        }
+
         protected void btnAddContestant_Click(object sender, EventArgs e)
         {
             if (!Page.IsValid)
@@ -41,7 +46,8 @@ namespace TalentShowWeb.Show.Contest.Contestant
             }
 
             var performanceDescription = contestantForm.GetPerformanceDescriptionTextBox().Text.Trim();
-            var contestant = new TalentShow.Contestant(0, new TalentShow.Performance(0, performanceDescription, new TimeSpan(0)));
+            var ruleViolationPenaltyPoints = Convert.ToDouble(contestantForm.GetRuleViolationPenaltyPointsTextBox().Text.Trim());
+            var contestant = new TalentShow.Contestant(0, new TalentShow.Performance(0, performanceDescription, new TimeSpan(0)), ruleViolationPenaltyPoints);
             ServiceFactory.ContestantService.AddContestContestant(GetContestId(), contestant);
             GoToContestPage();
         }

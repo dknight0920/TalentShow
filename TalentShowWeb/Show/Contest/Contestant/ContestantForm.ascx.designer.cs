@@ -22,6 +22,15 @@ namespace TalentShowWeb.Show.Contest.Contestant {
         protected global::System.Web.UI.WebControls.TextBox txtPerformanceDescription;
         
         /// <summary>
+        /// txtRuleViolationPenaltyPoints control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtRuleViolationPenaltyPoints;
+        
+        /// <summary>
         /// btnSubmit control.
         /// </summary>
         /// <remarks>

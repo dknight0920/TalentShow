@@ -38,6 +38,7 @@ namespace TalentShowWeb.Show.Contest.Contestant
             var contestantService = ServiceFactory.ContestantService;
             var contestant = contestantService.Get(GetContestantId());
             contestantForm.GetPerformanceDescriptionTextBox().Text = contestant.Performance.Description;
+            contestantForm.GetRuleViolationPenaltyPointsTextBox().Text = Convert.ToString(contestant.RuleViolationPenalty);
         }
 
         protected void btnUpdateContestant_Click(object sender, EventArgs e)
@@ -51,11 +52,11 @@ namespace TalentShowWeb.Show.Contest.Contestant
             var contestantService = ServiceFactory.ContestantService;
             var contestant = contestantService.Get(GetContestantId());
             var performanceDescription = contestantForm.GetPerformanceDescriptionTextBox().Text.Trim();
-
+            var ruleViolationPenaltyPoints = Convert.ToDouble(contestantForm.GetRuleViolationPenaltyPointsTextBox().Text.Trim());
             var updatedContestant = new TalentShow.Contestant(
                 GetContestantId(), 
                 new TalentShow.Performance(
-                    contestant.Performance.Id, performanceDescription, contestant.Performance.Duration));
+                    contestant.Performance.Id, performanceDescription, contestant.Performance.Duration), ruleViolationPenaltyPoints);
 
             contestantService.Update(updatedContestant);
             GoToContestantPage();

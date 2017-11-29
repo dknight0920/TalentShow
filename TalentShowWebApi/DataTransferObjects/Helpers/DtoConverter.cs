@@ -22,7 +22,7 @@ namespace TalentShowWebApi.DataTransferObjects.Helpers
 
         public static Contestant ConvertFromDto(this ContestantDto contestantDto)
         {
-            return new Contestant(contestantDto.Id, ConvertFromDto(contestantDto.Performance));
+            return new Contestant(contestantDto.Id, ConvertFromDto(contestantDto.Performance), ruleViolationPenalty: 0);
         }
 
         public static ICollection<Performer> ConvertFromDto(this ICollection<PerformerDto> performersDto)

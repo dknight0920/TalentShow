@@ -12,21 +12,23 @@ namespace TalentShow
     {
         public int Id { get; private set; }
         public Performance Performance { get; private set; }
-        
-        public Contestant(int id, Performance performance)
+        public double RuleViolationPenalty { get; private set; }
+
+        public Contestant(int id, Performance performance, double ruleViolationPenalty)
         {
-            Init(id, performance);
+            Init(id, performance, ruleViolationPenalty);
         }
 
-        public Contestant(Performance performance)
+        public Contestant(Performance performance, double ruleViolationPenalty)
         {
-            Init(0, performance);
+            Init(0, performance, ruleViolationPenalty);
         }
 
-        private void Init(int id, Performance performance)
+        private void Init(int id, Performance performance, double ruleViolationPenalty)
         {
             Id = id;
             Performance = performance;
+            RuleViolationPenalty = ruleViolationPenalty;
         }
 
         public void SetId(int id)
