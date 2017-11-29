@@ -3,6 +3,20 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2><small>Show:</small> <asp:Label runat="server" ID="labelPageTitle" /></h2>
     <p><asp:Label runat="server" ID="labelPageDescription" /></p>
+    <div class="form-group">
+        <asp:Label runat="server" Text="Refresh every" AssociatedControlID="dropDownListRefreshRate" CssClass="control-label" />
+        <asp:DropDownList runat="server" AutoPostBack="true" ID="dropDownListRefreshRate" CssClass="form-control" Width="275" >
+            <asp:ListItem Value="2"> 2 Minutes </asp:ListItem>
+            <asp:ListItem Value="5"> 5 Minutes </asp:ListItem>
+            <asp:ListItem Value="10"> 10 Minutes </asp:ListItem>
+            <asp:ListItem Value="15"> 15 Minutes </asp:ListItem>
+            <asp:ListItem Value="30"> 30 Minutes </asp:ListItem>
+            <asp:ListItem Value="45"> 45 Minutes </asp:ListItem>
+            <asp:ListItem Value="60"> 1 hour </asp:ListItem>
+            <asp:ListItem Value="120"> 2 hours </asp:ListItem>
+        </asp:DropDownList>
+        <asp:Timer runat="server" ID="refreshTimer" />
+    </div>
     <hr />
     <%  foreach (var contest in contests)
         { %>

@@ -27,6 +27,20 @@ namespace TalentShowWeb.Show
                 new BreadCrumb(NavUtil.GetShowReportPageUrl(GetShowId()), "Report", IsActive: true),
             });
 
+            if (Page.IsPostBack)
+            {
+                var refreshRate = (Convert.ToInt32(dropDownListRefreshRate.SelectedValue) * 60) * 1000;
+                refreshTimer.Interval = refreshRate;
+            }
+            else
+            {
+                dropDownListRefreshRate.SelectedValue = "5";
+                refreshTimer.Interval = 300000;
+            }
+
+            //var refreshRate = Convert.ToString(Convert.ToInt32(dropDownListRefreshRate.SelectedValue) * 60);
+            //Response.AppendHeader("Refresh", refreshRate);
+
             var showId = GetShowId();
             var show = ServiceFactory.ShowService.Get(showId);
 
