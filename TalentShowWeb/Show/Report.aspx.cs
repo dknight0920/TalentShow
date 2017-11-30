@@ -38,9 +38,6 @@ namespace TalentShowWeb.Show
                 refreshTimer.Interval = 300000;
             }
 
-            //var refreshRate = Convert.ToString(Convert.ToInt32(dropDownListRefreshRate.SelectedValue) * 60);
-            //Response.AppendHeader("Refresh", refreshRate);
-
             var showId = GetShowId();
             var show = ServiceFactory.ShowService.Get(showId);
 
@@ -66,15 +63,23 @@ namespace TalentShowWeb.Show
             var totalScore = scoreCards.Sum(s => s.TotalScore);
             var finalScore = ServiceFactory.ScoreCardService.GetContestantTotalScore(contestant, contest.MaxDuration);
             var penaltyPoints = totalScore - finalScore;
+            double lowestScore = 0;
+
+            var lowestScoreCard = scoreCards.OrderBy(s => s.TotalScore).FirstOrDefault();
+
+            if (lowestScoreCard != null)
+                lowestScore = lowestScoreCard.TotalScore;
 
             return new ReportContestant(
                 ContestantId: contestant.Id,
-                Name: GetContestantName(contestant.Id), 
-                PerformanceDescription: contestant.Performance.Description, 
-                PerformanceDuration: contestant.Performance.Duration, 
-                TotalScore: totalScore, 
-                PenaltyPoints: penaltyPoints, 
-                FinalScore: finalScore, 
+                Name: GetContestantName(contestant.Id),
+                PerformanceDescription: contestant.Performance.Description,
+                PerformanceDuration: contestant.Performance.Duration,
+                TotalScore: totalScore,
+                PenaltyPoints: penaltyPoints,
+                FinalScore: finalScore,
+                LowestScore: lowestScore,
+                SumOfTopScores: totalScore - lowestScore,
                 NumberOfScoreCards: scoreCards.Count,
                 NumberOfJudges: contest.Judges.Count
             );

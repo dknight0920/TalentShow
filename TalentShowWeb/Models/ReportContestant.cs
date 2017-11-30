@@ -14,11 +14,13 @@ namespace TalentShowWeb.Models
         public double TotalScore { get; private set; }
         public double PenaltyPoints { get; private set; }
         public double FinalScore { get; private set; }
+        public double LowestScore { get; private set; }
+        public double SumOfTopScores { get; private set; }
         public double NumberOfScoreCards { get; private set; }
         public double NumberOfJudges { get; private set; }
 
         public ReportContestant(int ContestantId, string Name, string PerformanceDescription, TimeSpan PerformanceDuration, 
-            double TotalScore, double PenaltyPoints, double FinalScore, double NumberOfScoreCards, double NumberOfJudges)
+            double TotalScore, double PenaltyPoints, double FinalScore, double LowestScore, double SumOfTopScores, double NumberOfScoreCards, double NumberOfJudges)
         {
             this.ContestantId = ContestantId;
             this.Name = Name;
@@ -27,6 +29,8 @@ namespace TalentShowWeb.Models
             this.TotalScore = TotalScore;
             this.PenaltyPoints = PenaltyPoints;
             this.FinalScore = FinalScore;
+            this.LowestScore = LowestScore;
+            this.SumOfTopScores = SumOfTopScores;
             this.NumberOfScoreCards = NumberOfScoreCards;
             this.NumberOfJudges = NumberOfJudges;
 

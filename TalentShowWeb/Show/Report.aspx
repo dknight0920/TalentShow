@@ -46,6 +46,12 @@
                         <th class="text-right">
                             Number of Score Cards
                         </th>
+                        <th class="text-right">
+                            Lowest Score
+                        </th>
+                        <th class="text-right">
+                            Sum of Top Scores
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -74,6 +80,12 @@
                                 </td>
                                 <td class="text-right <%= (contestant.NumberOfJudges > contestant.NumberOfScoreCards ? " warning" : "") %>">
                                     <% Response.Write(contestant.NumberOfScoreCards); %> of <% Response.Write(contestant.NumberOfJudges); %>
+                                </td>
+                                <td class="text-right">
+                                    <% Response.Write(contestant.LowestScore); %>
+                                </td>
+                                <td class="text-right">
+                                    <% Response.Write(contestant.SumOfTopScores); %>
                                 </td>
                             </tr>
                     <%  } %>
