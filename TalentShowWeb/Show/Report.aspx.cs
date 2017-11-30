@@ -45,6 +45,11 @@ namespace TalentShowWeb.Show
             labelPageDescription.Text = show.Description;
 
             this.contests = ServiceFactory.ContestService.GetShowContests(showId);
+
+            var status = dropDownListStatus.SelectedValue;
+
+            if (status != "Any")
+                this.contests = this.contests.Where(c => c.Status == status);
         }
 
         protected IEnumerable<ReportContestant> GetReportContestants(TalentShow.Contest contest)

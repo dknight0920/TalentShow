@@ -34,6 +34,11 @@ namespace TalentShowWeb.Show.Contest
             return dropDownListTimeKeepers;
         }
 
+        public DropDownList GetStatusDropDownList()
+        {
+            return dropDownListStatus;
+        }
+
         public Button GetSubmitButton()
         {
             return btnSubmit;

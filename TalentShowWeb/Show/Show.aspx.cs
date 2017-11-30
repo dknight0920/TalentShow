@@ -40,7 +40,7 @@ namespace TalentShowWeb.Show
             if (!IsUserAnAdmin())
             {
                 var currentUserId = Context.User.Identity.GetUserId();
-                contests = contests.Where(c => c.Judges.Any(j => j.UserId == currentUserId) || c.TimeKeeperId == currentUserId).ToList();
+                contests = contests.Where(c => (c.Judges.Any(j => j.UserId == currentUserId) || c.TimeKeeperId == currentUserId) && c.Status == "In Progress").ToList();
             }
 
             foreach (var contest in contests)

@@ -15,6 +15,7 @@ namespace TalentShowDataStorage
         private const string TIME_KEEPER_ID = "timekeeperid";
         private const string MAX_DURATION = "maxduration";
         private const string DESCRIPTION = "description";
+        private const string STATUS = "status";
         private const string CONTESTS = "contests";
 
         protected override string GetTableName()
@@ -70,6 +71,7 @@ namespace TalentShowDataStorage
             fieldNamesAndValues.Add(TIME_KEEPER_ID, contest.TimeKeeperId);
             fieldNamesAndValues.Add(MAX_DURATION, contest.MaxDuration.Ticks);
             fieldNamesAndValues.Add(DESCRIPTION, contest.Description);
+            fieldNamesAndValues.Add(STATUS, contest.Status);
             return fieldNamesAndValues;
         }
 
@@ -81,8 +83,9 @@ namespace TalentShowDataStorage
             long? maxDurationTicks = reader.GetColumnValue(MAX_DURATION) as long?;
             TimeSpan maxDuration = new TimeSpan((maxDurationTicks ?? 0));
             string description = reader.GetColumnValue(DESCRIPTION).ToString();
+            string status = reader.GetColumnValue(STATUS).ToString();
 
-            Contest contest = new Contest(id, name, description, timeKeeperId, maxDuration);
+            Contest contest = new Contest(id, name, description, timeKeeperId, maxDuration, status);
 
             var contestContestantCollection = new ContestContestantRepo().GetAll().Where(cc => cc.ContestId == contest.Id);
             var contestantRepo = new ContestantRepo();
@@ -125,7 +128,7 @@ namespace TalentShowDataStorage
 
         protected override ICollection<string> GetFieldNamesForSelectStatement()
         {
-            return new List<string>() { ID, NAME, TIME_KEEPER_ID, DESCRIPTION, MAX_DURATION };
+            return new List<string>() { ID, NAME, TIME_KEEPER_ID, DESCRIPTION, MAX_DURATION, STATUS };
         }
     }
 }

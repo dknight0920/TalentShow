@@ -19,23 +19,24 @@ namespace TalentShow
         public ICollection<ScoreCard> ScoreCards { get; private set; }
         public string TimeKeeperId { get; set; }
         public TimeSpan MaxDuration { get; set; }
+        public string Status { get; set; }
 
-        public Contest(int id, string name, string description, string timeKeeperId, TimeSpan maxDuration)
+        public Contest(int id, string name, string description, string timeKeeperId, TimeSpan maxDuration, string status)
         {
-            Init(id, name, timeKeeperId, maxDuration, description);
+            Init(id, name, timeKeeperId, maxDuration, status, description);
         }
 
-        public Contest(int id, string name, string timeKeeperId, TimeSpan maxDuration)
+        public Contest(int id, string name, string timeKeeperId, TimeSpan maxDuration, string status)
         {
-            Init(id, name, timeKeeperId, maxDuration);
+            Init(id, name, timeKeeperId, maxDuration, status);
         }
 
-        public Contest(string name, string timeKeeperId, TimeSpan maxDuration)
+        public Contest(string name, string timeKeeperId, TimeSpan maxDuration, string status)
         {
-            Init(0, name, timeKeeperId, maxDuration);
+            Init(0, name, timeKeeperId, maxDuration, status);
         }
 
-        private void Init(int id, string name, string timeKeeperId, TimeSpan maxDuration, string description = null)
+        private void Init(int id, string name, string timeKeeperId, TimeSpan maxDuration, string status, string description = null)
         {
             if (String.IsNullOrWhiteSpace(name))
                 throw new ApplicationException("A contest cannot be constructed without a name.");
@@ -45,6 +46,7 @@ namespace TalentShow
             TimeKeeperId = timeKeeperId;
             MaxDuration = maxDuration;
             Description = description;
+            Status = status;
             Contestants = new List<Contestant>();
             Judges = new List<Judge>();
             ScoreCriteria = new List<ScoreCriterion>();

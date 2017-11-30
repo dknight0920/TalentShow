@@ -10,7 +10,7 @@ namespace TalentShow.Tests
         {
             string name = "Dance";
             var maxDuration = new TimeSpan(0, 5, 0);
-            Contest contest = new Contest(name , timeKeeperId: "123", maxDuration: maxDuration);
+            Contest contest = new Contest(name , timeKeeperId: "123", maxDuration: maxDuration, status: "Pending");
         }
     }
 }

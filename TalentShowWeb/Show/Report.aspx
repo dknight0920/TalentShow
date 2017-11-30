@@ -17,11 +17,20 @@
         </asp:DropDownList>
         <asp:Timer runat="server" ID="refreshTimer" />
     </div>
+    <div class="form-group">
+        <asp:Label runat="server" Text="View Contests in Status" AssociatedControlID="dropDownListStatus" CssClass="control-label" />
+        <asp:DropDownList runat="server" AutoPostBack="true" ID="dropDownListStatus" CssClass="form-control" Width="275" >
+            <asp:ListItem Value="Any"> Any </asp:ListItem>
+            <asp:ListItem Value="Pending"> Pending </asp:ListItem>
+            <asp:ListItem Value="In Progress"> In Progress </asp:ListItem>
+            <asp:ListItem Value="Complete"> Complete </asp:ListItem>
+        </asp:DropDownList>
+    </div>
     <hr />
     <%  foreach (var contest in contests)
         { %>
             <p style='overflow:hidden;page-break-before:always;'></p>
-            <h2><small>Contest:</small> <%= contest.Name %></h2>
+            <h2><small>Contest:</small> <%= contest.Name %> (<%= contest.Status %>)</h2>
             <table class="table table-bordered table-condensed table-striped">
                 <thead>
                     <tr>

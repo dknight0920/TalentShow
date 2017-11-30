@@ -21,6 +21,15 @@
     <asp:DropDownList runat="server" ID="dropDownListTimeKeepers" CssClass="form-control" Width="275" />
     <asp:RequiredFieldValidator runat="server" ControlToValidate="dropDownListTimeKeepers" CssClass="text-danger" ErrorMessage="Required" Display="Dynamic" />
 </div>
+<div class="form-group">
+    <asp:Label runat="server" Text="Status" AssociatedControlID="dropDownListStatus" CssClass="control-label" />
+    <asp:DropDownList runat="server" ID="dropDownListStatus" CssClass="form-control" Width="275" >
+        <asp:ListItem Value="Pending"> Pending </asp:ListItem>
+        <asp:ListItem Value="In Progress"> In Progress </asp:ListItem>
+        <asp:ListItem Value="Complete"> Complete </asp:ListItem>
+    </asp:DropDownList>
+    <asp:RequiredFieldValidator runat="server" ControlToValidate="dropDownListStatus" CssClass="text-danger" ErrorMessage="Required" Display="Dynamic" />
+</div>
 <br />
 <div class="form-group">
     <asp:Button runat="server" ID="btnSubmit" Text="Submit"  CausesValidation="true" CssClass="btn btn-primary" />

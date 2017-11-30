@@ -22,8 +22,8 @@ namespace TalentShow.Tests
             string name = "Talent Show 2017";
             Show show = new Show(name);
 
-            Contest danceContest = new Contest("Dance", timeKeeperId: "123", maxDuration: new TimeSpan(0, 5, 0));
-            Contest vocalContest = new Contest("Vocal", timeKeeperId: "123", maxDuration: new TimeSpan(0, 5, 0));
+            Contest danceContest = new Contest("Dance", timeKeeperId: "123", maxDuration: new TimeSpan(0, 5, 0), status: "Pending");
+            Contest vocalContest = new Contest("Vocal", timeKeeperId: "123", maxDuration: new TimeSpan(0, 5, 0), status: "Pending");
 
             //show.Contests.Add(danceContest);
 

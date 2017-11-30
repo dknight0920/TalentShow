@@ -60,7 +60,8 @@ namespace TalentShowWeb.Show.Contest
             var description = contestForm.GetDescriptionTextBox().Text.Trim();
             var timeKeeper = contestForm.GetTimeKeepersDropDownList().SelectedValue.Trim();
             var maxDuration = new TimeSpan(0, Convert.ToInt32(contestForm.GetMaxDurationTextBox().Text.Trim()), 0);
-            var contest = new TalentShow.Contest(0, contestName, description, timeKeeper, maxDuration);
+            var status = contestForm.GetStatusDropDownList().SelectedValue.Trim();
+            var contest = new TalentShow.Contest(0, contestName, description, timeKeeper, maxDuration, status);
             ServiceFactory.ContestService.AddShowContest(GetShowId(), contest);
             GoToShowPage();
         }
