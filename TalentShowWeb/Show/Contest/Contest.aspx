@@ -13,7 +13,7 @@
             </div>
     <% } %>
     <hr />
-    <% if (IsContestJudge())
+    <% if (IsAllowedToScoreForm())
         { %>
             <custom:ScoreForm runat="server" ID="scoreForm" />
             <br />

@@ -44,7 +44,7 @@ namespace TalentShowWeb.Show
             }
 
             foreach (var contest in contests)
-                items.Add(new HyperlinkListPanelItem(URL: NavUtil.GetContestPageUrl(showId, contest.Id), Heading: contest.Name, Text: contest.Description));
+                items.Add(new HyperlinkListPanelItem(URL: NavUtil.GetContestPageUrl(showId, contest.Id), Heading: contest.Name + " (" + contest.Status + ")", Text: contest.Description));
 
             HyperlinkListPanelRenderer.Render(contestsList, new HyperlinkListPanelConfig("Contests", items, ButtonAddContestClick));
         }

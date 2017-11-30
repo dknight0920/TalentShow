@@ -40,7 +40,7 @@ namespace TalentShowWeb.Show.Contest
             var contestId = GetContestId();
             this.contest = ServiceFactory.ContestService.Get(contestId);
 
-            labelPageTitle.Text = contest.Name;
+            labelPageTitle.Text = contest.Name + " (" + contest.Status + ")";
             labelPageDescription.Text = contest.Description;
 
             if (IsAllowedToViewContestantsList())
@@ -98,9 +98,19 @@ namespace TalentShowWeb.Show.Contest
             return contest.TimeKeeperId == Context.User.Identity.GetUserId();
         }
 
+        protected bool IsAllowedToScoreForm()
+        {
+            return IsContestJudge() && IsContestInProgress();
+        }
+
         protected bool IsContestJudge()
         {
             return contest != null && contest.Judges != null && contest.Judges.Any(j => j.UserId == Context.User.Identity.GetUserId());
+        }
+
+        protected bool IsContestInProgress()
+        {
+            return contest.Status == "In Progress";
         }
 
         protected bool IsUserAnAdmin()
@@ -196,6 +206,8 @@ namespace TalentShowWeb.Show.Contest
         public static void SetScore(int contestId, int contestantId, int scoreCriterionId, double score)
         {
             var contest = ServiceFactory.ContestService.Get(contestId);
+            EnsureContestIsInProgress(contest);
+
             var currentUserId = HttpContext.Current.User.Identity.GetUserId();
             var judge = contest.Judges.FirstOrDefault(j => j.UserId == currentUserId);
 
@@ -214,6 +226,8 @@ namespace TalentShowWeb.Show.Contest
         public static void SetComment(int contestId, int contestantId, int scoreCriterionId, string comment)
         {
             var contest = ServiceFactory.ContestService.Get(contestId);
+            EnsureContestIsInProgress(contest);
+
             var currentUserId = HttpContext.Current.User.Identity.GetUserId();
             var judge = contest.Judges.FirstOrDefault(j => j.UserId == currentUserId);
 
@@ -226,6 +240,12 @@ namespace TalentShowWeb.Show.Contest
             var scoreCard = scoreCards.FirstOrDefault(s => s.Contestant.Id == contestantId && s.Judge.Id == judge.Id);
 
             ServiceFactory.ScoreCardService.SetComment(scoreCard, scoreCriterionId, comment, ServiceFactory.ScoreCriterionService);
+        }
+
+        private static void EnsureContestIsInProgress(TalentShow.Contest contest)
+        {
+            if (contest.Status != "In Progress")
+                throw new ApplicationException("The contest is not in progress. The contest must be in progress to alter a score card.");
         }
     }
 }
