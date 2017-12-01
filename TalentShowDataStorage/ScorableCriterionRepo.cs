@@ -46,5 +46,10 @@ namespace TalentShowDataStorage
         {
             return new List<string>() { ID, SCORECRITERIONID, SCORE, COMMENT };
         }
+
+        protected override string GetForeignKeyFieldName()
+        {
+            return SCORECRITERIONID;
+        }
     }
 }

@@ -90,5 +90,10 @@ namespace TalentShowDataStorage
         {
             return new List<string>() { ID, CONTESTANTID, JUDGEID };
         }
+
+        protected override string GetForeignKeyFieldName()
+        {
+            return CONTESTANTID;
+        }
     }
 }

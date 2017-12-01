@@ -8,6 +8,9 @@ using TalentShow.Services;
 using TalentShowDataStorage;
 using TalentShowWeb.Models;
 using TalentShowWeb.Utils;
+using ExcelReportUtils;
+using TalentShowWeb.Account.Util;
+using Microsoft.AspNet.Identity;
 
 namespace TalentShowWeb.Show
 {
@@ -44,6 +47,58 @@ namespace TalentShowWeb.Show
             var description = showForm.GetDescriptionTextBox().Text.Trim();
             var show = new TalentShow.Show(0, showName, description);
             ServiceFactory.ShowService.Add(show);
+
+            var util = new BrushfireAttendeeDocumentUtil(new System.IO.DirectoryInfo(@"C:\Users\Daniel\Documents"), @"\KNIGHTREPORT2017.xlsx");
+            var brushFireContests = util.GetContests();
+
+            foreach(var brushFireContest in brushFireContests)
+            {
+                if (brushFireContest.Contestants.Count() == 0) continue;
+
+                var contest = new TalentShow.Contest(
+                    id: 0,
+                    name: brushFireContest.Name,
+                    description: brushFireContest.Division,
+                    timeKeeperId: Context.User.Identity.GetUserId(),
+                    maxDuration: new TimeSpan(0, 5, 0),
+                    status: "Pending"
+                );
+
+                ServiceFactory.ContestService.AddShowContest(show.Id, contest);
+
+                foreach (var brushFireContestant in brushFireContest.Contestants)
+                {
+                    var contestant = new TalentShow.Contestant(
+                        id: 0,
+                        performance: new TalentShow.Performance(
+                            id: 0,
+                            description: brushFireContestant.PerformanceDescription,
+                            duration: new TimeSpan(0)
+                        ),
+                        ruleViolationPenalty: 0
+                    );
+
+                    ServiceFactory.ContestantService.AddContestContestant(contest.Id, contestant);
+
+                    foreach (var brushFirePerformer in brushFireContestant.Performers)
+                    {
+                        int divisionId = 1085;
+                        if (brushFireContest.Division == "Omega")
+                            divisionId = 1087;
+                        if (brushFireContest.Division == "Gamma")
+                            divisionId = 1086;
+
+                        ServiceFactory.PerformerService.AddContestantPerformer(contestant.Id, new TalentShow.Performer(
+                            id: 0,
+                            division: ServiceFactory.DivisionService.Get(divisionId),
+                            name: new TalentShow.PersonName(brushFirePerformer.FirstName, brushFirePerformer.LastName),
+                            affiliation: ServiceFactory.OrganizationService.Get(2161)
+                            )
+                        );
+                    }
+                }
+            }
+
             GoToShowsPage();
         }
 

@@ -54,6 +54,32 @@ namespace TalentShowDataStorage
 
         protected abstract T GetItemFromDataReader(IDataReader reader);
 
+        public ICollection<T> GetWhereForeignKeyIs(int foreignKeyId)
+        {
+            string sql = GetSelectStatement() + WhereForeignKeyEquals() + ";";
+            SqlCommand command = new SqlCommand(sql);
+            AddForeignKeyIdParameterToCommand(command, foreignKeyId);
+            IDataReader reader = SqlServerCommandHelper.ExecuteSqlQuery(command);
+
+            var items = new List<T>();
+
+            while (reader.Read())
+            {
+                T item = GetItemFromDataReader(reader);
+                items.Add(item);
+            }
+
+            return items;
+        }
+
+        protected string WhereForeignKeyEquals()
+        {
+            string fieldName = GetForeignKeyFieldName();
+            return " where [" + fieldName + "] = @" + fieldName + ";";
+        }
+
+        protected abstract string GetForeignKeyFieldName();
+
         public T Get(int id)
         {
             string sql = GetSelectStatement() + WhereIdEquals();
@@ -102,6 +128,11 @@ namespace TalentShowDataStorage
         private static void AddIdParameterToCommand(SqlCommand command, int id)
         {
             command.Parameters.AddWithValue("@" + ID, id);
+        }
+
+        private void AddForeignKeyIdParameterToCommand(SqlCommand command, int id)
+        {
+            command.Parameters.AddWithValue("@" + GetForeignKeyFieldName(), id);
         }
 
         protected abstract ICollection<string> GetFieldNamesForSelectStatement();

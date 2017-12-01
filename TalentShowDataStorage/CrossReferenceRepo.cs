@@ -30,13 +30,5 @@ namespace TalentShowDataStorage
         {
             command.Parameters.AddWithValue("@" + GetForeignKeyFieldName(), foreignKeyId);
         }
-
-        private string WhereForeignKeyEquals()
-        {
-            string fieldName = GetForeignKeyFieldName();
-            return " where [" + fieldName + "] = @" + fieldName + ";";
-        }
-
-        protected abstract string GetForeignKeyFieldName();
     }
 }

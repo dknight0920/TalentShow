@@ -30,7 +30,7 @@ namespace TalentShow.Services
 
         public ICollection<ScoreCard> GetContestantScoreCards(int contestantId)
         {
-            var contestantScoreCardCollection = ScoreCardRepo.GetAll().Where(sc => sc.Contestant.Id == contestantId); //TODO optimize
+            var contestantScoreCardCollection = ScoreCardRepo.GetWhereForeignKeyIs(contestantId);
 
             var scoreCards = new List<ScoreCard>();
 

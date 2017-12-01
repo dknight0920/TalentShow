@@ -130,5 +130,10 @@ namespace TalentShowDataStorage
         {
             return new List<string>() { ID, NAME, TIME_KEEPER_ID, DESCRIPTION, MAX_DURATION, STATUS };
         }
+
+        protected override string GetForeignKeyFieldName()
+        {
+            return TIME_KEEPER_ID;
+        }
     }
 }

@@ -39,6 +39,11 @@ namespace TalentShowDataStorage
         {
             return new List<string>() { ID, FIRSTNAME, LASTNAME };
         }
+
+        protected override string GetForeignKeyFieldName()
+        {
+            return ID;
+        }
     }
 }
 

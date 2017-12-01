@@ -5,6 +5,7 @@ namespace TalentShow.Repos
     public interface IRepo<T>
     {
         ICollection<T> GetAll();
+        ICollection<T> GetWhereForeignKeyIs(int foreignKeyId);
         T Get(int id);
         bool Exists(int id);
         void Add(T item);

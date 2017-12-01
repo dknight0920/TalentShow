@@ -725,6 +725,10 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ExcelReportUtils\ExcelReportUtils\ExcelReportUtils.csproj">
+      <Project>{a6a4f1c5-b966-4105-a692-a683d1c247f5}</Project>
+      <Name>ExcelReportUtils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TalentShowDataStorage\TalentShowDataStorage.csproj">
       <Project>{4293fdbe-9698-4569-b515-9d2e639d9565}</Project>
       <Name>TalentShowDataStorage</Name>

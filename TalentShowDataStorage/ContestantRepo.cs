@@ -41,5 +41,10 @@ namespace TalentShowDataStorage
         {
             return new List<string>() { ID, PERFORMANCEID, RULE_VIOLATION_PENALTY };
         }
+
+        protected override string GetForeignKeyFieldName()
+        {
+            return PERFORMANCEID;
+        }
     }
 }
