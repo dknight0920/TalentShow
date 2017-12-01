@@ -74,7 +74,7 @@ namespace TalentShowDataStorage
             Judge judge = new JudgeRepo().Get(judgeId);
             ICollection<ScorableCriterion> scorableCriteria = new List<ScorableCriterion>();
 
-            var scoreCardScorableCriterionCollection = new ScoreCardScorableCriterionRepo().GetAll().Where(sc => sc.ScoreCardId == id);
+            var scoreCardScorableCriterionCollection = new ScoreCardScorableCriterionRepo().GetWhereForeignKeyIs(id);
             var scorableCriterionRepo = new ScorableCriterionRepo();
 
             foreach (var scoreCardScorableCriterion in scoreCardScorableCriterionCollection)

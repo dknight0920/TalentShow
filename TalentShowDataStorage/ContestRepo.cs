@@ -87,7 +87,7 @@ namespace TalentShowDataStorage
 
             Contest contest = new Contest(id, name, description, timeKeeperId, maxDuration, status);
 
-            var contestContestantCollection = new ContestContestantRepo().GetAll().Where(cc => cc.ContestId == contest.Id);
+            var contestContestantCollection = new ContestContestantRepo().GetWhereForeignKeyIs(contest.Id);
             var contestantRepo = new ContestantRepo();
 
             foreach (var cc in contestContestantCollection)
@@ -96,7 +96,7 @@ namespace TalentShowDataStorage
                     contest.Contestants.Add(contestantRepo.Get(cc.ContestantId));
             }
 
-            var contestJudgeCollection = new ContestJudgeRepo().GetAll().Where(cj => cj.ContestId == contest.Id);
+            var contestJudgeCollection = new ContestJudgeRepo().GetWhereForeignKeyIs(contest.Id);
             var judgeRepo = new JudgeRepo();
 
             foreach (var cj in contestJudgeCollection)
@@ -105,7 +105,7 @@ namespace TalentShowDataStorage
                     contest.Judges.Add(judgeRepo.Get(cj.JudgeId));
             }
 
-            var contestScoreCardCollection = new ContestScoreCardRepo().GetAll().Where(sc => sc.ContestId == contest.Id);
+            var contestScoreCardCollection = new ContestScoreCardRepo().GetWhereForeignKeyIs(contest.Id);
             var scoreCardRepo = new ScoreCardRepo();
 
             foreach (var sc in contestScoreCardCollection)
@@ -114,7 +114,7 @@ namespace TalentShowDataStorage
                     contest.ScoreCards.Add(scoreCardRepo.Get(sc.ScoreCardId));
             }
 
-            var contestScorCriterionCollection = new ContestScoreCriterionRepo().GetAll().Where(sc => sc.ContestId == contest.Id);
+            var contestScorCriterionCollection = new ContestScoreCriterionRepo().GetWhereForeignKeyIs(contest.Id);
             var scoreCriterionRepo = new ScoreCriterionRepo();
 
             foreach (var sc in contestScorCriterionCollection)
