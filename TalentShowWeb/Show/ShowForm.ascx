@@ -10,6 +10,10 @@
     <asp:TextBox runat="server" ID="txtDescription" CssClass="form-control" />
     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDescription" CssClass="text-danger" ErrorMessage="Required" Display="Dynamic" />
 </div>
+<div class="form-group">
+    <asp:Label runat="server" Text="Import Data from Excel File" AssociatedControlID="fileImportData" CssClass="control-label" />
+    <asp:FileUpload runat="server" ID="fileImportData" CssClass="form-control" Width="275" />
+</div>
 <br />
 <div class="form-group">
     <asp:Button runat="server" ID="btnSubmit" Text="Submit"  CausesValidation="true" CssClass="btn btn-primary" />

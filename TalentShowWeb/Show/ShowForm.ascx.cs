@@ -24,6 +24,11 @@ namespace TalentShowWeb.Show
             return txtDescription;
         }
 
+        public FileUpload GetFileImportDataFileUpload()
+        {
+            return fileImportData;
+        }
+
         public Button GetSubmitButton()
         {
             return btnSubmit;

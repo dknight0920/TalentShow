@@ -63,6 +63,11 @@ namespace TalentShow.Tests
             return ++id;
         }
 
+        public ICollection<Judge> GetWhereForeignKeyIs(int foreignKeyId)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Update(Judge item)
         {
             throw new NotImplementedException();

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using TalentShowWeb.Models;
+using TalentShowWeb.Show.Utils;
 using TalentShowWeb.Utils;
 
 namespace TalentShowWeb.Show
@@ -50,7 +52,16 @@ namespace TalentShowWeb.Show
             var description = showForm.GetDescriptionTextBox().Text.Trim();
             var show = new TalentShow.Show(GetShowId(), showName, description);
             ServiceFactory.ShowService.Update(show);
+
+            if (showForm.GetFileImportDataFileUpload().HasFile)
+                ImportContests(show, new MemoryStream(showForm.GetFileImportDataFileUpload().FileBytes));
+
             GoToShowPage();
+        }
+
+        private void ImportContests(TalentShow.Show show, Stream fileStream)
+        {
+            ShowDataImporter.Import(show, fileStream);
         }
 
         protected void btnCancel_Click(object sender, EventArgs e)

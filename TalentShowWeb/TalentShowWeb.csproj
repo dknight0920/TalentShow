@@ -672,6 +672,7 @@
     <Compile Include="Show\UpdateShow.aspx.designer.cs">
       <DependentUpon>UpdateShow.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Show\Utils\ShowDataImporter.cs" />
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
