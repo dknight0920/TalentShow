@@ -12,12 +12,12 @@
 </div>
 <div class="form-group">
     <asp:Label runat="server" Text="Affiliation" AssociatedControlID="dropDownListOrganizations" CssClass="control-label" />
-    <asp:DropDownList runat="server" ID="dropDownListOrganizations" CssClass="form-control" Width="275" />
+    <asp:DropDownList runat="server" ID="dropDownListOrganizations" CssClass="form-control" Width="280" />
     <asp:RequiredFieldValidator runat="server" ControlToValidate="dropDownListOrganizations" CssClass="text-danger" ErrorMessage="Required" Display="Dynamic" />
 </div>
 <div class="form-group">
     <asp:Label runat="server" Text="Division" AssociatedControlID="dropDownListDivisions" CssClass="control-label" />
-    <asp:DropDownList runat="server" ID="dropDownListDivisions" CssClass="form-control" Width="275" />
+    <asp:DropDownList runat="server" ID="dropDownListDivisions" CssClass="form-control" Width="280" />
     <asp:RequiredFieldValidator runat="server" ControlToValidate="dropDownListDivisions" CssClass="text-danger" ErrorMessage="Required" Display="Dynamic" />
 </div>
 <br />

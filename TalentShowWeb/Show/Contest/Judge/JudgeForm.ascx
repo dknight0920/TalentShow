@@ -2,7 +2,7 @@
 
 <div class="form-group">
     <asp:Label runat="server" Text="User" AssociatedControlID="dropDownListUsers" CssClass="control-label" />
-    <asp:DropDownList runat="server" ID="dropDownListUsers" CssClass="form-control" Width="275" />
+    <asp:DropDownList runat="server" ID="dropDownListUsers" CssClass="form-control" Width="280" />
     <asp:RequiredFieldValidator runat="server" ControlToValidate="dropDownListUsers" CssClass="text-danger" ErrorMessage="Required" Display="Dynamic" />
 </div>
 <br />

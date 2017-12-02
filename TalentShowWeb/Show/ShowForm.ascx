@@ -12,7 +12,7 @@
 </div>
 <div class="form-group">
     <asp:Label runat="server" Text="Import Data from Excel File" AssociatedControlID="fileImportData" CssClass="control-label" />
-    <asp:FileUpload runat="server" ID="fileImportData" CssClass="form-control" Width="275" />
+    <asp:FileUpload runat="server" ID="fileImportData" CssClass="form-control" Width="280" />
 </div>
 <br />
 <div class="form-group">

@@ -7,7 +7,7 @@
 </div>
 <div class="form-group">
     <asp:Label runat="server" Text="Parent Organization" AssociatedControlID="dropDownListOrganizations" CssClass="control-label" />
-    <asp:DropDownList runat="server" ID="dropDownListOrganizations" CssClass="form-control" Width="275" />
+    <asp:DropDownList runat="server" ID="dropDownListOrganizations" CssClass="form-control" Width="280" />
 </div>
 <br />
 <div class="form-group">

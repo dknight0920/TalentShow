@@ -5,7 +5,7 @@
     <p><asp:Label runat="server" ID="labelPageDescription" /></p>
     <div class="form-group">
         <asp:Label runat="server" Text="Refresh every" AssociatedControlID="dropDownListRefreshRate" CssClass="control-label" />
-        <asp:DropDownList runat="server" AutoPostBack="true" ID="dropDownListRefreshRate" CssClass="form-control" Width="275" >
+        <asp:DropDownList runat="server" AutoPostBack="true" ID="dropDownListRefreshRate" CssClass="form-control" Width="280" >
             <asp:ListItem Value="2"> 2 Minutes </asp:ListItem>
             <asp:ListItem Value="5"> 5 Minutes </asp:ListItem>
             <asp:ListItem Value="10"> 10 Minutes </asp:ListItem>
@@ -19,7 +19,7 @@
     </div>
     <div class="form-group">
         <asp:Label runat="server" Text="View Contests in Status" AssociatedControlID="dropDownListStatus" CssClass="control-label" />
-        <asp:DropDownList runat="server" AutoPostBack="true" ID="dropDownListStatus" CssClass="form-control" Width="275" >
+        <asp:DropDownList runat="server" AutoPostBack="true" ID="dropDownListStatus" CssClass="form-control" Width="280" >
             <asp:ListItem Value="Any"> Any </asp:ListItem>
             <asp:ListItem Value="Pending"> Pending </asp:ListItem>
             <asp:ListItem Value="In Progress"> In Progress </asp:ListItem>
