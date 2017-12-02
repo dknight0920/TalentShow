@@ -36,6 +36,7 @@ namespace TalentShowWeb.Show
             {
                 dropDownListRefreshRate.SelectedValue = "5";
                 refreshTimer.Interval = 300000;
+                dropDownListStatus.SelectedValue = "In Progress";
             }
 
             var showId = GetShowId();
