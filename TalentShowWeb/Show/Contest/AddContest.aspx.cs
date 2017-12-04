@@ -43,7 +43,7 @@ namespace TalentShowWeb.Show.Contest
             var users = accountUtil.GetAllUsers();
 
             foreach (var user in users)
-                timeKeepersDropDownList.Items.Add(new ListItem(user.Email, user.Id));
+                timeKeepersDropDownList.Items.Add(new ListItem(user.UserName, user.Id));
 
             timeKeepersDropDownList.Items.FindByValue("").Selected = true;
         }
