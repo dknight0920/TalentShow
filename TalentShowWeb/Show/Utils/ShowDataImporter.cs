@@ -62,14 +62,28 @@ namespace TalentShowWeb.Show.Utils
                     //ServiceFactory.JudgeService.AddContestJudge(contest.Id, judge);
 
                 //Add Score Criteria to Contest
-                var scoreCriteria = new List<TalentShow.ScoreCriterion>()
+                var scoreCriteria = new List<TalentShow.ScoreCriterion>();
+
+                if (brushFireContest.ScoreCriteria.Any())
                 {
-                    new TalentShow.ScoreCriterion(id: 0, criterionDescription: "Selection & Communication", scoreRange: new TalentShow.ScoreRange(0, 10)),
-                    new TalentShow.ScoreCriterion(id: 0, criterionDescription: "Technique, Intonation", scoreRange: new TalentShow.ScoreRange(0, 10)),
-                    new TalentShow.ScoreCriterion(id: 0, criterionDescription: "Overall Presentation", scoreRange: new TalentShow.ScoreRange(0, 10)),
-                    new TalentShow.ScoreCriterion(id: 0, criterionDescription: "Diction", scoreRange: new TalentShow.ScoreRange(0, 10)),
-                    new TalentShow.ScoreCriterion(id: 0, criterionDescription: "Musical Effect Communication", scoreRange: new TalentShow.ScoreRange(0, 10)),
-                };
+                    foreach (var criterion in brushFireContest.ScoreCriteria)
+                    {
+                        scoreCriteria.Add(new TalentShow.ScoreCriterion(
+                                id: 0,
+                                criterionDescription: ConvertToTitleCase(criterion.Description),
+                                scoreRange: new TalentShow.ScoreRange(criterion.Min, criterion.Max)
+                            )
+                        );
+                    }
+                }
+                else
+                {
+                    scoreCriteria.Add(new TalentShow.ScoreCriterion(id: 0, criterionDescription: "Selection & Communication", scoreRange: new TalentShow.ScoreRange(0, 10)));
+                    scoreCriteria.Add(new TalentShow.ScoreCriterion(id: 0, criterionDescription: "Technique, Intonation", scoreRange: new TalentShow.ScoreRange(0, 10)));
+                    scoreCriteria.Add(new TalentShow.ScoreCriterion(id: 0, criterionDescription: "Overall Presentation", scoreRange: new TalentShow.ScoreRange(0, 10)));
+                    scoreCriteria.Add(new TalentShow.ScoreCriterion(id: 0, criterionDescription: "Diction", scoreRange: new TalentShow.ScoreRange(0, 10)));
+                    scoreCriteria.Add(new TalentShow.ScoreCriterion(id: 0, criterionDescription: "Musical Effect Communication", scoreRange: new TalentShow.ScoreRange(0, 10)));
+                }
 
                 foreach (var scoreCriterion in scoreCriteria)
                     ServiceFactory.ScoreCriterionService.AddContestScoreCriterion(contest.Id, scoreCriterion);
