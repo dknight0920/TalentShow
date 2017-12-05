@@ -17,7 +17,7 @@
     <asp:RegularExpressionValidator runat="server" ControlToValidate="txtMaxDuration" CssClass="text-danger" ErrorMessage="Only Numbers Allowed" ValidationExpression="\d+" Display="Dynamic" />
 </div>
 <div class="form-group">
-    <asp:Label runat="server" Text="Time Keeper" AssociatedControlID="dropDownListTimeKeepers" CssClass="control-label" />
+    <asp:Label runat="server" Text="Timekeeper" AssociatedControlID="dropDownListTimeKeepers" CssClass="control-label" />
     <asp:DropDownList runat="server" ID="dropDownListTimeKeepers" CssClass="form-control" Width="280" />
     <asp:RequiredFieldValidator runat="server" ControlToValidate="dropDownListTimeKeepers" CssClass="text-danger" ErrorMessage="Required" Display="Dynamic" />
 </div>
