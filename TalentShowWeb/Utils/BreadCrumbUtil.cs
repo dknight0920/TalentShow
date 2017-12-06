@@ -12,9 +12,13 @@ namespace TalentShowWeb.Utils
     {
         public static void DataBind(Page page, IEnumerable<BreadCrumb> breadCrumbs)
         {
-            Repeater rp = (Repeater)page.Master.FindControl("breadCrumbItems");
-            rp.DataSource = breadCrumbs;
-            rp.DataBind();
+            try
+            {
+                Repeater rp = (Repeater)page.Master.FindControl("breadCrumbItems");
+                rp.DataSource = breadCrumbs;
+                rp.DataBind();
+            }
+            catch { }
         }
     }
 }
