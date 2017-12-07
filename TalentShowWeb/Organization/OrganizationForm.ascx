@@ -2,7 +2,7 @@
 
 <div class="form-group">
     <asp:Label runat="server" Text="Organization Name" AssociatedControlID="txtName" CssClass="control-label" />
-    <asp:TextBox runat="server" ID="txtName" CssClass="form-control" />
+    <asp:TextBox runat="server" ID="txtName" CssClass="form-control" MaxLength="255" />
     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtName" CssClass="text-danger" ErrorMessage="Required" Display="Dynamic" />
 </div>
 <div class="form-group">

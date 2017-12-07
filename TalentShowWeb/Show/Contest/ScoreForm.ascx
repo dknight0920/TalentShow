@@ -36,7 +36,7 @@
                                     <span class="glyphicon glyphicon-ok form-control-feedback"></span>
                                 </div>
                                 <div class="form-group has-success has-feedback comments_<%= scoreCard.Id %>" style="display: none;">
-                                    <input type="text" placeholder="Comment" onkeypress="AddWarningFeedback(this)" onBlur="SetComment(<% Response.Write(GetContest().Id); %>, <% Response.Write(contestant.Id); %>, <% Response.Write(scoreCriterion.Id); %>, this.value, this);" value="<% Response.Write(comment); %>"" class="form-control" />
+                                    <input type="text" placeholder="Comment" onkeypress="AddWarningFeedback(this)" onBlur="SetComment(<% Response.Write(GetContest().Id); %>, <% Response.Write(contestant.Id); %>, <% Response.Write(scoreCriterion.Id); %>, this.value, this);" value="<% Response.Write(comment); %>"" class="form-control" maxlength="1000" />
                                     <span class="glyphicon glyphicon-ok form-control-feedback"></span>             
                                 </div>
                             </td>

@@ -7,7 +7,7 @@
 </div>
 <div class="form-group">
     <asp:Label runat="server" Text="Email" AssociatedControlID="txtEmail" CssClass="control-label" />
-    <asp:TextBox runat="server" ID="txtEmail" CssClass="form-control" TextMode="Email" />
+    <asp:TextBox runat="server" ID="txtEmail" CssClass="form-control" TextMode="Email" MaxLength="256" />
     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtEmail" CssClass="text-danger" ErrorMessage="Required" Display="Dynamic" />
 </div>
 <div class="form-group">

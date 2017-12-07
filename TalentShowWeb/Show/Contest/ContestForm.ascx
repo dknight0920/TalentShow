@@ -2,12 +2,12 @@
 
 <div class="form-group">
     <asp:Label runat="server" Text="Contest Name" AssociatedControlID="txtContestName" CssClass="control-label" />
-    <asp:TextBox runat="server" ID="txtContestName" CssClass="form-control" />
+    <asp:TextBox runat="server" ID="txtContestName" CssClass="form-control" MaxLength="255" />
     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtContestName" CssClass="text-danger" ErrorMessage="Required" Display="Dynamic" />
 </div>
 <div class="form-group">
     <asp:Label runat="server" Text="Description" AssociatedControlID="txtDescription" CssClass="control-label" />
-    <asp:TextBox runat="server" ID="txtDescription" CssClass="form-control" />
+    <asp:TextBox runat="server" ID="txtDescription" CssClass="form-control" MaxLength="1000" />
     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDescription" CssClass="text-danger" ErrorMessage="Required" Display="Dynamic" />
 </div>
 <div class="form-group">
