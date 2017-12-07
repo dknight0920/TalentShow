@@ -58,7 +58,7 @@ namespace TalentShowWeb.Show
 
         private void ImportContests(TalentShow.Show show, Stream fileStream)
         {
-            ShowDataImporter.MockImport(show, fileStream);
+            ShowDataImporter.Import(show, fileStream);
         }
 
         protected void btnCancel_Click(object sender, EventArgs e)
