@@ -222,7 +222,7 @@ namespace TalentShowWeb.Show.Utils
                         performance: new TalentShow.Performance(
                             id: 0,
                             description: ConvertToTitleCase(brushFireContestant.PerformanceDescription),
-                            duration: new TimeSpan(0, new Random().Next(0, 5), new Random().Next(0, 35))
+                            duration: new TimeSpan(0, new Random().Next(0, 6), new Random().Next(10, 35))
                         ),
                         ruleViolationPenalty: 0
                     );
@@ -246,13 +246,15 @@ namespace TalentShowWeb.Show.Utils
                     //Add Score Cards to Contestant
                     var scorableCriteria = new List<TalentShow.ScorableCriterion>();
 
+                    var scoreGen = new Random();
+
                     foreach (var scoreCriterion in scoreCriteria)
                     {
                         var scorableCriterion = new TalentShow.ScorableCriterion(id: 0, scoreCriterion: scoreCriterion);
 
                         scorableCriteria.Add(scorableCriterion);
 
-                        scorableCriterion.SetScore(new Random().Next(0, 10));
+                        scorableCriterion.SetScore(scoreGen.Next(1, 10));
                         scorableCriterion.SetComment("This is a test comment.");
                     }
 
