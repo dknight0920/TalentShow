@@ -71,6 +71,7 @@ namespace TalentShowWeb.Show
                 SumOfTopScores: totalScore - lowestScore,
                 NumberOfScoreCards: scoreCards.Count,
                 NumberOfJudges: contest.Judges.Count,
+                Scores: GetScores(scoreCards),
                 ScoreCards: scoreCards
             );
         }
@@ -96,6 +97,21 @@ namespace TalentShowWeb.Show
             foreach (var performer in performers)
             {
                 text += (!isFirst ? ", " : "") + performer.Name.FirstName + " " + performer.Name.LastName;
+                isFirst = false;
+            }
+
+            return text;
+        }
+
+        private string GetScores(ICollection<TalentShow.ScoreCard> scoreCards)
+        {
+            bool isFirst = true;
+
+            string text = "";
+
+            foreach (var scoreCard in scoreCards)
+            {
+                text += (!isFirst ? ", " : "") + scoreCard.TotalScore;
                 isFirst = false;
             }
 
