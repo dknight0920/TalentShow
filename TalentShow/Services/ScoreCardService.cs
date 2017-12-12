@@ -120,7 +120,14 @@ namespace TalentShow.Services
             foreach (var scoreCard in scoreCards)
                 totalScore += scoreCard.TotalScore;
 
-            return totalScore;
+            double lowestScore = 0;
+
+            var lowestScoreCard = scoreCards.OrderBy(s => s.TotalScore).FirstOrDefault();
+
+            if (lowestScoreCard != null)
+                lowestScore = lowestScoreCard.TotalScore;
+
+            return totalScore - lowestScore;
         }
 
         public void SetScore(ScoreCard scoreCard, int scoreCriterionId, double score, ScoreCriterionService scoreCriterionService)

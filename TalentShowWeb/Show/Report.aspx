@@ -44,19 +44,19 @@
                             Performance Duration
                         </th>
                         <th class="text-right">
+                            All Scores
+                        </th>
+                        <th class="text-right">
                             Total Score
                         </th>
                         <th class="text-right">
                             Penalty Points
                         </th>
                         <th class="text-right">
-                            Final Score
-                        </th>
-                        <th class="text-right">
-                            All Scores
-                        </th>
-                        <th class="text-right">
                             Lowest Score
+                        </th>
+                        <th class="text-right">
+                            Final Score
                         </th>
                         <th class="text-right">
                             Sum of Top Scores
@@ -78,6 +78,9 @@
                                 <td class="text-right <%= (contestant.PerformanceDuration.TotalMilliseconds == 0 ? " warning" : "") %>">
                                     <% Response.Write(contestant.PerformanceDuration.Hours.ToString("00") + ":" + contestant.PerformanceDuration.Minutes.ToString("00") + ":" + contestant.PerformanceDuration.Seconds.ToString("00")); %>
                                 </td>
+                                <td class="text-right <%= (contestant.NumberOfJudges > contestant.NumberOfScoreCards ? " warning" : "") %>">
+                                    <% Response.Write(contestant.Scores); %> (<% Response.Write(contestant.NumberOfScoreCards); %> of <% Response.Write(contestant.NumberOfJudges); %>)
+                                </td>
                                 <td class="text-right">
                                     <% Response.Write(contestant.TotalScore); %>
                                 </td>
@@ -85,13 +88,10 @@
                                     <% Response.Write(contestant.PenaltyPoints); %>
                                 </td>
                                 <td class="text-right">
-                                    <% Response.Write(contestant.FinalScore); %>
-                                </td>
-                                <td class="text-right <%= (contestant.NumberOfJudges > contestant.NumberOfScoreCards ? " warning" : "") %>">
-                                    <% Response.Write(contestant.Scores); %> (<% Response.Write(contestant.NumberOfScoreCards); %> of <% Response.Write(contestant.NumberOfJudges); %>)
+                                    <% Response.Write(contestant.LowestScore); %>
                                 </td>
                                 <td class="text-right">
-                                    <% Response.Write(contestant.LowestScore); %>
+                                    <% Response.Write(contestant.FinalScore); %>
                                 </td>
                                 <td class="text-right">
                                     <% Response.Write(contestant.SumOfTopScores); %>
