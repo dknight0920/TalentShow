@@ -68,13 +68,14 @@ namespace TalentShowWeb.Show
             var scoreCards = ServiceFactory.ScoreCardService.GetContestantScoreCards(contestant.Id);
             var totalScore = scoreCards.Sum(s => s.TotalScore);
             var finalScore = ServiceFactory.ScoreCardService.GetContestantTotalScore(contestant, contest.MaxDuration);
-            var penaltyPoints = totalScore - finalScore;
             double lowestScore = 0;
 
             var lowestScoreCard = scoreCards.OrderBy(s => s.TotalScore).FirstOrDefault();
 
             if (lowestScoreCard != null)
                 lowestScore = lowestScoreCard.TotalScore;
+
+            var penaltyPoints = (totalScore - lowestScore) - finalScore;
 
             return new ReportContestant(
                 ContestantId: contestant.Id,

@@ -75,6 +75,14 @@
                             </tr>
                             <tr>
                                 <td class="pull-left">
+                                    <h3>Lowest Score:</h3>
+                                </td>
+                                <td class="pull-right">
+                                    <h3><% Response.Write(GetLowestScore()); %></h3>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="pull-left">
                                     <h2>Final Score:</h2>
                                 </td>
                                 <td class="pull-right">

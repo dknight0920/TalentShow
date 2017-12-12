@@ -97,7 +97,16 @@ namespace TalentShowWeb.Show.Contest.Contestant
 
         protected double GetPenaltyPoints()
         {
-            return GetTotalScore() - GetFinalScore();
+            var penaltyPoints = (GetTotalScore() - GetLowestScore()) - GetFinalScore();
+            return penaltyPoints;
+        }
+
+        protected double GetLowestScore()
+        {
+            if (scoreCards == null || !scoreCards.Any())
+                return 0;
+
+            return scoreCards.OrderBy(s => s.TotalScore).FirstOrDefault().TotalScore;
         }
 
         protected double GetFinalScore()
