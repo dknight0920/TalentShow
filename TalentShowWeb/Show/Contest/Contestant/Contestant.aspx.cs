@@ -92,7 +92,7 @@ namespace TalentShowWeb.Show.Contest.Contestant
             if (scoreCards == null || !scoreCards.Any())
                 return 0;
 
-            return scoreCards.Sum(s => s.TotalScore);
+            return scoreCards.Sum(s => s.TotalScore) + contestant.TieBreakerPoints;
         }
 
         protected double GetPenaltyPoints()

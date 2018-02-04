@@ -24,6 +24,11 @@ namespace TalentShowWeb.Show.Contest.Contestant
             return txtRuleViolationPenaltyPoints;
         }
 
+        public TextBox GetTieBreakerPointsTextBox()
+        {
+            return txtTieBreakerPoints;
+        }
+
         public Button GetSubmitButton()
         {
             return btnSubmit;

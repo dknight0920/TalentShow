@@ -11,6 +11,12 @@
     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtRuleViolationPenaltyPoints" CssClass="text-danger" ErrorMessage="Required" Display="Dynamic" />
     <asp:RegularExpressionValidator runat="server" ControlToValidate="txtRuleViolationPenaltyPoints" CssClass="text-danger" ErrorMessage="Only Numbers Allowed" ValidationExpression="\d+" Display="Dynamic" />
 </div>
+<div class="form-group">
+    <asp:Label runat="server" Text="Tie Breaker Points" AssociatedControlID="txtTieBreakerPoints" CssClass="control-label" />
+    <asp:TextBox runat="server" ID="txtTieBreakerPoints" CssClass="form-control" />
+    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtTieBreakerPoints" CssClass="text-danger" ErrorMessage="Required" Display="Dynamic" />
+    <asp:RegularExpressionValidator runat="server" ControlToValidate="txtTieBreakerPoints" CssClass="text-danger" ErrorMessage="Only Numbers Allowed" ValidationExpression="^\d*\.?\d*$" Display="Dynamic" />
+</div>
 <br />
 <div class="form-group">
     <asp:Button runat="server" ID="btnSubmit" Text="Submit"  CausesValidation="true" CssClass="btn btn-primary" />

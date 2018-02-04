@@ -98,7 +98,8 @@ namespace TalentShowWeb.Show.Utils
                             description: ConvertToTitleCase(brushFireContestant.PerformanceDescription),
                             duration: new TimeSpan(0)
                         ),
-                        ruleViolationPenalty: 0
+                        ruleViolationPenalty: 0,
+                        tieBreakerPoints: 0
                     );
 
                     ServiceFactory.ContestantService.AddContestContestant(contest.Id, contestant);
@@ -224,7 +225,8 @@ namespace TalentShowWeb.Show.Utils
                             description: ConvertToTitleCase(brushFireContestant.PerformanceDescription),
                             duration: new TimeSpan(0, new Random().Next(0, 6), new Random().Next(10, 35))
                         ),
-                        ruleViolationPenalty: 0
+                        ruleViolationPenalty: 0,
+                        tieBreakerPoints: 0
                     );
 
                     ServiceFactory.ContestantService.AddContestContestant(contest.Id, contestant);

@@ -21,7 +21,7 @@ namespace TalentShow.Tests
 
             Performance performance = new Performance(description: "Dancing an abc to xyz", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
 
-            Contestant contestant = new Contestant(performance, ruleViolationPenalty: 0);
+            Contestant contestant = new Contestant(performance, ruleViolationPenalty: 0, tieBreakerPoints: 0);
 
             Assert.AreEqual(performance, contestant.Performance);
         }
@@ -42,7 +42,7 @@ namespace TalentShow.Tests
 
             Performance performance = new Performance(description: "Dancing an abc to xyz", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
 
-            Contestant contestant = new Contestant(performance, ruleViolationPenalty: 0);
+            Contestant contestant = new Contestant(performance, ruleViolationPenalty: 0, tieBreakerPoints: 0);
 
             Assert.AreEqual(performance, contestant.Performance);
         }
@@ -56,7 +56,7 @@ namespace TalentShow.Tests
 
             Performance performance = new Performance(description: "Dancing an abc to xyz", duration: new TimeSpan(hours: 0, minutes: 2, seconds: 0));
 
-            Contestant contestant = new Contestant(performance, ruleViolationPenalty: 0);
+            Contestant contestant = new Contestant(performance, ruleViolationPenalty: 0, tieBreakerPoints: 0);
         }
     }
 }

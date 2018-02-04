@@ -66,7 +66,7 @@ namespace TalentShowWeb.Show
         private ReportContestant GetReportContestants(TalentShow.Contest contest, Contestant contestant)
         {
             var scoreCards = ServiceFactory.ScoreCardService.GetContestantScoreCards(contestant.Id);
-            var totalScore = scoreCards.Sum(s => s.TotalScore);
+            var totalScore = scoreCards.Sum(s => s.TotalScore) + contestant.TieBreakerPoints;
             var finalScore = ServiceFactory.ScoreCardService.GetContestantTotalScore(contestant, contest.MaxDuration);
             double lowestScore = 0;
 
