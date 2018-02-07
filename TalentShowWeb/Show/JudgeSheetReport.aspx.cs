@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using TalentShowWeb.Account.Util;
 using TalentShowWeb.Models;
+using TalentShowWeb.Show.Utils;
 using TalentShowWeb.Utils;
 
 namespace TalentShowWeb.Show
@@ -38,43 +39,7 @@ namespace TalentShowWeb.Show
 
         protected IEnumerable<JudgeSheetReportContestantScoreCard> GetReportContestants(TalentShow.Contest contest)
         {
-            var reportContestants = new List<JudgeSheetReportContestantScoreCard>();
-
-            foreach (var contestant in contest.Contestants)
-                reportContestants.Add(GetReportContestant(contest, contestant));
-
-            return reportContestants.OrderByDescending(c => c.FinalScore);
-        }
-
-        private JudgeSheetReportContestantScoreCard GetReportContestant(TalentShow.Contest contest, TalentShow.Contestant contestant)
-        {
-            var scoreCards = ServiceFactory.ScoreCardService.GetContestantScoreCards(contestant.Id);
-            var totalScore = scoreCards.Sum(s => s.TotalScore) + contestant.TieBreakerPoints;
-            var finalScore = ServiceFactory.ScoreCardService.GetContestantTotalScore(contestant, contest.MaxDuration);
-            double lowestScore = 0;
-
-            var lowestScoreCard = scoreCards.OrderBy(s => s.TotalScore).FirstOrDefault();
-
-            if (lowestScoreCard != null)
-                lowestScore = lowestScoreCard.TotalScore;
-
-            var penaltyPoints = (totalScore - lowestScore) - finalScore;
-
-            return new JudgeSheetReportContestantScoreCard(
-                ContestantId: contestant.Id,
-                Name: GetContestantName(contestant.Id),
-                PerformanceDescription: contestant.Performance.Description,
-                PerformanceDuration: contestant.Performance.Duration,
-                TotalScore: totalScore,
-                PenaltyPoints: penaltyPoints,
-                FinalScore: finalScore,
-                LowestScore: lowestScore,
-                SumOfTopScores: totalScore - lowestScore,
-                NumberOfScoreCards: scoreCards.Count,
-                NumberOfJudges: contest.Judges.Count,
-                Scores: GetScores(scoreCards),
-                ScoreCards: scoreCards
-            );
+            return new JudgeSheetReportContestantScoreCardProvider().GetReportContestants(contest);
         }
 
         protected string GetContestantURL(int contestantId, TalentShow.Contest contest)
@@ -87,41 +52,14 @@ namespace TalentShowWeb.Show
             return new AccountUtil(Context).GetUser(userId).UserName;
         }
 
-        private string GetContestantName(int contestantId)
-        {
-            var performers = ServiceFactory.PerformerService.GetContestantPerformers(contestantId);
-
-            bool isFirst = true;
-
-            string text = "";
-
-            foreach (var performer in performers)
-            {
-                text += (!isFirst ? ", " : "") + performer.Name.FirstName + " " + performer.Name.LastName;
-                isFirst = false;
-            }
-
-            return text;
-        }
-
-        private string GetScores(ICollection<TalentShow.ScoreCard> scoreCards)
-        {
-            bool isFirst = true;
-
-            string text = "";
-
-            foreach (var scoreCard in scoreCards)
-            {
-                text += (!isFirst ? ", " : "") + scoreCard.TotalScore;
-                isFirst = false;
-            }
-
-            return text;
-        }
-
         private int GetShowId()
         {
             return Convert.ToInt32(Request.QueryString["showId"]);
+        }
+
+        protected void DownloadExcelFile_Click(object sender, EventArgs e)
+        {
+            new ExcelJudgeSheetReportMaker(contests).Make();
         }
     }
 }

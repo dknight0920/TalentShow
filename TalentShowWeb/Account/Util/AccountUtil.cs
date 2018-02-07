@@ -16,6 +16,7 @@ namespace TalentShowWeb.Account.Util
     public class AccountUtil
     {
         private const string ADMIN = "Admin";
+        private const string SUPERUSER = "Superuser";
         private ApplicationUserManager manager;
         private ApplicationRoleManager roleManager;
         private HttpContext context;
@@ -45,14 +46,24 @@ namespace TalentShowWeb.Account.Util
 
         public bool IsUserAnAdmin()
         {
-            return IsUserInRole(ADMIN, context.User.Identity.GetUserId());
+            return IsUserInRole(ADMIN, context.User.Identity.GetUserId()) || IsUserASuperuser();
         }
 
         public bool IsUserAnAdmin(string userId)
         {
-            return IsUserInRole(ADMIN, userId);
+            return IsUserInRole(ADMIN, userId) || IsUserASuperuser(userId);
         }
-      
+
+        public bool IsUserASuperuser()
+        {
+            return IsUserInRole(SUPERUSER, context.User.Identity.GetUserId());
+        }
+
+        public bool IsUserASuperuser(string userId)
+        {
+            return IsUserInRole(SUPERUSER, userId);
+        }
+
         public bool IsUserInRole(string roleName, string userId)
         {
             var role = roleManager.Roles.FirstOrDefault(r => r.Name == roleName);
@@ -86,6 +97,20 @@ namespace TalentShowWeb.Account.Util
             if (!IsUserInRole(ADMIN, userId)) return;
 
             manager.RemoveFromRole(userId, ADMIN);
+        }
+
+        public void AddToSuperuserRole(string userId)
+        {
+            if (IsUserInRole(SUPERUSER, userId)) return;
+
+            manager.AddToRole(userId, SUPERUSER);
+        }
+
+        public void RemoveFromSuperuserRole(string userId)
+        {
+            if (!IsUserInRole(SUPERUSER, userId)) return;
+
+            manager.RemoveFromRole(userId, SUPERUSER);
         }
 
         public void DeleteUser(string userId)

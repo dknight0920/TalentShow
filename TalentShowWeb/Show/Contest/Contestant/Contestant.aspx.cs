@@ -77,6 +77,11 @@ namespace TalentShowWeb.Show.Contest.Contestant
             return new AccountUtil(Context).IsUserAnAdmin();
         }
 
+        protected bool IsUserASuperuser()
+        {
+            return new AccountUtil(Context).IsUserASuperuser();
+        }
+
         protected ICollection<TalentShow.ScoreCard> GetScoreCards()
         {
             return ServiceFactory.ScoreCardService.GetContestantScoreCards(GetContestantId());

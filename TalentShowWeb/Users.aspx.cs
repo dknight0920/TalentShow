@@ -32,10 +32,15 @@ namespace TalentShowWeb
             var accountUtil = new AccountUtil(Context);
 
             foreach (var user in new AccountUtil(Context).GetAllUsers().OrderBy(u => u.Email))
+            {
+                string role = (accountUtil.IsUserAnAdmin(user.Id) ? "Administrator" : "");
+                role = (accountUtil.IsUserASuperuser(user.Id) ? "Superuser" : role);
+
                 items.Add(new HyperlinkListPanelItem(
-                    URL: NavUtil.GetUpdateUserPageUrl(user.Id), 
-                    Heading: user.UserName + (accountUtil.IsUserAnAdmin(user.Id) ? " (Administrator)" : ""), 
+                    URL: NavUtil.GetUpdateUserPageUrl(user.Id),
+                    Heading: user.UserName + (!String.IsNullOrWhiteSpace(role) ? " (" + role + ")" : ""),
                     Text: user.Email));
+            }
 
             HyperlinkListPanelRenderer.Render(usersList, new HyperlinkListPanelConfig("Users", items));
         }

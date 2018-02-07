@@ -41,6 +41,7 @@ namespace TalentShowWeb.User
             userForm.GetUserNameLabel().Text = user.UserName;
             userForm.GetEmailTextBox().Text = user.Email;
             userForm.GetIsAdminCheckBox().Checked = accountUtil.IsUserAnAdmin(user.Id);
+            userForm.GetIsSuperuserCheckBox().Checked = accountUtil.IsUserASuperuser(user.Id);
         }
 
         protected void btnUpdateUser_Click(object sender, EventArgs e)
@@ -58,6 +59,11 @@ namespace TalentShowWeb.User
                 accountUtil.AddToAdminRole(userId);
             else
                 accountUtil.RemoveFromAdminRole(userId);
+
+            if (userForm.GetIsSuperuserCheckBox().Checked)
+                accountUtil.AddToSuperuserRole(userId);
+            else
+                accountUtil.RemoveFromSuperuserRole(userId);
 
             GoToUsersPage();
         }

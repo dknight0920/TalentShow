@@ -47,6 +47,10 @@
       <HintPath>..\packages\AspNet.ScriptManager.bootstrap.3.3.7\lib\net45\AspNet.ScriptManager.bootstrap.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EPPlus, Version=4.0.5.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.0.5\lib\net20\EPPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.0.1011, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -673,6 +677,13 @@
     <Compile Include="Show\UpdateShow.aspx.designer.cs">
       <DependentUpon>UpdateShow.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Show\Utils\ContestantNameUtil.cs" />
+    <Compile Include="Show\Utils\ExcelHttpResponseUtil.cs" />
+    <Compile Include="Show\Utils\ExcelJudgeSheetReportMaker.cs" />
+    <Compile Include="Show\Utils\ExcelSummaryReportMaker.cs" />
+    <Compile Include="Show\Utils\JudgeSheetReportContestantScoreCardProvider.cs" />
+    <Compile Include="Show\Utils\ReportContestantsProvider.cs" />
+    <Compile Include="Show\Utils\ScoresUtil.cs" />
     <Compile Include="Show\Utils\ShowDataImporter.cs" />
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>

@@ -29,6 +29,11 @@ namespace TalentShowWeb.User
             return chkIsAdmin;
         }
 
+        public CheckBox GetIsSuperuserCheckBox()
+        {
+            return chkIsSuperuser;
+        }
+
         public Button GetSubmitButton()
         {
             return btnSubmit;

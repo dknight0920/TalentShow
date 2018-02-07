@@ -26,6 +26,9 @@
             <asp:ListItem Value="Complete"> Complete </asp:ListItem>
         </asp:DropDownList>
     </div>
+    <div class="form-group">
+        <asp:Button runat="server" Text="Download Excel File" OnClick="DownloadExcelFile_Click" CssClass="btn btn-primary" />
+    </div>
     <hr />
     <%  foreach (var contest in contests)
         { %>

@@ -2,7 +2,10 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2><small>Show:</small> <asp:Label runat="server" ID="labelPageTitle" /></h2>
-    <p><asp:Label runat="server" ID="labelPageDescription" /></p>
+    <p><asp:Label runat="server" ID="labelPageDescription" /></p> 
+    <div class="form-group">
+        <asp:Button runat="server" Text="Download Excel File" OnClick="DownloadExcelFile_Click" CssClass="btn btn-primary" />
+    </div>
     <hr />
     <%  foreach (var contest in contests)
         {

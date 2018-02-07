@@ -118,6 +118,11 @@ namespace TalentShowWeb.Show.Contest
             return new AccountUtil(Context).IsUserAnAdmin();
         }
 
+        protected bool IsUserASuperuser()
+        {
+            return new AccountUtil(Context).IsUserASuperuser();
+        }
+
         private string GetContestantHeadingText(TalentShow.Contestant contestant)
         {       
             var performers = ServiceFactory.PerformerService.GetContestantPerformers(contestant.Id);

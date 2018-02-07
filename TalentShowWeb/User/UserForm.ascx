@@ -13,6 +13,9 @@
 <div class="form-group">
     <asp:CheckBox runat="server" ID="chkIsAdmin" /> <asp:Label runat="server" Text="Is an Administrator" AssociatedControlID="chkIsAdmin" CssClass="control-label" /> 
 </div>
+<div class="form-group">
+    <asp:CheckBox runat="server" ID="chkIsSuperuser" /> <asp:Label runat="server" Text="Is a Superuser" AssociatedControlID="chkIsSuperuser" CssClass="control-label" /> 
+</div>
 <br />
 <div class="form-group">
     <asp:Button runat="server" ID="btnSubmit" Text="Submit"  CausesValidation="true" CssClass="btn btn-primary" />

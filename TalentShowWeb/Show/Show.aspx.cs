@@ -54,6 +54,11 @@ namespace TalentShowWeb.Show
             return new AccountUtil(Context).IsUserAnAdmin();
         }
 
+        protected bool IsUserASuperuser()
+        {
+            return new AccountUtil(Context).IsUserASuperuser();
+        }
+
         protected void ButtonAddContestClick(object sender, EventArgs evnt)
         {
             NavUtil.GoToAddContestPage(Response, GetShowId());
