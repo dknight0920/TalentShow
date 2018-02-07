@@ -71,10 +71,10 @@ namespace TalentShowWeb.Show.Utils
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
-                    value += Environment.NewLine + Environment.NewLine;
+                    value += ",";
                 }
 
-                value += "Score Card by " + GetJudgeUserName(card.Judge.UserId) + ":" + Environment.NewLine;
+                value += "Score Card by " + GetJudgeUserName(card.Judge.UserId) + ":";
 
                 bool isFirst = true;
 
@@ -82,10 +82,10 @@ namespace TalentShowWeb.Show.Utils
                 {
                     if (!isFirst)
                     {
-                        value += Environment.NewLine;
+                        value += ",";
                     }
 
-                    value += "  " + c.ScoreCriterion.CriterionDescription + ":" + Environment.NewLine + "    Score: " + c.Score  + Environment.NewLine +  "    Comment: " + c.Comment;
+                    value += "  " + c.ScoreCriterion.CriterionDescription + ":  Score: " + c.Score  + "  Comment: " + c.Comment;
 
                     isFirst = false;
                 }
