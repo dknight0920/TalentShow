@@ -42,6 +42,9 @@ namespace TalentShowWeb.User
             userForm.GetEmailTextBox().Text = user.Email;
             userForm.GetIsAdminCheckBox().Checked = accountUtil.IsUserAnAdmin(user.Id);
             userForm.GetIsSuperuserCheckBox().Checked = accountUtil.IsUserASuperuser(user.Id);
+
+            if (!accountUtil.IsUserASuperuser())
+                userForm.GetIsSuperuserCheckBox().Enabled = false;
         }
 
         protected void btnUpdateUser_Click(object sender, EventArgs e)
