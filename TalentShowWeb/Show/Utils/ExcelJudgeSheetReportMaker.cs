@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using TalentShow;
 using TalentShowWeb.Account.Util;
+using TalentShowWeb.Utils;
 
 namespace TalentShowWeb.Show.Utils
 {
@@ -45,7 +46,7 @@ namespace TalentShowWeb.Show.Utils
                         contestant.ContestantId,
                         contestant.Name,
                         contestant.PerformanceDescription,
-                        contestant.PerformanceDuration.Hours.ToString("00") + ":" + contestant.PerformanceDuration.Minutes.ToString("00") + ":" + contestant.PerformanceDuration.Seconds.ToString("00"),
+                        contestant.PerformanceDuration.ToHHMMSS(),
                         contestant.TotalScore,
                         contestant.PenaltyPoints,
                         contestant.FinalScore,
