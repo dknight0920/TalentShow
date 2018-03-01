@@ -19,6 +19,11 @@ namespace TalentShowWeb.Show.Contest.Contestant
             return txtPerformanceDescription;
         }
 
+        public TextBox GetPerformanceDurationTextBox()
+        {
+            return txtPerformanceDuration;
+        }
+
         public TextBox GetRuleViolationPenaltyPointsTextBox()
         {
             return txtRuleViolationPenaltyPoints;

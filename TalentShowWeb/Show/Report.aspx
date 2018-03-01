@@ -79,7 +79,7 @@
                                     <% Response.Write(contestant.PerformanceDescription.Length > 25 ? contestant.PerformanceDescription.Substring(0, 25) + " ..." : contestant.PerformanceDescription); %>
                                 </td>
                                 <td class="text-right <%= (contestant.PerformanceDuration.TotalMilliseconds == 0 ? " warning" : "") %>">
-                                    <% Response.Write(contestant.PerformanceDuration.Hours.ToString("00") + ":" + contestant.PerformanceDuration.Minutes.ToString("00") + ":" + contestant.PerformanceDuration.Seconds.ToString("00")); %>
+                                    <% Response.Write(TalentShowWeb.Utils.TimeSpanExtensions.ToHHMMSS(contestant.PerformanceDuration)); %>
                                 </td>
                                 <td class="text-right <%= (contestant.NumberOfJudges > contestant.NumberOfScoreCards ? " warning" : "") %>">
                                     <% Response.Write(contestant.Scores); %> (<% Response.Write(contestant.NumberOfScoreCards); %> of <% Response.Write(contestant.NumberOfJudges); %>)

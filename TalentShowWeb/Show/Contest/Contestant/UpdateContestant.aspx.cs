@@ -38,6 +38,7 @@ namespace TalentShowWeb.Show.Contest.Contestant
             var contestantService = ServiceFactory.ContestantService;
             var contestant = contestantService.Get(GetContestantId());
             contestantForm.GetPerformanceDescriptionTextBox().Text = contestant.Performance.Description;
+            contestantForm.GetPerformanceDurationTextBox().Text = contestant.Performance.Duration.ToHHMMSS();
             contestantForm.GetRuleViolationPenaltyPointsTextBox().Text = Convert.ToString(contestant.RuleViolationPenalty);
             contestantForm.GetTieBreakerPointsTextBox().Text = Convert.ToString(contestant.TieBreakerPoints);
         }
@@ -53,12 +54,22 @@ namespace TalentShowWeb.Show.Contest.Contestant
             var contestantService = ServiceFactory.ContestantService;
             var contestant = contestantService.Get(GetContestantId());
             var performanceDescription = contestantForm.GetPerformanceDescriptionTextBox().Text.Trim();
+
+            var performanceDuration = contestant.Performance.Duration;
+
+            try
+            {
+                var performanceDurationParts = contestantForm.GetPerformanceDurationTextBox().Text.Trim().Split(':');
+                performanceDuration = new TimeSpan(Convert.ToInt32(performanceDurationParts[0]), Convert.ToInt32(performanceDurationParts[1]), Convert.ToInt32(performanceDurationParts[2]));
+            }
+            catch { }
+
             var ruleViolationPenaltyPoints = Convert.ToDouble(contestantForm.GetRuleViolationPenaltyPointsTextBox().Text.Trim());
             var tieBreakerPoints = Convert.ToDouble(contestantForm.GetTieBreakerPointsTextBox().Text.Trim());
             var updatedContestant = new TalentShow.Contestant(
                 GetContestantId(), 
                 new TalentShow.Performance(
-                    contestant.Performance.Id, performanceDescription, contestant.Performance.Duration), ruleViolationPenaltyPoints, tieBreakerPoints);
+                    contestant.Performance.Id, performanceDescription, performanceDuration), ruleViolationPenaltyPoints, tieBreakerPoints);
 
             contestantService.Update(updatedContestant);
             GoToContestantPage();

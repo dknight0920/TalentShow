@@ -726,6 +726,7 @@
     <Compile Include="Utils\RedirectUtil.cs" />
     <Compile Include="Utils\RepoFactory.cs" />
     <Compile Include="Utils\ServiceFactory.cs" />
+    <Compile Include="Utils\TimeSpanExtensions.cs" />
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

@@ -65,7 +65,7 @@
                                             <h4>Allowed Duration:</h4>
                                         </td>
                                         <td class="pull-right">
-                                            <h4><% Response.Write(contest.MaxDuration.Hours.ToString("00") + ":" + contest.MaxDuration.Minutes.ToString("00") + ":" + contest.MaxDuration.Seconds.ToString("00")); %></h4>
+                                            <h4><% Response.Write(TalentShowWeb.Utils.TimeSpanExtensions.ToHHMMSS(contest.MaxDuration)); %></h4>
                                         </td>
                                     </tr>
                                     <tr>
@@ -73,7 +73,7 @@
                                             <h4>Actual Duration:</h4>
                                         </td>
                                         <td class="pull-right">
-                                            <h4><% Response.Write(contestant.PerformanceDuration.Hours.ToString("00") + ":" + contestant.PerformanceDuration.Minutes.ToString("00") + ":" + contestant.PerformanceDuration.Seconds.ToString("00")); %></h4>
+                                            <h4><% Response.Write(TalentShowWeb.Utils.TimeSpanExtensions.ToHHMMSS(contestant.PerformanceDuration)); %></h4>
                                         </td>
                                     </tr>
                                 </table>

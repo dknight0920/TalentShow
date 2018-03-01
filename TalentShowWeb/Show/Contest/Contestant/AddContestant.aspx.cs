@@ -34,6 +34,7 @@ namespace TalentShowWeb.Show.Contest.Contestant
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
+            contestantForm.GetPerformanceDurationTextBox().Text = new TimeSpan(0).ToHHMMSS();
             contestantForm.GetRuleViolationPenaltyPointsTextBox().Text = Convert.ToString(0);
             contestantForm.GetTieBreakerPointsTextBox().Text = Convert.ToString(0);
         }
@@ -47,9 +48,19 @@ namespace TalentShowWeb.Show.Contest.Contestant
             }
 
             var performanceDescription = contestantForm.GetPerformanceDescriptionTextBox().Text.Trim();
+
+            var performanceDuration = new TimeSpan(0);
+
+            try
+            {
+                var performanceDurationParts = contestantForm.GetPerformanceDurationTextBox().Text.Trim().Split(':');
+                performanceDuration = new TimeSpan(Convert.ToInt32(performanceDurationParts[0]), Convert.ToInt32(performanceDurationParts[1]), Convert.ToInt32(performanceDurationParts[2]));
+            }
+            catch { }
+
             var ruleViolationPenaltyPoints = Convert.ToDouble(contestantForm.GetRuleViolationPenaltyPointsTextBox().Text.Trim());
             var tieBreakerPoints = Convert.ToDouble(contestantForm.GetTieBreakerPointsTextBox().Text.Trim());
-            var contestant = new TalentShow.Contestant(0, new TalentShow.Performance(0, performanceDescription, new TimeSpan(0)), ruleViolationPenaltyPoints, tieBreakerPoints);
+            var contestant = new TalentShow.Contestant(0, new TalentShow.Performance(0, performanceDescription, performanceDuration), ruleViolationPenaltyPoints, tieBreakerPoints);
             ServiceFactory.ContestantService.AddContestContestant(GetContestId(), contestant);
             GoToContestPage();
         }

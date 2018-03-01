@@ -6,6 +6,12 @@
     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtPerformanceDescription" CssClass="text-danger" ErrorMessage="Required" Display="Dynamic" />
 </div>
 <div class="form-group">
+    <asp:Label runat="server" Text="Performance Duration (HH:MM:SS)" AssociatedControlID="txtPerformanceDuration" CssClass="control-label" />
+    <asp:TextBox runat="server" ID="txtPerformanceDuration" CssClass="form-control" />
+    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtPerformanceDuration" CssClass="text-danger" ErrorMessage="Required" Display="Dynamic" />
+    <asp:RegularExpressionValidator runat="server" ControlToValidate="txtPerformanceDuration" CssClass="text-danger" ErrorMessage="Only HH:MM:SS Format Allowed" ValidationExpression="[0-9][0-9]:[0-5][0-9]:[0-5][0-9]" Display="Dynamic" />
+</div>
+<div class="form-group">
     <asp:Label runat="server" Text="Rule Violation Penalty Points" AssociatedControlID="txtRuleViolationPenaltyPoints" CssClass="control-label" />
     <asp:TextBox runat="server" ID="txtRuleViolationPenaltyPoints" CssClass="form-control" />
     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtRuleViolationPenaltyPoints" CssClass="text-danger" ErrorMessage="Required" Display="Dynamic" />
