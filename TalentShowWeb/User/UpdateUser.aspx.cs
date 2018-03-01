@@ -44,7 +44,12 @@ namespace TalentShowWeb.User
             userForm.GetIsSuperuserCheckBox().Checked = accountUtil.IsUserASuperuser(user.Id);
 
             if (!accountUtil.IsUserASuperuser())
+            {
                 userForm.GetIsSuperuserCheckBox().Enabled = false;
+
+                if (accountUtil.IsUserASuperuser(user.Id))
+                    btnDelete.Enabled = false;
+            }
         }
 
         protected void btnUpdateUser_Click(object sender, EventArgs e)
