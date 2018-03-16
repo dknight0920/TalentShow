@@ -100,14 +100,6 @@
                                     </tr>
                                     <tr>
                                         <td class="pull-left">
-                                            <h4>Lowest Score:</h4>
-                                        </td>
-                                        <td class="pull-right">
-                                            <h4><% Response.Write(contestant.LowestScore); %></h4>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="pull-left">
                                             <h3>Final Score:</h3>
                                         </td>
                                         <td class="pull-right">
