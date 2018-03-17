@@ -37,6 +37,10 @@
             var $elem = $(elem).parent();
             var $span = $elem.find("span");
 
+            DisplayWarning($elem, $span);
+        }
+
+        function DisplayWarning($elem, $span){
             $elem.removeClass("has-success");
             $span.removeClass("glyphicon-ok"); 
 
@@ -50,43 +54,40 @@
             $span.addClass("glyphicon-warning-sign");
         }
 
+        function DisplaySuccess($elem, $span){
+            $elem.removeClass("has-warning")
+            $span.removeClass("glyphicon-warning-sign");
+
+            $elem.addClass("has-success");
+            $span.addClass("glyphicon-ok");
+        }
+
+        function DisplayError($elem, $span){
+            $elem.removeClass("has-warning")
+            $span.removeClass("glyphicon-warning-sign");
+
+            $elem.addClass("has-error");
+            $span.addClass("glyphicon-remove");
+        }
+
         function SetScore(contestId, contestantId, scoreCriterionId, score, elem) {
             var $elem = $(elem).parent();
             var $span = $elem.find("span");
 
-            $elem.removeClass("has-success");
-            $span.removeClass("glyphicon-ok");
+            DisplayWarning($elem, $span);
 
-            $elem.removeClass("has-warning");      
-            $span.removeClass("glyphicon-warning-sign"); 
+            if(!$.isNumeric(score)){
+                toastr.error("The value \"" + score + "\" is not numeric. Scores must be numeric.");
+                DisplayError($elem, $span);
+                return;
+            }
 
-            $elem.removeClass("has-error");      
-            $span.removeClass("glyphicon-remove"); 
-
-            $elem.addClass("has-warning");
-            $span.addClass("glyphicon-warning-sign");
-
-            var data = JSON.stringify({"contestId": contestId, "contestantId": contestantId, "scoreCriterionId": scoreCriterionId, "score":score});
-            $.ajax({
-                type: 'POST',
-                url: '<%= ResolveUrl("~/Show/Contest/Contest.aspx/SetScore") %>',
-                data: data,
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                success: function (msg) {     
-                    $elem.removeClass("has-warning")
-                    $span.removeClass("glyphicon-warning-sign");
-
-                    $elem.addClass("has-success");
-                    $span.addClass("glyphicon-ok");
-                },
-                error: function (jqXHR, exception) {
-                    $elem.removeClass("has-warning")
-                    $span.removeClass("glyphicon-warning-sign");
-
-                    $elem.addClass("has-error");
-                    $span.addClass("glyphicon-remove");
-                }      
+            queueAndProcessRequest({
+                "$elem": $elem,
+                "$span": $span,
+                "url": '<%= ResolveUrl("~/Show/Contest/Contest.aspx/SetScore") %>',
+                "data": {"contestId": contestId, "contestantId": contestantId, "scoreCriterionId": scoreCriterionId, "score":score},
+                "successMsg": "Score Saved: " + score
             });
         }
 
@@ -99,40 +100,73 @@
             var $elem = $(elem).parent();
             var $span = $elem.find("span");
 
-            $elem.removeClass("has-success");
-            $span.removeClass("glyphicon-ok");
+            DisplayWarning($elem, $span);
 
-            $elem.removeClass("has-warning");      
-            $span.removeClass("glyphicon-warning-sign"); 
+            queueAndProcessRequest({
+                "$elem": $elem,
+                "$span": $span,
+                "url": '<%= ResolveUrl("~/Show/Contest/Contest.aspx/SetComment") %>',
+                "data": {"contestId": contestId, "contestantId": contestantId, "scoreCriterionId": scoreCriterionId, "comment":comment},
+                "successMsg": "Comment Saved: " + comment
+            });
+        }
 
-            $elem.removeClass("has-error");      
-            $span.removeClass("glyphicon-remove"); 
+        var isCurrentlyProcessingARequest = false;
+        var updateScoreCardRequestQueue = [];
 
-            $elem.addClass("has-warning");
-            $span.addClass("glyphicon-warning-sign");
+        function queueAndProcessRequest(request){
+            updateScoreCardRequestQueue.push(request);
+            processRequestQueue();
+        }
 
-            var data = JSON.stringify({"contestId": contestId, "contestantId": contestantId, "scoreCriterionId": scoreCriterionId, "comment":comment});
+        function processRequestQueue(){
+            if(!isCurrentlyProcessingARequest && updateScoreCardRequestQueue.length > 0){
+                sendRequest(updateScoreCardRequestQueue.shift());
+            }
+        }
+
+        function sendRequest(request){
+            isCurrentlyProcessingARequest = true;
             $.ajax({
                 type: 'POST',
-                url: '<%= ResolveUrl("~/Show/Contest/Contest.aspx/SetComment") %>',
-                data: data,
+                url: request.url,
+                data: JSON.stringify(request.data),
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
-                success: function (msg) {     
-                    $elem.removeClass("has-warning")
-                    $span.removeClass("glyphicon-warning-sign");
-
-                    $elem.addClass("has-success");
-                    $span.addClass("glyphicon-ok");
+                success: function (msg) {
+                    isCurrentlyProcessingARequest = false;
+                    processRequestQueue();
+                    toastr.success(request.successMsg);
+                    DisplaySuccess(request.$elem, request.$span);
                 },
                 error: function (jqXHR, exception) {
-                    $elem.removeClass("has-warning")
-                    $span.removeClass("glyphicon-warning-sign");
-
-                    $elem.addClass("has-error");
-                    $span.addClass("glyphicon-remove");
+                    isCurrentlyProcessingARequest = false;
+                    processRequestQueue();
+                    handleAjaxError(jqXHR);
+                    DisplayError(request.$elem, request.$span);
                 }      
             });
+        }
+
+        function handleAjaxError(jqXHR){
+            if(jqXHR){
+                switch (jqXHR.status) {
+                    case 500:
+                        var error = JSON.parse(jqXHR.responseText);
+                        if(error && error.Message){
+                            toastr.error(error.Message);
+                        } else {
+                            toastr.error("Unexpected Error: " + jqXHR.responseText);
+                        }
+                        break;
+                    case 0:
+                        toastr.error("The server is unreachable. Check your internet connection.");
+                        break;
+                    default:
+                        toastr.error("Unexpected Error: " + jqXHR.responseText);
+                        break;
+                }
+            }
         }
     </script>
 </asp:Content>

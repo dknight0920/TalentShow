@@ -216,11 +216,11 @@ namespace TalentShowWeb.Show.Contest
             var currentUserId = HttpContext.Current.User.Identity.GetUserId();
             var judge = contest.Judges.FirstOrDefault(j => j.UserId == currentUserId);
 
-            if (judge == null) return;
+            if (judge == null) throw new ApplicationException("You are not a judge of this contest.");
 
             var scoreCards = ServiceFactory.ScoreCardService.GetContestantScoreCards(contestantId);
 
-            if (scoreCards == null || !scoreCards.Any()) return;
+            if (scoreCards == null || !scoreCards.Any()) throw new ApplicationException("A score card doesn't exist for this contestant.");
 
             var scoreCard = scoreCards.FirstOrDefault(s => s.Contestant.Id == contestantId && s.Judge.Id == judge.Id);
 
@@ -236,11 +236,11 @@ namespace TalentShowWeb.Show.Contest
             var currentUserId = HttpContext.Current.User.Identity.GetUserId();
             var judge = contest.Judges.FirstOrDefault(j => j.UserId == currentUserId);
 
-            if (judge == null) return;
+            if (judge == null) throw new ApplicationException("You are not a judge of this contest.");
 
             var scoreCards = ServiceFactory.ScoreCardService.GetContestantScoreCards(contestantId);
 
-            if (scoreCards == null || !scoreCards.Any()) return;
+            if (scoreCards == null || !scoreCards.Any()) throw new ApplicationException("A score card doesn't exist for this contestant.");
 
             var scoreCard = scoreCards.FirstOrDefault(s => s.Contestant.Id == contestantId && s.Judge.Id == judge.Id);
 
