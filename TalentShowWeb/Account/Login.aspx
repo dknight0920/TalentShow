@@ -45,9 +45,16 @@
                         </div>
                     </div>
                 </div>
-                <p>
-                    <asp:HyperLink runat="server" ID="RegisterHyperLink" ViewStateMode="Disabled">Register as a new user</asp:HyperLink>
-                </p>
+                <div>
+                    <ul>
+                        <li>
+                            <asp:HyperLink runat="server" ID="RegisterHyperLink" ViewStateMode="Disabled">Register as a new user</asp:HyperLink>
+                        </li>
+                        <li>
+                            <asp:HyperLink runat="server" ID="ForgotHyperLink" ViewStateMode="Disabled">Forgot my password</asp:HyperLink>
+                        </li>
+                    </ul>
+                </div>
                 <p>
                     <%-- Enable this once you have account confirmation enabled for password reset functionality
                     <asp:HyperLink runat="server" ID="ForgotPasswordHyperLink" ViewStateMode="Disabled">Forgot your password?</asp:HyperLink>

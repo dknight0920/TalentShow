@@ -728,6 +728,7 @@
       <DependentUpon>UserForm.ascx</DependentUpon>
     </Compile>
     <Compile Include="Utils\BreadCrumbUtil.cs" />
+    <Compile Include="Utils\Mailer.cs" />
     <Compile Include="Utils\NavUtil.cs" />
     <Compile Include="Utils\RedirectUtil.cs" />
     <Compile Include="Utils\RepoFactory.cs" />

@@ -7,6 +7,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using TalentShowWeb.Models;
+using System.Net.Mail;
+using TalentShowWeb.Utils;
 
 namespace TalentShowWeb
 {
@@ -15,6 +17,8 @@ namespace TalentShowWeb
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
+            var email = new MailMessage("noreply@gmail.com", message.Destination, message.Subject, message.Body);
+            new Mailer().Send(email);
             return Task.FromResult(0);
         }
     }
