@@ -17,7 +17,7 @@ namespace TalentShowWeb
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
-            var email = new MailMessage("noreply@gmail.com", message.Destination, message.Subject, message.Body);
+            var email = new MailMessage(message.Destination, message.Destination, message.Subject, message.Body);
             email.IsBodyHtml = true;
             new Mailer().Send(email);
             return Task.FromResult(0);
