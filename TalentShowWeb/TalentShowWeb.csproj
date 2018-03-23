@@ -230,6 +230,10 @@
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
     <None Include="Properties\PublishProfiles\TalentShowWeb.pubxml" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Images\JudgeSheetHeader.png" />
     <Content Include="Images\logo.png" />
@@ -298,6 +302,7 @@
     <Content Include="Show\Contest\Contest.aspx" />
     <Content Include="Show\ShowForm.ascx" />
     <Content Include="Show\UpdateShow.aspx" />
+    <Content Include="Show\WinnersReport.aspx" />
     <Content Include="Site.Master" />
     <Content Include="Users.aspx" />
     <Content Include="User\UpdateUser.aspx" />
@@ -508,6 +513,11 @@
       <DependentUpon>UpdateOrganization.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Shows.aspx.cs">
       <DependentUpon>Shows.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -691,6 +701,13 @@
     <Compile Include="Show\Utils\ReportContestantsProvider.cs" />
     <Compile Include="Show\Utils\ScoresUtil.cs" />
     <Compile Include="Show\Utils\ShowDataImporter.cs" />
+    <Compile Include="Show\WinnersReport.aspx.cs">
+      <DependentUpon>WinnersReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Show\WinnersReport.aspx.designer.cs">
+      <DependentUpon>WinnersReport.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

@@ -85,6 +85,11 @@ namespace TalentShowWeb.Show
             NavUtil.GoToShowJudgeSheetReportPage(Response, GetShowId());
         }
 
+        protected void btnViewWinnersReport_Click(object sender, EventArgs e)
+        {
+            NavUtil.GoToShowWinnersReportPage(Response, GetShowId());
+        }
+
         private int GetShowId()
         {
             return Convert.ToInt32(Request.QueryString["showId"]);
