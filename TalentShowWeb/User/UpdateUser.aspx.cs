@@ -28,6 +28,8 @@ namespace TalentShowWeb.User
 
             this.accountUtil = new AccountUtil(Context);
 
+            labelCannotDeleteUser.Visible = false;
+
             labelPageTitle.Text = "Update the User";
             labelPageDescription.Text = "Use the form below to update the user.";
 
@@ -83,8 +85,32 @@ namespace TalentShowWeb.User
 
         protected void btnDelete_Click(object sender, EventArgs e)
         {
-            accountUtil.DeleteUser(GetUserId());
+            var userId = GetUserId();
+
+            var judges = RepoFactory.JudgeRepo.GetAll().Where(j => j.UserId == userId);
+
+            if (judges.Any())
+            {
+                DisplayCannotDeleteUserLabel("This user cannot be deleted because it's a judge on an existing contest. You must remove the user as a judge from all contests before it can be deleted.");
+                return;
+            }
+
+            var contests = RepoFactory.ContestRepo.GetAll().Where(c => c.TimeKeeperId == userId);
+
+            if (contests.Any())
+            {
+                DisplayCannotDeleteUserLabel("This user cannot be deleted because it's a timekeeper on an existing contest. You must remove the user as a timekeeper from all contests before it can be deleted.");
+                return;
+            }
+
+            accountUtil.DeleteUser(userId);
             GoToUsersPage();
+        }
+
+        private void DisplayCannotDeleteUserLabel(string text)
+        {
+            labelCannotDeleteUser.Visible = true;
+            labelCannotDeleteUser.Text = text;
         }
 
         private void GoToUsersPage()

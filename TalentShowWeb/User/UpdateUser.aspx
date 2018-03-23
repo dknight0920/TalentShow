@@ -6,6 +6,7 @@
     <p><asp:Label runat="server" ID="labelPageDescription" /></p>
     <div class="form-group">
         <asp:Button runat="server" ID="btnDelete" Text="Delete" OnClick="btnDelete_Click" OnClientClick="return confirm('Are you sure you want to delete this user?');" CssClass="btn btn-sm btn-danger" />
+        <p><asp:Label runat="server" ID="labelCannotDeleteUser" Visible="false"  CssClass="text-danger" /></p>
     </div>
     <hr />
     <custom:UserForm runat="server" ID="userForm" />
