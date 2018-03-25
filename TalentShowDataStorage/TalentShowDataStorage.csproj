@@ -69,6 +69,7 @@
     <Compile Include="ScoreCriterionRepo.cs" />
     <Compile Include="ShowContestRepo.cs" />
     <Compile Include="ShowRepo.cs" />
+    <Compile Include="UserInUse.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TalentShow\TalentShow.csproj">

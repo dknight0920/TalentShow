@@ -60,6 +60,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repos\ICrossReferenceRepo.cs" />
     <Compile Include="Repos\IIdentity.cs" />
+    <Compile Include="Repos\IInUse.cs" />
     <Compile Include="Repos\IRepo.cs" />
     <Compile Include="ScoreCard.cs" />
     <Compile Include="ScoreCriterion.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Services\ScoreCardService.cs" />
     <Compile Include="Services\ScoreCriterionService.cs" />
     <Compile Include="Services\ShowService.cs" />
+    <Compile Include="Services\UserService.cs" />
     <Compile Include="Show.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

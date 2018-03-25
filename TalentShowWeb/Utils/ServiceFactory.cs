@@ -18,5 +18,6 @@ namespace TalentShowWeb.Utils
         internal static ScoreCardService ScoreCardService = new ScoreCardService(RepoFactory.ScoreCardRepo, RepoFactory.ScorableCriterionRepo, RepoFactory.ContestantRepo);
         internal static ScoreCriterionService ScoreCriterionService = new ScoreCriterionService(RepoFactory.ScoreCriterionRepo, RepoFactory.ContestScoreCriterionRepo);
         internal static ShowService ShowService = new ShowService(RepoFactory.ShowRepo);
+        internal static UserService UserService = new UserService(RepoFactory.UserInUse);
     }
 }

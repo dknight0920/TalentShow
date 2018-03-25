@@ -87,19 +87,11 @@ namespace TalentShowWeb.User
         {
             var userId = GetUserId();
 
-            var judges = RepoFactory.JudgeRepo.GetAll().Where(j => j.UserId == userId);
+            bool userInUse = ServiceFactory.UserService.InUse(userId);
 
-            if (judges.Any())
+            if (userInUse)
             {
-                DisplayCannotDeleteUserLabel("This user cannot be deleted because it's a judge on an existing contest. You must remove the user as a judge from all contests before it can be deleted.");
-                return;
-            }
-
-            var contests = RepoFactory.ContestRepo.GetAll().Where(c => c.TimeKeeperId == userId);
-
-            if (contests.Any())
-            {
-                DisplayCannotDeleteUserLabel("This user cannot be deleted because it's a timekeeper on an existing contest. You must remove the user as a timekeeper from all contests before it can be deleted.");
+                DisplayCannotDeleteUserLabel("This user cannot be deleted because it's in use as a judge or timekeeper. You must remove the user as a judge or timekeeper from all contests before it can be deleted.");
                 return;
             }
 

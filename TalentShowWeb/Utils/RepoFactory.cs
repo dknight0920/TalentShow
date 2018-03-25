@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using TalentShow.Repos;
 using TalentShowDataStorage;
 
 namespace TalentShowWeb.Utils
@@ -27,5 +28,6 @@ namespace TalentShowWeb.Utils
         internal static ScoreCriterionRepo ScoreCriterionRepo = new ScoreCriterionRepo();
         internal static ShowContestRepo ShowContestRepo = new ShowContestRepo();
         internal static ShowRepo ShowRepo = new ShowRepo();
+        internal static IInUse UserInUse = new UserInUse();
     }
 }
