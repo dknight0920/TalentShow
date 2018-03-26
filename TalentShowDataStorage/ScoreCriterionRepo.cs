@@ -14,6 +14,9 @@ namespace TalentShowDataStorage
         private const string MAX = "max";
         private const string SCORECRITERIA = "scorecriteria";
 
+        private const string CONTEST_ID = "contestid";
+        private const string VW_CONTEST_SCORE_CRITERIA = "vw_contest_score_criteria";
+
         protected override string GetTableName()
         {
             return SCORECRITERIA;
@@ -46,6 +49,16 @@ namespace TalentShowDataStorage
         protected override string GetForeignKeyFieldName()
         {
             return ID;
+        }
+
+        protected override string GetViewName()
+        {
+            return VW_CONTEST_SCORE_CRITERIA;
+        }
+
+        protected override string GetParentForeignKeyFieldName()
+        {
+            return CONTEST_ID;
         }
     }
 }

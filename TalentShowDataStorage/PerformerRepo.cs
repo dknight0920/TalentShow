@@ -14,6 +14,9 @@ namespace TalentShowDataStorage
         private const string ORGANIZATIONID = "organizationid";
         private const string PERFORMERS = "performers";
 
+        private const string CONTESTANT_ID = "contestantid";
+        private const string VW_CONTESTANT_PERFORMERS = "vw_contestant_performers";
+
         protected override string GetTableName()
         {
             return PERFORMERS;
@@ -55,6 +58,16 @@ namespace TalentShowDataStorage
         protected override string GetForeignKeyFieldName()
         {
             return DIVISIONID;
+        }
+
+        protected override string GetViewName()
+        {
+            return VW_CONTESTANT_PERFORMERS;
+        }
+
+        protected override string GetParentForeignKeyFieldName()
+        {
+            return CONTESTANT_ID;
         }
     }
 }

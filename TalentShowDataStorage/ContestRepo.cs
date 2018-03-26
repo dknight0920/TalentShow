@@ -18,6 +18,9 @@ namespace TalentShowDataStorage
         private const string STATUS = "status";
         private const string CONTESTS = "contests";
 
+        private const string SHOW_ID = "showid";
+        private const string VW_SHOW_CONTESTS = "vw_show_contests";
+
         protected override string GetTableName()
         {
             return CONTESTS;
@@ -87,23 +90,15 @@ namespace TalentShowDataStorage
 
             Contest contest = new Contest(id, name, description, timeKeeperId, maxDuration, status);
 
-            var contestContestantCollection = new ContestContestantRepo().GetWhereForeignKeyIs(contest.Id);
-            var contestantRepo = new ContestantRepo();
+            var contestants = new ContestantRepo().GetWhereParentForeignKeyIs(contest.Id);
 
-            foreach (var cc in contestContestantCollection)
-            {
-                if(contestantRepo.Exists(cc.ContestantId))
-                    contest.Contestants.Add(contestantRepo.Get(cc.ContestantId));
-            }
+            foreach (var contestant in contestants)
+                contest.Contestants.Add(contestant);
 
-            var contestJudgeCollection = new ContestJudgeRepo().GetWhereForeignKeyIs(contest.Id);
-            var judgeRepo = new JudgeRepo();
+            var judges = new JudgeRepo().GetWhereParentForeignKeyIs(contest.Id);
 
-            foreach (var cj in contestJudgeCollection)
-            {
-                if(judgeRepo.Exists(cj.JudgeId))
-                    contest.Judges.Add(judgeRepo.Get(cj.JudgeId));
-            }
+            foreach (var judge in judges)
+                contest.Judges.Add(judge);
 
             var contestScoreCardCollection = new ContestScoreCardRepo().GetWhereForeignKeyIs(contest.Id);
             var scoreCardRepo = new ScoreCardRepo();
@@ -114,14 +109,10 @@ namespace TalentShowDataStorage
                     contest.ScoreCards.Add(scoreCardRepo.Get(sc.ScoreCardId));
             }
 
-            var contestScorCriterionCollection = new ContestScoreCriterionRepo().GetWhereForeignKeyIs(contest.Id);
-            var scoreCriterionRepo = new ScoreCriterionRepo();
+            var scoreCriteria = new ScoreCriterionRepo().GetWhereParentForeignKeyIs(contest.Id);
 
-            foreach (var sc in contestScorCriterionCollection)
-            {
-                if(scoreCriterionRepo.Exists(sc.ScoreCriterionId))
-                    contest.ScoreCriteria.Add(scoreCriterionRepo.Get(sc.ScoreCriterionId));
-            }
+            foreach (var scoreCriterion in scoreCriteria)
+                contest.ScoreCriteria.Add(scoreCriterion);
 
             return contest;
         }
@@ -135,5 +126,16 @@ namespace TalentShowDataStorage
         {
             return TIME_KEEPER_ID;
         }
+
+        protected override string GetViewName()
+        {
+            return VW_SHOW_CONTESTS;
+        }
+
+        protected override string GetParentForeignKeyFieldName()
+        {
+            return SHOW_ID;
+        }
     }
 }
+ 

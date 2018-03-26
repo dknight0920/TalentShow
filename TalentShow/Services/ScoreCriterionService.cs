@@ -27,6 +27,7 @@ namespace TalentShow.Services
 
         public ICollection<ScoreCriterion> GetContestScoreCriteria(int contestId)
         {
+            /*
             var contestScoreCriterionCollection = ContestScoreCriterionRepo.GetMatchingOn(contestId);
             var scoreCriterions = new List<ScoreCriterion>();
 
@@ -37,6 +38,8 @@ namespace TalentShow.Services
             }
 
             return scoreCriterions;
+            */
+            return ScoreCriterionRepo.GetWhereParentForeignKeyIs(contestId);
         }
 
         public void AddContestScoreCriterion(int contestId, ScoreCriterion scoreCriterion)

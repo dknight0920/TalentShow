@@ -12,6 +12,9 @@ namespace TalentShowDataStorage
         private const string USERID = "userid";
         private const string JUDGES = "judges";
 
+        private const string CONTEST_ID = "contestid";
+        private const string VW_CONTEST_JUDGES = "vw_contest_judges";
+
         protected override string GetTableName()
         {
             return JUDGES;
@@ -39,6 +42,16 @@ namespace TalentShowDataStorage
         protected override string GetForeignKeyFieldName()
         {
             return USERID;
+        }
+
+        protected override string GetViewName()
+        {
+            return VW_CONTEST_JUDGES;
+        }
+
+        protected override string GetParentForeignKeyFieldName()
+        {
+            return CONTEST_ID;
         }
     }
 }

@@ -20,6 +20,11 @@ namespace TalentShowDataStorage
 
         protected abstract string GetTableName();
 
+        protected virtual string GetViewName()
+        {
+            throw new NotImplementedException();
+        }
+
         public virtual void Update(T item)
         {
             int id = item.Id;
@@ -30,7 +35,6 @@ namespace TalentShowDataStorage
 
             SqlCommand command = SqlServerCommandHelper.GetUpdateCommand(GetTableName(), fieldNamesAndValues, whereClause, whereClauseParameterNamesAndValues);
             SqlServerCommandHelper.ExecuteSqlCommand(command);
-
         }
 
         protected abstract Dictionary<string, object> GetFieldNamesAndValuesForInsertOrUpdate(T item);
@@ -80,6 +84,35 @@ namespace TalentShowDataStorage
 
         protected abstract string GetForeignKeyFieldName();
 
+        public ICollection<T> GetWhereParentForeignKeyIs(int foreignKeyId)
+        {
+            string sql = GetViewSelectStatement() + WhereParentForeignKeyEquals() + ";";
+            SqlCommand command = new SqlCommand(sql);
+            AddParentForeignKeyIdParameterToCommand(command, foreignKeyId);
+            IDataReader reader = SqlServerCommandHelper.ExecuteSqlQuery(command);
+
+            var items = new List<T>();
+
+            while (reader.Read())
+            {
+                T item = GetItemFromDataReader(reader);
+                items.Add(item);
+            }
+
+            return items;
+        }
+
+        protected string WhereParentForeignKeyEquals()
+        {
+            string fieldName = GetParentForeignKeyFieldName();
+            return " where [" + fieldName + "] = @" + fieldName + ";";
+        }
+
+        protected virtual string GetParentForeignKeyFieldName()
+        {
+            throw new NotImplementedException();
+        }
+
         public T Get(int id)
         {
             string sql = GetSelectStatement() + WhereIdEquals();
@@ -125,6 +158,12 @@ namespace TalentShowDataStorage
             return SqlServerCommandHelper.GetSimpleSelectStatement(GetTableName(), fieldNames);
         }
 
+        protected string GetViewSelectStatement()
+        {
+            var fieldNames = GetFieldNamesForSelectStatement();
+            return SqlServerCommandHelper.GetSimpleSelectStatement(GetViewName(), fieldNames);
+        }
+
         private static void AddIdParameterToCommand(SqlCommand command, int id)
         {
             command.Parameters.AddWithValue("@" + ID, id);
@@ -133,6 +172,11 @@ namespace TalentShowDataStorage
         private void AddForeignKeyIdParameterToCommand(SqlCommand command, int id)
         {
             command.Parameters.AddWithValue("@" + GetForeignKeyFieldName(), id);
+        }
+
+        private void AddParentForeignKeyIdParameterToCommand(SqlCommand command, int id)
+        {
+            command.Parameters.AddWithValue("@" + GetParentForeignKeyFieldName(), id);
         }
 
         protected abstract ICollection<string> GetFieldNamesForSelectStatement();

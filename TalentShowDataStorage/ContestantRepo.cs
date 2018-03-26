@@ -16,6 +16,9 @@ namespace TalentShowDataStorage
         private const string TIE_BREAKER_POINTS = "tiebreakerpoints";
         private const string CONTESTANTS = "contestants";
 
+        private const string CONTEST_ID = "contestid";
+        private const string VW_CONTEST_CONTESTANTS = "vw_contest_contestants";
+
         protected override string GetTableName()
         {
             return CONTESTANTS;
@@ -48,6 +51,16 @@ namespace TalentShowDataStorage
         protected override string GetForeignKeyFieldName()
         {
             return PERFORMANCEID;
+        }
+
+        protected override string GetViewName()
+        {
+            return VW_CONTEST_CONTESTANTS;
+        }
+
+        protected override string GetParentForeignKeyFieldName()
+        {
+            return CONTEST_ID;
         }
     }
 }

@@ -14,6 +14,9 @@ namespace TalentShowDataStorage
         private const string COMMENT = "comment";
         private const string SCORABLECRITERIA = "scorablecriteria";
 
+        private const string SCORECARD_ID = "scorecardid";
+        private const string VW_SCORECARD_SCORABLECRITERIA = "vw_scorecard_scorablecriteria";
+
         protected override string GetTableName()
         {
             return SCORABLECRITERIA;
@@ -50,6 +53,16 @@ namespace TalentShowDataStorage
         protected override string GetForeignKeyFieldName()
         {
             return SCORECRITERIONID;
+        }
+
+        protected override string GetViewName()
+        {
+            return VW_SCORECARD_SCORABLECRITERIA;
+        }
+
+        protected override string GetParentForeignKeyFieldName()
+        {
+            return SCORECARD_ID;
         }
     }
 }

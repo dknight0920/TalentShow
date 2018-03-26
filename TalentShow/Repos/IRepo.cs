@@ -6,6 +6,7 @@ namespace TalentShow.Repos
     {
         ICollection<T> GetAll();
         ICollection<T> GetWhereForeignKeyIs(int foreignKeyId);
+        ICollection<T> GetWhereParentForeignKeyIs(int foreignKeyId);
         T Get(int id);
         bool Exists(int id);
         void Add(T item);

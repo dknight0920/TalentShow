@@ -26,6 +26,7 @@ namespace TalentShow.Services
 
         public ICollection<Judge> GetContestJudges(int contestId)
         {
+            /*
             var contestJudgeCollection = ContestJudgeRepo.GetMatchingOn(contestId);
             var judges = new List<Judge>();
 
@@ -36,6 +37,8 @@ namespace TalentShow.Services
             }
 
             return judges;
+            */
+            return JudgeRepo.GetWhereParentForeignKeyIs(contestId);
         }
 
         public void AddContestJudge(int contestId, Judge judge)

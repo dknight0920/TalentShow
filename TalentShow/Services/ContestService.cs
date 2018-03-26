@@ -26,6 +26,7 @@ namespace TalentShow.Services
 
         public ICollection<Contest> GetShowContests(int showId)
         {
+            /*
             var showContestCollection = ShowContestRepo.GetMatchingOn(showId);
             var contests = new List<Contest>();
 
@@ -36,6 +37,8 @@ namespace TalentShow.Services
             }
 
             return contests;
+            */
+            return ContestRepo.GetWhereParentForeignKeyIs(showId);
         }
 
         public ICollection<Contest> GetAll()
