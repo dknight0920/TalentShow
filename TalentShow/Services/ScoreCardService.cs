@@ -30,14 +30,7 @@ namespace TalentShow.Services
 
         public ICollection<ScoreCard> GetContestantScoreCards(int contestantId)
         {
-            var contestantScoreCardCollection = ScoreCardRepo.GetWhereForeignKeyIs(contestantId);
-
-            var scoreCards = new List<ScoreCard>();
-
-            foreach (var scoreCard in contestantScoreCardCollection)
-                scoreCards.Add(scoreCard);
-
-            return scoreCards;
+            return ScoreCardRepo.GetWhereForeignKeyIs(contestantId);
         }
 
         public ICollection<ScoreCard> GetAll()
