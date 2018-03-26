@@ -26,18 +26,6 @@ namespace TalentShow.Services
 
         public ICollection<Judge> GetContestJudges(int contestId)
         {
-            /*
-            var contestJudgeCollection = ContestJudgeRepo.GetMatchingOn(contestId);
-            var judges = new List<Judge>();
-
-            foreach (var cj in contestJudgeCollection)
-            {
-                if (JudgeRepo.Exists(cj.JudgeId))
-                    judges.Add(JudgeRepo.Get(cj.JudgeId));
-            }
-
-            return judges;
-            */
             return JudgeRepo.GetWhereParentForeignKeyIs(contestId);
         }
 

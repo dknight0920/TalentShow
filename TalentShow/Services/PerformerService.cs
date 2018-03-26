@@ -38,18 +38,6 @@ namespace TalentShow.Services
 
         public ICollection<Performer> GetContestantPerformers(int contestantId)
         {
-            /*
-            var contestPerformerCollection = ContestantPerformerRepo.GetMatchingOn(contestantId);
-            var performers = new List<Performer>();
-
-            foreach (var cp in contestPerformerCollection)
-            {
-                if (PerformerRepo.Exists(cp.PerformerId))
-                    performers.Add(PerformerRepo.Get(cp.PerformerId));
-            }
-
-            return performers;
-            */
             return PerformerRepo.GetWhereParentForeignKeyIs(contestantId);
         }
 
