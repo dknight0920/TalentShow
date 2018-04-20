@@ -22,6 +22,16 @@ namespace TalentShowWeb.Show.Utils
             return reportContestants.OrderByDescending(c => c.FinalScore);
         }
 
+        public IEnumerable<JudgeSheetReportContestantScoreCard> GetReportContestants(TalentShow.Contest contest, int contestantId)
+        {
+            var reportContestants = new List<JudgeSheetReportContestantScoreCard>();
+
+            foreach (var contestant in contest.Contestants.Where(c => c.Id == contestantId))
+                reportContestants.Add(GetReportContestant(contest, contestant));
+
+            return reportContestants.OrderByDescending(c => c.FinalScore);
+        }
+
         private JudgeSheetReportContestantScoreCard GetReportContestant(TalentShow.Contest contest, TalentShow.Contestant contestant)
         {
             var scoreCards = ServiceFactory.ScoreCardService.GetContestantScoreCards(contestant.Id);

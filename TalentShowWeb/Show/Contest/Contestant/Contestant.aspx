@@ -12,6 +12,7 @@
                     { %>
                         <asp:Button runat="server" ID="btnDelete" Text="Delete" OnClick="btnDelete_Click" OnClientClick="return confirm('Are you sure you want to delete this contestant?');" CssClass="btn btn-sm btn-danger" />
                 <%  } %>
+                <asp:Button runat="server" ID="btnViewJudgeSheet" Text="Judge Sheet" OnClick="btnViewJudgeSheet_Click" CssClass="btn btn-sm btn-success" />
             </div>
     <%  } %>
     <hr />

@@ -269,6 +269,16 @@ namespace TalentShowWeb.Utils
             return "~/Show/JudgeSheetReport.aspx?showId=" + showId;
         }
 
+        internal static void GoToShowJudgeSheetReportPage(HttpResponse Response, int showId, int contestId, int contestantId)
+        {
+            GoToPage(Response, GetShowJudgeSheetReportPageUrl(showId, contestId, contestantId));
+        }
+
+        internal static string GetShowJudgeSheetReportPageUrl(int showId, int contestId, int contestantId)
+        {
+            return "~/Show/JudgeSheetReport.aspx?showId=" + showId + "&contestId=" + contestId + "&contestantId=" + contestantId;
+        }
+
         internal static void GoToShowWinnersReportPage(HttpResponse Response, int showId)
         {
             GoToPage(Response, GetShowWinnersReportPageUrl(showId));

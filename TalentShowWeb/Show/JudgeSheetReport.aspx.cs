@@ -34,12 +34,25 @@ namespace TalentShowWeb.Show
             labelPageTitle.Text = show.Name;
             labelPageDescription.Text = show.Description;
 
-            this.contests = ServiceFactory.ContestService.GetShowContests(showId);
+            int contestId = Convert.ToInt32(Request.QueryString["contestId"]);
+
+            if(contestId > 0)
+                contests = ServiceFactory.ContestService.GetShowContests(showId).Where(c => c.Id == contestId);
+            else
+                contests = ServiceFactory.ContestService.GetShowContests(showId);
+
         }
 
         protected IEnumerable<JudgeSheetReportContestantScoreCard> GetReportContestants(TalentShow.Contest contest)
         {
-            return new JudgeSheetReportContestantScoreCardProvider().GetReportContestants(contest);
+            var provider = new JudgeSheetReportContestantScoreCardProvider();
+
+            int contestantId = Convert.ToInt32(Request.QueryString["contestantId"]);
+
+            if (contestantId > 0)
+                return provider.GetReportContestants(contest, contestantId);
+            else
+                return provider.GetReportContestants(contest);
         }
 
         protected string GetContestantURL(int contestantId, TalentShow.Contest contest)
