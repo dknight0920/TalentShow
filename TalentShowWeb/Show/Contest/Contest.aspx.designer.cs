@@ -49,6 +49,15 @@ namespace TalentShowWeb.Show.Contest {
         protected global::System.Web.UI.WebControls.Button btnDelete;
         
         /// <summary>
+        /// btnViewJudgeSheets control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnViewJudgeSheets;
+        
+        /// <summary>
         /// scoreForm control.
         /// </summary>
         /// <remarks>
