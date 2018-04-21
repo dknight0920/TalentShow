@@ -180,5 +180,7 @@
                 }
             }
         }
+
+        $(".score-form-input").prop('disabled', false);
     </script>
 </asp:Content>

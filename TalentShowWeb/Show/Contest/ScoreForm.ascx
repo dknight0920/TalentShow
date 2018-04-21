@@ -35,11 +35,11 @@
                         %>
                             <td>
                                 <div class="form-group has-success has-feedback">
-                                    <input type="text" onkeypress="AddWarningFeedback(this)" onBlur="SetScore(<% Response.Write(GetContest().Id); %>, <% Response.Write(contestant.Id); %>, <% Response.Write(scoreCriterion.Id); %>, this.value, this);" value="<% Response.Write(score); %>" class="form-control score-contestant-<% Response.Write(contestant.Id); %>" />
+                                    <input disabled type="text" onkeypress="AddWarningFeedback(this)" onBlur="SetScore(<% Response.Write(GetContest().Id); %>, <% Response.Write(contestant.Id); %>, <% Response.Write(scoreCriterion.Id); %>, this.value, this);" value="<% Response.Write(score); %>" class="form-control score-form-input score-contestant-<% Response.Write(contestant.Id); %>" />
                                     <span class="glyphicon glyphicon-ok form-control-feedback"></span>
                                 </div>
                                 <div class="form-group has-success has-feedback comments_<%= scoreCard.Id %>" style="display: none;">
-                                    <input type="text" placeholder="Comment" onkeypress="AddWarningFeedback(this)" onBlur="SetComment(<% Response.Write(GetContest().Id); %>, <% Response.Write(contestant.Id); %>, <% Response.Write(scoreCriterion.Id); %>, this.value, this);" value="<% Response.Write(comment); %>" class="form-control" maxlength="1000" />
+                                    <input disabled type="text" placeholder="Comment" onkeypress="AddWarningFeedback(this)" onBlur="SetComment(<% Response.Write(GetContest().Id); %>, <% Response.Write(contestant.Id); %>, <% Response.Write(scoreCriterion.Id); %>, this.value, this);" value="<% Response.Write(comment); %>" class="form-control score-form-input" maxlength="1000" />
                                     <span class="glyphicon glyphicon-ok form-control-feedback"></span>             
                                 </div>
                             </td>
