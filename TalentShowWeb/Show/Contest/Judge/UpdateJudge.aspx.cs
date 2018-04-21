@@ -45,7 +45,7 @@ namespace TalentShowWeb.Show.Contest.Judge
             var contest = ServiceFactory.ContestService.Get(GetContestId());
             var judge = ServiceFactory.JudgeService.Get(GetJudgeId());
 
-            foreach (var user in users)
+            foreach (var user in users.OrderBy(u => u.UserName))
             {
                 if(user.Id == judge.UserId || !contest.Judges.Any(j => j.UserId == user.Id))
                     usersDropDownList.Items.Add(new ListItem(user.UserName, user.Id));

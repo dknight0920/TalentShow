@@ -46,7 +46,7 @@ namespace TalentShowWeb.Show.Contest
             var accountUtil = new AccountUtil(Context);
             var users = accountUtil.GetAllUsers();
 
-            foreach (var user in users)
+            foreach (var user in users.OrderBy(u => u.UserName))
                 timeKeepersDropDownList.Items.Add(new ListItem(user.UserName, user.Id));
 
             timeKeepersDropDownList.Items.FindByValue(contest.TimeKeeperId).Selected = true;

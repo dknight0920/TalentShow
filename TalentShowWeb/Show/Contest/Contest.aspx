@@ -90,6 +90,17 @@
                 "data": {"contestId": contestId, "contestantId": contestantId, "scoreCriterionId": scoreCriterionId, "score":score},
                 "successMsg": "Score Saved: " + score
             });
+
+            var totalScore = 0;
+
+            $(".score-contestant-" + contestantId).each(function(){
+                var value = $(this).val();
+                if($.isNumeric(value)){
+                    totalScore += parseFloat(value);
+                }
+		   	});
+
+            $("#totalScoreContestant_" + contestantId).text(totalScore);
         }
 
         function ShowCommentFields(elemClassName, e){

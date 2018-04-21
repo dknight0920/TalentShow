@@ -31,7 +31,7 @@ namespace TalentShowWeb
 
             var accountUtil = new AccountUtil(Context);
 
-            foreach (var user in new AccountUtil(Context).GetAllUsers().OrderBy(u => u.Email))
+            foreach (var user in new AccountUtil(Context).GetAllUsers().OrderBy(u => u.UserName))
             {
                 string role = (accountUtil.IsUserAnAdmin(user.Id) ? "Administrator" : "");
                 role = (accountUtil.IsUserASuperuser(user.Id) ? "Superuser" : role);
