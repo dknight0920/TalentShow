@@ -20,11 +20,12 @@
             <tbody>
                 <% foreach(var contestant in contestants)
                     {
-                    var scoreCard = GetScoreCard(contestant);  
+                        var scoreCard = GetScoreCard(contestant);
+                        var contestantText = GetContestantHeadingText(contestant);
                 %>
                     <tr>
                         <td style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis">
-                            <%= GetContestantHeadingText(contestant) %>
+                            <a href="#" data-toggle="popover" title="Contestant" data-placement="top" data-content="<%= contestantText %>"><%= EllipsisAfter(contestantText, 25) %></a>
                         </td>
                         <%   
                             double totalScore = 0;
@@ -56,3 +57,8 @@
         </table>
     </div>
 </div>
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="popover"]').popover(); 
+    });
+</script>
