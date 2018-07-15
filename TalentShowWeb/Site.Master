@@ -73,6 +73,7 @@
                                         <li><a runat="server" href="~/Divisions.aspx">Divisions</a></li>
                                         <li><a runat="server" href="~/Organizations.aspx">Organizations</a></li>
                                         <li><a runat="server" href="~/Users.aspx">Users</a></li>
+                                        <li><a runat="server" href="~/SystemInfo.aspx">System</a></li>
                                 <% } %>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">

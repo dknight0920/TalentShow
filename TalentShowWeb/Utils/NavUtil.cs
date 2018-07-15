@@ -83,6 +83,16 @@ namespace TalentShowWeb.Utils
             return "~/Users.aspx";
         }
 
+        internal static void GoToSystemInfoPage(HttpResponse Response)
+        {
+            GoToPage(Response, GetSystemInfoPageUrl());
+        }
+
+        internal static string GetSystemInfoPageUrl()
+        {
+            return "~/SystemInfo.aspx";
+        }
+
         internal static void GoToAddShowPage(HttpResponse Response)
         {
             GoToPage(Response, GetAddShowPageUrl());
