@@ -59,4 +59,39 @@
             </table>
         </div>
     </div>
+    <div class="panel panel-default">
+        <%
+            var databaseFiles = GetDatabaseFiles();
+        %>
+        <div class="panel-heading clearfix">
+            <h3 class="panel-title pull-left">Database Files <span class="badge"><% Response.Write(databaseFiles.Count()); %></span></h3>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Physical File</th>
+                        <th>Size</th>
+                        <th>State</th>
+                    </tr>    
+                </thead>
+                <tbody>
+                    <%
+                        foreach (var databaseFile in databaseFiles)
+                        {                
+                    %>
+                            <tr>
+                                <td><% Response.Write(databaseFile.Name); %></td>
+                                <td><% Response.Write(databaseFile.PhysicalFileName); %></td>
+                                <td><% Response.Write(FormatBytes(databaseFile.SizeInBytes)); %></td>
+                                <td><% Response.Write(databaseFile.StateDesc); %></td>
+                            </tr>
+                    <%
+                        }
+                    %>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </asp:Content>

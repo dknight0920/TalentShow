@@ -70,6 +70,8 @@
     <Compile Include="ShowContestRepo.cs" />
     <Compile Include="ShowRepo.cs" />
     <Compile Include="UserInUse.cs" />
+    <Compile Include="Utils\DatabaseFileProvider.cs" />
+    <Compile Include="Utils\Models\DatabaseFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TalentShow\TalentShow.csproj">

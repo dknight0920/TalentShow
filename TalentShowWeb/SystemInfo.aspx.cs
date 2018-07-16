@@ -11,6 +11,8 @@ using System.Diagnostics;
 using System.Reflection;
 using Microsoft.VisualBasic;
 using Microsoft.VisualBasic.Devices;
+using TalentShowDataStorage.Utils.Models;
+using TalentShowDataStorage.Utils;
 
 namespace TalentShowWeb
 {
@@ -54,6 +56,11 @@ namespace TalentShowWeb
         protected static string GetAvailablePhysicalMemory()
         {
             return FormatBytes(Convert.ToInt64(new ComputerInfo().AvailablePhysicalMemory));
+        }
+
+        protected static ICollection<DatabaseFile> GetDatabaseFiles()
+        {
+            return new DatabaseFileProvider().GetDatabaseFiles();
         }
     }
 }
