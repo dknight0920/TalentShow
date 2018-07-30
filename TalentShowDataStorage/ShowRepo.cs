@@ -11,6 +11,7 @@ namespace TalentShowDataStorage
 {
     public class ShowRepo : Repo<Show>, IRepo<Show>
     {
+        private const string SHOWID = "showid";
         private const string NAME = "name";
         private const string DESCRIPTION = "description";
         private const string SHOWS = "shows";
@@ -57,6 +58,21 @@ namespace TalentShowDataStorage
                 //show.Contests.Add(contestRepo.Get(sc.ContestId));
 
             return show;
+        }
+
+        public override void Delete(int id)
+        {
+            var showContestRepo = new ShowContestRepo();
+            var showContestCollection = showContestRepo.GetWhereForeignKeyIs(id);
+            var contestRepo = new ContestRepo();
+
+            foreach (var sc in showContestCollection)
+            {
+                contestRepo.Delete(sc.ContestId);
+                showContestRepo.Delete(sc.Id);
+            }
+
+            base.Delete(id);
         }
 
         protected override ICollection<string> GetFieldNamesForSelectStatement()

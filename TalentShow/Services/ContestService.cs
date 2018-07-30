@@ -26,12 +26,18 @@ namespace TalentShow.Services
 
         public ICollection<Contest> GetShowContests(int showId)
         {
-            return ContestRepo.GetWhereParentForeignKeyIs(showId);
+            return SortByName
+            (
+                ContestRepo.GetWhereParentForeignKeyIs(showId)
+            );
         }
 
         public ICollection<Contest> GetAll()
         {
-            return ContestRepo.GetAll();
+            return SortByName
+            (
+                ContestRepo.GetAll()
+            );
         }
 
         public bool Exists(int id)
@@ -73,6 +79,115 @@ namespace TalentShow.Services
         public void DeleteAll()
         {
             ContestRepo.DeleteAll();
+        }
+
+        private ICollection<Contest> SortByName(ICollection<Contest> contests)
+        {
+            var results =
+                contests
+                    .Where
+                    (
+                        c =>
+                            IsDouble
+                            (
+                                GetFirstWord(c.Name)
+                            )
+                    )
+                    .OrderBy
+                    (
+                        c =>       
+                            GetFirstNumber
+                            (
+                                GetFirstWord
+                                (   
+                                    c.Name
+                                )
+                            )       
+                    )
+                    .ThenBy
+                    (
+                        c =>
+                            GetSecondNumber
+                            (
+                                GetFirstWord
+                                (
+                                    c.Name
+                                )
+                            )
+                    )
+                    .ToList();
+
+            results
+                .AddRange
+                (
+                    contests
+                        .Where
+                        (
+                            c =>
+                            {
+                                return !IsDouble
+                                (
+                                    GetFirstWord(c.Name)
+                                );
+                            }
+                        )
+                        .OrderBy
+                        (   c => 
+                                c.Name
+                        )
+                        .ToList()
+                );
+
+
+            return results;
+        }
+
+        private bool IsInt(string value)
+        {
+            int num;
+            return int.TryParse(value, out num);
+        }
+
+        private bool IsDouble(string value)
+        {
+            double num;
+            return double.TryParse(value, out num);
+        }
+
+        private string GetFirstWord(string value)
+        {
+            try
+            {
+                return value.Split(' ')[0];
+            }
+            catch
+            {
+                return value;
+            }
+        }
+
+        private int GetFirstNumber(string value)
+        {
+            try
+            {
+                return Convert.ToInt32(value.Split('.')[0]);
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+        private int GetSecondNumber(string value)
+        {
+            try
+            {
+                return Convert.ToInt32(value.Split('.')[1]);
+            }
+            catch
+            {
+                return 0;
+            }
         }
     }
 }

@@ -137,7 +137,7 @@ namespace TalentShowDataStorage
             Delete(item.Id);
         }
 
-        public void Delete(int id)
+        public virtual void Delete(int id)
         {
             string sql = SqlServerCommandHelper.GetSimpleDeleteStatement(GetTableName()) + WhereIdEquals();
             SqlCommand command = new SqlCommand(sql);
