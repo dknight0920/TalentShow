@@ -5,7 +5,7 @@
         <h3 class="panel-title pull-left">Score Form</h3>
     </div>
     <div class="panel-body">
-        <table class="table table-bordered table-condensed table-striped">
+        <table class="table table-bordered table-condensed table-striped table-fixed">
             <thead>
                 <tr>
                     <% var contestants = GetContest().Contestants; %>
@@ -40,7 +40,8 @@
                                     <span class="glyphicon glyphicon-ok form-control-feedback"></span>
                                 </div>
                                 <div class="form-group has-success has-feedback comments_<%= scoreCard.Id %>" style="display: none;">
-                                    <input disabled type="text" placeholder="Comment" onkeypress="AddWarningFeedback(this)" onBlur="SetComment(<% Response.Write(GetContest().Id); %>, <% Response.Write(contestant.Id); %>, <% Response.Write(scoreCriterion.Id); %>, this.value, this);" value="<% Response.Write(comment); %>" class="form-control score-form-input" maxlength="1000" />
+                                    <!--<input disabled type="text" placeholder="Comment" onkeypress="AddWarningFeedback(this)" onBlur="SetComment(<% Response.Write(GetContest().Id); %>, <% Response.Write(contestant.Id); %>, <% Response.Write(scoreCriterion.Id); %>, this.value, this);" value="<% Response.Write(comment); %>" class="form-control score-form-input" maxlength="1000" /> -->
+                                    <textarea disabled rows="12" placeholder="Comment" onkeypress="AddWarningFeedback(this)" onBlur="SetComment(<% Response.Write(GetContest().Id); %>, <% Response.Write(contestant.Id); %>, <% Response.Write(scoreCriterion.Id); %>, this.value, this);" class="form-control score-form-input" maxlength="1000"><% Response.Write(comment); %></textarea>
                                     <span class="glyphicon glyphicon-ok form-control-feedback"></span>             
                                 </div>
                             </td>
