@@ -12,10 +12,18 @@
                     { %>
                         <asp:Button runat="server" ID="btnDelete" Text="Delete" OnClick="btnDelete_Click" OnClientClick="return confirm('Are you sure you want to delete this show?');" CssClass="btn btn-sm btn-danger" />
                 <% } %>
-                <asp:Button runat="server" ID="btnViewReport" Text="Summary Report" OnClick="btnViewReport_Click" CssClass="btn btn-sm btn-info" />
-                <asp:Button runat="server" ID="btnViewJudgeSheetReport" Text="Judge Sheet Report" OnClick="btnViewJudgeSheetReport_Click" CssClass="btn btn-sm btn-success" />
-                <asp:Button runat="server" ID="btnViewWinnersReport" Text="Winners Report" OnClick="btnViewWinnersReport_Click" CssClass="btn btn-sm btn-default" />
-                <asp:Button runat="server" ID="btnDownloadShowContestantAffiliationReport" Text="Contestant Affiliation Report" OnClick="btnDownloadShowContestantAffiliationReport_Click" CssClass="btn btn-sm btn-default" />
+                <div class="dropdown" style="display:inline-block;">
+                    <button class="btn btn-sm btn-info dropdown-toggle" type="button" id="dropdownReportMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Reports
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownReportMenu">
+                        <li><asp:LinkButton runat="server" ID="btnViewReport" Text="Summary Report" OnClick="btnViewReport_Click" CssClass="dropdown-item" /></li>
+                        <li><asp:LinkButton runat="server" ID="btnViewJudgeSheetReport" Text="Judge Sheet Report" OnClick="btnViewJudgeSheetReport_Click" CssClass="dropdown-item" /></li>
+                        <li><asp:LinkButton runat="server" ID="btnViewWinnersReport" Text="Winners Report" OnClick="btnViewWinnersReport_Click" CssClass="dropdown-item" /></li>
+                        <li><asp:LinkButton runat="server" ID="btnDownloadShowContestantAffiliationReport" Text="Contestant Affiliation Report" OnClick="btnDownloadShowContestantAffiliationReport_Click" CssClass="dropdown-item" /></li>
+                    </ul>
+                </div>
             </div>
     <% } %>
     <hr />

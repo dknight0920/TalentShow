@@ -55,7 +55,7 @@ namespace TalentShowWeb.Show {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnViewReport;
+        protected global::System.Web.UI.WebControls.LinkButton btnViewReport;
         
         /// <summary>
         /// btnViewJudgeSheetReport control.
@@ -64,7 +64,7 @@ namespace TalentShowWeb.Show {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnViewJudgeSheetReport;
+        protected global::System.Web.UI.WebControls.LinkButton btnViewJudgeSheetReport;
         
         /// <summary>
         /// btnViewWinnersReport control.
@@ -73,7 +73,7 @@ namespace TalentShowWeb.Show {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnViewWinnersReport;
+        protected global::System.Web.UI.WebControls.LinkButton btnViewWinnersReport;
         
         /// <summary>
         /// btnDownloadShowContestantAffiliationReport control.
@@ -82,7 +82,7 @@ namespace TalentShowWeb.Show {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnDownloadShowContestantAffiliationReport;
+        protected global::System.Web.UI.WebControls.LinkButton btnDownloadShowContestantAffiliationReport;
         
         /// <summary>
         /// contestsList control.
