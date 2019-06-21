@@ -21,7 +21,10 @@
                         <li><asp:LinkButton runat="server" ID="btnViewReport" Text="Summary Report" OnClick="btnViewReport_Click" CssClass="dropdown-item" /></li>
                         <li><asp:LinkButton runat="server" ID="btnViewJudgeSheetReport" Text="Judge Sheet Report" OnClick="btnViewJudgeSheetReport_Click" CssClass="dropdown-item" /></li>
                         <li><asp:LinkButton runat="server" ID="btnViewWinnersReport" Text="Winners Report" OnClick="btnViewWinnersReport_Click" CssClass="dropdown-item" /></li>
-                        <li><asp:LinkButton runat="server" ID="btnDownloadShowContestantAffiliationReport" Text="Contestant Affiliation Report" OnClick="btnDownloadShowContestantAffiliationReport_Click" CssClass="dropdown-item" /></li>
+                        <% if (IsUserASuperuser())
+                           { %>
+                            <li><asp:LinkButton runat="server" ID="btnDownloadShowContestantAffiliationReport" Text="Contestant Affiliation Report" OnClick="btnDownloadShowContestantAffiliationReport_Click" CssClass="dropdown-item" /></li>
+                        <% } %>
                     </ul>
                 </div>
             </div>
