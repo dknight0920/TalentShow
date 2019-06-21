@@ -58,7 +58,7 @@ namespace TalentShowWeb.Show.Utils
 
             byte[] excelBytes = new ExcelDocumentMaker().MakeNewExcelPackage(sheetDictionary);
 
-            ExcelHttpResponseUtil.MakeResponse(excelBytes);
+            ExcelHttpResponseUtil.MakeResponse(excelBytes, "ContestantAffiliationReport");
         }
     }
 }

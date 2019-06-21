@@ -61,7 +61,7 @@ namespace TalentShowWeb.Show.Utils
 
             byte[] excelBytes = new ExcelDocumentMaker().MakeNewExcelPackage(table, "Judge Sheet Report");
 
-            ExcelHttpResponseUtil.MakeResponse(excelBytes);
+            ExcelHttpResponseUtil.MakeResponse(excelBytes, "JudgeSheetsReport");
         }
 
         private string GetScoreCardsText(IEnumerable<ScoreCard> scoreCards)

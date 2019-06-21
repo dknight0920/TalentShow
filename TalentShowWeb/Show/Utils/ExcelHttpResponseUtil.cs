@@ -7,7 +7,7 @@ namespace TalentShowWeb.Show.Utils
 {
     public static class ExcelHttpResponseUtil
     {
-        public static void MakeResponse(byte[] excelBytes)
+        public static void MakeResponse(byte[] excelBytes, string fileName)
         {
             var response = HttpContext.Current.Response;
 
@@ -18,7 +18,7 @@ namespace TalentShowWeb.Show.Utils
             response.ContentEncoding = System.Text.Encoding.UTF8;
             response.Cache.SetCacheability(HttpCacheability.NoCache);
             response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            response.AddHeader("content-disposition", "attachment;filename=TalentShowSummaryReport.xlsx");
+            response.AddHeader("content-disposition", "attachment;filename=" + fileName + ".xlsx");
 
             response.BinaryWrite(excelBytes);
 

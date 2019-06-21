@@ -58,7 +58,7 @@ namespace TalentShowWeb.Show.Utils
 
             byte[] excelBytes = new ExcelDocumentMaker().MakeNewExcelPackage(table, "Summary Report");
 
-            ExcelHttpResponseUtil.MakeResponse(excelBytes);
+            ExcelHttpResponseUtil.MakeResponse(excelBytes, "ShowSummaryReport");
         }
     }
 }
