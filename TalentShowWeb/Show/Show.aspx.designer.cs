@@ -76,6 +76,15 @@ namespace TalentShowWeb.Show {
         protected global::System.Web.UI.WebControls.Button btnViewWinnersReport;
         
         /// <summary>
+        /// btnDownloadShowContestantAffiliationReport control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnDownloadShowContestantAffiliationReport;
+        
+        /// <summary>
         /// contestsList control.
         /// </summary>
         /// <remarks>

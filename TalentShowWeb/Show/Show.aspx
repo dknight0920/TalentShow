@@ -15,6 +15,7 @@
                 <asp:Button runat="server" ID="btnViewReport" Text="Summary Report" OnClick="btnViewReport_Click" CssClass="btn btn-sm btn-info" />
                 <asp:Button runat="server" ID="btnViewJudgeSheetReport" Text="Judge Sheet Report" OnClick="btnViewJudgeSheetReport_Click" CssClass="btn btn-sm btn-success" />
                 <asp:Button runat="server" ID="btnViewWinnersReport" Text="Winners Report" OnClick="btnViewWinnersReport_Click" CssClass="btn btn-sm btn-default" />
+                <asp:Button runat="server" ID="btnDownloadShowContestantAffiliationReport" Text="Contestant Affiliation Report" OnClick="btnDownloadShowContestantAffiliationReport_Click" CssClass="btn btn-sm btn-default" />
             </div>
     <% } %>
     <hr />

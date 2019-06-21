@@ -698,6 +698,7 @@
     <Compile Include="Show\Utils\ContestantNameUtil.cs" />
     <Compile Include="Show\Utils\ExcelHttpResponseUtil.cs" />
     <Compile Include="Show\Utils\ExcelJudgeSheetReportMaker.cs" />
+    <Compile Include="Show\Utils\ExcelShowContestantAffiliationReportMaker.cs" />
     <Compile Include="Show\Utils\ExcelSummaryReportMaker.cs" />
     <Compile Include="Show\Utils\JudgeSheetReportContestantScoreCardProvider.cs" />
     <Compile Include="Show\Utils\ReportContestantsProvider.cs" />

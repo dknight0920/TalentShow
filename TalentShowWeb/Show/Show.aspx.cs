@@ -11,12 +11,16 @@ using TalentShowWeb.Account.Util;
 using TalentShowWeb.CustomControls.Models;
 using TalentShowWeb.CustomControls.Renderers;
 using TalentShowWeb.Models;
+using TalentShowWeb.Show.Utils;
 using TalentShowWeb.Utils;
+using TalentShow;
 
 namespace TalentShowWeb.Show
 {
     public partial class Show : System.Web.UI.Page
     {
+        private ICollection<TalentShow.Contest> contests;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             RedirectUtil.RedirectUnauthenticatedUserToLoginPage();
@@ -35,7 +39,7 @@ namespace TalentShowWeb.Show
             labelPageTitle.Text = show.Name;
             labelPageDescription.Text = show.Description;
 
-            var contests = ServiceFactory.ContestService.GetShowContests(showId);
+            this.contests = ServiceFactory.ContestService.GetShowContests(showId);
 
             if (!IsUserAnAdmin())
             {
@@ -88,6 +92,11 @@ namespace TalentShowWeb.Show
         protected void btnViewWinnersReport_Click(object sender, EventArgs e)
         {
             NavUtil.GoToShowWinnersReportPage(Response, GetShowId());
+        }
+
+        protected void btnDownloadShowContestantAffiliationReport_Click(object sender, EventArgs e)
+        {
+            new ExcelShowContestantAffiliationReportMaker(contests).Make();
         }
 
         private int GetShowId()
