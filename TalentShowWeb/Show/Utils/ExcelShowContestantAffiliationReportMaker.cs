@@ -53,7 +53,7 @@ namespace TalentShowWeb.Show.Utils
                         contestant.PerformanceDescription);
                 }
 
-                sheetDictionary.Add(contest.Name, table);
+                sheetDictionary.Add(contest.Name + " (" + contest.Id + ")", table);
             }
 
             byte[] excelBytes = new ExcelDocumentMaker().MakeNewExcelPackage(sheetDictionary);
