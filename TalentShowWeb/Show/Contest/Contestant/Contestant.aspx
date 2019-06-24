@@ -42,6 +42,11 @@
                             <div class="panel panel-warning">
                                 <div class="panel-heading clearfix">
                                     <h3 class="panel-title pull-left">Score Card by <% Response.Write(GetJudgeUserName(scoreCard.Judge.UserId)); %></h3>
+                                    <% if(IsUserASuperuser()) {%>
+                                        <span class="pull-right">
+                                            <button class="btn btn-sm btn-danger" onclick="DeleteScoreCard(<%= scoreCard.Id %>);">Delete</button>
+                                        </span>
+                                    <% } %>
                                 </div>
                                 <div class="panel-body">
                                     <% foreach (var scorableCriterion in scoreCard.ScorableCriteria)
@@ -246,5 +251,28 @@
                     });
                 }
             </script>
-    <%  } %>  
+    <%  }
+        if(IsUserASuperuser())
+        { %>  
+    <script>
+        function DeleteScoreCard(scoreCardId) {
+            if(confirm('Are you sure you want to delete this score card?')) {
+                var data = JSON.stringify({"scoreCardId": scoreCardId});
+                $.ajax({
+                    type: 'POST',
+                    url: '<%= ResolveUrl("~/Show/Contest/Contestant/Contestant.aspx/DeleteScoreCard") %>',
+                    data: data,
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (msg) {     
+                        location.reload();
+                    },
+                    error: function (jqXHR, exception) {
+                        alert("The was a problem and the score card could not be deleted.");
+                    }      
+                });
+            }
+        }
+    </script>
+    <%  } %>
 </asp:Content>

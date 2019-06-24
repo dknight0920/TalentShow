@@ -168,6 +168,12 @@ namespace TalentShowWeb.Show.Contest.Contestant
             NavUtil.GoToContestPage(Response, GetShowId(), GetContestId());
         }
 
+        [WebMethod(EnableSession = true)]
+        public static void DeleteScoreCard(int scoreCardId)
+        {
+            ServiceFactory.ScoreCardService.Delete(scoreCardId);
+        }
+
         protected void btnViewJudgeSheet_Click(object sender, EventArgs e)
         {
             NavUtil.GoToShowJudgeSheetReportPage(Response, GetShowId(), GetContestId(), GetContestantId());
