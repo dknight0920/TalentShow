@@ -19,6 +19,8 @@ namespace TalentShowWeb.Show.Utils
         {
             var sheetDictionary = new Dictionary<string, DataTable>();
 
+            int sheetCounter = 0;
+
             foreach (var contest in contests)
             {
                 DataTable table = new DataTable();
@@ -53,7 +55,9 @@ namespace TalentShowWeb.Show.Utils
                         contestant.PerformanceDescription);
                 }
 
-                sheetDictionary.Add(contest.Name + " (" + contest.Id + ")", table);
+                sheetCounter++;
+
+                sheetDictionary.Add(sheetCounter + " - " + contest.Name + " (" + contest.Id + ")", table);
             }
 
             byte[] excelBytes = new ExcelDocumentMaker().MakeNewExcelPackage(sheetDictionary);

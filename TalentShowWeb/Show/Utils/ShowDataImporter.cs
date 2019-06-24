@@ -113,7 +113,7 @@ namespace TalentShowWeb.Show.Utils
                             id: 0,
                             division: ServiceFactory.DivisionService.Get(divisionId),
                             name: new TalentShow.PersonName(ConvertToTitleCase(brushFirePerformer.FirstName), ConvertToTitleCase(brushFirePerformer.LastName)),
-                            affiliation: ServiceFactory.OrganizationService.Get(defaultOrganization.Id)
+                            affiliation: GetOrganization(defaultOrganization, brushFirePerformer.Organization, brushFirePerformer.ParentOrganization)
                             )
                         );
                     }
@@ -240,7 +240,7 @@ namespace TalentShowWeb.Show.Utils
                             id: 0,
                             division: ServiceFactory.DivisionService.Get(divisionId),
                             name: new TalentShow.PersonName(ConvertToTitleCase(brushFirePerformer.FirstName), ConvertToTitleCase(brushFirePerformer.LastName)),
-                            affiliation: ServiceFactory.OrganizationService.Get(defaultOrganization.Id)
+                            affiliation: GetOrganization(defaultOrganization, brushFirePerformer.Organization, brushFirePerformer.ParentOrganization)
                             )
                         );
                     }
@@ -273,6 +273,40 @@ namespace TalentShowWeb.Show.Utils
                     }
                 }
             }
+        }
+
+        private static TalentShow.Organization GetOrganization(TalentShow.Organization defaultOrganization, string organizationName, string parentOrganizationName)
+        {
+            organizationName = organizationName.ToUpper().Trim();
+            parentOrganizationName = parentOrganizationName.ToUpper().Trim();
+
+            var allOrganizations = ServiceFactory.OrganizationService.GetAll();
+
+            var organization = allOrganizations.FirstOrDefault(o => o.Name.ToUpper().Trim() == organizationName);
+            var parentOrganization = allOrganizations.FirstOrDefault(o => o.Name.ToUpper().Trim() == parentOrganizationName);
+
+            if (organization == null && !String.IsNullOrWhiteSpace(organizationName))
+            {
+                organization = new TalentShow.Organization(organizationName);
+
+                if (parentOrganization == null && !String.IsNullOrWhiteSpace(parentOrganizationName))
+                {
+                    parentOrganization = new TalentShow.Organization(parentOrganizationName);
+
+                    ServiceFactory.OrganizationService.Add(parentOrganization);                 
+                }
+
+                organization.SetParent(parentOrganization);
+
+                ServiceFactory.OrganizationService.Add(organization);
+            }
+
+            if (organization == null)
+            {
+                organization = ServiceFactory.OrganizationService.Get(defaultOrganization.Id);
+            }
+
+            return organization;
         }
 
         private static string ConvertToTitleCase(string s)
