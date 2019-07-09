@@ -117,6 +117,51 @@ namespace TalentShowDataStorage
             return contest;
         }
 
+        public override void Delete(int id)
+        {
+            var contestContestantRepo = new ContestContestantRepo();
+            var contestContestantCollection = contestContestantRepo.GetWhereForeignKeyIs(id);
+            var contestantRepo = new ContestantRepo();
+
+            foreach (var contestContestant in contestContestantCollection)
+            {
+                contestantRepo.Delete(contestContestant.ContestantId);
+                contestContestantRepo.Delete(contestContestant.Id);
+            }
+
+            var contestJudgeRepo = new ContestJudgeRepo();
+            var contestJudgeCollection = contestJudgeRepo.GetWhereForeignKeyIs(id);
+            var judgeRepo = new JudgeRepo();
+
+            foreach (var contestJudge in contestJudgeCollection)
+            {
+                judgeRepo.Delete(contestJudge.JudgeId);
+                contestJudgeRepo.Delete(contestJudge.Id);
+            }
+
+            var contestScoreCardRepo = new ContestScoreCardRepo();
+            var contestScoreCardCollection = contestScoreCardRepo.GetWhereForeignKeyIs(id);
+            var scoreCardRepo = new ScoreCardRepo();
+
+            foreach (var contestScoreCard in contestScoreCardCollection)
+            {
+                scoreCardRepo.Delete(contestScoreCard.ScoreCardId);
+                contestScoreCardRepo.Delete(contestScoreCard.Id);
+            }
+
+            var contestScoreCriterionRepo = new ContestScoreCriterionRepo();
+            var contestScoreCriterionCollection = contestScoreCriterionRepo.GetWhereForeignKeyIs(id);
+            var scoreCriterionRepo = new ScoreCriterionRepo();
+
+            foreach (var contestScoreCriterion in contestScoreCriterionCollection)
+            {
+                scoreCriterionRepo.Delete(contestScoreCriterion.ScoreCriterionId);
+                contestScoreCriterionRepo.Delete(contestScoreCriterion.Id);
+            }
+
+            base.Delete(id);
+        }
+
         protected override ICollection<string> GetFieldNamesForSelectStatement()
         {
             return new List<string>() { ID, NAME, TIME_KEEPER_ID, DESCRIPTION, MAX_DURATION, STATUS };

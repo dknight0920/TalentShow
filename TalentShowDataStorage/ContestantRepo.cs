@@ -43,6 +43,17 @@ namespace TalentShowDataStorage
             return new Contestant(id, performance, ruleViolationPenalty ?? 0, tieBreakerPoints ?? 0);
         }
 
+        public override void Delete(int id)
+        {
+            var performanceRepo = new PerformanceRepo();
+
+            var contestant = Get(id);
+
+            performanceRepo.Delete(contestant.Performance.Id);
+
+            base.Delete(id);
+        }
+
         protected override ICollection<string> GetFieldNamesForSelectStatement()
         {
             return new List<string>() { ID, PERFORMANCEID, RULE_VIOLATION_PENALTY, TIE_BREAKER_POINTS };
