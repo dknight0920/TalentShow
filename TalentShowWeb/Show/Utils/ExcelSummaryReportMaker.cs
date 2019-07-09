@@ -1,10 +1,6 @@
 ﻿using ExcelReportUtils;
-using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Web;
-using TalentShow;
 using TalentShowWeb.Utils;
 
 namespace TalentShowWeb.Show.Utils
@@ -34,6 +30,8 @@ namespace TalentShowWeb.Show.Utils
             table.Columns.Add("Number of Score Cards", typeof(double));
             table.Columns.Add("Number of Judges", typeof(double));
             table.Columns.Add("Scores", typeof(string));
+            table.Columns.Add("Organization", typeof(string));
+            table.Columns.Add("Parent Organization", typeof(string));
 
             foreach (var contest in contests)
             {
@@ -52,7 +50,9 @@ namespace TalentShowWeb.Show.Utils
                         contestant.SumOfTopScores,
                         contestant.NumberOfScoreCards,
                         contestant.NumberOfJudges,
-                        contestant.Scores);
+                        contestant.Scores,
+                        contestant.Organization,
+                        contestant.ParentOrganization);
                 }
             }
 

@@ -43,6 +43,12 @@
                         <th>
                             Performance Description
                         </th>
+                        <th>
+                            Organization
+                        </th>
+                        <th>
+                            Parent Organization
+                        </th>
                         <th class="text-right">
                             Performance Duration
                         </th>
@@ -77,6 +83,12 @@
                                 </td>
                                 <td>
                                     <% Response.Write(contestant.PerformanceDescription.Length > 25 ? contestant.PerformanceDescription.Substring(0, 25) + " ..." : contestant.PerformanceDescription); %>
+                                </td>
+                                <td>
+                                    <% Response.Write(contestant.Organization.Length > 25 ? contestant.Organization.Substring(0, 25) + " ..." : contestant.Organization); %>
+                                </td>
+                                <td>
+                                    <% Response.Write(contestant.ParentOrganization.Length > 25 ? contestant.ParentOrganization.Substring(0, 25) + " ..." : contestant.ParentOrganization); %>
                                 </td>
                                 <td class="text-right <%= (contestant.PerformanceDuration.TotalMilliseconds == 0 ? " warning" : "") %>">
                                     <% Response.Write(TalentShowWeb.Utils.TimeSpanExtensions.ToHHMMSS(contestant.PerformanceDuration)); %>

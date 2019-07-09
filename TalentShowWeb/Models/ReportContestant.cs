@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace TalentShowWeb.Models
 {
@@ -19,9 +16,26 @@ namespace TalentShowWeb.Models
         public double NumberOfScoreCards { get; private set; }
         public double NumberOfJudges { get; private set; }
         public string Scores { get; private set; }
+        public string Organization { get; private set; }
+        public string ParentOrganization { get; private set; }
 
-        public ReportContestant(int ContestantId, string Name, string PerformanceDescription, TimeSpan PerformanceDuration, 
-            double TotalScore, double PenaltyPoints, double FinalScore, double LowestScore, double SumOfTopScores, double NumberOfScoreCards, double NumberOfJudges, string Scores)
+        public ReportContestant
+        (
+            int ContestantId, 
+            string Name, 
+            string PerformanceDescription, 
+            TimeSpan PerformanceDuration, 
+            double TotalScore, 
+            double PenaltyPoints, 
+            double FinalScore, 
+            double LowestScore, 
+            double SumOfTopScores,
+            double NumberOfScoreCards,
+            double NumberOfJudges, 
+            string Scores,
+            string Organization,
+            string ParentOrganization
+        )
         {
             this.ContestantId = ContestantId;
             this.Name = Name;
@@ -35,7 +49,8 @@ namespace TalentShowWeb.Models
             this.NumberOfScoreCards = NumberOfScoreCards;
             this.NumberOfJudges = NumberOfJudges;
             this.Scores = Scores;
-
+            this.Organization = Organization;
+            this.ParentOrganization = ParentOrganization;
         }
     }
 }

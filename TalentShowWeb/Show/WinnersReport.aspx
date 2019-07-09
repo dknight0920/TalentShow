@@ -20,6 +20,12 @@
                         <th>
                             Performance Description
                         </th>
+                        <th>
+                            Organization
+                        </th>
+                        <th>
+                            Parent Organization
+                        </th>
                         <th class="text-right">
                             Final Score
                         </th>
@@ -57,6 +63,12 @@
                                 </td>
                                 <td>
                                     <% Response.Write(contestant.PerformanceDescription.Length > 25 ? contestant.PerformanceDescription.Substring(0, 25) + " ..." : contestant.PerformanceDescription); %>
+                                </td>
+                                <td>
+                                    <% Response.Write(contestant.Organization); %>
+                                </td>
+                                <td>
+                                    <% Response.Write(contestant.ParentOrganization); %>
                                 </td>
                                 <td class="text-right">
                                     <% Response.Write(contestant.FinalScore); %>

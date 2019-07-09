@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using TalentShowWeb.Account.Util;
 using TalentShowWeb.Models;
 using TalentShowWeb.Utils;
 
@@ -46,21 +41,45 @@ namespace TalentShowWeb.Show.Utils
 
             var penaltyPoints = (totalScore - lowestScore) - finalScore;
 
-            return new JudgeSheetReportContestantScoreCard(
-                ContestantId: contestant.Id,
-                Name: ContestantNameUtil.GetContestantName(contestant.Id),
-                PerformanceDescription: contestant.Performance.Description,
-                PerformanceDuration: contestant.Performance.Duration,
-                TotalScore: totalScore,
-                PenaltyPoints: penaltyPoints,
-                FinalScore: finalScore,
-                LowestScore: lowestScore,
-                SumOfTopScores: totalScore - lowestScore,
-                NumberOfScoreCards: scoreCards.Count,
-                NumberOfJudges: contest.Judges.Count,
-                Scores: ScoresUtil.GetScores(scoreCards),
-                ScoreCards: scoreCards
-            );
+            string organization = "";
+            string parentOrganization = "";
+
+            var performers = ServiceFactory.PerformerService.GetContestantPerformers(contestant.Id);
+
+            if (performers != null && performers.Any())
+            {
+                var firstPerformer = performers.First();
+
+                if (firstPerformer.Affiliation != null)
+                {
+                    organization = firstPerformer.Affiliation.Name;
+
+                    if (firstPerformer.Affiliation.Parent != null)
+                    {
+                        parentOrganization = firstPerformer.Affiliation.Parent.Name;
+                    }
+                }
+            }
+
+            return 
+                new JudgeSheetReportContestantScoreCard
+                (
+                    ContestantId: contestant.Id,
+                    Name: ContestantNameUtil.GetContestantName(contestant.Id),
+                    PerformanceDescription: contestant.Performance.Description,
+                    PerformanceDuration: contestant.Performance.Duration,
+                    TotalScore: totalScore,
+                    PenaltyPoints: penaltyPoints,
+                    FinalScore: finalScore,
+                    LowestScore: lowestScore,
+                    SumOfTopScores: totalScore - lowestScore,
+                    NumberOfScoreCards: scoreCards.Count,
+                    NumberOfJudges: contest.Judges.Count,
+                    Scores: ScoresUtil.GetScores(scoreCards),
+                    ScoreCards: scoreCards,
+                    Organization: organization,
+                    ParentOrganization: parentOrganization
+                );
         }
     }
 }
