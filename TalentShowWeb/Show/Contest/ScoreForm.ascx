@@ -38,7 +38,7 @@
                                 <div class="form-group has-success has-feedback">
                                     <input disabled type="text" onkeypress="AddWarningFeedback(this)" onBlur="SetScore(<% Response.Write(GetContest().Id); %>, <% Response.Write(contestant.Id); %>, <% Response.Write(scoreCriterion.Id); %>, this.value, this);" value="<% Response.Write(score); %>" class="form-control score-form-input score-contestant-<% Response.Write(contestant.Id); %>" />
                                     <span class="glyphicon glyphicon-ok form-control-feedback"></span>
-                                    <div class="text-muted small" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><% Response.Write(scoreCriterion.CriterionDescription); %></div>
+                                    <div class="text-muted small" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><% Response.Write((scoreCriterion.CriterionDescription ?? "").Length > 10 ? scoreCriterion.CriterionDescription.Substring(0,10) : scoreCriterion.CriterionDescription); %></div>
                                 </div>
                                 <div class="form-group has-success has-feedback comments_<%= scoreCard.Id %>" style="display: none;">
                                     <!--<input disabled type="text" placeholder="Comment" onkeypress="AddWarningFeedback(this)" onBlur="SetComment(<% Response.Write(GetContest().Id); %>, <% Response.Write(contestant.Id); %>, <% Response.Write(scoreCriterion.Id); %>, this.value, this);" value="<% Response.Write(comment); %>" class="form-control score-form-input" maxlength="1000" /> -->
