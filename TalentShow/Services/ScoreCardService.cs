@@ -120,7 +120,21 @@ namespace TalentShow.Services
             if (lowestScoreCard != null)
                 lowestScore = lowestScoreCard.TotalScore;
 
-            return totalScore - lowestScore;
+            double finalScore = totalScore - lowestScore;
+
+            if (scoreCards != null && scoreCards.Count == 5)
+            {
+                double highestScore = 0;
+
+                var highestScoreCard = scoreCards.OrderByDescending(s => s.TotalScore).FirstOrDefault();
+
+                if (highestScoreCard != null)
+                    highestScore = highestScoreCard.TotalScore;
+
+                finalScore = finalScore - highestScore;
+            }
+
+            return finalScore;
         }
 
         public void SetScore(ScoreCard scoreCard, int scoreCriterionId, double score, ScoreCriterionService scoreCriterionService)

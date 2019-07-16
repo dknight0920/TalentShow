@@ -102,7 +102,7 @@ namespace TalentShowWeb.Show.Contest.Contestant
 
         protected double GetPenaltyPoints()
         {
-            var penaltyPoints = (GetTotalScore() - GetLowestScore()) - GetFinalScore();
+            var penaltyPoints = ((GetTotalScore() - GetLowestScore()) - GetHighestScore()) - GetFinalScore();
             return penaltyPoints;
         }
 
@@ -112,6 +112,24 @@ namespace TalentShowWeb.Show.Contest.Contestant
                 return 0;
 
             return scoreCards.OrderBy(s => s.TotalScore).FirstOrDefault().TotalScore;
+        }
+
+        protected double GetHighestScore()
+        {
+            if (scoreCards == null || !scoreCards.Any())
+                return 0;
+
+            double highestScore = 0;
+
+            if (scoreCards != null && scoreCards.Count == 5)
+            {
+                var highestScoreCard = scoreCards.OrderByDescending(s => s.TotalScore).FirstOrDefault();
+
+                if (highestScoreCard != null)
+                    highestScore = highestScoreCard.TotalScore;
+            }
+
+            return highestScore;
         }
 
         protected double GetFinalScore()

@@ -39,7 +39,17 @@ namespace TalentShowWeb.Show.Utils
             if (lowestScoreCard != null)
                 lowestScore = lowestScoreCard.TotalScore;
 
-            var penaltyPoints = (totalScore - lowestScore) - finalScore;
+            double highestScore = 0;
+
+            if (scoreCards != null && scoreCards.Count == 5)
+            {
+                var highestScoreCard = scoreCards.OrderByDescending(s => s.TotalScore).FirstOrDefault();
+
+                if (highestScoreCard != null)
+                    highestScore = highestScoreCard.TotalScore;
+            }
+
+            var penaltyPoints = ((totalScore - lowestScore) - highestScore) - finalScore;
 
             string organization = "";
             string parentOrganization = "";
