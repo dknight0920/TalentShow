@@ -106,6 +106,23 @@
                                             <h3><% Response.Write(contestant.FinalScore); %></h3>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td class="pull-left">
+                                            <h3>Rating:</h3>
+                                        </td>
+                                        <td class="pull-right">
+                                            <h3><%
+                                                    if(contestant.FinalScore >= 120)
+                                                        Response.Write("Superior");
+                                                    else if(contestant.FinalScore >= 90 && contestant.FinalScore <= 119)
+                                                        Response.Write("Excellent");
+                                                    else if(contestant.FinalScore >= 60 && contestant.FinalScore <= 89)
+                                                        Response.Write("Good");
+                                                    else
+                                                        Response.Write("Fair");
+                                                %></h3>
+                                        </td>
+                                    </tr>
                                 </table>
                             </div>
                         </div>

@@ -36,14 +36,16 @@ namespace TalentShowWeb.Show
 
         protected IEnumerable<ReportContestant> GetReportContestants(TalentShow.Contest contest)
         {
-            var numberOfContestants = 4;
+            //var numberOfContestants = 4;
 
-            var topFour = new ReportContestantsProvider().GetReportContestants(contest).Take(numberOfContestants).ToList();
+            //var topFour = new ReportContestantsProvider().GetReportContestants(contest).Take(numberOfContestants).ToList();
 
-            while (topFour.Count() != numberOfContestants)
-                topFour.Add(null);
+            //while (topFour.Count() != numberOfContestants)
+            //    topFour.Add(null);
 
-             return topFour;
+            // return topFour;
+
+             return new ReportContestantsProvider().GetReportContestants(contest).ToList();
         }
 
         protected string GetContestantURL(int contestantId, TalentShow.Contest contest)

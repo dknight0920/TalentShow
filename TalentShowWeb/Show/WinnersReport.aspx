@@ -12,7 +12,7 @@
                 <thead>
                     <tr>
                         <th>
-                            Place
+                            Rating
                         </th>
                         <th>
                             Contestant
@@ -35,25 +35,36 @@
                     <% 
 
                         var contestants = GetReportContestants(contest);
-                        for (int i = 4; i > 0; i--)
-                        {
-                            var contestant = contestants.ElementAt(i-1);
+                        //for (int i = 4; i > 0; i--)
+                        //{
+                        //    var contestant = contestants.ElementAt(i-1);
 
+                        foreach (var contestant in contestants)
+                        {
                             if (contestant == null)
                                 continue;
                             %>
                             <tr>
                                 <td>
                                     <%
-                                        
-                                        if(i == 4)
-                                            Response.Write("4th");
-                                        if(i == 3)
-                                            Response.Write("3rd");
-                                        if(i == 2)
-                                            Response.Write("2nd");
-                                        if(i == 1)
-                                            Response.Write("1st");
+
+                                        //if(i == 4)
+                                        //    Response.Write("4th");
+                                        //if(i == 3)
+                                        //    Response.Write("3rd");
+                                        //if(i == 2)
+                                        //    Response.Write("2nd");
+                                        //if(i == 1)
+                                        //    Response.Write("1st");
+
+                                        if(contestant.FinalScore >= 120)
+                                            Response.Write("Superior");
+                                        else if(contestant.FinalScore >= 90 && contestant.FinalScore <= 119)
+                                            Response.Write("Excellent");
+                                        else if(contestant.FinalScore >= 60 && contestant.FinalScore <= 89)
+                                            Response.Write("Good");
+                                        else
+                                            Response.Write("Fair");
                                     %>
                                 </td>
                                 <td style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">

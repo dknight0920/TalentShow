@@ -103,36 +103,36 @@ namespace TalentShow.Services
         {
             var scoreCards = GetContestantScoreCards(contestant.Id);
 
-            int penaltyPoints = 0;
+            var penaltyPoints = 0;
 
             if (contestant.Performance.Duration > maxDuration)
                 penaltyPoints = Convert.ToInt32(Math.Floor((contestant.Performance.Duration - maxDuration).TotalSeconds));
 
-            double totalScore = 0 - (penaltyPoints + contestant.RuleViolationPenalty) + contestant.TieBreakerPoints;
+            var totalScore = 0 - (penaltyPoints + contestant.RuleViolationPenalty) + contestant.TieBreakerPoints;
 
             foreach (var scoreCard in scoreCards)
                 totalScore += scoreCard.TotalScore;
 
-            double lowestScore = 0;
+            //double lowestScore = 0;
 
-            var lowestScoreCard = scoreCards.OrderBy(s => s.TotalScore).FirstOrDefault();
+            //var lowestScoreCard = scoreCards.OrderBy(s => s.TotalScore).FirstOrDefault();
 
-            if (lowestScoreCard != null)
-                lowestScore = lowestScoreCard.TotalScore;
+            //if (lowestScoreCard != null)
+                //lowestScore = lowestScoreCard.TotalScore;
 
-            double finalScore = totalScore - lowestScore;
+            var finalScore = totalScore;// - lowestScore;
 
-            if (scoreCards != null && scoreCards.Count == 5)
-            {
-                double highestScore = 0;
+            //if (scoreCards != null && scoreCards.Count == 5)
+            //{
+            //    double highestScore = 0;
 
-                var highestScoreCard = scoreCards.OrderByDescending(s => s.TotalScore).FirstOrDefault();
+            //    var highestScoreCard = scoreCards.OrderByDescending(s => s.TotalScore).FirstOrDefault();
 
-                if (highestScoreCard != null)
-                    highestScore = highestScoreCard.TotalScore;
+            //    if (highestScoreCard != null)
+            //        highestScore = highestScoreCard.TotalScore;
 
-                finalScore = finalScore - highestScore;
-            }
+            //    finalScore = finalScore - highestScore;
+            //}
 
             return finalScore;
         }

@@ -30,20 +30,22 @@ namespace TalentShowWeb.Show.Utils
             if (lowestScoreCard != null)
                 lowestScore = lowestScoreCard.TotalScore;
 
-            double highestScore = 0;
+            //double highestScore = 0;
 
-            if (scoreCards != null && scoreCards.Count == 5)
-            {
-                var highestScoreCard = scoreCards.OrderByDescending(s => s.TotalScore).FirstOrDefault();
+            //if (scoreCards != null && scoreCards.Count == 5)
+            //{
+            //    var highestScoreCard = scoreCards.OrderByDescending(s => s.TotalScore).FirstOrDefault();
 
-                if (highestScoreCard != null)
-                    highestScore = highestScoreCard.TotalScore;
-            }
+            //    if (highestScoreCard != null)
+            //        highestScore = highestScoreCard.TotalScore;
+            //}
 
-            var penaltyPoints = ((totalScore - lowestScore) - highestScore) - finalScore;
+            //var penaltyPoints = ((totalScore - lowestScore) - highestScore) - finalScore;
 
-            string organization = "";
-            string parentOrganization = "";
+            var penaltyPoints = totalScore - finalScore;
+
+            var organization = "";
+            var parentOrganization = "";
 
             var performers = ServiceFactory.PerformerService.GetContestantPerformers(contestant.Id);
 
@@ -73,7 +75,7 @@ namespace TalentShowWeb.Show.Utils
                     PenaltyPoints: penaltyPoints,
                     FinalScore: finalScore,
                     LowestScore: lowestScore,
-                    SumOfTopScores: totalScore - lowestScore,
+                    SumOfTopScores: totalScore,// - lowestScore,
                     NumberOfScoreCards: scoreCards.Count,
                     NumberOfJudges: contest.Judges.Count,
                     Scores: ScoresUtil.GetScores(scoreCards),

@@ -41,6 +41,9 @@
                             Contestant
                         </th>
                         <th>
+                            Rating
+                        </th>
+                        <th>
                             Performance Description
                         </th>
                         <th>
@@ -80,6 +83,18 @@
                                     <a href="<% Response.Write(Page.ResolveUrl(GetContestantURL(contestant.ContestantId, contest))); %>">
                                         <% Response.Write(contestant.Name.Length > 25 ? contestant.Name.Substring(0, 25) + " ..." : contestant.Name); %>
                                     </a>  
+                                </td>
+                                <td>
+                                    <%
+                                        if(contestant.FinalScore >= 120)
+                                            Response.Write("Superior");
+                                        else if(contestant.FinalScore >= 90 && contestant.FinalScore <= 119)
+                                            Response.Write("Excellent");
+                                        else if(contestant.FinalScore >= 60 && contestant.FinalScore <= 89)
+                                            Response.Write("Good");
+                                        else
+                                            Response.Write("Fair");
+                                    %>
                                 </td>
                                 <td>
                                     <% Response.Write(contestant.PerformanceDescription.Length > 25 ? contestant.PerformanceDescription.Substring(0, 25) + " ..." : contestant.PerformanceDescription); %>

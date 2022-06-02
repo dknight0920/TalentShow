@@ -102,7 +102,8 @@ namespace TalentShowWeb.Show.Contest.Contestant
 
         protected double GetPenaltyPoints()
         {
-            var penaltyPoints = ((GetTotalScore() - GetLowestScore()) - GetHighestScore()) - GetFinalScore();
+            //var penaltyPoints = ((GetTotalScore() - GetLowestScore()) - GetHighestScore()) - GetFinalScore();
+            var penaltyPoints = GetTotalScore() - GetFinalScore();
             return penaltyPoints;
         }
 
@@ -114,23 +115,23 @@ namespace TalentShowWeb.Show.Contest.Contestant
             return scoreCards.OrderBy(s => s.TotalScore).FirstOrDefault().TotalScore;
         }
 
-        protected double GetHighestScore()
-        {
-            if (scoreCards == null || !scoreCards.Any())
-                return 0;
+        //protected double GetHighestScore()
+        //{
+        //    if (scoreCards == null || !scoreCards.Any())
+        //        return 0;
 
-            double highestScore = 0;
+        //    double highestScore = 0;
 
-            if (scoreCards != null && scoreCards.Count == 5)
-            {
-                var highestScoreCard = scoreCards.OrderByDescending(s => s.TotalScore).FirstOrDefault();
+        //    if (scoreCards != null && scoreCards.Count == 5)
+        //    {
+        //        var highestScoreCard = scoreCards.OrderByDescending(s => s.TotalScore).FirstOrDefault();
 
-                if (highestScoreCard != null)
-                    highestScore = highestScoreCard.TotalScore;
-            }
+        //        if (highestScoreCard != null)
+        //            highestScore = highestScoreCard.TotalScore;
+        //    }
 
-            return highestScore;
-        }
+        //    return highestScore;
+        //}
 
         protected double GetFinalScore()
         {
@@ -142,9 +143,9 @@ namespace TalentShowWeb.Show.Contest.Contestant
 
         private string GetContestantHeadingText(ICollection<TalentShow.Performer> performers)
         {
-            bool isFirst = true;
+            var isFirst = true;
 
-            string text = "";
+            var text = "";
 
             foreach (var performer in performers)
             {
