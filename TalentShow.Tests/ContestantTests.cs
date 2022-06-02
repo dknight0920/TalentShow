@@ -48,7 +48,7 @@ namespace TalentShow.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ApplicationException))]
+        //[ExpectedException(typeof(ApplicationException))]
         public void CreateContestantWithZeroPerformers()
         {
             TimeSpan maxDuration = new TimeSpan(0, 5, 0);

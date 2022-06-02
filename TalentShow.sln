@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentShow", "TalentShow\TalentShow.csproj", "{93110D1B-B66B-41E7-8D1F-42A9877525FA}"
 EndProject
@@ -10,8 +10,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentShowDataStorage", "TalentShowDataStorage\TalentShowDataStorage.csproj", "{4293FDBE-9698-4569-B515-9D2E639D9565}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentShowWebApi", "TalentShowWebApi\TalentShowWebApi.csproj", "{EAC47492-2413-4328-92ED-AC72E8868A89}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentShowWebClient", "TalentShowWebClient\TalentShowWebClient.csproj", "{A4358292-2352-4CFD-93A6-BEDBFB2889FE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentShowWeb", "TalentShowWeb\TalentShowWeb.csproj", "{E7F750B7-ECD1-483E-8FB5-CA4AE8ACE62A}"
 EndProject
@@ -39,10 +37,6 @@ Global
 		{EAC47492-2413-4328-92ED-AC72E8868A89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAC47492-2413-4328-92ED-AC72E8868A89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAC47492-2413-4328-92ED-AC72E8868A89}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A4358292-2352-4CFD-93A6-BEDBFB2889FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A4358292-2352-4CFD-93A6-BEDBFB2889FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A4358292-2352-4CFD-93A6-BEDBFB2889FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A4358292-2352-4CFD-93A6-BEDBFB2889FE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E7F750B7-ECD1-483E-8FB5-CA4AE8ACE62A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E7F750B7-ECD1-483E-8FB5-CA4AE8ACE62A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7F750B7-ECD1-483E-8FB5-CA4AE8ACE62A}.Release|Any CPU.ActiveCfg = Release|Any CPU

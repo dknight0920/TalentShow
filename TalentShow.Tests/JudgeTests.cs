@@ -48,6 +48,14 @@ namespace TalentShow.Tests
             throw new NotImplementedException();
         }
 
+        public ICollection<Judge> GetWhereParentForeignKeyIs
+        (
+            int foreignKeyId
+        )
+        {
+            throw new NotImplementedException();
+        }
+
         public Judge Get(int id)
         {
             throw new NotImplementedException();
