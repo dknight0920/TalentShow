@@ -88,9 +88,9 @@
                                     <%
                                         if(contestant.FinalScore >= 120)
                                             Response.Write("Superior");
-                                        else if(contestant.FinalScore >= 90 && contestant.FinalScore <= 119)
+                                        else if(contestant.FinalScore >= 90 && contestant.FinalScore < 120)
                                             Response.Write("Excellent");
-                                        else if(contestant.FinalScore >= 60 && contestant.FinalScore <= 89)
+                                        else if(contestant.FinalScore >= 60 && contestant.FinalScore < 90)
                                             Response.Write("Good");
                                         else
                                             Response.Write("Fair");
