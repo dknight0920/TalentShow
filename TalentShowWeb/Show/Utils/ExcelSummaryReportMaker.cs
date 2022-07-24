@@ -1,6 +1,7 @@
 ﻿using ExcelReportUtils;
 using System.Collections.Generic;
 using System.Data;
+using TalentShow.Services;
 using TalentShowWeb.Utils;
 
 namespace TalentShowWeb.Show.Utils
@@ -17,6 +18,7 @@ namespace TalentShowWeb.Show.Utils
         public void Make()
         {
             DataTable table = new DataTable();
+            table.Columns.Add("Rating", typeof(string));
             table.Columns.Add("Contest Name", typeof(string));
             table.Columns.Add("Contestant ID", typeof(int));
             table.Columns.Add("Name", typeof(string));
@@ -33,11 +35,14 @@ namespace TalentShowWeb.Show.Utils
             table.Columns.Add("Organization", typeof(string));
             table.Columns.Add("Parent Organization", typeof(string));
 
+            var scoreRatingService = new ScoreRatingService();
+
             foreach (var contest in contests)
             {
                 foreach (var contestant in new ReportContestantsProvider().GetReportContestants(contest))
                 {
                     table.Rows.Add(
+                        scoreRatingService.Rating(contestant.FinalScore),
                         contest.Name,
                         contestant.ContestantId,
                         contestant.Name,

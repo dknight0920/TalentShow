@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="Winners Report" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="WinnersReport.aspx.cs" Inherits="TalentShowWeb.Show.WinnersReport" %>
+<%@ Import Namespace="TalentShow.Services" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2><small>Show:</small> <asp:Label runat="server" ID="labelPageTitle" /></h2>
@@ -57,14 +58,7 @@
                                         //if(i == 1)
                                         //    Response.Write("1st");
 
-                                        if(contestant.FinalScore >= 120)
-                                            Response.Write("Superior");
-                                        else if(contestant.FinalScore >= 90 && contestant.FinalScore < 120)
-                                            Response.Write("Excellent");
-                                        else if(contestant.FinalScore >= 60 && contestant.FinalScore < 90)
-                                            Response.Write("Good");
-                                        else
-                                            Response.Write("Fair");
+                                        Response.Write(new ScoreRatingService().Rating(contestant.FinalScore));
                                     %>
                                 </td>
                                 <td style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
