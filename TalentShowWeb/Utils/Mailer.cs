@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Net;
 using System.Net.Mail;
-using System.Web;
 
 namespace TalentShowWeb.Utils
 {
@@ -10,8 +7,9 @@ namespace TalentShowWeb.Utils
     {
         public void Send(MailMessage mailMessage)
         {
-            SmtpClient smtpClient = new SmtpClient("localhost");
-            smtpClient.UseDefaultCredentials = true;
+            var smtpClient = new SmtpClient( Properties.Settings.Default.SmtpHost,  Properties.Settings.Default.SmtpPort);
+            smtpClient.Credentials = new NetworkCredential( Properties.Settings.Default.SmtpUser,  Properties.Settings.Default.SmtpPassword);
+            smtpClient.EnableSsl = true;
             smtpClient.Send(mailMessage);
         }
     }
