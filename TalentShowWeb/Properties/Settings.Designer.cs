@@ -34,7 +34,7 @@ namespace TalentShowWeb.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("email-smtp.us-east-2.amazonaws.com")]
+        [global::System.Configuration.DefaultSettingValueAttribute("thehost.com")]
         public string SmtpHost {
             get {
                 return ((string)(this["SmtpHost"]));
@@ -43,7 +43,7 @@ namespace TalentShowWeb.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("587")]
+        [global::System.Configuration.DefaultSettingValueAttribute("25")]
         public int SmtpPort {
             get {
                 return ((int)(this["SmtpPort"]));
@@ -52,7 +52,7 @@ namespace TalentShowWeb.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("AKIAQJC4VRMZO7UKBLNF")]
+        [global::System.Configuration.DefaultSettingValueAttribute("username")]
         public string SmtpUser {
             get {
                 return ((string)(this["SmtpUser"]));
@@ -61,7 +61,7 @@ namespace TalentShowWeb.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("BKhl6Nsosond7Fon5qSpQkgF+TCA2SGdJkVhxl3KGzwf")]
+        [global::System.Configuration.DefaultSettingValueAttribute("thepassword")]
         public string SmtpPassword {
             get {
                 return ((string)(this["SmtpPassword"]));
