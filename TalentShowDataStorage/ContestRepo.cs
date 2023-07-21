@@ -126,7 +126,7 @@ namespace TalentShowDataStorage
             foreach (var contestContestant in contestContestantCollection)
             {
                 contestantRepo.Delete(contestContestant.ContestantId);
-                contestContestantRepo.Delete(contestContestant.Id);
+                contestContestantRepo.Delete(contestContestant.ContestantId);
             }
 
             var contestJudgeRepo = new ContestJudgeRepo();
