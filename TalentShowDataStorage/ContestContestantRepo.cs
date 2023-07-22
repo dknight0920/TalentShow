@@ -38,17 +38,22 @@ namespace TalentShowDataStorage
 
         public override void Delete(int id)
         {
-            var contestantPerformerRepo = new ContestantPerformerRepo();
-            var contestantPerformerCollection = contestantPerformerRepo.GetWhereForeignKeyIs(id);
-            var performerRepo = new PerformerRepo();
-
-            foreach (var contestantPerformer in contestantPerformerCollection)
+            if (base.Exists(id))
             {
-                performerRepo.Delete(contestantPerformer.PerformerId);
-                contestantPerformerRepo.Delete(contestantPerformer.Id);
-            }
+                var contestContestant = base.Get(id);
+                var contestantPerformerRepo = new ContestantPerformerRepo();
+                var contestantPerformerCollection =
+                    contestantPerformerRepo.GetWhereForeignKeyIs(contestContestant.ContestantId);
+                var performerRepo = new PerformerRepo();
 
-            base.Delete(id);
+                foreach (var contestantPerformer in contestantPerformerCollection)
+                {
+                    performerRepo.Delete(contestantPerformer.PerformerId);
+                    contestantPerformerRepo.Delete(contestantPerformer.Id);
+                }
+
+                base.Delete(id);
+            }
         }
 
         protected override ICollection<string> GetFieldNamesForSelectStatement()
